@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>爆速英文法｜EA04 be動詞の否定文</title>
+    <style>
+        body { font-family: "Meiryo", sans-serif; background:#f4f6fb; margin:0; padding-bottom: 250px; }
+        header { background:#1e3a8a; color:white; padding:15px; text-align:center; }
+        .container { max-width:1200px; margin:auto; padding:16px; display: flex; gap: 20px; }
+        .main-content { flex: 2.5; }
+        .side-content { flex: 1; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; position: sticky; top: 20px; }
+        
+        .step-nav { display: flex; gap: 5px; margin-bottom: 15px; }
+        .step-btn { flex: 1; padding: 12px; border: none; background: #cbd5e1; cursor: pointer; font-weight: bold; border-radius: 5px; transition: 0.3s; }
+        .step-btn.active { background: #1e3a8a; color: white; border-bottom: 4px solid #fb923c; }
+        .step-btn.completed { background: #2563eb !important; color: white !important; }
+
+        .imp-word { color: #16a34a !important; font-weight: bold !important; text-decoration: underline; cursor: pointer; position: relative; display: inline-block; }
+        .tooltip { visibility: hidden; width: 220px; background: #333; color: #fff; text-align: center; padding: 10px; border-radius: 8px; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); z-index: 10000; font-size: 0.85rem; line-height: 1.4; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .imp-word:hover .tooltip { visibility: visible; opacity: 1; }
+        .add-btn { background: #fb923c; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; margin-top: 5px; pointer-events: auto; }
+
+        .section { background:white; border-radius:10px; padding:25px; margin-bottom:20px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+        .check-box { background: #fff7ed; border: 2px dashed #fb923c; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .check-jp { font-size: 0.95rem; font-weight: bold; color: #334155; margin-bottom: 5px; display: block; }
+        
+        .blank { display: inline-block; min-width: 60px; height: 24px; border-bottom: 2px solid #2ecc71; vertical-align: middle; text-align: center; color: #2563eb; font-weight: bold; }
+        .is-active { background: #f0fff4; border: 2px solid #2ecc71; border-radius: 4px; }
+        .square { display: inline-block; width: 95px; height: 38px; border: 2px solid #2ecc71; border-radius: 4px; vertical-align: middle; margin: 4px; background: #fff; text-align: center; line-height: 38px; color: #2563eb; font-weight: bold; cursor: pointer; }
+
+        .voice-btn { background: #fb923c; color: white; border: none; padding: 4px 10px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; margin-left: 8px; }
+
+        .fixed-pool { position: fixed; bottom: 0; left: 0; width: 100%; background: #eef2ff; border-top: 3px solid #2563eb; padding: 15px; z-index: 999; text-align: center; display: none; }
+        .word-card { display: inline-block; background: white; border: 1px solid #c7d2fe; padding: 10px 18px; margin: 5px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .word-card.hidden { visibility: hidden; pointer-events: none; }
+        .word-card.selected { background: #ffffaa; border-color: #fb923c; }
+
+        .btn-start { background: #dc2626; color: white; padding: 15px; width: 100%; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
+        .record-list { list-style: none; padding: 0; margin-top: 10px; }
+        .record-list li { background: #f1f5f9; margin-bottom: 5px; padding: 8px; border-radius: 5px; display: flex; justify-content: space-between; font-family: monospace; }
+        .word-list { list-style: none; padding: 0; }
+        .word-list li { background: #f8fafc; margin-bottom: 5px; padding: 8px; border-radius: 5px; font-size: 0.9rem; border-left: 4px solid #16a34a; }
+    </style>
+</head>
+<body onload="init()">
+
+<header><h1>⚡️ 爆速英文法：EA04 be動詞の否定文</h1></header>
+
+<div class="container">
+    <div class="main-content">
+        <div class="step-nav" id="step-nav-bar">
+            <button class="step-btn" id="btn-info" onclick="changeStep('info')">1.説明</button>
+            <button class="step-btn" id="btn-ex" onclick="changeStep('ex')">2.例題</button>
+            <button class="step-btn" id="btn-prac" onclick="changeStep('prac')">3.類題</button>
+            <button class="step-btn" id="btn-test" onclick="changeStep('test')">4.テスト</button>
+        </div>
+        <div id="display-area"></div>
+    </div>
+
+    <div class="side-content">
+        <div id="timer" style="font-size:3rem; text-align:center; color:red; font-weight:bold; font-family: monospace;">00:00</div>
+        <button id="start-btn" class="btn-start" onclick="startChallenge()">チャレンジ開始！</button>
+        
+        <h3 style="border-bottom: 2px solid #dc2626; margin-top:20px; font-size:1.1rem;">⏱ タイムレコード</h3>
+        <ul id="record-list" class="record-list">
+            <li><span>1回目</span><span id="rec-0">--:--</span></li>
+            <li><span>2回目</span><span id="rec-1">--:--</span></li>
+            <li><span>3回目</span><span id="rec-2">--:--</span></li>
+            <li><span>4回目</span><span id="rec-3">--:--</span></li>
+            <li><span>5回目</span><span id="rec-4">--:--</span></li>
+        </ul>
+
+        <h3 style="border-bottom: 2px solid #16a34a; margin-top:30px; font-size:1.1rem;">📗 マイ単語帳</h3>
+        <ul id="my-vocab" class="word-list"></ul>
+    </div>
+</div>
+
+<div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
+
+<script>
+const DICT = {
+    "not": "ノ【ット】 (副)～ではない",
+    "hungry": "ハ【ング】リィ (形)空腹な",
+    "tired": "タ【イ】アード (形)疲れた",
+    "busy": "【ビ】ズィ (形)忙しい",
+    "doctor": "【ド】クター (名)医者",
+    "student": "ス【テュ】ーデント (名)学生",
+    "happy": "【ハ】ピィ (形)幸せな",
+    "sad": "サ【ッド】 (形)悲しい",
+    "my": "マ【イ】 (代)私の",
+    "your": "ユ【ア】 (代)あなたの"
+};
+
+const MASTER_DATA = {
+    ex: [
+        { jp: "私は学生ではありません。", en: ["I", "am", "not", "a", "student"] },
+        { jp: "あなたは医者ではありません。", en: ["You", "are", "not", "a", "doctor"] },
+        { jp: "彼は忙しくありません。", en: ["He", "is", "not", "busy"] },
+        { jp: "それは私のかばんではありません。", en: ["It", "is", "not", "my", "bag"] }
+    ],
+    prac: [
+        { jp: "私はお腹が空いていません。", en: ["I", "am", "not", "hungry"] },
+        { jp: "彼女は疲れていません。", en: ["She", "is", "not", "tired"] },
+        { jp: "これはあなたのペンではありません。", en: ["This", "is", "not", "your", "pen"] },
+        { jp: "彼らは幸せではありません。", en: ["They", "are", "not", "happy"] }
+    ],
+    test: [
+        { jp: "私は悲しくありません。", en: ["I", "am", "not", "sad"] },
+        { jp: "あなたは私の先生ではありません。", en: ["You", "are", "not", "my", "teacher"] },
+        { jp: "あれは彼の自転車ではありません。", en: ["That", "is", "not", "his", "bike"] },
+        { jp: "それは新しい箱ではありません。", en: ["It", "is", "not", "a", "new", "box"] }
+    ]
+};
+
+let currentMode = 'info', isChallenging = false, selectedWord = null, selectedId = null, startTime, timerInterval;
+let records = [null, null, null, null, null];
+let completedSteps = { info: false, ex: false, prac: false, test: false };
+
+function init() { changeStep('info'); }
+
+function wrapWord(word) {
+    if (DICT[word]) {
+        return `<span class="imp-word">${word}<span class="tooltip">${DICT[word]}<br><button class="add-btn" onclick="event.stopPropagation(); addToVocab('${word}')">単語帳に追加</button></span></span>`;
+    }
+    return word;
+}
+
+function speak(text) {
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'en-US'; uttr.rate = 0.8;
+    speechSynthesis.speak(uttr);
+}
+
+function addToVocab(word) {
+    const list = document.getElementById("my-vocab");
+    if (list.innerHTML.includes(word)) return;
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${word}</strong><br><small>${DICT[word]}</small>`;
+    list.appendChild(li);
+}
+
+function changeStep(mode) {
+    currentMode = mode;
+    isChallenging = false;
+    clearInterval(timerInterval);
+    document.getElementById("timer").textContent = "00:00";
+    document.getElementById("pool-fixed").style.display = "none";
+    document.getElementById("start-btn").style.display = "block";
+    document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("btn-" + mode).classList.add("active");
+    render();
+}
+
+function render() {
+    const area = document.getElementById("display-area");
+    if(currentMode === 'info') {
+        area.innerHTML = `
+            <div class="section">
+                <h2>1. 「～ではありません」の作り方</h2>
+                <p>be動詞（am, are, is）の<strong>すぐ後ろ</strong>に <strong>not</strong> (ノット「～ではない」) を置くだけで否定文になります。</p>
+                
+                
+
+                <div class="check-box">
+                    <span class="check-jp">私は学生ではありません。<button class="voice-btn" onclick="speak('I am not a student.')">🔊</button></span>
+                    I am <span class="blank" data-ans="not" onclick="handleTargetClick(this)">not</span> a student.
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>2. 「状態」を否定しよう</h2>
+                <p>「忙しい」「疲れている」などの形容詞も、同じルールで否定できます。</p>
+                <p>👉 He is ${wrapWord('busy')}. (彼は忙しい)<br>👉 He is <strong>not</strong> ${wrapWord('busy')}. (彼は忙しくない)</p>
+                
+                <div class="check-box">
+                    <span class="check-jp">彼は忙しくありません。<button class="voice-btn" onclick="speak('He is not busy.')">🔊</button></span>
+                    He is <span class="blank" data-ans="not" onclick="handleTargetClick(this)">not</span> busy.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3. 所有格との組み合わせ</h2>
+                <p>「私のものではない」という時も、be動詞の直後に not です。</p>
+                <div class="check-box">
+                    <span class="check-jp">それはあなたのペンではありません。<button class="voice-btn" onclick="speak('It is not your pen.')">🔊</button></span>
+                    It is <span class="blank" data-ans="not" onclick="handleTargetClick(this)">not</span> your pen.
+                </div>
+            </div>`;
+        if(!isChallenging) { document.querySelectorAll(".blank").forEach(el => el.textContent = el.dataset.ans); }
+    } else {
+        let html = `<div class="section"><h2>${currentMode}チャレンジ</h2>`;
+        MASTER_DATA[currentMode].forEach(q => {
+            const sentence = q.en.join(" ");
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${sentence}.')">🔊</button></p>
+                     <div>${q.en.map(w => `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join("")} .</div>`;
+        });
+        area.innerHTML = html + "</div>";
+    }
+}
+
+function startChallenge() {
+    isChallenging = true;
+    render();
+    if(currentMode === 'info') document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
+    document.getElementById("pool-fixed").style.display = "block";
+    document.getElementById("start-btn").style.display = "none";
+    renderPool();
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const d = Math.floor((Date.now()-startTime)/1000);
+        document.getElementById("timer").textContent = String(Math.floor(d/60)).padStart(2,'0')+":"+String(d%60).padStart(2,'0');
+    }, 100);
+}
+
+function renderPool() {
+    const pool = document.getElementById("word-pool");
+    pool.innerHTML = "";
+    let words = (currentMode === 'info') ? ["not","not","not"] : [];
+    if(currentMode !== 'info') MASTER_DATA[currentMode].forEach(q => words = words.concat(q.en));
+    words.sort(() => Math.random() - 0.5).forEach((w, i) => {
+        const card = document.createElement("div");
+        card.className = "word-card"; card.id = "c-" + i;
+        card.innerHTML = wrapWord(w);
+        card.addEventListener('click', function(e) {
+            if(e.target.tagName === 'BUTTON') return;
+            selectedWord = w; selectedId = card.id;
+            document.querySelectorAll(".word-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+        });
+        pool.appendChild(card);
+    });
+}
+
+function handleTargetClick(el) {
+    if (!isChallenging || !selectedWord || el.textContent !== "") return;
+    if (selectedWord === el.dataset.ans) {
+        el.textContent = selectedWord;
+        el.classList.remove("is-active");
+        document.getElementById(selectedId).classList.add("hidden");
+        selectedWord = null;
+        if([...document.querySelectorAll(".blank, .square")].every(s => s.textContent !== "")) finishStep();
+    } else { alert("もうチョイ！"); }
+}
+
+function finishStep() {
+    clearInterval(timerInterval);
+    const finalTime = document.getElementById("timer").textContent;
+    alert("合格！");
+    completedSteps[currentMode] = true;
+    document.getElementById("btn-" + currentMode).classList.add("completed");
+    if (currentMode !== 'info') {
+        for(let i=0; i<5; i++) {
+            if(records[i] === null) {
+                records[i] = finalTime;
+                document.getElementById("rec-" + i).textContent = finalTime;
+                break;
+            }
+        }
+    }
+    // テスト完了時に進捗保存
+    if (currentMode === 'test') {
+        localStorage.setItem('gamba_prog_EA04', 'pass');
+    }
+    isChallenging = false;
+    document.getElementById("start-btn").style.display = "block";
+}
+</script>
+</body>
+</html>

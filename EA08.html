@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>爆速英文法｜EA08 代名詞の目的格</title>
+    <style>
+        body { font-family: "Meiryo", sans-serif; background:#f4f6fb; margin:0; padding-bottom: 250px; }
+        header { background:#1e3a8a; color:white; padding:15px; text-align:center; }
+        .container { max-width:1200px; margin:auto; padding:16px; display: flex; gap: 20px; }
+        .main-content { flex: 2.5; }
+        .side-content { flex: 1; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; position: sticky; top: 20px; }
+        
+        .step-nav { display: flex; gap: 5px; margin-bottom: 15px; }
+        .step-btn { flex: 1; padding: 12px; border: none; background: #cbd5e1; cursor: pointer; font-weight: bold; border-radius: 5px; transition: 0.3s; }
+        .step-btn.active { background: #1e3a8a; color: white; border-bottom: 4px solid #fb923c; }
+        .step-btn.completed { background: #2563eb !important; color: white !important; }
+
+        .imp-word { color: #16a34a !important; font-weight: bold !important; text-decoration: underline; cursor: pointer; position: relative; display: inline-block; }
+        .tooltip { visibility: hidden; width: 220px; background: #333; color: #fff; text-align: center; padding: 10px; border-radius: 8px; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); z-index: 10000; font-size: 0.85rem; line-height: 1.4; opacity: 0; transition: 0.3s; pointer-events: auto; }
+        .imp-word:hover .tooltip { visibility: visible; opacity: 1; }
+        .add-btn { background: #fb923c; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; margin-top: 5px; pointer-events: auto; }
+
+        .section { background:white; border-radius:10px; padding:25px; margin-bottom:20px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+        .check-box { background: #fff7ed; border: 2px dashed #fb923c; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .check-jp { font-size: 0.95rem; font-weight: bold; color: #334155; margin-bottom: 5px; display: block; }
+        
+        .blank { display: inline-block; min-width: 60px; height: 24px; border-bottom: 2px solid #2ecc71; vertical-align: middle; text-align: center; color: #2563eb; font-weight: bold; }
+        .is-active { background: #f0fff4; border: 2px solid #2ecc71; border-radius: 4px; }
+        .square { display: inline-block; width: 95px; height: 38px; border: 2px solid #2ecc71; border-radius: 4px; vertical-align: middle; margin: 4px; background: #fff; text-align: center; line-height: 38px; color: #2563eb; font-weight: bold; cursor: pointer; }
+
+        .voice-btn { background: #fb923c; color: white; border: none; padding: 4px 10px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; margin-left: 8px; }
+
+        .fixed-pool { position: fixed; bottom: 0; left: 0; width: 100%; background: #eef2ff; border-top: 3px solid #2563eb; padding: 15px; z-index: 999; text-align: center; display: none; }
+        .word-card { display: inline-block; background: white; border: 1px solid #c7d2fe; padding: 10px 18px; margin: 5px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .word-card.hidden { visibility: hidden; pointer-events: none; }
+        .word-card.selected { background: #ffffaa; border-color: #fb923c; }
+
+        .btn-start { background: #dc2626; color: white; padding: 15px; width: 100%; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
+        .record-list { list-style: none; padding: 0; margin-top: 10px; }
+        .record-list li { background: #f1f5f9; margin-bottom: 5px; padding: 8px; border-radius: 5px; display: flex; justify-content: space-between; font-family: monospace; }
+        .word-list { list-style: none; padding: 0; }
+        .word-list li { background: #f8fafc; margin-bottom: 5px; padding: 8px; border-radius: 5px; font-size: 0.9rem; border-left: 4px solid #16a34a; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.85rem; background: white; }
+        th, td { border: 1px solid #000; padding: 6px 2px; text-align: center; vertical-align: middle; }
+        th { background: #fff; font-weight: normal; }
+        .ruby { font-size: 0.6rem; color: #666; display: block; margin-bottom: -2px; }
+    </style>
+</head>
+<body onload="init()">
+
+<header><h1>⚡️ 爆速英文法：EA08 代名詞の目的格</h1></header>
+
+<div class="container">
+    <div class="main-content">
+        <div class="step-nav" id="step-nav-bar">
+            <button class="step-btn" id="btn-info" onclick="changeStep('info')">1.説明</button>
+            <button class="step-btn" id="btn-ex" onclick="changeStep('ex')">2.例題</button>
+            <button class="step-btn" id="btn-prac" onclick="changeStep('prac')">3.類題</button>
+            <button class="step-btn" id="btn-test" onclick="changeStep('test')">4.テスト</button>
+        </div>
+        <div id="display-area"></div>
+    </div>
+
+    <div class="side-content">
+        <div id="timer" style="font-size:3rem; text-align:center; color:red; font-weight:bold; font-family: monospace;">00:00</div>
+        <button id="start-btn" class="btn-start" onclick="startChallenge()">チャレンジ開始！</button>
+        
+        <h3 style="border-bottom: 2px solid #dc2626; margin-top:20px; font-size:1.1rem;">⏱ タイムレコード</h3>
+        <ul id="record-list" class="record-list">
+            <li><span>1回目</span><span id="rec-0">--:--</span></li>
+            <li><span>2回目</span><span id="rec-1">--:--</span></li>
+            <li><span>3回目</span><span id="rec-2">--:--</span></li>
+            <li><span>4回目</span><span id="rec-3">--:--</span></li>
+            <li><span>5回目</span><span id="rec-4">--:--</span></li>
+        </ul>
+
+        <h3 style="border-bottom: 2px solid #16a34a; margin-top:30px; font-size:1.1rem;">📗 マイ単語帳</h3>
+        <ul id="my-vocab" class="word-list"></ul>
+    </div>
+</div>
+
+<div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
+
+<script>
+const DICT = {
+    "me": "ミ【ー】 (代)私を、私に",
+    "my": "マ【イ】 (代)私の",
+    "you": "ユ【ー】 (代)あなたを/あなたたちは",
+    "your": "ユ【ア】 (代)あなたの/あなたたちの",
+    "him": "ヒ【ム】 (代)彼を、彼に",
+    "his": "ヒ【ズ】 (代)彼の",
+    "her": "ハ【ー】 (代)彼女を、彼女に / 彼女の",
+    "us": "【ア】ス (代)私たちを、私たちに",
+    "our": "ア【ワ】 (代)私たちの",
+    "them": "ゼ【ム】 (代)彼らを、彼女らを、それらを",
+    "their": "ゼ【ア】 (代)彼らの",
+    "park": "パ【ー】ク (名)公園",
+    "with": "ウィ【ズ】 (前)～と一緒に",
+    "know": "ノ【ウ】 (動)～を知っている",
+    "help": "ヘ【ル】プ (動)～を助ける"
+};
+
+const MASTER_DATA = {
+    ex: [
+        { jp: "あなたは私を知っています。", en: ["You", "know", "me"], type: "a" },
+        { jp: "私は彼を助けます。", en: ["I", "help", "him"], type: "a" },
+        { jp: "私は彼女と一緒にその公園へ行きます。", en: ["I", "go", "to", "the", "park", "with", "her"], type: "a" },
+        { jp: "私たちはあなたと一緒に勉強します。", en: ["He", "studies", "with", "me"], type: "a" }
+    ],
+    prac: [
+        { jp: "私はあなたたちを知っています。", en: ["I", "know", "you"], type: "a" },
+        { jp: "あなたは私たちを助けますか？", en: ["Do", "you", "help", "us"], type: "q" },
+        { jp: "私は彼らが好きです。", en: ["I", "like", "them"], type: "a" },
+        { jp: "彼らは私と一緒にテニスをします。", en: ["They", "play", "tennis", "with", "me"], type: "a" }
+    ],
+    test: [
+        { jp: "私は彼女を知りません。", en: ["I", "don't", "know", "her"], type: "a" },
+        { jp: "あなたは私を助けてくれますか？", en: ["Do", "you", "help", "me"], type: "q" },
+        { jp: "私たちは彼らが大好きです。", en: ["We", "love", "them"], type: "a" },
+        { jp: "あなたたちは私たちを知っています。", en: ["You", "know", "us"], type: "a" }
+    ]
+};
+
+let currentMode = 'info', isChallenging = false, selectedWord = null, selectedId = null, startTime, timerInterval;
+let records = [null, null, null, null, null];
+let completedSteps = { info: false, ex: false, prac: false, test: false };
+
+function init() { changeStep('info'); }
+
+function wrapWord(word) {
+    const pureWord = word.replace(',', '').replace('.', '').replace('?', '').toLowerCase();
+    if (DICT[pureWord]) {
+        return `<span class="imp-word">${word}<span class="tooltip">${DICT[pureWord]}<br><button class="add-btn" onclick="event.stopPropagation(); addToVocab('${pureWord}')">単語帳に追加</button></span></span>`;
+    }
+    return word;
+}
+
+function speak(text) {
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'en-US'; uttr.rate = 0.8;
+    speechSynthesis.speak(uttr);
+}
+
+function addToVocab(word) {
+    const list = document.getElementById("my-vocab");
+    if (list.innerHTML.includes(word)) return;
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${word}</strong><br><small>${DICT[word]}</small>`;
+    list.appendChild(li);
+}
+
+function changeStep(mode) {
+    currentMode = mode;
+    isChallenging = false;
+    clearInterval(timerInterval);
+    document.getElementById("timer").textContent = "00:00";
+    document.getElementById("pool-fixed").style.display = "none";
+    document.getElementById("start-btn").style.display = "block";
+    document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("btn-" + mode).classList.add("active");
+    render();
+}
+
+function render() {
+    const area = document.getElementById("display-area");
+    if(currentMode === 'info') {
+        area.innerHTML = `
+            <div class="section">
+                <h2>1. 代名詞の変化（主格・所有格・目的格）</h2>
+                <p>アイ・マイ・ミーのリズムで覚えましょう。今回は3つ目まで！</p>
+                <table>
+                    <tr>
+                        <th style="width:20%"></th>
+                        <th style="width:26%">主 格<br>～は，が</th>
+                        <th style="width:26%">所有格 ～の</th>
+                        <th style="width:26%">目的格 ～に・を</th>
+                    </tr>
+                    <tr>
+                        <td>私</td>
+                        <td><span class="ruby">アイ</span>I</td>
+                        <td><span class="ruby">マイ</span><span class="blank" data-ans="my" onclick="handleTargetClick(this)">my</span></td>
+                        <td><span class="ruby">ミー</span><span class="blank" data-ans="me" onclick="handleTargetClick(this)">me</span></td>
+                    </tr>
+                    <tr>
+                        <td>あなた</td>
+                        <td><span class="ruby">ユー</span>you</td>
+                        <td><span class="ruby">ユア</span><span class="blank" data-ans="your" onclick="handleTargetClick(this)">your</span></td>
+                        <td><span class="ruby">ユー</span><span class="blank" data-ans="you" onclick="handleTargetClick(this)">you</span></td>
+                    </tr>
+                    <tr>
+                        <td>彼</td>
+                        <td><span class="ruby">ヒー</span>he</td>
+                        <td><span class="ruby">ヒズ</span><span class="blank" data-ans="his" onclick="handleTargetClick(this)">his</span></td>
+                        <td><span class="ruby">ヒム</span><span class="blank" data-ans="him" onclick="handleTargetClick(this)">him</span></td>
+                    </tr>
+                    <tr>
+                        <td>彼女</td>
+                        <td><span class="ruby">シー</span>she</td>
+                        <td><span class="ruby">ハー</span><span class="blank" data-ans="her" onclick="handleTargetClick(this)">her</span></td>
+                        <td><span class="ruby">ハー</span><span class="blank" data-ans="her" onclick="handleTargetClick(this)">her</span></td>
+                    </tr>
+                    <tr>
+                        <td>私たち</td>
+                        <td><span class="ruby">ウィ</span>we</td>
+                        <td><span class="ruby">アウア</span><span class="blank" data-ans="our" onclick="handleTargetClick(this)">our</span></td>
+                        <td><span class="ruby">アス</span><span class="blank" data-ans="us" onclick="handleTargetClick(this)">us</span></td>
+                    </tr>
+                    <tr>
+                        <td>あなたたち</td>
+                        <td><span class="ruby">ユー</span>you</td>
+                        <td><span class="ruby">ユア</span><span class="blank" data-ans="your" onclick="handleTargetClick(this)">your</span></td>
+                        <td><span class="ruby">ユー</span><span class="blank" data-ans="you" onclick="handleTargetClick(this)">you</span></td>
+                    </tr>
+                    <tr>
+                        <td>彼ら，彼女ら，それら</td>
+                        <td><span class="ruby">ゼイ</span>they</td>
+                        <td><span class="ruby">ゼア</span><span class="blank" data-ans="their" onclick="handleTargetClick(this)">their</span></td>
+                        <td><span class="ruby">ゼム</span><span class="blank" data-ans="them" onclick="handleTargetClick(this)">them</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>2. 目的格を使う場所</h2>
+                <p>「動詞の後ろ」や「前置詞(withなど)の後ろ」では，この 目的格 を使います。</p>
+                <div class="check-box">
+                    <span class="check-jp">あなたは私を知っています。<button class="voice-btn" onclick="speak('You know me.')">🔊</button></span>
+                    You know <span class="blank" data-ans="me" onclick="handleTargetClick(this)">me</span>.
+                </div>
+                <div class="check-box">
+                    <span class="check-jp">私は彼を助けます。<button class="voice-btn" onclick="speak('I help him.')">🔊</button></span>
+                    I help <span class="blank" data-ans="him" onclick="handleTargetClick(this)">him</span>.
+                </div>
+                <div class="check-box">
+                    <span class="check-jp">私は彼女と一緒に公園へ行きます。<button class="voice-btn" onclick="speak('I go to the park with her.')">🔊</button></span>
+                    I go to the park with <span class="blank" data-ans="her" onclick="handleTargetClick(this)">her</span>.
+                </div>
+            </div>`;
+        if(!isChallenging) { document.querySelectorAll(".blank").forEach(el => el.textContent = el.dataset.ans); }
+    } else {
+        let html = `<div class="section"><h2>${currentMode}チャレンジ</h2>`;
+        MASTER_DATA[currentMode].forEach(q => {
+            const sentence = q.en.join(" ");
+            const mark = (q.type === "q") ? "?" : ".";
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${sentence}${mark}')">🔊</button></p>
+                     <div>${q.en.map(w => `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join("")} ${mark}</div>`;
+        });
+        area.innerHTML = html + "</div>";
+    }
+}
+
+function startChallenge() {
+    isChallenging = true;
+    render();
+    if(currentMode === 'info') document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
+    document.getElementById("pool-fixed").style.display = "block";
+    document.getElementById("start-btn").style.display = "none";
+    renderPool();
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const d = Math.floor((Date.now()-startTime)/1000);
+        document.getElementById("timer").textContent = String(Math.floor(d/60)).padStart(2,'0')+":"+String(d%60).padStart(2,'0');
+    }, 100);
+}
+
+function renderPool() {
+    const pool = document.getElementById("word-pool");
+    pool.innerHTML = "";
+    let words = [];
+    if(currentMode === 'info') {
+        // 表の穴埋め用14個 + 例文の穴埋め用3個（me, him, her）
+        words = ["my","me","your","you","his","him","her","her","our","us","your","you","their","them","me","him","her"];
+    } else {
+        MASTER_DATA[currentMode].forEach(q => words = words.concat(q.en));
+    }
+    words.sort(() => Math.random() - 0.5).forEach((w, i) => {
+        const card = document.createElement("div");
+        card.className = "word-card"; card.id = "c-" + i;
+        card.innerHTML = wrapWord(w);
+        card.addEventListener('click', function(e) {
+            if(e.target.tagName === 'BUTTON') return;
+            selectedWord = w; selectedId = card.id;
+            document.querySelectorAll(".word-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+        });
+        pool.appendChild(card);
+    });
+}
+
+function handleTargetClick(el) {
+    if (!isChallenging || !selectedWord || el.textContent !== "") return;
+    if (selectedWord === el.dataset.ans) {
+        el.textContent = selectedWord;
+        el.classList.remove("is-active");
+        document.getElementById(selectedId).classList.add("hidden");
+        selectedWord = null;
+        if([...document.querySelectorAll(".blank, .square")].every(s => s.textContent !== "")) finishStep();
+    } else { alert("もうチョイ！代名詞の形をチェック！"); }
+}
+
+function finishStep() {
+    clearInterval(timerInterval);
+    const finalTime = document.getElementById("timer").textContent;
+    alert("合格！おめでとう！");
+    completedSteps[currentMode] = true;
+    document.getElementById("btn-" + currentMode).classList.add("completed");
+    if (currentMode !== 'info') {
+        for(let i=0; i<5; i++) {
+            if(records[i] === null) {
+                records[i] = finalTime;
+                document.getElementById("rec-" + i).textContent = finalTime;
+                break;
+            }
+        }
+    }
+    // テスト完了時に進捗保存
+    if (currentMode === 'test') {
+        localStorage.setItem('gamba_prog_EA08', 'pass');
+    }
+    isChallenging = false;
+    document.getElementById("start-btn").style.display = "block";
+}
+</script>
+</body>
+</html>

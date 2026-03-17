@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>爆速英文法｜EA03 所有格 my / your</title>
+    <style>
+        body { font-family: "Meiryo", sans-serif; background:#f4f6fb; margin:0; padding-bottom: 250px; }
+        header { background:#1e3a8a; color:white; padding:15px; text-align:center; }
+        .container { max-width:1200px; margin:auto; padding:16px; display: flex; gap: 20px; }
+        .main-content { flex: 2.5; }
+        .side-content { flex: 1; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; position: sticky; top: 20px; }
+        
+        .step-nav { display: flex; gap: 5px; margin-bottom: 15px; }
+        .step-btn { flex: 1; padding: 12px; border: none; background: #cbd5e1; cursor: pointer; font-weight: bold; border-radius: 5px; transition: 0.3s; }
+        .step-btn.active { background: #1e3a8a; color: white; border-bottom: 4px solid #fb923c; }
+        .step-btn.completed { background: #2563eb !important; color: white !important; }
+
+        .imp-word { color: #16a34a !important; font-weight: bold !important; text-decoration: underline; cursor: pointer; position: relative; display: inline-block; }
+        .tooltip { visibility: hidden; width: 220px; background: #333; color: #fff; text-align: center; padding: 10px; border-radius: 8px; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); z-index: 10000; font-size: 0.85rem; line-height: 1.4; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .imp-word:hover .tooltip { visibility: visible; opacity: 1; }
+        .add-btn { background: #fb923c; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; margin-top: 5px; pointer-events: auto; }
+
+        .section { background:white; border-radius:10px; padding:25px; margin-bottom:20px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+        .check-box { background: #fff7ed; border: 2px dashed #fb923c; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .check-jp { font-size: 0.95rem; font-weight: bold; color: #334155; margin-bottom: 5px; display: block; }
+        
+        .blank { display: inline-block; min-width: 60px; height: 24px; border-bottom: 2px solid #2ecc71; vertical-align: middle; text-align: center; color: #2563eb; font-weight: bold; }
+        .is-active { background: #f0fff4; border: 2px solid #2ecc71; border-radius: 4px; }
+        .square { display: inline-block; width: 95px; height: 38px; border: 2px solid #2ecc71; border-radius: 4px; vertical-align: middle; margin: 4px; background: #fff; text-align: center; line-height: 38px; color: #2563eb; font-weight: bold; cursor: pointer; }
+
+        .voice-btn { background: #fb923c; color: white; border: none; padding: 4px 10px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; margin-left: 8px; }
+
+        .fixed-pool { position: fixed; bottom: 0; left: 0; width: 100%; background: #eef2ff; border-top: 3px solid #2563eb; padding: 15px; z-index: 999; text-align: center; display: none; }
+        .word-card { display: inline-block; background: white; border: 1px solid #c7d2fe; padding: 10px 18px; margin: 5px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .word-card.hidden { visibility: hidden; pointer-events: none; }
+        .word-card.selected { background: #ffffaa; border-color: #fb923c; }
+
+        .btn-start { background: #dc2626; color: white; padding: 15px; width: 100%; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
+        .record-list { list-style: none; padding: 0; margin-top: 10px; }
+        .record-list li { background: #f1f5f9; margin-bottom: 5px; padding: 8px; border-radius: 5px; display: flex; justify-content: space-between; font-family: monospace; }
+        .word-list { list-style: none; padding: 0; }
+        .word-list li { background: #f8fafc; margin-bottom: 5px; padding: 8px; border-radius: 5px; font-size: 0.9rem; border-left: 4px solid #16a34a; }
+    </style>
+</head>
+<body onload="init()">
+
+<header><h1>⚡️ 爆速英文法：EA03 所有格 my / your</h1></header>
+
+<div class="container">
+    <div class="main-content">
+        <div class="step-nav" id="step-nav-bar">
+            <button class="step-btn" id="btn-info" onclick="changeStep('info')">1.説明</button>
+            <button class="step-btn" id="btn-ex" onclick="changeStep('ex')">2.例題</button>
+            <button class="step-btn" id="btn-prac" onclick="changeStep('prac')">3.類題</button>
+            <button class="step-btn" id="btn-test" onclick="changeStep('test')">4.テスト</button>
+        </div>
+        <div id="display-area"></div>
+    </div>
+
+    <div class="side-content">
+        <div id="timer" style="font-size:3rem; text-align:center; color:red; font-weight:bold; font-family: monospace;">00:00</div>
+        <button id="start-btn" class="btn-start" onclick="startChallenge()">チャレンジ開始！</button>
+        
+        <h3 style="border-bottom: 2px solid #dc2626; margin-top:20px; font-size:1.1rem;">⏱ タイムレコード</h3>
+        <ul id="record-list" class="record-list">
+            <li><span>1回目</span><span id="rec-0">--:--</span></li>
+            <li><span>2回目</span><span id="rec-1">--:--</span></li>
+            <li><span>3回目</span><span id="rec-2">--:--</span></li>
+            <li><span>4回目</span><span id="rec-3">--:--</span></li>
+            <li><span>5回目</span><span id="rec-4">--:--</span></li>
+        </ul>
+
+        <h3 style="border-bottom: 2px solid #16a34a; margin-top:30px; font-size:1.1rem;">📗 マイ単語帳</h3>
+        <ul id="my-vocab" class="word-list"></ul>
+    </div>
+</div>
+
+<div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
+
+<script>
+const DICT = {
+    "my": "マ【イ】 (代)私の",
+    "your": "ユ【ア】 (代)あなたの",
+    "favorite": "【フェ】イバリット (形)お気に入りの",
+    "bag": "バ【ッグ】 (名)かばん",
+    "bike": "バ【イク】 (名)自転車",
+    "small": "ス【モ】ール (形)小さい",
+    "pretty": "プ【リ】ティ (形)かわいい",
+    "friend": "フ【レ】ンド (名)友達",
+    "desk": "デ【スク】 (名)机",
+    "book": "ブ【ック】 (名)本",
+    "new": "ニュ【ー】 (形)新しい",
+    "old": "オ【ールド】 (形)古い"
+};
+
+const MASTER_DATA = {
+    ex: [
+        { jp: "これは私のかばんです。", en: ["This", "is", "my", "bag"] },
+        { jp: "それはあなたの自転車です。", en: ["It", "is", "your", "bike"] },
+        { jp: "あれは私のお気に入りの机です。", en: ["That", "is", "my", "favorite", "desk"] },
+        { jp: "あなたは私の友達です。", en: ["You", "are", "my", "friend"] }
+    ],
+    prac: [
+        { jp: "これはあなたの新しいかばんです。", en: ["This", "is", "your", "new", "bag"] },
+        { jp: "それは私の小さな箱です。", en: ["It", "is", "my", "small", "box"] },
+        { jp: "あれはあなたのお気に入りのペンです。", en: ["That", "is", "your", "favorite", "pen"] },
+        { jp: "彼は私の友達です。", en: ["He", "is", "my", "friend"] }
+    ],
+    test: [
+        { jp: "あれは私のかわいい友達です。", en: ["That", "is", "my", "pretty", "friend"] },
+        { jp: "それはあなたの古い自転車です。", en: ["It", "is", "your", "old", "bike"] },
+        { jp: "これは私のお気に入りの本です。", en: ["This", "is", "my", "favorite", "book"] },
+        { jp: "彼女はあなたの友達です。", en: ["She", "is", "your", "friend"] }
+    ]
+};
+
+let currentMode = 'info', isChallenging = false, selectedWord = null, selectedId = null, startTime, timerInterval;
+let records = [null, null, null, null, null];
+let completedSteps = { info: false, ex: false, prac: false, test: false };
+
+function init() { changeStep('info'); }
+
+function wrapWord(word) {
+    if (DICT[word]) {
+        return `<span class="imp-word">${word}<span class="tooltip">${DICT[word]}<br><button class="add-btn" onclick="event.stopPropagation(); addToVocab('${word}')">単語帳に追加</button></span></span>`;
+    }
+    return word;
+}
+
+function speak(text) {
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'en-US'; uttr.rate = 0.8;
+    speechSynthesis.speak(uttr);
+}
+
+function addToVocab(word) {
+    const list = document.getElementById("my-vocab");
+    if (list.innerHTML.includes(word)) return;
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${word}</strong><br><small>${DICT[word]}</small>`;
+    list.appendChild(li);
+}
+
+function changeStep(mode) {
+    currentMode = mode;
+    isChallenging = false;
+    clearInterval(timerInterval);
+    document.getElementById("timer").textContent = "00:00";
+    document.getElementById("pool-fixed").style.display = "none";
+    document.getElementById("start-btn").style.display = "block";
+    document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("btn-" + mode).classList.add("active");
+    render();
+}
+
+function render() {
+    const area = document.getElementById("display-area");
+    if(currentMode === 'info') {
+        area.innerHTML = `
+            <div class="section">
+                <h2>1. 「私の」「あなたの」を表そう！</h2>
+                <p>名詞の前に置くことで、誰のものかを説明できます。</p>
+                <p>👉 <strong>my</strong> (マイ「私の」)<br>👉 <strong>your</strong> (ユア「あなたの」)</p>
+                
+                <div class="check-box">
+                    <span class="check-jp">これは私のかばんです。<button class="voice-btn" onclick="speak('This is my bag.')">🔊</button></span>
+                    This is <span class="blank" data-ans="my" onclick="handleTargetClick(this)">my</span> bag.
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>2. 「a」は使わないルール</h2>
+                <p><strong>my</strong> や <strong>your</strong> を使うときは、<strong>a</strong> や <strong>an</strong> は付けません。</p>
+                <p>✖ a my book<br>⭕ <strong>my book</strong></p>
+                
+                <div class="check-box">
+                    <span class="check-jp">それはあなたの自転車です。<button class="voice-btn" onclick="speak('It is your bike.')">🔊</button></span>
+                    It is <span class="blank" data-ans="your" onclick="handleTargetClick(this)">your</span> bike.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3. 言葉を並べる順番</h2>
+                <p>「私の新しい～」のように形容詞も使うときは、以下の順番になります。</p>
+                <p><strong>所有格 ＋ 形容詞 ＋ 名詞</strong></p>
+                <p>例：my <span style="color:red">new</span> car / your <span style="color:red">big</span> dog</p>
+
+                <div class="check-box">
+                    <span class="check-jp">あれは私の${wrapWord('favorite')}（お気に入りの）机です。<button class="voice-btn" onclick="speak('That is my favorite desk.')">🔊</button></span>
+                    That is <span class="blank" data-ans="my" onclick="handleTargetClick(this)">my</span> favorite desk.
+                </div>
+            </div>`;
+        if(!isChallenging) { document.querySelectorAll(".blank").forEach(el => el.textContent = el.dataset.ans); }
+    } else {
+        let html = `<div class="section"><h2>${currentMode}チャレンジ</h2>`;
+        MASTER_DATA[currentMode].forEach(q => {
+            const sentence = q.en.join(" ");
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${sentence}.')">🔊</button></p>
+                     <div>${q.en.map(w => `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join("")} .</div>`;
+        });
+        area.innerHTML = html + "</div>";
+    }
+}
+
+function startChallenge() {
+    isChallenging = true;
+    render();
+    if(currentMode === 'info') document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
+    document.getElementById("pool-fixed").style.display = "block";
+    document.getElementById("start-btn").style.display = "none";
+    renderPool();
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const d = Math.floor((Date.now()-startTime)/1000);
+        document.getElementById("timer").textContent = String(Math.floor(d/60)).padStart(2,'0')+":"+String(d%60).padStart(2,'0');
+    }, 100);
+}
+
+function renderPool() {
+    const pool = document.getElementById("word-pool");
+    pool.innerHTML = "";
+    let words = (currentMode === 'info') ? ["my","your","my"] : [];
+    if(currentMode !== 'info') MASTER_DATA[currentMode].forEach(q => words = words.concat(q.en));
+    words.sort(() => Math.random() - 0.5).forEach((w, i) => {
+        const card = document.createElement("div");
+        card.className = "word-card"; card.id = "c-" + i;
+        card.innerHTML = wrapWord(w);
+        card.addEventListener('click', function(e) {
+            if(e.target.tagName === 'BUTTON') return;
+            selectedWord = w; selectedId = card.id;
+            document.querySelectorAll(".word-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+        });
+        pool.appendChild(card);
+    });
+}
+
+function handleTargetClick(el) {
+    if (!isChallenging || !selectedWord || el.textContent !== "") return;
+    if (selectedWord === el.dataset.ans) {
+        el.textContent = selectedWord;
+        el.classList.remove("is-active");
+        document.getElementById(selectedId).classList.add("hidden");
+        selectedWord = null;
+        if([...document.querySelectorAll(".blank, .square")].every(s => s.textContent !== "")) finishStep();
+    } else { alert("もうチョイ！"); }
+}
+
+function finishStep() {
+    clearInterval(timerInterval);
+    const finalTime = document.getElementById("timer").textContent;
+    alert("合格！");
+    completedSteps[currentMode] = true;
+    document.getElementById("btn-" + currentMode).classList.add("completed");
+    if (currentMode !== 'info') {
+        for(let i=0; i<5; i++) {
+            if(records[i] === null) {
+                records[i] = finalTime;
+                document.getElementById("rec-" + i).textContent = finalTime;
+                break;
+            }
+        }
+    }
+    // テスト完了時に進捗保存
+    if (currentMode === 'test') {
+        localStorage.setItem('gamba_prog_EA03', 'pass');
+    }
+    isChallenging = false;
+    document.getElementById("start-btn").style.display = "block";
+}
+</script>
+</body>
+</html>

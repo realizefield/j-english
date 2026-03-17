@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>爆速英文法｜EA09 名詞の複数形</title>
+    <style>
+        body { font-family: "Meiryo", sans-serif; background:#f4f6fb; margin:0; padding-bottom: 250px; }
+        header { background:#1e3a8a; color:white; padding:15px; text-align:center; }
+        .container { max-width:1200px; margin:auto; padding:16px; display: flex; gap: 20px; }
+        .main-content { flex: 2.5; }
+        .side-content { flex: 1; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; position: sticky; top: 20px; }
+        
+        .step-nav { display: flex; gap: 5px; margin-bottom: 15px; }
+        .step-btn { flex: 1; padding: 12px; border: none; background: #cbd5e1; cursor: pointer; font-weight: bold; border-radius: 5px; transition: 0.3s; }
+        .step-btn.active { background: #1e3a8a; color: white; border-bottom: 4px solid #fb923c; }
+        .step-btn.completed { background: #2563eb !important; color: white !important; }
+
+        .imp-word { color: #16a34a !important; font-weight: bold !important; text-decoration: underline; cursor: pointer; position: relative; display: inline-block; }
+        .tooltip { visibility: hidden; width: 220px; background: #333; color: #fff; text-align: center; padding: 10px; border-radius: 8px; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); z-index: 10000; font-size: 0.85rem; line-height: 1.4; opacity: 0; transition: 0.3s; pointer-events: auto; }
+        .imp-word:hover .tooltip { visibility: visible; opacity: 1; }
+        .add-btn { background: #fb923c; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; margin-top: 5px; pointer-events: auto; }
+
+        .section { background:white; border-radius:10px; padding:25px; margin-bottom:20px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+        .blank { display: inline-block; min-width: 60px; height: 24px; border-bottom: 2px solid #2ecc71; vertical-align: middle; text-align: center; color: #2563eb; font-weight: bold; }
+        .is-active { background: #f0fff4; border: 2px solid #2ecc71; border-radius: 4px; }
+        .square { display: inline-block; min-width: 105px; height: 38px; border: 2px solid #2ecc71; border-radius: 4px; vertical-align: middle; margin: 4px; background: #fff; text-align: center; line-height: 38px; color: #2563eb; font-weight: bold; cursor: pointer; padding: 0 10px; }
+
+        .voice-btn { background: #fb923c; color: white; border: none; padding: 4px 10px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; margin-left: 8px; }
+
+        .fixed-pool { position: fixed; bottom: 0; left: 0; width: 100%; background: #eef2ff; border-top: 3px solid #2563eb; padding: 15px; z-index: 999; text-align: center; display: none; }
+        .word-card { display: inline-block; background: white; border: 1px solid #c7d2fe; padding: 10px 18px; margin: 5px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .word-card.hidden { visibility: hidden; pointer-events: none; }
+        .word-card.selected { background: #ffffaa; border-color: #fb923c; }
+
+        .btn-start { background: #dc2626; color: white; padding: 15px; width: 100%; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
+        .record-list { list-style: none; padding: 0; margin-top: 10px; }
+        .record-list li { background: #f1f5f9; margin-bottom: 5px; padding: 8px; border-radius: 5px; display: flex; justify-content: space-between; font-family: monospace; }
+        .word-list { list-style: none; padding: 0; }
+        .word-list li { background: #f8fafc; margin-bottom: 5px; padding: 8px; border-radius: 5px; font-size: 0.9rem; border-left: 4px solid #16a34a; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.85rem; background: white; }
+        th, td { border: 1px solid #000; padding: 8px 4px; text-align: center; vertical-align: middle; }
+        th { background: #f8fafc; font-weight: bold; }
+        .ruby { font-size: 0.6rem; color: #666; display: block; margin-bottom: -2px; }
+        .hidden-ruby { visibility: hidden; }
+
+        .task-grid { display: block; margin-top: 15px; }
+        .task-table { width: 100%; border-collapse: collapse; }
+        .task-table th, .task-table td { border: 1px solid #000; padding: 10px; }
+        .task-label { text-align: left !important; padding-left: 15px !important; }
+    </style>
+</head>
+<body onload="init()">
+
+<header><h1>⚡️ 爆速英文法：EA09 名詞の複数形</h1></header>
+
+<div class="container">
+    <div class="main-content">
+        <div class="step-nav" id="step-nav-bar">
+            <button class="step-btn" id="btn-info" onclick="changeStep('info')">1.説明</button>
+            <button class="step-btn" id="btn-ex" onclick="changeStep('ex')">2.例題</button>
+            <button class="step-btn" id="btn-prac" onclick="changeStep('prac')">3.類題</button>
+            <button class="step-btn" id="btn-test" onclick="changeStep('test')">4.テスト</button>
+        </div>
+        <div id="display-area"></div>
+    </div>
+
+    <div class="side-content">
+        <div id="timer" style="font-size:3rem; text-align:center; color:red; font-weight:bold; font-family: monospace;">00:00</div>
+        <button id="start-btn" class="btn-start" onclick="startChallenge()">チャレンジ開始！</button>
+        
+        <h3 style="border-bottom: 2px solid #dc2626; margin-top:20px; font-size:1.1rem;">⏱ タイムレコード</h3>
+        <ul id="record-list" class="record-list">
+            <li><span>1回目</span><span id="rec-0">--:--</span></li>
+            <li><span>2回目</span><span id="rec-1">--:--</span></li>
+            <li><span>3回目</span><span id="rec-2">--:--</span></li>
+            <li><span>4回目</span><span id="rec-3">--:--</span></li>
+            <li><span>5回目</span><span id="rec-4">--:--</span></li>
+        </ul>
+
+        <h3 style="border-bottom: 2px solid #16a34a; margin-top:30px; font-size:1.1rem;">📗 マイ単語帳</h3>
+        <ul id="my-vocab" class="word-list"></ul>
+    </div>
+</div>
+
+<div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
+
+<script>
+const DICT = {
+    "cups": "【カ】ップス (名)コップ（複数）",
+    "books": "ブッ【ク】ス (名)本（複数）",
+    "dogs": "ドッ【グ】ズ (名)犬（複数）",
+    "boxes": "ボッ【ク】スィズ (名)箱（複数）",
+    "dishes": "【ディ】ッシィズ (名)皿（複数）",
+    "cities": "スィ【ティ】ーズ (名)都市（複数）",
+    "many": "【メ】ニ (形)たくさんの",
+    "countries": "【カ】ントリーズ (名)国（複数）",
+    "classes": "ク【ラ】スィズ (名)授業（複数）",
+    "watches": "【ウォ】ッチィズ (名)腕時計（複数）",
+    "babies": "【ベ】イビーズ (名)赤ちゃん（複数）",
+    "dictionaries": "ディクショ【ナ】リーズ (名)辞書（複数）"
+};
+
+const MASTER_DATA = {
+    ex: [
+        { jp: "私は2冊の本を持っています。", en: ["I", "have", "two", "books"], type: "a" },
+        { jp: "あなたはたくさんのペンを持っていますか？", en: ["Do", "you", "have", "many", "pens"], type: "q" },
+        { jp: "私たちはリンゴが好きです。", en: ["We", "like", "apples"], type: "a" }
+    ],
+    prac: [
+        { jp: "あなたは2匹の犬を飼っています。", en: ["You", "have", "two", "dogs"], type: "a" },
+        { jp: "彼らはたくさんの箱を持っています。", en: ["They", "have", "many", "boxes"], type: "a" },
+        { jp: "私たちは都市（複数）が好きです。", en: ["We", "like", "cities"], type: "a" }
+    ],
+    test: [
+        { jp: "私はたくさんの本が好きです。", en: ["I", "like", "many", "books"], type: "a" },
+        { jp: "あなたは2つの箱を持っていますか？", en: ["Do", "you", "have", "two", "boxes"], type: "q" },
+        { jp: "彼らは皿（複数）を持っていますか？", en: ["Do", "they", "have", "dishes"], type: "q" },
+        { jp: "私たちは辞書（複数）を持っていません。", en: ["We", "don't", "have", "dictionaries"], type: "a" }
+    ]
+};
+
+let currentMode = 'info', isChallenging = false, selectedWord = null, selectedId = null, startTime, timerInterval;
+let records = [null, null, null, null, null];
+let completedSteps = { info: false, ex: false, prac: false, test: false };
+
+function init() { changeStep('info'); }
+
+function wrapWord(word) {
+    const pureWord = word.replace(',', '').replace('.', '').replace('?', '').toLowerCase();
+    if (DICT[pureWord]) {
+        return `<span class="imp-word">${word}<span class="tooltip">${DICT[pureWord]}<br><button class="add-btn" onclick="event.stopPropagation(); addToVocab('${pureWord}')">単語帳に追加</button></span></span>`;
+    }
+    return word;
+}
+
+function speak(text) {
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'en-US'; uttr.rate = 0.8;
+    speechSynthesis.speak(uttr);
+}
+
+function addToVocab(word) {
+    const list = document.getElementById("my-vocab");
+    if (list.innerHTML.includes(word)) return;
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${word}</strong><br><small>${DICT[word]}</small>`;
+    list.appendChild(li);
+}
+
+function changeStep(mode) {
+    currentMode = mode;
+    isChallenging = false;
+    clearInterval(timerInterval);
+    document.getElementById("timer").textContent = "00:00";
+    document.getElementById("pool-fixed").style.display = "none";
+    document.getElementById("start-btn").style.display = "block";
+    document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("btn-" + mode).classList.add("active");
+    render();
+}
+
+function render() {
+    const area = document.getElementById("display-area");
+    if(currentMode === 'info') {
+        area.innerHTML = `
+            <div class="section">
+                <h2>1. 名詞の複数形のつくり方</h2>
+                <table>
+                    <tr>
+                        <th style="width:30%">ルール</th>
+                        <th style="width:35%">単数形</th>
+                        <th style="width:35%">複数形</th>
+                    </tr>
+                    <tr>
+                        <td>直接 s をつける</td>
+                        <td><span class="ruby">ブック</span>book</td>
+                        <td><span class="ruby ruby-text">ブックス</span><span class="blank" data-ans="books" onclick="handleTargetClick(this)">books</span></td>
+                    </tr>
+                    <tr>
+                        <td>s, x, ch, sh で終わるなら es</td>
+                        <td><span class="ruby">ボックス</span>box</td>
+                        <td><span class="ruby ruby-text">ボックスィズ</span><span class="blank" data-ans="boxes" onclick="handleTargetClick(this)">boxes</span></td>
+                    </tr>
+                    <tr>
+                        <td>子音＋y で終わるなら<br>yをiに変えて es</td>
+                        <td><span class="ruby">ディクショナリ</span>dictionary</td>
+                        <td><span class="ruby ruby-text">ディクショナリーズ</span><span class="blank" data-ans="dictionaries" onclick="handleTargetClick(this)">dictionaries</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>次の単語を複数形にしなさい。</h2>
+                <table class="task-table">
+                    <tr><th>単数形</th><th>複数形</th></tr>
+                    <tr><td class="task-label">cup (コップ)</td><td><span class="ruby ruby-text">カップス</span><span class="blank" data-ans="cups" onclick="handleTargetClick(this)">cups</span></td></tr>
+                    <tr><td class="task-label">book (本)</td><td><span class="ruby ruby-text">ブックス</span><span class="blank" data-ans="books" onclick="handleTargetClick(this)">books</span></td></tr>
+                    <tr><td class="task-label">country (カントリー　国)</td><td><span class="ruby ruby-text">カントリーズ</span><span class="blank" data-ans="countries" onclick="handleTargetClick(this)">countries</span></td></tr>
+                    <tr><td class="task-label">dish (ディッシュ　皿)</td><td><span class="ruby ruby-text">ディシィーズ</span><span class="blank" data-ans="dishes" onclick="handleTargetClick(this)">dishes</span></td></tr>
+                    <tr><td class="task-label">box (ボックス　箱)</td><td><span class="ruby ruby-text">ボクシィーズ</span><span class="blank" data-ans="boxes" onclick="handleTargetClick(this)">boxes</span></td></tr>
+                    <tr><td class="task-label">class (クラス　授業)</td><td><span class="ruby ruby-text">クラスィズ</span><span class="blank" data-ans="classes" onclick="handleTargetClick(this)">classes</span></td></tr>
+                    <tr><td class="task-label">watch (ウォッチ　腕時計)</td><td><span class="ruby ruby-text">ウォッチィズ</span><span class="blank" data-ans="watches" onclick="handleTargetClick(this)">watches</span></td></tr>
+                    <tr><td class="task-label">city (シティー　都市)</td><td><span class="ruby ruby-text">シティーズ</span><span class="blank" data-ans="cities" onclick="handleTargetClick(this)">cities</span></td></tr>
+                    <tr><td class="task-label">baby (ベイビー　赤ちゃん)</td><td><span class="ruby ruby-text">ベイビーズ</span><span class="blank" data-ans="babies" onclick="handleTargetClick(this)">babies</span></td></tr>
+                    <tr><td class="task-label">dictionary (ディクシャナリー　辞書)</td><td><span class="ruby ruby-text">ディクシャナリーズ</span><span class="blank" data-ans="dictionaries" onclick="handleTargetClick(this)">dictionaries</span></td></tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>2. 例文チェック</h2>
+                <div class="check-box">
+                    <span class="check-jp">私は2冊の本を持っています。<button class="voice-btn" onclick="speak('I have two books.')">🔊</button></span>
+                    I have two <span class="blank" data-ans="books" onclick="handleTargetClick(this)">books</span>.
+                </div>
+                <div class="check-box">
+                    <span class="check-jp">あなたはたくさんのペンを持っていますか？<button class="voice-btn" onclick="speak('Do you have many pens?')">🔊</button></span>
+                    Do you have ${wrapWord("many")} <span class="blank" data-ans="pens" onclick="handleTargetClick(this)">pens</span>?
+                </div>
+            </div>`;
+        if(!isChallenging) { 
+            document.querySelectorAll(".blank").forEach(el => el.textContent = el.dataset.ans); 
+        }
+    } else {
+        let html = `<div class="section"><h2>${currentMode}チャレンジ</h2>`;
+        MASTER_DATA[currentMode].forEach(q => {
+            const sentence = q.en.join(" ");
+            const mark = (q.type === "q") ? "?" : ".";
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${sentence}${mark}')">🔊</button></p>
+                     <div>${q.en.map(w => `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join("")} ${mark}</div>`;
+        });
+        area.innerHTML = html + "</div>";
+    }
+}
+
+function startChallenge() {
+    isChallenging = true;
+    render();
+    if(currentMode === 'info') {
+        document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
+        document.querySelectorAll(".ruby-text").forEach(el => el.classList.add("hidden-ruby"));
+    }
+    document.getElementById("pool-fixed").style.display = "block";
+    document.getElementById("start-btn").style.display = "none";
+    renderPool();
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const d = Math.floor((Date.now()-startTime)/1000);
+        document.getElementById("timer").textContent = String(Math.floor(d/60)).padStart(2,'0')+":"+String(d%60).padStart(2,'0');
+    }, 100);
+}
+
+function renderPool() {
+    const pool = document.getElementById("word-pool");
+    pool.innerHTML = "";
+    let words = [];
+    if(currentMode === 'info') {
+        // 表3つ + たしかめ10こ + 例文2つ = 15個
+        words = ["books","boxes","dictionaries","cups","books","countries","dishes","boxes","classes","watches","cities","babies","dictionaries","books","pens"];
+    } else {
+        MASTER_DATA[currentMode].forEach(q => words = words.concat(q.en));
+    }
+    words.sort(() => Math.random() - 0.5).forEach((w, i) => {
+        const card = document.createElement("div");
+        card.className = "word-card"; card.id = "c-" + i;
+        card.innerHTML = wrapWord(w);
+        card.addEventListener('click', function(e) {
+            if(e.target.tagName === 'BUTTON') return;
+            selectedWord = w; selectedId = card.id;
+            document.querySelectorAll(".word-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+        });
+        pool.appendChild(card);
+    });
+}
+
+function handleTargetClick(el) {
+    if (!isChallenging || !selectedWord || el.textContent !== "") return;
+    if (selectedWord === el.dataset.ans) {
+        el.textContent = selectedWord;
+        el.classList.remove("is-active");
+        const ruby = el.parentElement.querySelector(".ruby-text");
+        if(ruby) ruby.classList.remove("hidden-ruby");
+        
+        document.getElementById(selectedId).classList.add("hidden");
+        selectedWord = null;
+        if([...document.querySelectorAll(".blank, .square")].every(s => s.textContent !== "")) finishStep();
+    } else { alert("画像通りのスペルで答えてね！"); }
+}
+
+function finishStep() {
+    clearInterval(timerInterval);
+    const finalTime = document.getElementById("timer").textContent;
+    alert("合格！おめでとう！");
+    completedSteps[currentMode] = true;
+    document.getElementById("btn-" + currentMode).classList.add("completed");
+    if (currentMode !== 'info') {
+        for(let i=0; i<5; i++) {
+            if(records[i] === null) {
+                records[i] = finalTime;
+                document.getElementById("rec-" + i).textContent = finalTime;
+                break;
+            }
+        }
+    }
+    // テスト完了時に進捗保存
+    if (currentMode === 'test') {
+        localStorage.setItem('gamba_prog_EA09', 'pass');
+    }
+    isChallenging = false;
+    document.getElementById("start-btn").style.display = "block";
+}
+</script>
+</body>
+</html>

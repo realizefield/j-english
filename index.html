@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爆速英文法 GAMBA ─ 単元一覧</title>
+<style>
+:root{
+  --primary:#1e3a8a;--primary-light:#dbeafe;--primary-mid:#2563eb;
+  --accent:#dc2626;--accent-light:#fee2e2;
+  --success:#16a34a;--success-light:#dcfce7;
+  --warn:#d97706;--warn-light:#fffbeb;
+  --orange:#fb923c;--orange-light:#fff7ed;
+  --bg:#f4f6fb;--card:#ffffff;--border:#c7d2fe;
+  --text:#1e293b;--text-sub:#64748b;--radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+
+/* ── ログイン画面 ── */
+#login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:linear-gradient(160deg,#1e3a8a 0%,#1e40af 100%);}
+.login-box{background:#fff;border-radius:20px;padding:36px 28px;width:100%;max-width:380px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.login-logo{font-size:2.8em;margin-bottom:4px;}
+.login-title{font-size:1.5em;font-weight:700;color:var(--primary);margin-bottom:2px;}
+.login-sub{font-size:.85em;color:var(--orange);font-weight:700;margin-bottom:4px;}
+.login-tagline{font-size:.83em;color:var(--text-sub);margin-bottom:28px;line-height:1.6;}
+.login-label{display:block;font-size:.85em;font-weight:700;color:var(--text-sub);text-align:left;margin-bottom:8px;}
+.login-input{width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:12px;font-size:1.05em;font-family:inherit;outline:none;transition:border-color .2s;margin-bottom:20px;}
+.login-input:focus{border-color:var(--primary);}
+.btn-login{width:100%;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:16px;font-size:1.05em;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(220,38,38,.35);transition:transform .15s;letter-spacing:.05em;}
+.btn-login:hover{transform:translateY(-2px);}
+
+/* ── メイン画面 ── */
+#main-screen{display:none;}
+
+/* ── ヘッダー ── */
+.top-header{background:var(--primary);color:#fff;padding:16px 16px 14px;box-shadow:0 4px 16px rgba(30,58,138,.3);}
+.header-row{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;}
+.header-logo{font-size:1.2em;font-weight:700;flex:1;line-height:1.3;}
+.header-logo small{font-size:.65em;opacity:.8;display:block;}
+.header-logo .spark{color:var(--orange);}
+.student-badge{background:rgba(255,255,255,.2);border-radius:20px;padding:5px 12px;font-size:.82em;font-weight:700;white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;}
+.btn-change{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:20px;padding:5px 11px;font-size:.75em;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;}
+
+/* 進捗エリア */
+.progress-area{max-width:760px;margin:10px auto 0;padding:0 2px;}
+.progress-row{display:flex;justify-content:space-between;font-size:.76em;color:rgba(255,255,255,.85);margin-bottom:5px;}
+.progress-bar-bg{background:rgba(255,255,255,.25);border-radius:8px;height:9px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:var(--orange);border-radius:8px;transition:width .7s ease;}
+.progress-chips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.prog-chip{background:rgba(255,255,255,.18);border-radius:8px;padding:3px 10px;font-size:.76em;font-weight:700;color:#fff;}
+
+/* ── コンテナ ── */
+.g-container{max-width:760px;margin:0 auto;padding:18px 14px 60px;}
+
+/* ── お知らせ ── */
+.notice{border-radius:var(--radius);padding:12px 16px;margin-bottom:18px;font-size:.88em;line-height:1.75;}
+.notice-default{background:var(--primary-light);border:1.5px solid var(--primary-mid);color:var(--primary);}
+.notice-progress{background:var(--orange-light);border:1.5px solid var(--orange);color:#92400e;}
+.notice-complete{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
+
+/* ── セクションタイトル ── */
+.section-title{font-size:1em;font-weight:700;color:var(--primary);border-left:4px solid var(--orange);padding-left:11px;margin:22px 0 10px;}
+.section-title:first-of-type{margin-top:0;}
+
+/* ── 単元カード ── */
+.unit-list{display:flex;flex-direction:column;gap:7px;}
+.unit-card{
+  background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);
+  display:flex;align-items:center;gap:10px;padding:12px 14px;
+  text-decoration:none;color:var(--text);
+  transition:box-shadow .18s,border-color .18s;
+  cursor:pointer;position:relative;
+}
+.unit-card:active{opacity:.85;}
+.unit-card.s-pass  {border-color:#86efac;background:#f0fdf4;}
+.unit-card.s-review{border-color:var(--orange);background:var(--orange-light);}
+.unit-card.s-none  {border-color:var(--border);}
+
+/* コードバッジ */
+.u-code{font-size:.72em;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;background:var(--primary-light);color:var(--primary);}
+
+/* 単元名 */
+.u-name{flex:1;font-size:.9em;font-weight:700;line-height:1.4;min-width:0;}
+.u-sub{font-size:.75em;color:var(--text-sub);font-weight:400;margin-top:1px;}
+
+/* 状態バッジ */
+.u-badge{font-size:.72em;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.b-pass  {background:var(--success-light);color:var(--success);}
+.b-review{background:var(--orange-light);color:var(--orange);border:1px solid var(--orange);}
+.b-none  {background:#f1f5f9;color:#94a3b8;}
+
+/* 矢印 */
+.u-arrow{color:#cbd5e1;font-size:1.05em;flex-shrink:0;}
+
+/* 復習ボタン */
+.btn-review-toggle{
+  background:none;border:1.5px solid #86efac;color:var(--success);
+  border-radius:12px;padding:3px 9px;font-size:.7em;font-weight:700;
+  font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0;
+}
+.unit-card.s-review .btn-review-toggle{border-color:var(--success);color:var(--success);}
+
+@media(max-width:400px){
+  .u-sub{display:none;}
+  .unit-card{padding:11px 10px;gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ ログイン画面 ════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">⚡️</div>
+    <div class="login-title">爆速英文法</div>
+    <div class="login-sub">GAMBA</div>
+    <div class="login-tagline">高認合格をめざして<br>英文法を爆速でマスターしよう！</div>
+    <label class="login-label" for="name-input">あなたの名前を入力してください</label>
+    <input class="login-input" type="text" id="name-input" placeholder="例：山田 花子" maxlength="20" autocomplete="name">
+    <button class="btn-login" onclick="doLogin()">スタート！ →</button>
+  </div>
+</div>
+
+<!-- ════════ メイン画面 ════════ -->
+<div id="main-screen">
+
+  <div class="top-header">
+    <div class="header-row">
+      <div class="header-logo">
+        <span class="spark">⚡️</span> 爆速英文法
+        <small>GAMBA</small>
+      </div>
+      <div class="student-badge" id="badge-name">---</div>
+      <button class="btn-change" onclick="doLogout()">名前変更</button>
+    </div>
+    <div class="progress-area">
+      <div class="progress-row">
+        <span>学習進捗</span>
+        <span id="prog-text">0 / 10 単元合格</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
+      </div>
+      <div class="progress-chips" id="prog-chips"></div>
+    </div>
+  </div>
+
+  <main class="g-container">
+    <div class="notice notice-default" id="notice-msg">
+      📌 単元をタップして「1.説明 → 2.例題 → 3.類題 → 4.テスト」の順に学習しよう！
+    </div>
+
+    <div class="section-title">⚡️ EA　英文法の基礎</div>
+    <div class="unit-list" id="list-ea"></div>
+  </main>
+</div>
+
+<script>
+/* ── 単元マスター ── */
+const UNITS = [
+  {code:'EA01', name:'be動詞（1）',           sub:'am / is / are の使い分け',        path:'EA01.html'},
+  {code:'EA02', name:'This / That / It',      sub:'これ・あれ・それ の使い分け',       path:'EA02.html'},
+  {code:'EA03', name:'所有格 my / your',       sub:'私の・あなたの を表す',            path:'EA03.html'},
+  {code:'EA04', name:'be動詞の否定文',          sub:'～ではありません（not の使い方）',  path:'EA04.html'},
+  {code:'EA05', name:'be動詞の疑問文',          sub:'～ですか？（Are you ～?）',        path:'EA05.html'},
+  {code:'EA06', name:'一般動詞（1）肯定文',     sub:'動作を表す動詞の基本',             path:'EA06.html'},
+  {code:'EA07', name:'一般動詞（2）否定・疑問', sub:'don\'t / Do you ～?',             path:'EA07.html'},
+  {code:'EA08', name:'代名詞の目的格',          sub:'me / you / him / her …',         path:'EA08.html'},
+  {code:'EA09', name:'名詞の複数形',            sub:'s / es のつけ方',                 path:'EA09.html'},
+  {code:'EA10', name:'三単現のs',              sub:'He plays / She likes …',         path:'EA10.html'},
+];
+const TOTAL = UNITS.length;
+
+/* ── ストレージ ── */
+function sKey(code){ return 'gamba_prog_'+code; }
+function getStatus(code){ return localStorage.getItem(sKey(code))||'none'; }
+function setStatus(code,st){ localStorage.setItem(sKey(code),st); }
+
+/* ── ログイン ── */
+function doLogin(){
+  const name = document.getElementById('name-input').value.trim();
+  if(!name){ alert('名前を入力してください'); return; }
+  localStorage.setItem('studentName', name);
+  localStorage.setItem('studentId',   'stu_'+encodeURIComponent(name));
+  showMain();
+}
+function doLogout(){
+  if(!confirm('名前を変更しますか？\n（学習記録はそのまま残ります）')) return;
+  localStorage.removeItem('studentName');
+  localStorage.removeItem('studentId');
+  document.getElementById('main-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('name-input').value='';
+}
+
+/* ── メイン表示 ── */
+function showMain(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('main-screen').style.display='block';
+  const name = localStorage.getItem('studentName')||'ゲスト';
+  document.getElementById('badge-name').textContent = name+' さん';
+  render();
+  updateProgress();
+}
+
+/* ── 単元カード描画 ── */
+function render(){
+  const list = document.getElementById('list-ea');
+  list.innerHTML='';
+  UNITS.forEach(u => list.appendChild(makeCard(u)));
+}
+
+function makeCard(u){
+  const st = getStatus(u.code);
+  const div = document.createElement('div');
+  div.className = 'unit-card s-'+st;
+
+  const badgeMap = {
+    pass:  '<span class="u-badge b-pass">✅ 合格</span>',
+    review:'<span class="u-badge b-review">🔁 復習中</span>',
+    none:  '<span class="u-badge b-none">📖 未修</span>'
+  };
+
+  div.innerHTML = `
+    <span class="u-code">${u.code}</span>
+    <div class="u-name">${u.name}<div class="u-sub">${u.sub}</div></div>
+    ${badgeMap[st]}
+    <span class="u-arrow">›</span>`;
+
+  // 合格 → 「復習する」ボタン
+  if(st==='pass'){
+    const btn = document.createElement('button');
+    btn.className='btn-review-toggle';
+    btn.textContent='🔁 復習';
+    btn.onclick = e => { e.stopPropagation(); setStatus(u.code,'review'); render(); updateProgress(); };
+    div.insertBefore(btn, div.querySelector('.u-arrow'));
+  }
+  // 復習中 → 「合格に戻す」ボタン
+  if(st==='review'){
+    const btn = document.createElement('button');
+    btn.className='btn-review-toggle';
+    btn.style.cssText='border-color:var(--success);color:var(--success);';
+    btn.textContent='✅ 済み';
+    btn.onclick = e => { e.stopPropagation(); setStatus(u.code,'pass'); render(); updateProgress(); };
+    div.insertBefore(btn, div.querySelector('.u-arrow'));
+  }
+
+  // カードタップで単元へ
+  div.onclick = e => {
+    if(e.target.classList.contains('btn-review-toggle')) return;
+    window.location.href = u.path;
+  };
+  return div;
+}
+
+/* ── 進捗バー更新 ── */
+function updateProgress(){
+  let pass=0, review=0, none=0;
+  UNITS.forEach(u=>{
+    const s=getStatus(u.code);
+    if(s==='pass')pass++;
+    else if(s==='review')review++;
+    else none++;
+  });
+  const pct = Math.round(pass/TOTAL*100);
+  document.getElementById('prog-bar').style.width = pct+'%';
+  document.getElementById('prog-text').textContent = pass+' / '+TOTAL+' 単元合格';
+  document.getElementById('prog-chips').innerHTML =
+    `<span class="prog-chip">✅ 合格 ${pass}</span>
+     <span class="prog-chip">🔁 復習中 ${review}</span>
+     <span class="prog-chip">📖 未修 ${none}</span>`;
+
+  const notice = document.getElementById('notice-msg');
+  if(pass===TOTAL){
+    notice.className='notice notice-complete';
+    notice.innerHTML='🎉 <strong>全単元合格！</strong>　英文法マスターです！おめでとうございます！';
+  } else if(pass===0 && review===0){
+    notice.className='notice notice-default';
+    notice.innerHTML='📌 単元をタップして「1.説明 → 2.例題 → 3.類題 → 4.テスト」の順に学習しよう！';
+  } else {
+    const next = UNITS.find(u=>getStatus(u.code)==='none');
+    notice.className='notice notice-progress';
+    notice.innerHTML = `⚡️ <strong>${pass}単元</strong> 合格！${review>0?'<strong>🔁'+review+'単元</strong>が復習中。':''}${next?'次は <strong>'+next.name+'</strong> に挑戦しよう！':'あと少し！'}`;
+  }
+}
+
+/* ── 起動 ── */
+document.addEventListener('DOMContentLoaded', ()=>{
+  if(localStorage.getItem('studentName')) showMain();
+  document.getElementById('name-input').addEventListener('keydown', e=>{
+    if(e.key==='Enter') doLogin();
+  });
+});
+</script>
+</body>
+</html>
