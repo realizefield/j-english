@@ -52,11 +52,71 @@
         .word-list { list-style: none; padding: 0; }
         .word-list li { background: #f8fafc; margin-bottom: 5px; padding: 8px; border-radius: 5px; font-size: 0.9rem; border-left: 4px solid #16a34a; }
         .line-break { display: block; height: 10px; }
+
+        .back-to-index {
+            display: flex;
+            align-items: center;
+            padding: 6px 16px;
+            background: #eef2ff;
+            border-bottom: 1px solid #c7d2fe;
+        }
+        .btn-back-index {
+            font-family: "Meiryo", sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            background: #fff;
+            color: #1e3a8a;
+            border: 1.5px solid #2563eb;
+            border-radius: 20px;
+            padding: 5px 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.15s;
+        }
+        .btn-back-index:hover { background: #dbeafe; }
+
+        /* ── コントロールボタン群 ── */
+        .challenge-controls {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .challenge-controls.visible { display: flex; }
+        .btn-stop {
+            background: #64748b; color: white;
+            padding: 11px; width: 100%; border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer; font-size: 0.95rem;
+            font-family: "Meiryo", sans-serif;
+            transition: background 0.2s;
+        }
+        .btn-stop:hover { background: #475569; }
+        .btn-retry {
+            background: #f59e0b; color: white;
+            padding: 11px; width: 100%; border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer; font-size: 0.95rem;
+            font-family: "Meiryo", sans-serif;
+            transition: background 0.2s;
+        }
+        .btn-retry:hover { background: #d97706; }
+        .btn-show-ans {
+            background: #7c3aed; color: white;
+            padding: 11px; width: 100%; border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer; font-size: 0.95rem;
+            font-family: "Meiryo", sans-serif;
+            transition: background 0.2s;
+        }
+        .btn-show-ans:hover { background: #6d28d9; }
     </style>
 </head>
 <body onload="init()">
 
 <header><h1>⚡️ 爆速英文法：EA10 三単現のs</h1></header>
+<div class="back-to-index"><a href="index.html" class="btn-back-index">⬅ 単元一覧に戻る</a></div>
+
 
 <div class="container">
     <div class="main-content">
@@ -72,6 +132,12 @@
     <div class="side-content">
         <div id="timer" style="font-size:3rem; text-align:center; color:red; font-weight:bold;">00:00</div>
         <button id="start-btn" class="btn-start" onclick="startChallenge()">チャレンジ開始！</button>
+        <!-- コントロールボタン -->
+        <div class="challenge-controls" id="challenge-controls">
+            <button class="btn-stop" onclick="stopChallenge()">⏹ ストップ</button>
+            <button class="btn-retry" onclick="retryChallenge()">↩ 元に戻す</button>
+            <button class="btn-show-ans" onclick="showAnswers()">👁 答えを見る</button>
+        </div>
         <h3 style="border-bottom: 2px solid #dc2626; margin-top:20px; font-size:1.1rem;">⏱ タイムレコード</h3>
         <ul id="record-list" style="list-style:none; padding:0;">
             <li style="background: #f1f5f9; padding:8px; border-radius:5px; display:flex; justify-content:space-between;"><span>レコード</span><span id="rec-0">--:--</span></li>
@@ -156,9 +222,34 @@ function wrapWord(word) {
 }
 
 function speak(text) {
+    if (!window.speechSynthesis) {
+        alert('このブラウザは音声読み上げに対応していません。');
+        return;
+    }
+    const synth = window.speechSynthesis;
+    synth.cancel(); // 前の読み上げをキャンセル
+    
     const uttr = new SpeechSynthesisUtterance(text);
-    uttr.lang = 'en-US'; uttr.rate = 0.8;
-    speechSynthesis.speak(uttr);
+    uttr.lang = 'en-US';
+    uttr.rate = 0.8;
+    
+    function doSpeak() {
+        const voices = synth.getVoices();
+        if (voices.length > 0) {
+            const enVoice = voices.find(v => v.lang === 'en-US') || 
+                            voices.find(v => v.lang.startsWith('en'));
+            if (enVoice) uttr.voice = enVoice;
+        }
+        setTimeout(() => { try { synth.speak(uttr); } catch(e) {} }, 50);
+    }
+    
+    const voices = synth.getVoices();
+    if (voices.length === 0) {
+        synth.onvoiceschanged = () => { synth.onvoiceschanged = null; doSpeak(); };
+        setTimeout(() => { synth.onvoiceschanged = null; doSpeak(); }, 1500);
+    } else {
+        doSpeak();
+    }
 }
 
 function addToVocab(word) {
@@ -175,6 +266,7 @@ function changeStep(mode) {
     document.getElementById("timer").textContent = "00:00";
     document.getElementById("pool-fixed").style.display = "none";
     document.getElementById("start-btn").style.display = "block";
+    document.getElementById('challenge-controls').classList.remove('visible');
     document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
     document.getElementById("btn-" + mode).classList.add("active");
     render();
@@ -249,7 +341,7 @@ function render() {
                     <strong>【確認問題】( )内の指示に従って書き換えなさい。</strong><br>
                     <div class="q-item">
                         <span class="jp-text">1. Ken plays ${wrapWord("soccer")}. (否定文に：ケンはサッカーをしません。)</span>
-                        → Ken <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="play">play</span> soccer. <button class="voice-btn" onclick="speak('Ken doesn\'t play soccer.')">🔊</button>
+                        → Ken <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="play">play</span> soccer. <button class="voice-btn" onclick="speak('Ken doesn&#39;t play soccer.')">🔊</button>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">2. She likes ${wrapWord("tennis")}. (疑問文に：彼女はテニスが好きですか？)</span>
@@ -265,20 +357,20 @@ function render() {
                     </div>
                     <div class="q-item">
                         <span class="jp-text">5. My father uses a ${wrapWord("computer")}. (否定文に：私の父はコンピュータを使いません。)</span>
-                        → My father <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="use">use</span> a computer. <button class="voice-btn" onclick="speak('My father doesn\'t use a computer.')">🔊</button>
+                        → My father <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="use">use</span> a computer. <button class="voice-btn" onclick="speak('My father doesn&#39;t use a computer.')">🔊</button>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">6. Does she teach music? (いいえで答える：いいえ、彼女は教えません。)</span>
-                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak('No, she doesn\'t.')">🔊</button>
+                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak('No, she doesn&#39;t.')">🔊</button>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">7. Tom studies ${wrapWord("Japanese")} ${wrapWord("every")} ${wrapWord("day")}. (否定文に：トムは毎日日本語を勉強しません。)</span>
-                        → Tom <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="study">study</span> Japanese every day. <button class="voice-btn" onclick="speak('Tom doesn\'t study Japanese every day.')">🔊</button>
+                        → Tom <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="study">study</span> Japanese every day. <button class="voice-btn" onclick="speak('Tom doesn&#39;t study Japanese every day.')">🔊</button>
                         <span style="color:red; font-size:0.85rem; display:block;">※Tomの繰り返しをさけて答えるときは he を使います。</span>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">8. Does Mary play the piano? (いいえで答える：いいえ、メアリー（彼女）は弾きません。)</span>
-                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak('No, she doesn\'t.')">🔊</button>
+                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak('No, she doesn&#39;t.')">🔊</button>
                         <span style="color:red; font-size:0.85rem; display:block;">※Maryの繰り返しをさけて答えには she を使います。</span>
                     </div>
                 </div>
@@ -298,7 +390,7 @@ function render() {
         let html = `<div class="section"><h2>${modeTitle}演習 (各6問)</h2>`;
         MASTER_DATA[currentMode].forEach(q => {
             const voiceSent = q.en.join(" ").replace(" ? ", "? ") + q.mark;
-            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${voiceSent}')">🔊</button></p>
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speakData(this)" data-sp="${voiceSent}">🔊</button></p>
                      <div>
                         ${q.en.map(w => {
                             if (w === "?") return `<span class="fixed-mark">?</span><span class="line-break"></span>`;
@@ -321,6 +413,7 @@ function startChallenge() {
     }
     document.getElementById("pool-fixed").style.display = "block";
     document.getElementById("start-btn").style.display = "none";
+    document.getElementById('challenge-controls').classList.add('visible');
     renderPool();
     startTime = Date.now();
     timerInterval = setInterval(() => {
@@ -378,6 +471,53 @@ function finishStep() {
     }
     isChallenging = false; document.getElementById("start-btn").style.display = "block";
 }
+
+/* ── 追加コントロール関数 ── */
+function stopChallenge() {
+    if (!isChallenging) return;
+    clearInterval(timerInterval);
+    isChallenging = false;
+    document.getElementById('pool-fixed').style.display = 'none';
+    document.getElementById('start-btn').style.display = 'block';
+    document.getElementById('challenge-controls').classList.remove('visible');
+    // 入力済みの内容はそのまま残す（squareはテキスト、blankはテキスト）
+    // 空欄は空のまま、入力済みはそのまま
+}
+
+function retryChallenge() {
+    // 答えをすべてクリアしてもう一度チャレンジ開始状態に戻す
+    clearInterval(timerInterval);
+    isChallenging = false;
+    selectedWord = null; selectedId = null;
+    // 画面を再描画してチャレンジを再開
+    startChallenge();
+}
+
+function showAnswers() {
+    // タイマーを止めてすべての答えを表示
+    clearInterval(timerInterval);
+    isChallenging = false;
+    document.getElementById('pool-fixed').style.display = 'none';
+    document.getElementById('start-btn').style.display = 'block';
+    document.getElementById('challenge-controls').classList.remove('visible');
+    
+    // すべての空欄・マス目に正解を表示
+    document.querySelectorAll('.blank, .square').forEach(el => {
+        if (el.dataset.ans && el.textContent === '') {
+            el.textContent = el.dataset.ans;
+            el.style.color = '#7c3aed';
+            el.style.background = '#ede9fe';
+        }
+    });
+    // プール内の対応カードも非表示に
+    document.querySelectorAll('.word-card').forEach(c => c.classList.add('hidden'));
+}
+
+
+function speakData(btn) {
+    speak(btn.getAttribute('data-sp'));
+}
+
 </script>
 </body>
 </html>

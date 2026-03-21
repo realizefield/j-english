@@ -64,11 +64,71 @@
         .record-list li { background: #f1f5f9; margin-bottom: 5px; padding: 8px; border-radius: 5px; display: flex; justify-content: space-between; font-family: monospace; }
         .word-list { list-style: none; padding: 0; }
         .word-list li { background: #f8fafc; margin-bottom: 5px; padding: 8px; border-radius: 5px; font-size: 0.9rem; border-left: 4px solid #16a34a; }
+
+        .back-to-index {
+            display: flex;
+            align-items: center;
+            padding: 6px 16px;
+            background: #eef2ff;
+            border-bottom: 1px solid #c7d2fe;
+        }
+        .btn-back-index {
+            font-family: "Meiryo", sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            background: #fff;
+            color: #1e3a8a;
+            border: 1.5px solid #2563eb;
+            border-radius: 20px;
+            padding: 5px 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.15s;
+        }
+        .btn-back-index:hover { background: #dbeafe; }
+
+        /* ── コントロールボタン群 ── */
+        .challenge-controls {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .challenge-controls.visible { display: flex; }
+        .btn-stop {
+            background: #64748b; color: white;
+            padding: 11px; width: 100%; border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer; font-size: 0.95rem;
+            font-family: "Meiryo", sans-serif;
+            transition: background 0.2s;
+        }
+        .btn-stop:hover { background: #475569; }
+        .btn-retry {
+            background: #f59e0b; color: white;
+            padding: 11px; width: 100%; border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer; font-size: 0.95rem;
+            font-family: "Meiryo", sans-serif;
+            transition: background 0.2s;
+        }
+        .btn-retry:hover { background: #d97706; }
+        .btn-show-ans {
+            background: #7c3aed; color: white;
+            padding: 11px; width: 100%; border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer; font-size: 0.95rem;
+            font-family: "Meiryo", sans-serif;
+            transition: background 0.2s;
+        }
+        .btn-show-ans:hover { background: #6d28d9; }
     </style>
 </head>
 <body onload="init()">
 
 <header><h1>⚡️ 爆速英文法：EA01 be動詞(1)</h1></header>
+<div class="back-to-index"><a href="index.html" class="btn-back-index">⬅ 単元一覧に戻る</a></div>
+
 
 <div class="container">
     <div class="main-content">
@@ -84,6 +144,12 @@
     <div class="side-content">
         <div id="timer" style="font-size:3rem; text-align:center; color:red; font-weight:bold; font-family: monospace;">00:00</div>
         <button id="start-btn" class="btn-start" onclick="startChallenge()">チャレンジ開始！</button>
+        <!-- コントロールボタン -->
+        <div class="challenge-controls" id="challenge-controls">
+            <button class="btn-stop" onclick="stopChallenge()">⏹ ストップ</button>
+            <button class="btn-retry" onclick="retryChallenge()">↩ 元に戻す</button>
+            <button class="btn-show-ans" onclick="showAnswers()">👁 答えを見る</button>
+        </div>
         
         <h3 style="border-bottom: 2px solid #dc2626; margin-top:20px; font-size:1.1rem;">⏱ タイムレコード</h3>
         <ul id="record-list" class="record-list">
@@ -154,9 +220,34 @@ function wrapWord(word) {
 }
 
 function speak(text) {
+    if (!window.speechSynthesis) {
+        alert('このブラウザは音声読み上げに対応していません。');
+        return;
+    }
+    const synth = window.speechSynthesis;
+    synth.cancel(); // 前の読み上げをキャンセル
+    
     const uttr = new SpeechSynthesisUtterance(text);
-    uttr.lang = 'en-US'; uttr.rate = 0.8;
-    speechSynthesis.speak(uttr);
+    uttr.lang = 'en-US';
+    uttr.rate = 0.8;
+    
+    function doSpeak() {
+        const voices = synth.getVoices();
+        if (voices.length > 0) {
+            const enVoice = voices.find(v => v.lang === 'en-US') || 
+                            voices.find(v => v.lang.startsWith('en'));
+            if (enVoice) uttr.voice = enVoice;
+        }
+        setTimeout(() => { try { synth.speak(uttr); } catch(e) {} }, 50);
+    }
+    
+    const voices = synth.getVoices();
+    if (voices.length === 0) {
+        synth.onvoiceschanged = () => { synth.onvoiceschanged = null; doSpeak(); };
+        setTimeout(() => { synth.onvoiceschanged = null; doSpeak(); }, 1500);
+    } else {
+        doSpeak();
+    }
 }
 
 function addToVocab(word) {
@@ -174,6 +265,7 @@ function changeStep(mode) {
     document.getElementById("timer").textContent = "00:00";
     document.getElementById("pool-fixed").style.display = "none";
     document.getElementById("start-btn").style.display = "block";
+    document.getElementById('challenge-controls').classList.remove('visible');
     
     document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
     document.getElementById("btn-" + mode).classList.add("active");
@@ -221,6 +313,7 @@ function startChallenge() {
     if(currentMode === 'info') document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
     document.getElementById("pool-fixed").style.display = "block";
     document.getElementById("start-btn").style.display = "none";
+    document.getElementById('challenge-controls').classList.add('visible');
     renderPool();
     startTime = Date.now();
     timerInterval = setInterval(() => {
@@ -295,6 +388,48 @@ function resetRecords() {
     document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("completed"));
     changeStep('info');
 }
+
+/* ── 追加コントロール関数 ── */
+function stopChallenge() {
+    if (!isChallenging) return;
+    clearInterval(timerInterval);
+    isChallenging = false;
+    document.getElementById('pool-fixed').style.display = 'none';
+    document.getElementById('start-btn').style.display = 'block';
+    document.getElementById('challenge-controls').classList.remove('visible');
+    // 入力済みの内容はそのまま残す（squareはテキスト、blankはテキスト）
+    // 空欄は空のまま、入力済みはそのまま
+}
+
+function retryChallenge() {
+    // 答えをすべてクリアしてもう一度チャレンジ開始状態に戻す
+    clearInterval(timerInterval);
+    isChallenging = false;
+    selectedWord = null; selectedId = null;
+    // 画面を再描画してチャレンジを再開
+    startChallenge();
+}
+
+function showAnswers() {
+    // タイマーを止めてすべての答えを表示
+    clearInterval(timerInterval);
+    isChallenging = false;
+    document.getElementById('pool-fixed').style.display = 'none';
+    document.getElementById('start-btn').style.display = 'block';
+    document.getElementById('challenge-controls').classList.remove('visible');
+    
+    // すべての空欄・マス目に正解を表示
+    document.querySelectorAll('.blank, .square').forEach(el => {
+        if (el.dataset.ans && el.textContent === '') {
+            el.textContent = el.dataset.ans;
+            el.style.color = '#7c3aed';
+            el.style.background = '#ede9fe';
+        }
+    });
+    // プール内の対応カードも非表示に
+    document.querySelectorAll('.word-card').forEach(c => c.classList.add('hidden'));
+}
+
 </script>
 </body>
 </html>
