@@ -135,6 +135,11 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <div class="timer-bar">
     <div class="timer-display" id="timer">00:00</div>
     <button id="start-btn" class="btn-start" onclick="startChallenge()">▶ チャレンジ開始！</button>
+        <div class="challenge-controls" id="challenge-controls">
+            <button class="btn-stop"     onclick="stopChallenge()">⏹ ストップ</button>
+            <button class="btn-retry"    onclick="retryChallenge()">↩ 元に戻す</button>
+            <button class="btn-show-ans" onclick="showAnswers()">👁 答えを見る</button>
+        </div>
   </div>
 
   <!-- メイン表示エリア -->
@@ -229,16 +234,32 @@ function wrapWord(word){
 }
 
 function speak(text) {
+    if (!window.speechSynthesis) return;
+    const synth = window.speechSynthesis;
+    synth.cancel();
     const uttr = new SpeechSynthesisUtterance(text);
     uttr.lang = 'en-US'; uttr.rate = 0.8;
-    speechSynthesis.speak(uttr);
+    function doSpeak() {
+        const voices = synth.getVoices();
+        if (voices.length > 0) {
+            const v = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
+            if (v) uttr.voice = v;
+        }
+        setTimeout(() => { try { synth.speak(uttr); } catch(e) {} }, 50);
+    }
+    if (synth.getVoices().length === 0) {
+        synth.onvoiceschanged = () => { synth.onvoiceschanged = null; doSpeak(); };
+        setTimeout(() => { synth.onvoiceschanged = null; doSpeak(); }, 1500);
+    } else { doSpeak(); }
 }
+
+function speakData(btn) { speak(btn.getAttribute('data-sp')); }
 
 function addToVocab(word){
   var list=document.getElementById('my-vocab');
   if([].slice.call(list.querySelectorAll('strong')).some(function(s){return s.textContent===word;})) return;
   var li=document.createElement('li');
-  var spk='<button onclick="speak(\''+word+'\')" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button>';
+  var spk='<button onclick="speak(&#39;'+word+'&#39;)" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button>';
   li.innerHTML='<strong>'+word+'</strong> '+spk+'<br><small style="color:var(--text-sub)">'+DICT[word]+'</small>';
   list.appendChild(li);
 }
@@ -250,6 +271,7 @@ function changeStep(mode) {
     document.getElementById("timer").textContent = "00:00";
     document.getElementById("pool-fixed").style.display = "none";
     document.getElementById("start-btn").style.display = "block";
+    var cc=document.getElementById('challenge-controls'); if(cc) cc.classList.remove('visible');
     document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
     document.getElementById("btn-" + mode).classList.add("active");
     render();
@@ -298,7 +320,7 @@ function render() {
         let html = `<div class="section"><h2>${currentMode}チャレンジ</h2>`;
         MASTER_DATA[currentMode].forEach(q => {
             const sentence = q.en.join(" ");
-            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${sentence}.')">🔊</button></p>
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speakData(this)" data-sp="${sentence}.">🔊</button></p>
                      <div>${q.en.map(w => `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join("")} .</div>`;
         });
         area.innerHTML = html + "</div>";
@@ -311,6 +333,7 @@ function startChallenge() {
     if(currentMode === 'info') document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
     document.getElementById("pool-fixed").style.display = "block";
     document.getElementById("start-btn").style.display = "none";
+    document.getElementById('challenge-controls').classList.add('visible');
     renderPool();
     startTime = Date.now();
     timerInterval = setInterval(() => {
@@ -369,6 +392,7 @@ function finishStep() {
         localStorage.setItem('gamba_prog_EA02', 'pass');
     }
     isChallenging = false;
+    document.getElementById('challenge-controls').classList.remove('visible');
     document.getElementById("start-btn").style.display = "block";
 }
 
@@ -448,7 +472,7 @@ function renderVocabQ() {
     + '</div>'
     + '<div style="background:var(--primary-light);border-radius:10px;padding:12px;margin-bottom:12px;text-align:center;">'
     + '<div class="vocab-q">' + q.word + '</div>'
-    + '<button onclick="speak(\'' + q.word + '\')" style="background:var(--orange);color:#fff;border:none;padding:5px 16px;border-radius:50px;font-size:.8em;cursor:pointer;">🔊 発音を聞く</button>'
+    + '<button onclick="speak(&#39;' + q.word + '&#39;)" style="background:var(--orange);color:#fff;border:none;padding:5px 16px;border-radius:50px;font-size:.8em;cursor:pointer;">🔊 発音を聞く</button>'
     + '</div>'
     + '<div class="vocab-choices">' + btnsHtml + '</div>'
     + '</div>';
@@ -612,6 +636,11 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <div class="timer-bar">
     <div class="timer-display" id="timer">00:00</div>
     <button id="start-btn" class="btn-start" onclick="startChallenge()">▶ チャレンジ開始！</button>
+        <div class="challenge-controls" id="challenge-controls">
+            <button class="btn-stop"     onclick="stopChallenge()">⏹ ストップ</button>
+            <button class="btn-retry"    onclick="retryChallenge()">↩ 元に戻す</button>
+            <button class="btn-show-ans" onclick="showAnswers()">👁 答えを見る</button>
+        </div>
   </div>
 
   <!-- メイン表示エリア -->
@@ -706,16 +735,32 @@ function wrapWord(word){
 }
 
 function speak(text) {
+    if (!window.speechSynthesis) return;
+    const synth = window.speechSynthesis;
+    synth.cancel();
     const uttr = new SpeechSynthesisUtterance(text);
     uttr.lang = 'en-US'; uttr.rate = 0.8;
-    speechSynthesis.speak(uttr);
+    function doSpeak() {
+        const voices = synth.getVoices();
+        if (voices.length > 0) {
+            const v = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
+            if (v) uttr.voice = v;
+        }
+        setTimeout(() => { try { synth.speak(uttr); } catch(e) {} }, 50);
+    }
+    if (synth.getVoices().length === 0) {
+        synth.onvoiceschanged = () => { synth.onvoiceschanged = null; doSpeak(); };
+        setTimeout(() => { synth.onvoiceschanged = null; doSpeak(); }, 1500);
+    } else { doSpeak(); }
 }
+
+function speakData(btn) { speak(btn.getAttribute('data-sp')); }
 
 function addToVocab(word){
   var list=document.getElementById('my-vocab');
   if([].slice.call(list.querySelectorAll('strong')).some(function(s){return s.textContent===word;})) return;
   var li=document.createElement('li');
-  var spk='<button onclick="speak(\''+word+'\')" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button>';
+  var spk='<button onclick="speak(&#39;'+word+'&#39;)" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button>';
   li.innerHTML='<strong>'+word+'</strong> '+spk+'<br><small style="color:var(--text-sub)">'+DICT[word]+'</small>';
   list.appendChild(li);
 }
@@ -727,6 +772,7 @@ function changeStep(mode) {
     document.getElementById("timer").textContent = "00:00";
     document.getElementById("pool-fixed").style.display = "none";
     document.getElementById("start-btn").style.display = "block";
+    var cc=document.getElementById('challenge-controls'); if(cc) cc.classList.remove('visible');
     document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
     document.getElementById("btn-" + mode).classList.add("active");
     render();
@@ -775,7 +821,7 @@ function render() {
         let html = `<div class="section"><h2>${currentMode}チャレンジ</h2>`;
         MASTER_DATA[currentMode].forEach(q => {
             const sentence = q.en.join(" ");
-            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${sentence}.')">🔊</button></p>
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speakData(this)" data-sp="${sentence}.">🔊</button></p>
                      <div>${q.en.map(w => `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join("")} .</div>`;
         });
         area.innerHTML = html + "</div>";
@@ -788,6 +834,7 @@ function startChallenge() {
     if(currentMode === 'info') document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
     document.getElementById("pool-fixed").style.display = "block";
     document.getElementById("start-btn").style.display = "none";
+    document.getElementById('challenge-controls').classList.add('visible');
     renderPool();
     startTime = Date.now();
     timerInterval = setInterval(() => {
@@ -846,6 +893,7 @@ function finishStep() {
         localStorage.setItem('gamba_prog_EA02', 'pass');
     }
     isChallenging = false;
+    document.getElementById('challenge-controls').classList.remove('visible');
     document.getElementById("start-btn").style.display = "block";
 }
 
@@ -915,6 +963,32 @@ function renderVtEnd(){
     +'<button class="btn-vocab-retry" onclick="startVocabTest()">🔁 もう一度</button> '
     +'<button class="btn-vocab-retry" style="background:var(--text-sub);" onclick="document.getElementById('vocab-test-area').style.display='none'">✕ 閉じる</button>'
     +'</div>';
+}
+
+
+function stopChallenge() {
+    if (!isChallenging) return;
+    clearInterval(timerInterval); isChallenging = false; selectedWord = null;
+    document.getElementById('pool-fixed').style.display = 'none';
+    document.getElementById('start-btn').style.display = 'block';
+    document.getElementById('challenge-controls').classList.remove('visible');
+}
+function retryChallenge() {
+    clearInterval(timerInterval); isChallenging = false; selectedWord = null;
+    startChallenge();
+}
+function showAnswers() {
+    clearInterval(timerInterval); isChallenging = false;
+    document.getElementById('pool-fixed').style.display = 'none';
+    document.getElementById('start-btn').style.display = 'block';
+    document.getElementById('challenge-controls').classList.remove('visible');
+    document.querySelectorAll('.blank, .square').forEach(el => {
+        if (el.dataset.ans && el.textContent.trim() === '') {
+            el.textContent = el.dataset.ans;
+            el.style.color = '#7c3aed'; el.style.background = '#ede9fe';
+        }
+    });
+    document.querySelectorAll('.word-card').forEach(c => c.classList.add('hidden'));
 }
 
 </script>
