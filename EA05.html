@@ -131,16 +131,13 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
 <div class="g-container">
 
-  <!-- タイマーバー -->
   <div class="timer-bar">
     <div class="timer-display" id="timer">00:00</div>
     <button id="start-btn" class="btn-start" onclick="startChallenge()">▶ チャレンジ開始！</button>
   </div>
 
-  <!-- メイン表示エリア -->
   <div id="display-area"></div>
 
-  <!-- タイムレコード -->
   <div class="record-section">
     <div class="record-title">⏱ タイムレコード</div>
     <ul class="record-list">
@@ -153,17 +150,14 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <button class="btn-reset" onclick="resetRecords()">記録をリセット</button>
   </div>
 
-  <!-- 単語帳 -->
   <div class="vocab-section">
     <div class="vocab-title">📗 マイ単語帳</div>
     <ul id="my-vocab" class="word-list"></ul>
     <button class="btn-vocab-test" onclick="startVocabTest()" id="btn-vocab-test">📝 単語テストをする</button>
   </div>
 
-  <!-- 単語テストエリア -->
   <div id="vocab-test-area" style="display:none;"></div>
 
-  <!-- ナビ -->
   <div class="nav-btns">
     <a href="index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
     <a href="EA06.html" class="btn-nav btn-next">EA06へ →</a>
@@ -171,10 +165,304 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
 </div>
 
-<!-- 固定ワードプール -->
 <div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
 
+<script>
+const DICT = {
+    "Are": "【ア】ー (動)～ですか",
+    "Is": "【イ】ズ (動)～ですか",
+    "hungry": "ハ【ング】リィ (形)空腹な",
+    "tired": "タ【イ】アード (形)疲れた",
+    "busy": "【ビ】ズィ (形)忙しい",
+    "teacher": "【テ】ィーチャー (名)先生",
+    "student": "ス【テュ】ーデント (名)学生",
+    "friend": "フ【レ】ンド (名)友達"
+};
 
+const MASTER_DATA = {
+    ex: [
+        { jp: "あなたは学生ですか？", en: ["Are", "you", "a", "student"], type: "q" },
+        { jp: "はい、そうです。", en: ["Yes,", "I", "am"], type: "a" },
+        { jp: "彼はあなたの先生ですか？", en: ["Is", "he", "your", "teacher"], type: "q" },
+        { jp: "いいえ、違います。", en: ["No,", "he", "is", "not"], type: "a" }
+    ],
+    prac: [
+        { jp: "あなたはお腹が空いていますか？", en: ["Are", "you", "hungry"], type: "q" },
+        { jp: "はい、そうです。", en: ["Yes,", "I", "am"], type: "a" },
+        { jp: "これはあなたのカバンですか？", en: ["Is", "this", "your", "bag"], type: "q" },
+        { jp: "いいえ、違います。", en: ["No,", "it", "is", "not"], type: "a" }
+    ],
+    test: [
+        { jp: "彼女は忙しいですか？", en: ["Is", "she", "busy"], type: "q" },
+        { jp: "はい、そうです。", en: ["Yes,", "she", "is"], type: "a" },
+        { jp: "あれはあなたの自転車ですか？", en: ["Is", "that", "your", "bike"], type: "q" },
+        { jp: "いいえ、違います。", en: ["No,", "it", "is", "not"], type: "a" }
+    ]
+};
+
+let currentMode = 'info', isChallenging = false, selectedWord = null, selectedId = null, startTime, timerInterval;
+let records = [null, null, null, null, null];
+let completedSteps = { info: false, ex: false, prac: false, test: false };
+
+function init() { changeStep('info'); }
+
+function wrapWord(word) {
+    const pureWord = word.replace(',', '');
+    if (DICT[pureWord]) {
+        return `<span class="imp-word">${word}<span class="tooltip">${DICT[pureWord]}<br><button class="add-btn" onclick="event.stopPropagation(); addToVocab('${pureWord}')">単語帳に追加</button></span></span>`;
+    }
+    return word;
+}
+
+function speak(text) {
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'en-US'; uttr.rate = 0.8;
+    speechSynthesis.speak(uttr);
+}
+
+function addToVocab(word) {
+    const list = document.getElementById("my-vocab");
+    if (list.innerHTML.includes(word)) return;
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${word}</strong><br><small>${DICT[word]}</small>`;
+    list.appendChild(li);
+}
+
+function changeStep(mode) {
+    currentMode = mode;
+    isChallenging = false;
+    clearInterval(timerInterval);
+    document.getElementById("timer").textContent = "00:00";
+    document.getElementById("pool-fixed").style.display = "none";
+    document.getElementById("start-btn").style.display = "block";
+    document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("btn-" + mode).classList.add("active");
+    render();
+}
+
+function render() {
+    const area = document.getElementById("display-area");
+    if(currentMode === 'info') {
+        area.innerHTML = `
+            <div class="section">
+                <h2>1. ひっくり返すと「？」になる！</h2>
+                <p>be動詞（am, are, is）を<strong>主語の前に出す</strong>だけで、疑問文（～ですか？）になります。</p>
+                <p style="background:#eef2ff; padding:10px; border-radius:5px;">
+                   You are... → <strong>Are you ...?</strong><br>
+                   He is... → <strong>Is he ...?</strong>
+                </p>
+                <p>⚠️ <strong>?</strong> (クエスチョンマーク)を最後にいれ、発音では最後を<strong>上げ調子</strong>で読みます。</p>
+                <div class="check-box">
+                    <span class="check-jp">あなたは学生ですか？<button class="voice-btn" onclick="speak('Are you a student?')">🔊</button></span>
+                    <span class="blank" data-ans="Are" onclick="handleTargetClick(this)">Are</span> you a student?
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>2. 答え方のルール</h2>
+                <p>Yes か No で答えます。主語を入れ替える点に注意しましょう。</p>
+                <div class="check-box" style="background:#f0fff4; border-color:#2ecc71;">
+                    <p>💡 <strong>Yes, I am.</strong> は、実は後ろに言葉が隠れています。</p>
+                    <p>もともとは <strong>Yes, I am hungry.</strong> のような文ですが、繰り返さないために略して言います。</p>
+                </div>
+                <div class="check-box">
+                    <span class="check-jp">あなたはお腹が空いていますか？ (Are you hungry?) <button class="voice-btn" onclick="speak('Are you hungry?')">🔊</button></span>
+                    <span class="check-jp">はい、そうです。</span>
+                    Yes, I <span class="blank" data-ans="am" onclick="handleTargetClick(this)">am</span>.
+                </div>
+                <div class="check-box">
+                    <span class="check-jp">あなたはお腹が空いていますか？ (Are you hungry?) <button class="voice-btn" onclick="speak('Are you hungry?')">🔊</button></span>
+                    <span class="check-jp">いいえ、空いていません。</span>
+                    No, I am <span class="blank" data-ans="not" onclick="handleTargetClick(this)">not</span>.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3. This / That で聞かれたら？</h2>
+                <p>これ（this）やあれ（that）で聞かれたら、答えでは<strong>「それ（it）」</strong>で受けます。</p>
+                <div class="check-box">
+                    <span class="check-jp">これはあなたのペンですか？ (Is this your pen?) <button class="voice-btn" onclick="speak('Is this your pen?')">🔊</button></span>
+                    <span class="check-jp">いいえ、違います。</span>
+                    No, <span class="blank" data-ans="it" onclick="handleTargetClick(this)">it</span> is not.
+                </div>
+            </div>`;
+        if(!isChallenging) { document.querySelectorAll(".blank").forEach(el => el.textContent = el.dataset.ans); }
+    } else {
+        let html = `<div class="section"><h2>${currentMode}チャレンジ</h2>`;
+        MASTER_DATA[currentMode].forEach(q => {
+            const sentence = q.en.join(" ");
+            const mark = (q.type === "q") ? "?" : ".";
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${sentence}${mark}')">🔊</button></p>
+                     <div>${q.en.map(w => `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join("")} ${mark}</div>`;
+        });
+        area.innerHTML = html + "</div>";
+    }
+}
+
+function startChallenge() {
+    isChallenging = true;
+    render();
+    if(currentMode === 'info') document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
+    document.getElementById("pool-fixed").style.display = "block";
+    document.getElementById("start-btn").style.display = "none";
+    renderPool();
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const d = Math.floor((Date.now()-startTime)/1000);
+        document.getElementById("timer").textContent = String(Math.floor(d/60)).padStart(2,'0')+":"+String(d%60).padStart(2,'0');
+    }, 100);
+}
+
+function renderPool() {
+    const pool = document.getElementById("word-pool");
+    pool.innerHTML = "";
+    let words = (currentMode === 'info') ? ["Are","am","not","it"] : [];
+    if(currentMode !== 'info') MASTER_DATA[currentMode].forEach(q => words = words.concat(q.en));
+    words.sort(() => Math.random() - 0.5).forEach((w, i) => {
+        const card = document.createElement("div");
+        card.className = "word-card"; card.id = "c-" + i;
+        card.innerHTML = wrapWord(w);
+        card.addEventListener('click', function(e) {
+            if(e.target.tagName === 'BUTTON') return;
+            selectedWord = w; selectedId = card.id;
+            document.querySelectorAll(".word-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+        });
+        pool.appendChild(card);
+    });
+}
+
+function handleTargetClick(el) {
+    if (!isChallenging || !selectedWord || el.textContent !== "") return;
+    if (selectedWord === el.dataset.ans) {
+        el.textContent = selectedWord;
+        el.classList.remove("is-active");
+        document.getElementById(selectedId).classList.add("hidden");
+        selectedWord = null;
+        if([...document.querySelectorAll(".blank, .square")].every(s => s.textContent !== "")) finishStep();
+    } else { alert("もうチョイ！"); }
+}
+
+function finishStep() {
+    clearInterval(timerInterval);
+    const finalTime = document.getElementById("timer").textContent;
+    alert("🎉 合格！　タイム："+finalTime+"
+
+EA06に進もう！");
+    completedSteps[currentMode] = true;
+    document.getElementById("btn-" + currentMode).classList.add("completed");
+    if (currentMode !== 'info') {
+        for(let i=0; i<5; i++) {
+            if(records[i] === null) {
+                records[i] = finalTime;
+                document.getElementById("rec-" + i).textContent = finalTime;
+                break;
+            }
+        }
+    }
+    isChallenging = false;
+    document.getElementById("start-btn").style.display = "block";
+}
+
+// -- 単語帳テスト（1問ずつ） --
+var _vq = [], _vIdx = 0, _vCorrect = 0;
+
+function startVocabTest() {
+  var vocabItems = document.getElementById('my-vocab').children;
+  if (vocabItems.length === 0) {
+    alert('単語帳にまだ単語がありません。\n緑の単語をタップして単語帳に追加してください！');
+    return;
+  }
+  _vq = [];
+  [].forEach.call(vocabItems, function(li) {
+    var strong = li.querySelector('strong');
+    var small  = li.querySelector('small');
+    if (strong && small) {
+      var mean = small.textContent.trim();
+      // 先頭のカタカナ・記号部分を除去
+      var cleanMean = mean.replace(/^\S+\s+/, '').replace(/^\([^)]+\)\s*/, '').trim();
+      if (!cleanMean || cleanMean.length < 2) cleanMean = mean;
+      _vq.push({ word: strong.textContent.trim(), mean: cleanMean });
+    }
+  });
+  _vq.sort(function(){ return Math.random() - 0.5; });
+  _vIdx = 0; _vCorrect = 0;
+  document.getElementById('vocab-test-area').style.display = 'block';
+  document.getElementById('vocab-test-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  renderVocabQ();
+}
+
+function renderVocabQ() {
+  var area = document.getElementById('vocab-test-area');
+  if (_vIdx >= _vq.length) {
+    var msg = _vCorrect === _vq.length ? '🎉 全問正解！完璧です！'
+            : _vCorrect >= Math.ceil(_vq.length * 0.75) ? '👍 あと少し！もう一度！'
+            : '📖 復習してもう一度挑戦！';
+    var col = _vCorrect === _vq.length ? 'var(--success)' : 'var(--accent)';
+    area.innerHTML = '<div class="vocab-test-card"><div class="vocab-score" style="color:' + col + ';">'
+      + msg + '<br><span style="font-size:1.6em;">' + _vCorrect + ' / ' + _vq.length + '</span> 正解'
+      + '</div><div style="text-align:center;">'
+      + '<button class="btn-vocab-retry" onclick="retryVocabTest()">🔁 もう一度</button>'
+      + ' <button class="btn-vocab-retry" style="background:var(--text-sub);" onclick="closeVocabTest()">閉じる</button>'
+      + '</div></div>';
+    return;
+  }
+
+  var q = _vq[_vIdx];
+  var progress = (_vIdx + 1) + ' / ' + _vq.length;
+
+  // 不正解の選択肢をDICTから補充
+  var allMeans = Object.keys(DICT).map(function(w) {
+    var m = DICT[w].replace(/^\S+\s+/, '').replace(/^\([^)]+\)\s*/, '').trim();
+    return m || DICT[w];
+  }).filter(function(m, idx, arr) {
+    return m && m !== q.mean && arr.indexOf(m) === idx;
+  });
+  allMeans.sort(function(){ return Math.random() - 0.5; });
+  var choices = [q.mean].concat(allMeans.slice(0, 3));
+  choices.sort(function(){ return Math.random() - 0.5; });
+
+  var btnsHtml = choices.map(function(ch) {
+    var ec = ch.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    var em = q.mean.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<button class="vocab-choice" onclick="checkVocabAnswer(this,\'' + ec + '\',\'' + em + '\')">' + ch + '</button>';
+  }).join('');
+
+  area.innerHTML = '<div class="vocab-test-card">'
+    + '<div style="display:flex;justify-content:space-between;margin-bottom:10px;">'
+    + '<span style="font-size:.82em;color:var(--text-sub);font-weight:700;">📝 単語テスト</span>'
+    + '<span style="font-size:.82em;font-weight:700;color:var(--primary);">' + progress + '</span>'
+    + '</div>'
+    + '<div style="background:var(--primary-light);border-radius:10px;padding:12px;margin-bottom:12px;text-align:center;">'
+    + '<div class="vocab-q">' + q.word + '</div>'
+    + '<button onclick="speak(\'' + q.word + '\')" style="background:var(--orange);color:#fff;border:none;padding:5px 16px;border-radius:50px;font-size:.8em;cursor:pointer;">🔊 発音を聞く</button>'
+    + '</div>'
+    + '<div class="vocab-choices">' + btnsHtml + '</div>'
+    + '</div>';
+}
+
+function checkVocabAnswer(btn, chosen, correct) {
+  var allBtns = btn.closest('.vocab-test-card').querySelectorAll('.vocab-choice');
+  [].forEach.call(allBtns, function(b) {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('correct');
+  });
+  if (chosen === correct) { btn.classList.add('correct'); _vCorrect++; }
+  else { btn.classList.add('wrong'); }
+  setTimeout(function() { _vIdx++; renderVocabQ(); }, chosen === correct ? 600 : 1400);
+}
+
+function retryVocabTest() {
+  _vIdx = 0; _vCorrect = 0;
+  _vq.sort(function(){ return Math.random() - 0.5; });
+  renderVocabQ();
+}
+
+function closeVocabTest() {
+  document.getElementById('vocab-test-area').style.display = 'none';
+}
+
+</script>
 <script src="gamba_support.js"></script>
 <script>init();</script>
 </body>

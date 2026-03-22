@@ -131,16 +131,13 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
 <div class="g-container">
 
-  <!-- タイマーバー -->
   <div class="timer-bar">
     <div class="timer-display" id="timer">00:00</div>
     <button id="start-btn" class="btn-start" onclick="startChallenge()">▶ チャレンジ開始！</button>
   </div>
 
-  <!-- メイン表示エリア -->
   <div id="display-area"></div>
 
-  <!-- タイムレコード -->
   <div class="record-section">
     <div class="record-title">⏱ タイムレコード</div>
     <ul class="record-list">
@@ -153,17 +150,14 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <button class="btn-reset" onclick="resetRecords()">記録をリセット</button>
   </div>
 
-  <!-- 単語帳 -->
   <div class="vocab-section">
     <div class="vocab-title">📗 マイ単語帳</div>
     <ul id="my-vocab" class="word-list"></ul>
     <button class="btn-vocab-test" onclick="startVocabTest()" id="btn-vocab-test">📝 単語テストをする</button>
   </div>
 
-  <!-- 単語テストエリア -->
   <div id="vocab-test-area" style="display:none;"></div>
 
-  <!-- ナビ -->
   <div class="nav-btns">
     <a href="index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
     <span></span>
@@ -171,10 +165,399 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
 </div>
 
-<!-- 固定ワードプール -->
 <div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
 
+<script>
+const DICT = {
+    "plays": "プレイズ (動)～をする（三単現）",
+    "goes": "ゴウズ (動)行く（三単現）",
+    "studies": "スタディーズ (動)勉強する（三単現）",
+    "has": "ハズ (動)持っている（三単現）",
+    "doesn't": "ダズント (助)～しない",
+    "does": "ダズ (助)～する / ～ですか",
+    "math": "マス (名)数学",
+    "computer": "コンピュータ (名)コンピュータ",
+    "japanese": "ジャパニーズ (名)日本語、日本人 (形)日本の",
+    "every": "エヴリ (形)毎～、すべての",
+    "day": "デイ (名)日、１日",
+    "soccer": "サッカー (名)サッカー",
+    "tennis": "テニス (名)テニス",
+    "breakfast": "ブレックファスト (名)朝食",
+    "brother": "ブラザー (名)兄弟、兄、弟",
+    "guitar": "ギター (名)ギター",
+    "practices": "プラクティスィズ (動)練習する（三単現）",
+    "sister": "スィスター (名)姉妹、姉、妹",
+    "french": "フレンチ (名)フランス語",
+    "after": "アフター (前)～のあとに",
+    "school": "スクール (名)学校",
+    "drink": "ドリンク (動)飲む",
+    "library": "ライブラリ (名)図書館",
+    "hard": "ハード (副)一生懸命に",
+    "bathtub": "バスタブ (名)浴槽、お風呂",
+    "wash": "ウォッシュ (動)洗う",
+    "clean": "クリーン (動)掃除する",
+    "sunday": "サンデイ (名)日曜日",
+    "park": "パーク (名)公園"
+};
 
+const MASTER_DATA = {
+    ex: [
+        { jp: "彼は毎日テニスをします。", en: ["He", "plays", "tennis", "every", "day"], mark: ".", type: "a" },
+        { jp: "彼女は朝食を食べません。", en: ["She", "doesn't", "eat", "breakfast"], mark: ".", type: "a" },
+        { jp: "あなたの弟は英語を勉強しますか？", en: ["Does", "your", "brother", "study", "English"], mark: "?", type: "q" },
+        { jp: "ケンは新しい車を持っています。", en: ["Ken", "has", "a", "new", "car"], mark: ".", type: "a" },
+        { jp: "私の母は毎日学校へ行きます。", en: ["My", "mother", "goes", "to", "school", "every", "day"], mark: ".", type: "a" },
+        { jp: "彼はギターを弾きますか？ ― はい、します。", en: ["Does", "he", "play", "the", "guitar", "?", "Yes,", "he", "does"], mark: ".", type: "q" }
+    ],
+    prac: [
+        { jp: "彼女はフランス語を話します。", en: ["She", "speaks", "French"], mark: ".", type: "a" },
+        { jp: "トムは魚が好きではありません。", en: ["Tom", "doesn't", "like", "fish"], mark: ".", type: "a" },
+        { jp: "その猫はミルクを飲みますか？", en: ["Does", "the", "cat", "drink", "milk"], mark: "?", type: "q" },
+        { jp: "私の父は毎日ピアノを練習します。", en: ["My", "father", "practices", "the", "piano", "every", "day"], mark: ".", type: "a" },
+        { jp: "メアリーは放課後勉強しますか？", en: ["Does", "Mary", "study", "after", "school"], mark: "?", type: "q" },
+        { jp: "あなたの妹はピアノを持っていますか？ ― いいえ、持っていません。", en: ["Does", "your", "sister", "have", "a", "piano", "?", "No,", "she", "doesn't"], mark: ".", type: "q" }
+    ],
+    test: [
+        { jp: "彼は毎日この公園で走ります。", en: ["He", "runs", "in", "this", "park", "every", "day"], mark: ".", type: "a" },
+        { jp: "彼女は自分の部屋を掃除しません。", en: ["She", "doesn't", "clean", "her", "room"], mark: ".", type: "a" },
+        { jp: "ケンは毎週日曜日に図書館に行きますか？", en: ["Does", "Ken", "go", "to", "the", "library", "every", "Sunday"], mark: "?", type: "q" },
+        { jp: "私の兄は数学を一生懸命勉強します。", en: ["My", "brother", "studies", "math", "hard"], mark: ".", type: "a" },
+        { jp: "彼は毎日お風呂を洗いますか？", en: ["Does", "he", "wash", "the", "bathtub", "every", "day"], mark: "?", type: "q" },
+        { jp: "トムはテニスをしますか？ ― いいえ、しません。", en: ["Does", "Tom", "play", "tennis", "?", "No,", "he", "doesn't"], mark: ".", type: "q" }
+    ]
+};
+
+let currentMode = 'info', isChallenging = false, selectedWord = null, selectedId = null, startTime, timerInterval;
+
+function init() { changeStep('info'); }
+
+function wrapWord(word) {
+    const pureWord = word.replace(',', '').replace('.', '').replace('?', '').toLowerCase();
+    if (DICT[pureWord]) {
+        return `<span class="imp-word">${word}<span class="tooltip">${DICT[pureWord]}<br><button class="add-btn" onclick="event.stopPropagation(); addToVocab('${pureWord}')">単語帳に追加</button></span></span>`;
+    }
+    return word;
+}
+
+function speak(text) {
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'en-US'; uttr.rate = 0.8;
+    speechSynthesis.speak(uttr);
+}
+
+function addToVocab(word) {
+    const list = document.getElementById("my-vocab");
+    if (list.innerHTML.includes(word)) return;
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${word}</strong><br><small>${DICT[word]}</small>`;
+    list.appendChild(li);
+}
+
+function changeStep(mode) {
+    currentMode = mode; isChallenging = false;
+    clearInterval(timerInterval);
+    document.getElementById("timer").textContent = "00:00";
+    document.getElementById("pool-fixed").style.display = "none";
+    document.getElementById("start-btn").style.display = "block";
+    document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("btn-" + mode).classList.add("active");
+    render();
+}
+
+function render() {
+    const area = document.getElementById("display-area");
+    if(currentMode === 'info') {
+        area.innerHTML = `
+            <div class="section">
+                <h2>1. 「三単現のs」とは？</h2>
+                <div class="rule-card">
+                    「彼はかっこいいね」と話をしていたとします。そこには，彼と私ともう1人の聞き手の3人がいることになります。このような「彼」「彼女」「それ」などを，三人称単数といいます。<br>
+                    英語の場合，主語が三人称単数（注：三人称複数「彼ら」「彼女ら」「それら」ではない）のとき，一般動詞には <strong>s</strong> か <strong>es</strong> をつける習慣があります。
+                </div>
+                <h3>主語の判別表</h3>
+                <table>
+                    <tr><th>グループ</th><th>主語の例</th><th>動詞の形</th></tr>
+                    <tr><td>一人称 (①自分をふくむ)</td><td>I (私), We (私たち)</td><td>そのまま</td></tr>
+                    <tr><td>二人称 (②相手をふくむ)</td><td>You</td><td>そのまま</td></tr>
+                    <tr><td>三人称・複数 (①②以外)</td><td>They (彼ら), Tom and Ken</td><td>そのまま</td></tr>
+                    <tr style="color:red; font-weight:bold;"><td>三人称・単数 (①②以外) ★</td><td>He, She, It, Tom, My mother</td><td>s / es をつける</td></tr>
+                </table>
+
+                <h3 style="margin-top:20px;">人称と単数・複数の例</h3>
+                <table>
+                    <tr><th>人称</th><th>単数・複数</th><th>【例】</th><th>人称とは？</th></tr>
+                    <tr><td rowspan="2">一人称</td><td>単数</td><td>I 私は</td><td rowspan="2">自分を含む</td></tr>
+                    <tr><td>複数</td><td>we 私たちは</td></tr>
+                    <tr><td rowspan="2">二人称</td><td>単数</td><td>you あなたは</td><td rowspan="2">あなたを含む</td></tr>
+                    <tr><td>複数</td><td>you あなたたちは</td></tr>
+                    <tr style="background:#ffff00; font-weight:bold;">
+                        <td rowspan="2">三人称</td><td>単数</td><td>He彼 She彼女 Tomトム My father私の父</td><td rowspan="2">それ以外</td></tr>
+                    <tr><td>複数</td><td>they 彼らは</td></tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>2. 変化のルールをマスターしよう</h2>
+                <div class="example-intro">
+                    三人称単数主語で現在形の場合一般動詞にはs,esを付けます。<br>
+                    【例】He 【 cleans 】 his room .彼は部屋を掃除します。
+                </div>
+                <table>
+                    <tr><th style="width:20%">元の形</th><th style="width:30%">三単現の形</th><th>ルール</th></tr>
+                    <tr><td>play</td><td><span class="blank" data-ans="plays">plays</span><span class="ruby ruby-text">プレイズ</span></td><td>直接 s をつける</td></tr>
+                    <tr><td>go</td><td><span class="blank" data-ans="goes">goes</span><span class="ruby ruby-text">ゴウズ</span></td><td>o, s, x, ch, sh で終われば es</td></tr>
+                    <tr><td>study</td><td><span class="blank" data-ans="studies">studies</span><span class="ruby ruby-text">スタディーズ</span></td><td>子音(aiueo以外)+yをiに変えて es</td></tr>
+                    <tr><td>have</td><td><span class="blank" data-ans="has">has</span><span class="ruby ruby-text">ハズ</span></td><td>【不規則】形が完全に変わる</td></tr>
+                </table>
+                <div class="task-box">
+                    <strong>【確認問題】三単現の形に直しなさい。</strong><br>
+                    (1) like(好き) → <span class="blank" data-ans="likes">likes</span><span class="ruby ruby-text">ライクス</span><br>
+                    (2) speak(話す) → <span class="blank" data-ans="speaks">speaks</span><span class="ruby ruby-text">スピークス</span><br>
+                    (3) watch(見る) → <span class="blank" data-ans="watches">watches</span><span class="ruby ruby-text">ウォッチズ</span> <span class="hint-text">※o,s,x,ch,shで終わる一般動詞なのでesを付けます。</span><br>
+                    (4) wash(洗う) → <span class="blank" data-ans="washes">washes</span><span class="ruby ruby-text">ウォシーズ</span> <span class="hint-text">※o,s,x,ch,shで終わる一般動詞なのでesを付けます。</span><br>
+                    (5) use(つかう) → <span class="blank" data-ans="uses">uses</span><span class="ruby ruby-text">ユージィズ</span><br>
+                    (6) teach(教える) → <span class="blank" data-ans="teaches">teaches</span><span class="ruby ruby-text">ティーチズ</span> <span class="hint-text">※o,s,x,ch,shで終わる一般動詞なのでesを付けます。</span><br>
+                    (7) study(勉強する) → <span class="blank" data-ans="studies">studies</span><span class="ruby ruby-text">スタディーズ</span> <span class="hint-text">※子音＋yの一般動詞の場合yをiに変えてesを付けます。</span><br>
+                    (8) try(やってみる) → <span class="blank" data-ans="tries">tries</span><span class="ruby ruby-text">トライズ</span> <span class="hint-text">※子音＋yの一般動詞の場合yをiに変えてesを付けます。</span><br>
+                    (9) fly(飛ぶ) → <span class="blank" data-ans="flies">flies</span><span class="ruby ruby-text">フライズ</span> <span class="hint-text">※子音＋yの一般動詞の場合yをiに変えてesを付けます。</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3. 否定文・疑問文の作り方</h2>
+                <div class="blue-card">
+                    否定文では <strong>助動詞doesn'tダズント(does ダズnotノットの短縮形)</strong>、疑問文では <strong>Doesダズ助動詞</strong> を使い、動詞は <strong>元の形</strong> に戻します。<br>
+                    <strong>重要：does(ズ助動詞)使ったら、動詞の s は取って「元の形」に戻す！</strong>
+                </div>
+                <div class="task-box">
+                    <strong>【確認問題】( )内の指示に従って書き換えなさい。</strong><br>
+                    <div class="q-item">
+                        <span class="jp-text">1. Ken plays ${wrapWord("soccer")}. (否定文に：ケンはサッカーをしません。)</span>
+                        → Ken <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="play">play</span> soccer. <button class="voice-btn" onclick="speak('Ken doesn\'t play soccer.')">🔊</button>
+                    </div>
+                    <div class="q-item">
+                        <span class="jp-text">2. She likes ${wrapWord("tennis")}. (疑問文に：彼女はテニスが好きですか？)</span>
+                        → <span class="blank" data-ans="Does">Does</span> she <span class="blank" data-ans="like">like</span> tennis? <button class="voice-btn" onclick="speak('Does she like tennis?')">🔊</button>
+                    </div>
+                    <div class="q-item">
+                        <span class="jp-text">3. Tom studies ${wrapWord("math")}. (疑問文に：トムは数学を勉強しますか？)</span>
+                        → <span class="blank" data-ans="Does">Does</span> Tom <span class="blank" data-ans="study">study</span> math? <button class="voice-btn" onclick="speak('Does Tom study math?')">🔊</button>
+                    </div>
+                    <div class="q-item">
+                        <span class="jp-text">4. Does he speak English? (はいで答える：はい、彼は話します。)</span>
+                        → Yes, he <span class="blank" data-ans="does">does</span>. <button class="voice-btn" onclick="speak('Yes, he does.')">🔊</button>
+                    </div>
+                    <div class="q-item">
+                        <span class="jp-text">5. My father uses a ${wrapWord("computer")}. (否定文に：私の父はコンピュータを使いません。)</span>
+                        → My father <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="use">use</span> a computer. <button class="voice-btn" onclick="speak('My father doesn\'t use a computer.')">🔊</button>
+                    </div>
+                    <div class="q-item">
+                        <span class="jp-text">6. Does she teach music? (いいえで答える：いいえ、彼女は教えません。)</span>
+                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak('No, she doesn\'t.')">🔊</button>
+                    </div>
+                    <div class="q-item">
+                        <span class="jp-text">7. Tom studies ${wrapWord("Japanese")} ${wrapWord("every")} ${wrapWord("day")}. (否定文に：トムは毎日日本語を勉強しません。)</span>
+                        → Tom <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="study">study</span> Japanese every day. <button class="voice-btn" onclick="speak('Tom doesn\'t study Japanese every day.')">🔊</button>
+                        <span style="color:red; font-size:0.85rem; display:block;">※Tomの繰り返しをさけて答えるときは he を使います。</span>
+                    </div>
+                    <div class="q-item">
+                        <span class="jp-text">8. Does Mary play the piano? (いいえで答える：いいえ、メアリー（彼女）は弾きません。)</span>
+                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak('No, she doesn\'t.')">🔊</button>
+                        <span style="color:red; font-size:0.85rem; display:block;">※Maryの繰り返しをさけて答えには she を使います。</span>
+                    </div>
+                </div>
+            </div>`;
+        
+        document.querySelectorAll(".blank").forEach(el => {
+            el.onclick = function() { handleTargetClick(this); };
+        });
+
+        if(!isChallenging) {
+            document.querySelectorAll(".blank").forEach(el => el.textContent = el.dataset.ans);
+            document.querySelectorAll(".ruby-text").forEach(el => el.classList.remove("hidden-ruby"));
+            document.querySelectorAll(".hint-text").forEach(el => el.classList.remove("hidden-hint"));
+        }
+    } else {
+        let modeTitle = currentMode === 'ex' ? '例題' : currentMode === 'prac' ? '類題' : '修了テスト';
+        let html = `<div class="section"><h2>${modeTitle}演習 (各6問)</h2>`;
+        MASTER_DATA[currentMode].forEach(q => {
+            const voiceSent = q.en.join(" ").replace(" ? ", "? ") + q.mark;
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${voiceSent}')">🔊</button></p>
+                     <div>
+                        ${q.en.map(w => {
+                            if (w === "?") return `<span class="fixed-mark">?</span><span class="line-break"></span>`;
+                            if (w === ".") return `<span class="fixed-mark">.</span>`;
+                            return `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging ? '' : wrapWord(w)}</span>`;
+                        }).join("")}
+                        <span class="fixed-mark">${q.mark}</span>
+                     </div>`;
+        });
+        area.innerHTML = html + "</div>";
+    }
+}
+
+function startChallenge() {
+    isChallenging = true; render();
+    if(currentMode === 'info') {
+        document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
+        document.querySelectorAll(".ruby-text").forEach(el => el.classList.add("hidden-ruby"));
+        document.querySelectorAll(".hint-text").forEach(el => el.classList.add("hidden-hint"));
+    }
+    document.getElementById("pool-fixed").style.display = "block";
+    document.getElementById("start-btn").style.display = "none";
+    renderPool();
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const d = Math.floor((Date.now()-startTime)/1000);
+        document.getElementById("timer").textContent = String(Math.floor(d/60)).padStart(2,'0')+":"+String(d%60).padStart(2,'0');
+    }, 100);
+}
+
+function renderPool() {
+    const pool = document.getElementById("word-pool"); pool.innerHTML = "";
+    let words = [];
+    if(currentMode === 'info') {
+        document.querySelectorAll(".blank").forEach(el => words.push(el.dataset.ans));
+    } else {
+        MASTER_DATA[currentMode].forEach(q => {
+            q.en.forEach(w => {
+                if (w !== "?" && w !== ".") words.push(w);
+            });
+        });
+    }
+
+    words.sort((a, b) => a.toLowerCase().replace(/[^a-z]/g, '').localeCompare(b.toLowerCase().replace(/[^a-z]/g, '')));
+
+    words.forEach((w, i) => {
+        const card = document.createElement("div");
+        card.className = "word-card"; card.id = "c-" + i; card.textContent = w;
+        card.onclick = () => {
+            selectedWord = w; selectedId = card.id;
+            document.querySelectorAll(".word-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+        };
+        pool.appendChild(card);
+    });
+}
+
+function handleTargetClick(el) {
+    if (!isChallenging || !selectedWord || el.textContent !== "") return;
+    if (selectedWord === el.dataset.ans) {
+        el.textContent = selectedWord; el.classList.remove("is-active");
+        document.getElementById(selectedId).classList.add("hidden");
+        selectedWord = null;
+        if([...document.querySelectorAll(".blank, .square")].every(s => s.textContent !== "")) {
+            clearInterval(timerInterval); alert("素晴らしい！合格です。"); finishStep();
+        }
+    } else { alert("不正解！ルールを思い出して。"); }
+}
+
+function finishStep() {
+    document.getElementById("btn-" + currentMode).classList.add("completed");
+    const finalTime = document.getElementById("timer").textContent;
+    document.getElementById("rec-0").textContent = finalTime;
+    isChallenging = false; document.getElementById("start-btn").style.display = "block";
+}
+
+// -- 単語帳テスト（1問ずつ） --
+var _vq = [], _vIdx = 0, _vCorrect = 0;
+
+function startVocabTest() {
+  var vocabItems = document.getElementById('my-vocab').children;
+  if (vocabItems.length === 0) {
+    alert('単語帳にまだ単語がありません。\n緑の単語をタップして単語帳に追加してください！');
+    return;
+  }
+  _vq = [];
+  [].forEach.call(vocabItems, function(li) {
+    var strong = li.querySelector('strong');
+    var small  = li.querySelector('small');
+    if (strong && small) {
+      var mean = small.textContent.trim();
+      // 先頭のカタカナ・記号部分を除去
+      var cleanMean = mean.replace(/^\S+\s+/, '').replace(/^\([^)]+\)\s*/, '').trim();
+      if (!cleanMean || cleanMean.length < 2) cleanMean = mean;
+      _vq.push({ word: strong.textContent.trim(), mean: cleanMean });
+    }
+  });
+  _vq.sort(function(){ return Math.random() - 0.5; });
+  _vIdx = 0; _vCorrect = 0;
+  document.getElementById('vocab-test-area').style.display = 'block';
+  document.getElementById('vocab-test-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  renderVocabQ();
+}
+
+function renderVocabQ() {
+  var area = document.getElementById('vocab-test-area');
+  if (_vIdx >= _vq.length) {
+    var msg = _vCorrect === _vq.length ? '🎉 全問正解！完璧です！'
+            : _vCorrect >= Math.ceil(_vq.length * 0.75) ? '👍 あと少し！もう一度！'
+            : '📖 復習してもう一度挑戦！';
+    var col = _vCorrect === _vq.length ? 'var(--success)' : 'var(--accent)';
+    area.innerHTML = '<div class="vocab-test-card"><div class="vocab-score" style="color:' + col + ';">'
+      + msg + '<br><span style="font-size:1.6em;">' + _vCorrect + ' / ' + _vq.length + '</span> 正解'
+      + '</div><div style="text-align:center;">'
+      + '<button class="btn-vocab-retry" onclick="retryVocabTest()">🔁 もう一度</button>'
+      + ' <button class="btn-vocab-retry" style="background:var(--text-sub);" onclick="closeVocabTest()">閉じる</button>'
+      + '</div></div>';
+    return;
+  }
+
+  var q = _vq[_vIdx];
+  var progress = (_vIdx + 1) + ' / ' + _vq.length;
+
+  // 不正解の選択肢をDICTから補充
+  var allMeans = Object.keys(DICT).map(function(w) {
+    var m = DICT[w].replace(/^\S+\s+/, '').replace(/^\([^)]+\)\s*/, '').trim();
+    return m || DICT[w];
+  }).filter(function(m, idx, arr) {
+    return m && m !== q.mean && arr.indexOf(m) === idx;
+  });
+  allMeans.sort(function(){ return Math.random() - 0.5; });
+  var choices = [q.mean].concat(allMeans.slice(0, 3));
+  choices.sort(function(){ return Math.random() - 0.5; });
+
+  var btnsHtml = choices.map(function(ch) {
+    var ec = ch.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    var em = q.mean.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<button class="vocab-choice" onclick="checkVocabAnswer(this,\'' + ec + '\',\'' + em + '\')">' + ch + '</button>';
+  }).join('');
+
+  area.innerHTML = '<div class="vocab-test-card">'
+    + '<div style="display:flex;justify-content:space-between;margin-bottom:10px;">'
+    + '<span style="font-size:.82em;color:var(--text-sub);font-weight:700;">📝 単語テスト</span>'
+    + '<span style="font-size:.82em;font-weight:700;color:var(--primary);">' + progress + '</span>'
+    + '</div>'
+    + '<div style="background:var(--primary-light);border-radius:10px;padding:12px;margin-bottom:12px;text-align:center;">'
+    + '<div class="vocab-q">' + q.word + '</div>'
+    + '<button onclick="speak(\'' + q.word + '\')" style="background:var(--orange);color:#fff;border:none;padding:5px 16px;border-radius:50px;font-size:.8em;cursor:pointer;">🔊 発音を聞く</button>'
+    + '</div>'
+    + '<div class="vocab-choices">' + btnsHtml + '</div>'
+    + '</div>';
+}
+
+function checkVocabAnswer(btn, chosen, correct) {
+  var allBtns = btn.closest('.vocab-test-card').querySelectorAll('.vocab-choice');
+  [].forEach.call(allBtns, function(b) {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('correct');
+  });
+  if (chosen === correct) { btn.classList.add('correct'); _vCorrect++; }
+  else { btn.classList.add('wrong'); }
+  setTimeout(function() { _vIdx++; renderVocabQ(); }, chosen === correct ? 600 : 1400);
+}
+
+function retryVocabTest() {
+  _vIdx = 0; _vCorrect = 0;
+  _vq.sort(function(){ return Math.random() - 0.5; });
+  renderVocabQ();
+}
+
+function closeVocabTest() {
+  document.getElementById('vocab-test-area').style.display = 'none';
+}
+
+</script>
 <script src="gamba_support.js"></script>
 <script>init();</script>
 </body>
