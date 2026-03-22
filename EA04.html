@@ -278,14 +278,27 @@ function render() {
             </div>`;
         if(!isChallenging) { document.querySelectorAll(".blank").forEach(el => el.textContent = el.dataset.ans); }
     } else {
-        let html = `<div class="section"><h2>${currentMode}チャレンジ</h2>`;
-        MASTER_DATA[currentMode].forEach(q => {
-            const sentence = q.en.join(" ");
-            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${sentence}.')">🔊</button></p>
-                     <div>${q.en.map(w => `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join("")} .</div>`;
+        let modeTitle = currentMode==='ex'?'【例題】':currentMode==='prac'?'類題':'テスト';
+        let html = '<div class="section"><h2>' + modeTitle;
+        if(typeof toggleAnInfo === 'function') {
+            html += ' <button class="info-pop-btn" onclick="toggleAnInfo()">&#9888;&#65039; a / an の違い</button>';
+        }
+        html += '</h2>';
+        MASTER_DATA[currentMode].forEach(function(q) {
+            var sentence = q.en.join(' ');
+            html += '<div style="margin-bottom:16px;padding:14px;background:#f8faff;border:1.5px solid var(--border);border-radius:10px;">';
+            html += '<p style="font-weight:bold;margin-bottom:10px;">' + q.jp + '<button class="voice-btn" onclick="speak(\'' + sentence + '.\')">&#128266;</button></p>';
+            html += '<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">';
+            q.en.forEach(function(w) {
+                var disp = isChallenging ? '' : wrapWord(w);
+                html += '<span class="square" data-ans="' + w + '" onclick="handleTargetClick(this)">' + disp + '</span>';
+            });
+            html += '<span style="font-size:1.3em;font-weight:700;color:var(--text-sub);">.</span>';
+            html += '</div></div>';
         });
-        area.innerHTML = html + "</div>";
+        area.innerHTML = html + '</div>';
     }
+
 }
 
 function startChallenge() {
