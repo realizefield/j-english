@@ -124,6 +124,14 @@ tr:nth-child(even) td{background:var(--primary-light);}
 .check-box{background:var(--primary-light);border:1.5px solid var(--primary);border-radius:10px;padding:12px 16px;margin:10px 0;line-height:2;font-size:.93em;}
 .check-jp{font-weight:700;display:block;margin-bottom:4px;color:var(--primary);}
 
+
+/* ── コンテンツ内のリスト ── */
+.section ul{padding-left:18px;margin:10px 0;line-height:2;}
+.section li{font-size:.93em;margin-bottom:4px;}
+.section li strong{color:var(--primary);}
+.section p{font-size:.93em;line-height:1.9;margin-bottom:10px;}
+.section p strong{color:var(--primary);}
+
 </style>
 </head>
 <body>
@@ -288,21 +296,18 @@ function render() {
         if(!isChallenging) { document.querySelectorAll(".blank").forEach(el => el.textContent = el.dataset.ans); }
     } else {
         let modeTitle = currentMode==='ex'?'【例題】':currentMode==='prac'?'類題':'テスト';
-        let html = '<div class="section"><h2>' + modeTitle;
-        if(typeof toggleAnInfo === 'function') {
-            html += ' <button class="info-pop-btn" onclick="toggleAnInfo()">&#9888;&#65039; a / an の違い</button>';
-        }
-        html += '</h2>';
+        let html = '<div class="section"><h2>' + modeTitle + '</h2>';
         MASTER_DATA[currentMode].forEach(function(q) {
+            var mark = (q.type === 'q') ? '?' : '.';
             var sentence = q.en.join(' ');
             html += '<div style="margin-bottom:16px;padding:14px;background:#f8faff;border:1.5px solid var(--border);border-radius:10px;">';
-            html += '<p style="font-weight:bold;margin-bottom:10px;">' + q.jp + '<button class="voice-btn" onclick="speak(\'' + sentence + '.\')">&#128266;</button></p>';
+            html += '<p style="font-weight:bold;margin-bottom:10px;">' + q.jp + '<button class="voice-btn" onclick="speak(\'' + sentence + mark + '\')">&#128266;</button></p>';
             html += '<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">';
             q.en.forEach(function(w) {
                 var disp = isChallenging ? '' : wrapWord(w);
                 html += '<span class="square" data-ans="' + w + '" onclick="handleTargetClick(this)">' + disp + '</span>';
             });
-            html += '<span style="font-size:1.3em;font-weight:700;color:var(--text-sub);">.</span>';
+            html += '<span style="font-size:1.3em;font-weight:700;color:var(--text-sub);">' + mark + '</span>';
             html += '</div></div>';
         });
         area.innerHTML = html + '</div>';
