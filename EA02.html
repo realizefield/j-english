@@ -1,146 +1,177 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>爆速英文法｜EA02 This / That / It</title>
-    <style>
-        body { font-family: "Meiryo", sans-serif; background:#f4f6fb; margin:0; padding-bottom: 250px; }
-        header { background:#1e3a8a; color:white; padding:15px; text-align:center; }
-        .container { max-width:1200px; margin:auto; padding:16px; display: flex; gap: 20px; }
-        .main-content { flex: 2.5; }
-        .side-content { flex: 1; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; position: sticky; top: 20px; }
-        
-        .step-nav { display: flex; gap: 5px; margin-bottom: 15px; }
-        .step-btn { flex: 1; padding: 12px; border: none; background: #cbd5e1; cursor: pointer; font-weight: bold; border-radius: 5px; transition: 0.3s; }
-        .step-btn.active { background: #1e3a8a; color: white; border-bottom: 4px solid #fb923c; }
-        .step-btn.completed { background: #2563eb !important; color: white !important; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爆速英文法｜EA02 This / That / It</title>
+<style>
+:root{
+  --primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#2563eb;
+  --accent:#e8372d;--accent-light:#fff1f0;
+  --success:#16a34a;--success-light:#dcfce7;
+  --warn:#d97706;--warn-light:#fffbeb;
+  --orange:#f97316;--orange-light:#fff7ed;
+  --bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;
+  --text:#1e293b;--text-sub:#64748b;--radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:160px;}
 
-        .imp-word { color: #16a34a !important; font-weight: bold !important; text-decoration: underline; cursor: pointer; position: relative; display: inline-block; }
-        .tooltip { visibility: hidden; width: 220px; background: #333; color: #fff; text-align: center; padding: 10px; border-radius: 8px; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); z-index: 10000; font-size: 0.85rem; line-height: 1.4; opacity: 0; transition: 0.3s; pointer-events: none; }
-        .imp-word:hover .tooltip { visibility: visible; opacity: 1; }
-        .add-btn { background: #fb923c; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; margin-top: 5px; pointer-events: auto; }
+/* ヘッダー */
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(1.05em,3vw,1.4em);font-weight:700;margin:0;}
 
-        .section { background:white; border-radius:10px; padding:25px; margin-bottom:20px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
-        .check-box { background: #fff7ed; border: 2px dashed #fb923c; padding: 15px; border-radius: 10px; margin-top: 15px; }
-        .check-jp { font-size: 0.95rem; font-weight: bold; color: #334155; margin-bottom: 5px; display: block; }
-        
-        .blank { display: inline-block; min-width: 60px; height: 24px; border-bottom: 2px solid #2ecc71; vertical-align: middle; text-align: center; color: #2563eb; font-weight: bold; }
-        .is-active { background: #f0fff4; border: 2px solid #2ecc71; border-radius: 4px; }
-        .square { display: inline-block; width: 95px; height: 38px; border: 2px solid #2ecc71; border-radius: 4px; vertical-align: middle; margin: 4px; background: #fff; text-align: center; line-height: 38px; color: #2563eb; font-weight: bold; cursor: pointer; }
+/* ステップナビ */
+.step-nav{display:flex;gap:4px;padding:12px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;}
+.step-btn{flex:1;padding:10px 4px;border:none;background:#e2e8f0;cursor:pointer;font-weight:700;border-radius:8px;font-size:clamp(.75em,2vw,.88em);font-family:'BIZ UDPGothic',sans-serif;color:var(--text-sub);transition:.2s;white-space:nowrap;}
+.step-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(26,86,160,.3);}
+.step-btn.completed{background:var(--success);color:#fff;}
 
-        .voice-btn { background: #fb923c; color: white; border: none; padding: 4px 10px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; margin-left: 8px; }
+/* メインコンテナ */
+.g-container{max-width:760px;margin:0 auto;padding:16px 14px;}
 
-        .fixed-pool { position: fixed; bottom: 0; left: 0; width: 100%; background: #eef2ff; border-top: 3px solid #2563eb; padding: 15px; z-index: 999; text-align: center; display: none; }
-        .word-card { display: inline-block; background: white; border: 1px solid #c7d2fe; padding: 10px 18px; margin: 5px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .word-card.hidden { visibility: hidden; pointer-events: none; }
-        .word-card.selected { background: #ffffaa; border-color: #fb923c; }
+/* タイマーバー */
+.timer-bar{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.timer-display{font-size:clamp(1.8em,6vw,2.4em);font-weight:700;font-family:monospace;color:var(--accent);min-width:80px;text-align:center;}
+.btn-start{font-family:'BIZ UDPGothic',sans-serif;background:var(--accent);color:#fff;border:none;padding:12px 24px;border-radius:50px;font-weight:700;font-size:clamp(.95em,2.5vw,1.1em);cursor:pointer;box-shadow:0 3px 10px rgba(232,55,45,.3);transition:.2s;}
+.btn-start:hover{transform:translateY(-1px);}
 
-        .btn-start { background: #dc2626; color: white; padding: 15px; width: 100%; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
-        .record-list { list-style: none; padding: 0; margin-top: 10px; }
-        .record-list li { background: #f1f5f9; margin-bottom: 5px; padding: 8px; border-radius: 5px; display: flex; justify-content: space-between; font-family: monospace; }
-        .word-list { list-style: none; padding: 0; }
-        .word-list li { background: #f8fafc; margin-bottom: 5px; padding: 8px; border-radius: 5px; font-size: 0.9rem; border-left: 4px solid #16a34a; }
+/* 記録 */
+.record-section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:14px;}
+.record-title{font-size:.88em;font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px;margin-bottom:10px;}
+.record-list{list-style:none;padding:0;}
+.record-list li{display:flex;justify-content:space-between;padding:6px 4px;font-size:.88em;border-bottom:1px solid var(--border);}
+.record-list li:last-child{border-bottom:none;}
+.record-time{font-family:monospace;font-weight:700;color:var(--primary);}
+.btn-reset{font-family:'BIZ UDPGothic',sans-serif;background:#f1f5f9;color:var(--text-sub);border:none;padding:7px;width:100%;border-radius:8px;cursor:pointer;font-size:.82em;margin-top:8px;}
 
-        .back-to-index {
-            display: flex;
-            align-items: center;
-            padding: 6px 16px;
-            background: #eef2ff;
-            border-bottom: 1px solid #c7d2fe;
-        }
-        .btn-back-index {
-            font-family: "Meiryo", sans-serif;
-            font-size: 0.82rem;
-            font-weight: 700;
-            background: #fff;
-            color: #1e3a8a;
-            border: 1.5px solid #2563eb;
-            border-radius: 20px;
-            padding: 5px 14px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            transition: background 0.15s;
-        }
-        .btn-back-index:hover { background: #dbeafe; }
+/* 単語帳 */
+.vocab-section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:14px;}
+.vocab-title{font-size:.88em;font-weight:700;color:var(--success);border-bottom:2px solid var(--success);padding-bottom:6px;margin-bottom:10px;}
+.word-list{list-style:none;padding:0;}
+.word-list li{background:var(--success-light);margin-bottom:5px;padding:7px 10px;border-radius:7px;font-size:.88em;border-left:4px solid var(--success);}
 
-        /* ── コントロールボタン群 ── */
-        .challenge-controls {
-            display: none;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .challenge-controls.visible { display: flex; }
-        .btn-stop {
-            background: #64748b; color: white;
-            padding: 11px; width: 100%; border: none; border-radius: 8px;
-            font-weight: bold; cursor: pointer; font-size: 0.95rem;
-            font-family: "Meiryo", sans-serif;
-            transition: background 0.2s;
-        }
-        .btn-stop:hover { background: #475569; }
-        .btn-retry {
-            background: #f59e0b; color: white;
-            padding: 11px; width: 100%; border: none; border-radius: 8px;
-            font-weight: bold; cursor: pointer; font-size: 0.95rem;
-            font-family: "Meiryo", sans-serif;
-            transition: background 0.2s;
-        }
-        .btn-retry:hover { background: #d97706; }
-        .btn-show-ans {
-            background: #7c3aed; color: white;
-            padding: 11px; width: 100%; border: none; border-radius: 8px;
-            font-weight: bold; cursor: pointer; font-size: 0.95rem;
-            font-family: "Meiryo", sans-serif;
-            transition: background 0.2s;
-        }
-        .btn-show-ans:hover { background: #6d28d9; }
-    </style>
+/* セクション */
+.section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;}
+.section h2{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px;margin-bottom:14px;}
+
+/* 表 */
+.eng-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em;}
+.eng-table th{background:var(--primary);color:#fff;padding:10px;text-align:center;border:1px solid var(--border);}
+.eng-table td{border:1px solid var(--border);padding:10px;text-align:center;}
+.eng-table tr:nth-child(even) td{background:var(--primary-light);}
+.eng-table .td-left{text-align:left;padding-left:14px;}
+
+/* 空欄 */
+.blank{display:inline-block;min-width:54px;height:28px;border-bottom:2.5px solid var(--success);vertical-align:middle;text-align:center;color:var(--primary-mid);font-weight:700;cursor:pointer;transition:.2s;}
+.blank.is-active{background:var(--success-light);border:2px solid var(--success);border-radius:5px;}
+
+/* 単語カード（並べ替え） */
+.sentence-block{margin-bottom:18px;padding:14px;background:#f8faff;border:1.5px solid var(--border);border-radius:10px;}
+.sentence-jp{font-weight:700;font-size:.93em;margin-bottom:8px;color:var(--text);}
+.word-squares{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.square{display:inline-flex;align-items:center;justify-content:center;min-width:72px;height:38px;padding:0 10px;border:2px solid var(--success);border-radius:8px;background:#fff;color:var(--primary-mid);font-weight:700;cursor:pointer;font-size:.95em;transition:.15s;font-family:'BIZ UDPGothic',sans-serif;}
+.square:hover{background:var(--primary-light);}
+
+/* 音声ボタン */
+.voice-btn{background:var(--orange);color:#fff;border:none;padding:4px 10px;border-radius:50px;cursor:pointer;font-size:.78em;margin-left:6px;vertical-align:middle;}
+
+/* a/anポップボタン */
+.info-pop-btn{background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:.82em;font-weight:700;margin-left:8px;animation:blink-btn 1.8s infinite;}
+@keyframes blink-btn{0%,100%{transform:scale(1);}50%{transform:scale(1.08);background:#c0392b;}}
+
+/* 単語ツールチップ */
+.imp-word{color:var(--success);font-weight:700;text-decoration:underline;cursor:pointer;position:relative;display:inline-block;}
+.tooltip{visibility:hidden;width:200px;background:#1e293b;color:#fff;text-align:center;padding:8px;border-radius:8px;position:absolute;bottom:130%;left:50%;transform:translateX(-50%);z-index:10000;font-size:.82em;line-height:1.5;opacity:0;transition:.2s;pointer-events:auto;}
+.imp-word:hover .tooltip,.imp-word:focus-within .tooltip{visibility:visible;opacity:1;}
+.add-btn{background:var(--orange);color:#fff;border:none;padding:3px 8px;border-radius:4px;cursor:pointer;font-size:.72em;margin-top:4px;pointer-events:auto;}
+
+/* カード選択状態 */
+.word-card.selected{background:var(--warn-light);border-color:var(--warn);}
+.word-card.hidden{visibility:hidden;pointer-events:none;}
+
+/* 固定ワードプール */
+.fixed-pool{position:fixed;bottom:0;left:0;width:100%;background:#eef4ff;border-top:3px solid var(--primary);padding:12px 10px;z-index:999;text-align:center;display:none;}
+.word-card{display:inline-block;background:#fff;border:1.5px solid var(--border);padding:8px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.95em;box-shadow:0 1px 4px rgba(0,0,0,.08);font-family:'BIZ UDPGothic',sans-serif;}
+
+/* ナビボタン */
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:20px;}
+.btn-nav{font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;}
+.btn-home{background:#e0e7ff;color:#3730a3;}
+.btn-next{background:var(--primary);color:#fff;}
+
+/* 単語帳テスト */
+.btn-vocab-test{font-family:'BIZ UDPGothic',sans-serif;background:var(--success);color:#fff;border:none;padding:9px;width:100%;border-radius:8px;cursor:pointer;font-size:.88em;font-weight:700;margin-top:10px;}
+.vocab-test-card{background:var(--card);border:2px solid var(--primary);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
+.vocab-q{font-size:clamp(1.1em,4vw,1.5em);font-weight:700;text-align:center;color:var(--primary);margin-bottom:14px;padding:10px;background:var(--primary-light);border-radius:8px;}
+.vocab-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vocab-choice{font-family:'BIZ UDPGothic',sans-serif;background:#fff;border:2px solid var(--border);border-radius:8px;padding:10px 8px;font-size:.88em;font-weight:700;cursor:pointer;text-align:center;transition:.15s;}
+.vocab-choice:hover{background:var(--primary-light);border-color:var(--primary);}
+.vocab-choice.correct{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.vocab-choice.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.vocab-score{text-align:center;padding:16px;font-size:1.1em;font-weight:700;}
+.btn-vocab-retry{font-family:'BIZ UDPGothic',sans-serif;background:var(--primary);color:#fff;border:none;padding:10px 24px;border-radius:50px;cursor:pointer;font-size:.9em;font-weight:700;margin-top:10px;}
+
+</style>
 </head>
-<body onload="init()">
+<body>
 
-<header><h1>⚡️ 爆速英文法：EA02 This / That / It</h1></header>
-<div class="back-to-index"><a href="index.html" class="btn-back-index">⬅ 単元一覧に戻る</a></div>
-
-
-<div class="container">
-    <div class="main-content">
-        <div class="step-nav" id="step-nav-bar">
-            <button class="step-btn" id="btn-info" onclick="changeStep('info')">1.説明</button>
-            <button class="step-btn" id="btn-ex" onclick="changeStep('ex')">2.例題</button>
-            <button class="step-btn" id="btn-prac" onclick="changeStep('prac')">3.類題</button>
-            <button class="step-btn" id="btn-test" onclick="changeStep('test')">4.テスト</button>
-        </div>
-        <div id="display-area"></div>
-    </div>
-
-    <div class="side-content">
-        <div id="timer" style="font-size:3rem; text-align:center; color:red; font-weight:bold; font-family: monospace;">00:00</div>
-        <button id="start-btn" class="btn-start" onclick="startChallenge()">チャレンジ開始！</button>
-        <!-- コントロールボタン -->
-        <div class="challenge-controls" id="challenge-controls">
-            <button class="btn-stop" onclick="stopChallenge()">⏹ ストップ</button>
-            <button class="btn-retry" onclick="retryChallenge()">↩ 元に戻す</button>
-            <button class="btn-show-ans" onclick="showAnswers()">👁 答えを見る</button>
-        </div>
-        
-        <h3 style="border-bottom: 2px solid #dc2626; margin-top:20px; font-size:1.1rem;">⏱ タイムレコード</h3>
-        <ul id="record-list" class="record-list">
-            <li><span>1回目</span><span id="rec-0">--:--</span></li>
-            <li><span>2回目</span><span id="rec-1">--:--</span></li>
-            <li><span>3回目</span><span id="rec-2">--:--</span></li>
-            <li><span>4回目</span><span id="rec-3">--:--</span></li>
-            <li><span>5回目</span><span id="rec-4">--:--</span></li>
-        </ul>
-
-        <h3 style="border-bottom: 2px solid #16a34a; margin-top:30px; font-size:1.1rem;">📗 マイ単語帳</h3>
-        <ul id="my-vocab" class="word-list"></ul>
-    </div>
+<div class="page-header">
+  <div class="unit-code">EA02</div>
+  <h1>⚡ 爆速英文法：This / That / It</h1>
 </div>
 
+<nav class="step-nav">
+  <button class="step-btn" id="btn-info"  onclick="changeStep('info')">1.説明</button>
+  <button class="step-btn" id="btn-ex"    onclick="changeStep('ex')">2.例題</button>
+  <button class="step-btn" id="btn-prac"  onclick="changeStep('prac')">3.類題</button>
+  <button class="step-btn" id="btn-test"  onclick="changeStep('test')">4.テスト</button>
+</nav>
+
+<div class="g-container">
+
+  <!-- タイマーバー -->
+  <div class="timer-bar">
+    <div class="timer-display" id="timer">00:00</div>
+    <button id="start-btn" class="btn-start" onclick="startChallenge()">▶ チャレンジ開始！</button>
+  </div>
+
+  <!-- メイン表示エリア -->
+  <div id="display-area"></div>
+
+  <!-- タイムレコード -->
+  <div class="record-section">
+    <div class="record-title">⏱ タイムレコード</div>
+    <ul class="record-list">
+      <li><span>1回目</span><span class="record-time" id="rec-0">--:--</span></li>
+      <li><span>2回目</span><span class="record-time" id="rec-1">--:--</span></li>
+      <li><span>3回目</span><span class="record-time" id="rec-2">--:--</span></li>
+      <li><span>4回目</span><span class="record-time" id="rec-3">--:--</span></li>
+      <li><span>5回目</span><span class="record-time" id="rec-4">--:--</span></li>
+    </ul>
+    <button class="btn-reset" onclick="resetRecords()">記録をリセット</button>
+  </div>
+
+  <!-- 単語帳 -->
+  <div class="vocab-section">
+    <div class="vocab-title">📗 マイ単語帳</div>
+    <ul id="my-vocab" class="word-list"></ul>
+    <button class="btn-vocab-test" onclick="startVocabTest()" id="btn-vocab-test">📝 単語テストをする</button>
+  </div>
+
+  <!-- 単語テストエリア -->
+  <div id="vocab-test-area" style="display:none;"></div>
+
+  <!-- ナビ -->
+  <div class="nav-btns">
+    <a href="index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="EA03.html" class="btn-nav btn-next">EA03へ →</a>
+  </div>
+
+</div>
+
+<!-- 固定ワードプール -->
 <div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
 
 <script>
@@ -186,50 +217,30 @@ let completedSteps = { info: false, ex: false, prac: false, test: false };
 
 function init() { changeStep('info'); }
 
-function wrapWord(word) {
-    if (DICT[word]) {
-        return `<span class="imp-word">${word}<span class="tooltip">${DICT[word]}<br><button class="add-btn" onclick="event.stopPropagation(); addToVocab('${word}')">単語帳に追加</button></span></span>`;
-    }
-    return word;
+function wrapWord(word){
+  if(DICT[word]){
+    var d=DICT[word];
+    return '<span class="imp-word">'+word
+      +'<span class="tooltip">'+d
+      +'<br><button class="add-btn" onclick="event.stopPropagation();speak(\''+word+'\')">🔊 発音</button>'
+      +'<button class="add-btn" style="margin-left:4px;" onclick="event.stopPropagation();addToVocab(\''+word+'\')">📗 単語帳</button></span></span>';
+  }
+  return word;
 }
 
 function speak(text) {
-    if (!window.speechSynthesis) {
-        alert('このブラウザは音声読み上げに対応していません。');
-        return;
-    }
-    const synth = window.speechSynthesis;
-    synth.cancel(); // 前の読み上げをキャンセル
-    
     const uttr = new SpeechSynthesisUtterance(text);
-    uttr.lang = 'en-US';
-    uttr.rate = 0.8;
-    
-    function doSpeak() {
-        const voices = synth.getVoices();
-        if (voices.length > 0) {
-            const enVoice = voices.find(v => v.lang === 'en-US') || 
-                            voices.find(v => v.lang.startsWith('en'));
-            if (enVoice) uttr.voice = enVoice;
-        }
-        setTimeout(() => { try { synth.speak(uttr); } catch(e) {} }, 50);
-    }
-    
-    const voices = synth.getVoices();
-    if (voices.length === 0) {
-        synth.onvoiceschanged = () => { synth.onvoiceschanged = null; doSpeak(); };
-        setTimeout(() => { synth.onvoiceschanged = null; doSpeak(); }, 1500);
-    } else {
-        doSpeak();
-    }
+    uttr.lang = 'en-US'; uttr.rate = 0.8;
+    speechSynthesis.speak(uttr);
 }
 
-function addToVocab(word) {
-    const list = document.getElementById("my-vocab");
-    if (list.innerHTML.includes(word)) return;
-    const li = document.createElement("li");
-    li.innerHTML = `<strong>${word}</strong><br><small>${DICT[word]}</small>`;
-    list.appendChild(li);
+function addToVocab(word){
+  var list=document.getElementById('my-vocab');
+  if([].slice.call(list.querySelectorAll('strong')).some(function(s){return s.textContent===word;})) return;
+  var li=document.createElement('li');
+  var spk='<button onclick="speak(\''+word+'\')" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button>';
+  li.innerHTML='<strong>'+word+'</strong> '+spk+'<br><small style="color:var(--text-sub)">'+DICT[word]+'</small>';
+  list.appendChild(li);
 }
 
 function changeStep(mode) {
@@ -239,7 +250,6 @@ function changeStep(mode) {
     document.getElementById("timer").textContent = "00:00";
     document.getElementById("pool-fixed").style.display = "none";
     document.getElementById("start-btn").style.display = "block";
-    document.getElementById('challenge-controls').classList.remove('visible');
     document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
     document.getElementById("btn-" + mode).classList.add("active");
     render();
@@ -301,7 +311,6 @@ function startChallenge() {
     if(currentMode === 'info') document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
     document.getElementById("pool-fixed").style.display = "block";
     document.getElementById("start-btn").style.display = "none";
-    document.getElementById('challenge-controls').classList.add('visible');
     renderPool();
     startTime = Date.now();
     timerInterval = setInterval(() => {
@@ -363,47 +372,553 @@ function finishStep() {
     document.getElementById("start-btn").style.display = "block";
 }
 
-/* ── 追加コントロール関数 ── */
-function stopChallenge() {
-    if (!isChallenging) return;
-    clearInterval(timerInterval);
-    isChallenging = false;
-    document.getElementById('pool-fixed').style.display = 'none';
-    document.getElementById('start-btn').style.display = 'block';
-    document.getElementById('challenge-controls').classList.remove('visible');
-    // 入力済みの内容はそのまま残す（squareはテキスト、blankはテキスト）
-    // 空欄は空のまま、入力済みはそのまま
+function getMean(raw){
+  var parts=raw.split(')');
+  if(parts.length>=2) return parts[parts.length-1].trim();
+  return raw.trim();
+}
+// -- 単語帳テスト（1問ずつ） --
+var _vq = [], _vIdx = 0, _vCorrect = 0;
+
+function startVocabTest() {
+  var vocabItems = document.getElementById('my-vocab').children;
+  if (vocabItems.length === 0) {
+    alert('単語帳にまだ単語がありません。\n緑の単語をタップして単語帳に追加してください！');
+    return;
+  }
+  _vq = [];
+  [].forEach.call(vocabItems, function(li) {
+    var strong = li.querySelector('strong');
+    var small  = li.querySelector('small');
+    if (strong && small) {
+      var mean = small.textContent.trim();
+      // 先頭のカタカナ・記号部分を除去
+      var cleanMean = mean.replace(/^\S+\s+/, '').replace(/^\([^)]+\)\s*/, '').trim();
+      if (!cleanMean || cleanMean.length < 2) cleanMean = mean;
+      _vq.push({ word: strong.textContent.trim(), mean: cleanMean });
+    }
+  });
+  _vq.sort(function(){ return Math.random() - 0.5; });
+  _vIdx = 0; _vCorrect = 0;
+  document.getElementById('vocab-test-area').style.display = 'block';
+  document.getElementById('vocab-test-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  renderVocabQ();
 }
 
-function retryChallenge() {
-    // 答えをすべてクリアしてもう一度チャレンジ開始状態に戻す
-    clearInterval(timerInterval);
-    isChallenging = false;
-    selectedWord = null; selectedId = null;
-    // 画面を再描画してチャレンジを再開
-    startChallenge();
+function renderVocabQ() {
+  var area = document.getElementById('vocab-test-area');
+  if (_vIdx >= _vq.length) {
+    var msg = _vCorrect === _vq.length ? '🎉 全問正解！完璧です！'
+            : _vCorrect >= Math.ceil(_vq.length * 0.75) ? '👍 あと少し！もう一度！'
+            : '📖 復習してもう一度挑戦！';
+    var col = _vCorrect === _vq.length ? 'var(--success)' : 'var(--accent)';
+    area.innerHTML = '<div class="vocab-test-card"><div class="vocab-score" style="color:' + col + ';">'
+      + msg + '<br><span style="font-size:1.6em;">' + _vCorrect + ' / ' + _vq.length + '</span> 正解'
+      + '</div><div style="text-align:center;">'
+      + '<button class="btn-vocab-retry" onclick="retryVocabTest()">🔁 もう一度</button>'
+      + ' <button class="btn-vocab-retry" style="background:var(--text-sub);" onclick="closeVocabTest()">閉じる</button>'
+      + '</div></div>';
+    return;
+  }
+
+  var q = _vq[_vIdx];
+  var progress = (_vIdx + 1) + ' / ' + _vq.length;
+
+  // 不正解の選択肢をDICTから補充
+  var allMeans = Object.keys(DICT).map(function(w) {
+    var m = DICT[w].replace(/^\S+\s+/, '').replace(/^\([^)]+\)\s*/, '').trim();
+    return m || DICT[w];
+  }).filter(function(m, idx, arr) {
+    return m && m !== q.mean && arr.indexOf(m) === idx;
+  });
+  allMeans.sort(function(){ return Math.random() - 0.5; });
+  var choices = [q.mean].concat(allMeans.slice(0, 3));
+  choices.sort(function(){ return Math.random() - 0.5; });
+
+  var btnsHtml = choices.map(function(ch) {
+    var ec = ch.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    var em = q.mean.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<button class="vocab-choice" onclick="checkVocabAnswer(this,\'' + ec + '\',\'' + em + '\')">' + ch + '</button>';
+  }).join('');
+
+  area.innerHTML = '<div class="vocab-test-card">'
+    + '<div style="display:flex;justify-content:space-between;margin-bottom:10px;">'
+    + '<span style="font-size:.82em;color:var(--text-sub);font-weight:700;">📝 単語テスト</span>'
+    + '<span style="font-size:.82em;font-weight:700;color:var(--primary);">' + progress + '</span>'
+    + '</div>'
+    + '<div style="background:var(--primary-light);border-radius:10px;padding:12px;margin-bottom:12px;text-align:center;">'
+    + '<div class="vocab-q">' + q.word + '</div>'
+    + '<button onclick="speak(\'' + q.word + '\')" style="background:var(--orange);color:#fff;border:none;padding:5px 16px;border-radius:50px;font-size:.8em;cursor:pointer;">🔊 発音を聞く</button>'
+    + '</div>'
+    + '<div class="vocab-choices">' + btnsHtml + '</div>'
+    + '</div>';
 }
 
-function showAnswers() {
-    // タイマーを止めてすべての答えを表示
-    clearInterval(timerInterval);
+function checkVocabAnswer(btn, chosen, correct) {
+  var allBtns = btn.closest('.vocab-test-card').querySelectorAll('.vocab-choice');
+  [].forEach.call(allBtns, function(b) {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('correct');
+  });
+  if (chosen === correct) { btn.classList.add('correct'); _vCorrect++; }
+  else { btn.classList.add('wrong'); }
+  setTimeout(function() { _vIdx++; renderVocabQ(); }, chosen === correct ? 600 : 1400);
+}
+
+function retryVocabTest() {
+  _vIdx = 0; _vCorrect = 0;
+  _vq.sort(function(){ return Math.random() - 0.5; });
+  renderVocabQ();
+}
+
+function closeVocabTest() {
+  document.getElementById('vocab-test-area').style.display = 'none';
+}
+
+!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爆速英文法｜EA02 This / That / It</title>
+<style>
+:root{
+  --primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#2563eb;
+  --accent:#e8372d;--accent-light:#fff1f0;
+  --success:#16a34a;--success-light:#dcfce7;
+  --warn:#d97706;--warn-light:#fffbeb;
+  --orange:#f97316;--orange-light:#fff7ed;
+  --bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;
+  --text:#1e293b;--text-sub:#64748b;--radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:160px;}
+
+/* ヘッダー */
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(1.05em,3vw,1.4em);font-weight:700;margin:0;}
+
+/* ステップナビ */
+.step-nav{display:flex;gap:4px;padding:12px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;}
+.step-btn{flex:1;padding:10px 4px;border:none;background:#e2e8f0;cursor:pointer;font-weight:700;border-radius:8px;font-size:clamp(.75em,2vw,.88em);font-family:'BIZ UDPGothic',sans-serif;color:var(--text-sub);transition:.2s;white-space:nowrap;}
+.step-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(26,86,160,.3);}
+.step-btn.completed{background:var(--success);color:#fff;}
+
+/* メインコンテナ */
+.g-container{max-width:760px;margin:0 auto;padding:16px 14px;}
+
+/* タイマーバー */
+.timer-bar{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.timer-display{font-size:clamp(1.8em,6vw,2.4em);font-weight:700;font-family:monospace;color:var(--accent);min-width:80px;text-align:center;}
+.btn-start{font-family:'BIZ UDPGothic',sans-serif;background:var(--accent);color:#fff;border:none;padding:12px 24px;border-radius:50px;font-weight:700;font-size:clamp(.95em,2.5vw,1.1em);cursor:pointer;box-shadow:0 3px 10px rgba(232,55,45,.3);transition:.2s;}
+.btn-start:hover{transform:translateY(-1px);}
+
+/* 記録 */
+.record-section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:14px;}
+.record-title{font-size:.88em;font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px;margin-bottom:10px;}
+.record-list{list-style:none;padding:0;}
+.record-list li{display:flex;justify-content:space-between;padding:6px 4px;font-size:.88em;border-bottom:1px solid var(--border);}
+.record-list li:last-child{border-bottom:none;}
+.record-time{font-family:monospace;font-weight:700;color:var(--primary);}
+.btn-reset{font-family:'BIZ UDPGothic',sans-serif;background:#f1f5f9;color:var(--text-sub);border:none;padding:7px;width:100%;border-radius:8px;cursor:pointer;font-size:.82em;margin-top:8px;}
+
+/* 単語帳 */
+.vocab-section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:14px;}
+.vocab-title{font-size:.88em;font-weight:700;color:var(--success);border-bottom:2px solid var(--success);padding-bottom:6px;margin-bottom:10px;}
+.word-list{list-style:none;padding:0;}
+.word-list li{background:var(--success-light);margin-bottom:5px;padding:7px 10px;border-radius:7px;font-size:.88em;border-left:4px solid var(--success);}
+
+/* セクション */
+.section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;}
+.section h2{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px;margin-bottom:14px;}
+
+/* 表 */
+.eng-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em;}
+.eng-table th{background:var(--primary);color:#fff;padding:10px;text-align:center;border:1px solid var(--border);}
+.eng-table td{border:1px solid var(--border);padding:10px;text-align:center;}
+.eng-table tr:nth-child(even) td{background:var(--primary-light);}
+.eng-table .td-left{text-align:left;padding-left:14px;}
+
+/* 空欄 */
+.blank{display:inline-block;min-width:54px;height:28px;border-bottom:2.5px solid var(--success);vertical-align:middle;text-align:center;color:var(--primary-mid);font-weight:700;cursor:pointer;transition:.2s;}
+.blank.is-active{background:var(--success-light);border:2px solid var(--success);border-radius:5px;}
+
+/* 単語カード（並べ替え） */
+.sentence-block{margin-bottom:18px;padding:14px;background:#f8faff;border:1.5px solid var(--border);border-radius:10px;}
+.sentence-jp{font-weight:700;font-size:.93em;margin-bottom:8px;color:var(--text);}
+.word-squares{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.square{display:inline-flex;align-items:center;justify-content:center;min-width:72px;height:38px;padding:0 10px;border:2px solid var(--success);border-radius:8px;background:#fff;color:var(--primary-mid);font-weight:700;cursor:pointer;font-size:.95em;transition:.15s;font-family:'BIZ UDPGothic',sans-serif;}
+.square:hover{background:var(--primary-light);}
+
+/* 音声ボタン */
+.voice-btn{background:var(--orange);color:#fff;border:none;padding:4px 10px;border-radius:50px;cursor:pointer;font-size:.78em;margin-left:6px;vertical-align:middle;}
+
+/* a/anポップボタン */
+.info-pop-btn{background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:.82em;font-weight:700;margin-left:8px;animation:blink-btn 1.8s infinite;}
+@keyframes blink-btn{0%,100%{transform:scale(1);}50%{transform:scale(1.08);background:#c0392b;}}
+
+/* 単語ツールチップ */
+.imp-word{color:var(--success);font-weight:700;text-decoration:underline;cursor:pointer;position:relative;display:inline-block;}
+.tooltip{visibility:hidden;width:200px;background:#1e293b;color:#fff;text-align:center;padding:8px;border-radius:8px;position:absolute;bottom:130%;left:50%;transform:translateX(-50%);z-index:10000;font-size:.82em;line-height:1.5;opacity:0;transition:.2s;pointer-events:auto;}
+.imp-word:hover .tooltip,.imp-word:focus-within .tooltip{visibility:visible;opacity:1;}
+.add-btn{background:var(--orange);color:#fff;border:none;padding:3px 8px;border-radius:4px;cursor:pointer;font-size:.72em;margin-top:4px;pointer-events:auto;}
+
+/* カード選択状態 */
+.word-card.selected{background:var(--warn-light);border-color:var(--warn);}
+.word-card.hidden{visibility:hidden;pointer-events:none;}
+
+/* 固定ワードプール */
+.fixed-pool{position:fixed;bottom:0;left:0;width:100%;background:#eef4ff;border-top:3px solid var(--primary);padding:12px 10px;z-index:999;text-align:center;display:none;}
+.word-card{display:inline-block;background:#fff;border:1.5px solid var(--border);padding:8px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.95em;box-shadow:0 1px 4px rgba(0,0,0,.08);font-family:'BIZ UDPGothic',sans-serif;}
+
+/* ナビボタン */
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:20px;}
+.btn-nav{font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;}
+.btn-home{background:#e0e7ff;color:#3730a3;}
+.btn-next{background:var(--primary);color:#fff;}
+
+/* 単語帳テスト */
+.btn-vocab-test{font-family:'BIZ UDPGothic',sans-serif;background:var(--success);color:#fff;border:none;padding:9px;width:100%;border-radius:8px;cursor:pointer;font-size:.88em;font-weight:700;margin-top:10px;}
+.vocab-test-card{background:var(--card);border:2px solid var(--primary);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
+.vocab-q{font-size:clamp(1.1em,4vw,1.5em);font-weight:700;text-align:center;color:var(--primary);margin-bottom:14px;padding:10px;background:var(--primary-light);border-radius:8px;}
+.vocab-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vocab-choice{font-family:'BIZ UDPGothic',sans-serif;background:#fff;border:2px solid var(--border);border-radius:8px;padding:10px 8px;font-size:.88em;font-weight:700;cursor:pointer;text-align:center;transition:.15s;}
+.vocab-choice:hover{background:var(--primary-light);border-color:var(--primary);}
+.vocab-choice.correct{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.vocab-choice.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.vocab-score{text-align:center;padding:16px;font-size:1.1em;font-weight:700;}
+.btn-vocab-retry{font-family:'BIZ UDPGothic',sans-serif;background:var(--primary);color:#fff;border:none;padding:10px 24px;border-radius:50px;cursor:pointer;font-size:.9em;font-weight:700;margin-top:10px;}
+
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">EA02</div>
+  <h1>⚡ 爆速英文法：This / That / It</h1>
+</div>
+
+<nav class="step-nav">
+  <button class="step-btn" id="btn-info"  onclick="changeStep('info')">1.説明</button>
+  <button class="step-btn" id="btn-ex"    onclick="changeStep('ex')">2.例題</button>
+  <button class="step-btn" id="btn-prac"  onclick="changeStep('prac')">3.類題</button>
+  <button class="step-btn" id="btn-test"  onclick="changeStep('test')">4.テスト</button>
+</nav>
+
+<div class="g-container">
+
+  <!-- タイマーバー -->
+  <div class="timer-bar">
+    <div class="timer-display" id="timer">00:00</div>
+    <button id="start-btn" class="btn-start" onclick="startChallenge()">▶ チャレンジ開始！</button>
+  </div>
+
+  <!-- メイン表示エリア -->
+  <div id="display-area"></div>
+
+  <!-- タイムレコード -->
+  <div class="record-section">
+    <div class="record-title">⏱ タイムレコード</div>
+    <ul class="record-list">
+      <li><span>1回目</span><span class="record-time" id="rec-0">--:--</span></li>
+      <li><span>2回目</span><span class="record-time" id="rec-1">--:--</span></li>
+      <li><span>3回目</span><span class="record-time" id="rec-2">--:--</span></li>
+      <li><span>4回目</span><span class="record-time" id="rec-3">--:--</span></li>
+      <li><span>5回目</span><span class="record-time" id="rec-4">--:--</span></li>
+    </ul>
+    <button class="btn-reset" onclick="resetRecords()">記録をリセット</button>
+  </div>
+
+  <!-- 単語帳 -->
+  <div class="vocab-section">
+    <div class="vocab-title">📗 マイ単語帳</div>
+    <ul id="my-vocab" class="word-list"></ul>
+    <button class="btn-vocab-test" onclick="startVocabTest()" id="btn-vocab-test">📝 単語テストをする</button>
+  </div>
+
+  <!-- 単語テストエリア -->
+  <div id="vocab-test-area" style="display:none;"></div>
+
+  <!-- ナビ -->
+  <div class="nav-btns">
+    <a href="index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="EA03.html" class="btn-nav btn-next">EA03へ →</a>
+  </div>
+
+</div>
+
+<!-- 固定ワードプール -->
+<div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
+
+<script>
+const DICT = {
+    "This": "ディ【ス】 (代)これは",
+    "That": "ザ【ット】 (代)あれは",
+    "apple": "【ア】ップル (名)リンゴ",
+    "box": "ボ【ックス】 (名)箱",
+    "new": "ニ【ュー】 (形)新しい",
+    "old": "オ【ールド】 (形)古い",
+    "big": "ビ【ッグ】 (形)大きい",
+    "orange": "【オ】レンジ (名)オレンジ",
+    "egg": "【エ】ッグ (名)卵",
+    "it": "イ【ット】 (代)それは",
+    "desk": "【デ】スク (名)机",
+    "house": "【ハ】ウス (名)家"
+};
+
+const MASTER_DATA = {
+    ex: [
+        { jp: "これはリンゴです。", en: ["This", "is", "an", "apple"] },
+        { jp: "あれは新しいペンです。", en: ["That", "is", "a", "new", "pen"] },
+        { jp: "それは大きな箱です。", en: ["It", "is", "a", "big", "box"] },
+        { jp: "あれは古い机です。", en: ["That", "is", "an", "old", "desk"] }
+    ],
+    prac: [
+        { jp: "これは卵です。", en: ["This", "is", "an", "egg"] },
+        { jp: "あれは古いリンゴです。", en: ["That", "is", "an", "old", "apple"] },
+        { jp: "それは新しい箱です。", en: ["It", "is", "a", "new", "box"] },
+        { jp: "あれは大きなオレンジです。", en: ["That", "is", "a", "big", "orange"] }
+    ],
+    test: [
+        { jp: "あれはオレンジです。", en: ["That", "is", "an", "orange"] },
+        { jp: "これは古い箱です。", en: ["This", "is", "an", "old", "box"] },
+        { jp: "それは新しい机です。", en: ["It", "is", "a", "new", "desk"] },
+        { jp: "あれは大きな卵です。", en: ["That", "is", "a", "big", "egg"] }
+    ]
+};
+
+let currentMode = 'info', isChallenging = false, selectedWord = null, selectedId = null, startTime, timerInterval;
+let records = [null, null, null, null, null];
+let completedSteps = { info: false, ex: false, prac: false, test: false };
+
+function init() { changeStep('info'); }
+
+function wrapWord(word){
+  if(DICT[word]){
+    var d=DICT[word];
+    return '<span class="imp-word">'+word
+      +'<span class="tooltip">'+d
+      +'<br><button class="add-btn" onclick="event.stopPropagation();speak(\''+word+'\')">🔊 発音</button>'
+      +'<button class="add-btn" style="margin-left:4px;" onclick="event.stopPropagation();addToVocab(\''+word+'\')">📗 単語帳</button></span></span>';
+  }
+  return word;
+}
+
+function speak(text) {
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'en-US'; uttr.rate = 0.8;
+    speechSynthesis.speak(uttr);
+}
+
+function addToVocab(word){
+  var list=document.getElementById('my-vocab');
+  if([].slice.call(list.querySelectorAll('strong')).some(function(s){return s.textContent===word;})) return;
+  var li=document.createElement('li');
+  var spk='<button onclick="speak(\''+word+'\')" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button>';
+  li.innerHTML='<strong>'+word+'</strong> '+spk+'<br><small style="color:var(--text-sub)">'+DICT[word]+'</small>';
+  list.appendChild(li);
+}
+
+function changeStep(mode) {
+    currentMode = mode;
     isChallenging = false;
-    document.getElementById('pool-fixed').style.display = 'none';
-    document.getElementById('start-btn').style.display = 'block';
-    document.getElementById('challenge-controls').classList.remove('visible');
-    
-    // すべての空欄・マス目に正解を表示
-    document.querySelectorAll('.blank, .square').forEach(el => {
-        if (el.dataset.ans && el.textContent === '') {
-            el.textContent = el.dataset.ans;
-            el.style.color = '#7c3aed';
-            el.style.background = '#ede9fe';
-        }
+    clearInterval(timerInterval);
+    document.getElementById("timer").textContent = "00:00";
+    document.getElementById("pool-fixed").style.display = "none";
+    document.getElementById("start-btn").style.display = "block";
+    document.querySelectorAll(".step-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("btn-" + mode).classList.add("active");
+    render();
+}
+
+function render() {
+    const area = document.getElementById("display-area");
+    if(currentMode === 'info') {
+        area.innerHTML = `
+            <div class="section">
+                <h2>1. これ・あれ・それは？</h2>
+                <p>自分からの距離で言葉を使い分けます。</p>
+                <p>👉 <strong>This</strong> (近くにある「これ」)</p>
+                <p>👉 <strong>That</strong> (離れた場所の「あれ」)</p>
+                <p>👉 <strong>It</strong> (さっき話した「それ」)</p>
+                
+                <div class="check-box">
+                    <span class="check-jp">あれは家（house）です。<button class="voice-btn" onclick="speak('That is a house.')">🔊</button></span>
+                    <span class="blank" data-ans="That" onclick="handleTargetClick(this)">That</span> is a house.
+                </div>
+                <div class="check-box">
+                    <span class="check-jp">それは机（desk）です。<button class="voice-btn" onclick="speak('It is a desk.')">🔊</button></span>
+                    <span class="blank" data-ans="It" onclick="handleTargetClick(this)">It</span> is a desk.
+                </div>
+            </div>
+            <div class="section">
+                <h2>2. 「an」の使い分け</h2>
+                <p>次の単語が「アイウエオ」の音で始まる時は <strong>an</strong> です。</p>
+                <p>🍎 an apple / 🥚 an egg</p>
+                <div class="check-box">
+                    <span class="check-jp">これはオレンジです。<button class="voice-btn" onclick="speak('This is an orange.')">🔊</button></span>
+                    This is <span class="blank" data-ans="an" onclick="handleTargetClick(this)">an</span> orange.
+                </div>
+            </div>
+            <div class="section">
+                <h2>3. 形容詞の順番</h2>
+                <p><strong>a/an ＋ 形容詞 ＋ 名詞</strong> の順に並べます。</p>
+                <p>例：a <span style="color:red">new</span> pen / a <span style="color:red">big</span> box</p>
+                <div class="check-box">
+                    <span class="check-jp">あれは大きな箱です。<button class="voice-btn" onclick="speak('That is a big box.')">🔊</button></span>
+                    That is a <span class="blank" data-ans="big" onclick="handleTargetClick(this)">big</span> box.
+                </div>
+            </div>`;
+        if(!isChallenging) { document.querySelectorAll(".blank").forEach(el => el.textContent = el.dataset.ans); }
+    } else {
+        let html = `<div class="section"><h2>${currentMode}チャレンジ</h2>`;
+        MASTER_DATA[currentMode].forEach(q => {
+            const sentence = q.en.join(" ");
+            html += `<p style="margin-top:20px; font-weight:bold;">${q.jp}<button class="voice-btn" onclick="speak('${sentence}.')">🔊</button></p>
+                     <div>${q.en.map(w => `<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join("")} .</div>`;
+        });
+        area.innerHTML = html + "</div>";
+    }
+}
+
+function startChallenge() {
+    isChallenging = true;
+    render();
+    if(currentMode === 'info') document.querySelectorAll(".blank").forEach(el => { el.textContent = ""; el.classList.add("is-active"); });
+    document.getElementById("pool-fixed").style.display = "block";
+    document.getElementById("start-btn").style.display = "none";
+    renderPool();
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const d = Math.floor((Date.now()-startTime)/1000);
+        document.getElementById("timer").textContent = String(Math.floor(d/60)).padStart(2,'0')+":"+String(d%60).padStart(2,'0');
+    }, 100);
+}
+
+function renderPool() {
+    const pool = document.getElementById("word-pool");
+    pool.innerHTML = "";
+    let words = (currentMode === 'info') ? ["That","It","an","big"] : [];
+    if(currentMode !== 'info') MASTER_DATA[currentMode].forEach(q => words = words.concat(q.en));
+    words.sort(() => Math.random() - 0.5).forEach((w, i) => {
+        const card = document.createElement("div");
+        card.className = "word-card"; card.id = "c-" + i;
+        card.innerHTML = wrapWord(w);
+        card.addEventListener('click', function(e) {
+            if(e.target.tagName === 'BUTTON') return;
+            selectedWord = w; selectedId = card.id;
+            document.querySelectorAll(".word-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+        });
+        pool.appendChild(card);
     });
-    // プール内の対応カードも非表示に
-    document.querySelectorAll('.word-card').forEach(c => c.classList.add('hidden'));
+}
+
+function handleTargetClick(el) {
+    if (!isChallenging || !selectedWord || el.textContent !== "") return;
+    if (selectedWord === el.dataset.ans) {
+        el.textContent = selectedWord;
+        el.classList.remove("is-active");
+        document.getElementById(selectedId).classList.add("hidden");
+        selectedWord = null;
+        if([...document.querySelectorAll(".blank, .square")].every(s => s.textContent !== "")) finishStep();
+    } else { alert("もうチョイ！"); }
+}
+
+function finishStep() {
+    clearInterval(timerInterval);
+    const finalTime = document.getElementById("timer").textContent;
+    alert("合格！");
+    completedSteps[currentMode] = true;
+    document.getElementById("btn-" + currentMode).classList.add("completed");
+    if (currentMode !== 'info') {
+        for(let i=0; i<5; i++) {
+            if(records[i] === null) {
+                records[i] = finalTime;
+                document.getElementById("rec-" + i).textContent = finalTime;
+                break;
+            }
+        }
+    }
+    // テスト完了時に進捗保存
+    if (currentMode === 'test') {
+        localStorage.setItem('gamba_prog_EA02', 'pass');
+    }
+    isChallenging = false;
+    document.getElementById("start-btn").style.display = "block";
+}
+
+function getMean(raw){
+  var parts=raw.split(')');
+  if(parts.length>=2) return parts[parts.length-1].trim();
+  return raw.trim();
+}
+let vtQ=[],vtIdx=0,vtOk=0;
+function startVocabTest(){
+  var items=[].slice.call(document.getElementById('my-vocab').children);
+  var area=document.getElementById('vocab-test-area');
+  if(items.length===0){alert('単語帳にまだ単語がありません。\n緑の単語をタップして追加してください！');return;}
+  vtQ=items.map(function(li){
+    var w=li.querySelector('strong')?li.querySelector('strong').textContent.trim():'';
+    var raw=li.querySelector('small')?li.querySelector('small').textContent.trim():'';
+    return{word:w,mean:getMean(raw)};
+  }).filter(function(v){return v.word&&v.mean;});
+  vtQ.sort(function(){return Math.random()-.5;});
+  vtIdx=0;vtOk=0;
+  area.style.display='block';
+  renderVtQ();
+  area.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderVtQ(){
+  var area=document.getElementById('vocab-test-area');
+  var total=vtQ.length;
+  if(vtIdx>=total){renderVtEnd();return;}
+  var q=vtQ[vtIdx];
+  var pool=Object.values(DICT).map(getMean).filter(function(m){return m&&m!==q.mean;});
+  pool.sort(function(){return Math.random()-.5;});
+  var choices=[q.mean].concat(pool.slice(0,3));
+  choices.sort(function(){return Math.random()-.5;});
+  var pct=Math.round(vtIdx/total*100);
+  var btns=choices.map(function(ch){
+    var cj=JSON.stringify(ch);
+    var mj=JSON.stringify(q.mean);
+    var wj=JSON.stringify(q.word);
+    return '<button class="vocab-choice" onclick="checkVtA(this,'+cj+','+mj+','+wj+')">'+ch+'</button>';
+  }).join('');
+  area.innerHTML='<div class="vocab-test-card">'
+    +'<div style="font-size:.82em;color:var(--text-sub);font-weight:700;margin-bottom:10px;">'
+    +'📝 単語テスト '+(vtIdx+1)+'/'+total+'問'
+    +'<div style="background:var(--border);border-radius:4px;height:5px;margin-top:6px;">'
+    +'<div style="background:var(--primary);height:5px;border-radius:4px;width:'+pct+'%;"></div>'
+    +'</div></div>'
+    +'<div class="vocab-q">'+q.word
+    +' <button onclick="speak(''+q.word+'')" style="background:var(--orange);color:#fff;border:none;padding:3px 10px;border-radius:50px;font-size:.72em;cursor:pointer;vertical-align:middle;">🔊</button>'
+    +'</div>'
+    +'<div class="vocab-choices">'+btns+'</div>'
+    +'</div>';
+}
+function checkVtA(btn,chosen,correct,word){
+  var allB=btn.parentElement.querySelectorAll('.vocab-choice');
+  allB.forEach(function(b){b.disabled=true;if(b.textContent.trim()===correct)b.classList.add('correct');});
+  var ok=chosen.trim()===correct.trim();
+  if(ok){btn.classList.add('correct');vtOk++;}else{btn.classList.add('wrong');}
+  setTimeout(function(){vtIdx++;renderVtQ();},ok?700:1400);
+}
+function renderVtEnd(){
+  var total=vtQ.length;
+  var area=document.getElementById('vocab-test-area');
+  var msg=vtOk===total?'🎉 全問正解！':vtOk>=total*.75?'👍 あと少し！':'📖 もう一度復習しよう！';
+  var col=vtOk===total?'var(--success)':'var(--accent)';
+  area.innerHTML='<div class="vocab-test-card" style="text-align:center;">'
+    +'<div class="vocab-score" style="color:'+col+';">'+msg+'<br>'+vtOk+'/'+total+' 正解</div>'
+    +'<button class="btn-vocab-retry" onclick="startVocabTest()">🔁 もう一度</button> '
+    +'<button class="btn-vocab-retry" style="background:var(--text-sub);" onclick="document.getElementById('vocab-test-area').style.display='none'">✕ 閉じる</button>'
+    +'</div>';
 }
 
 </script>
+<script src="gamba_support.js"></script>
+<script>init();</script>
 </body>
 </html>
