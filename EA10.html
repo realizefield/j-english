@@ -136,11 +136,11 @@ tr:nth-child(even) td{background:var(--primary-light);}
 /* ── EA10専用スタイル ── */
 .rule-card{border-left:5px solid var(--accent);background:var(--accent-light);padding:14px 18px;border-radius:0 10px 10px 0;margin:12px 0;font-size:.92em;line-height:1.9;}
 .blue-card{border-left:5px solid var(--primary);background:var(--primary-light);padding:14px 18px;border-radius:0 10px 10px 0;margin:12px 0;font-size:.92em;line-height:1.9;}
-.task-box{background:#f8fafc;border:1.5px solid var(--border);padding:14px 16px;border-radius:10px;margin:12px 0;font-size:.9em;line-height:2.2;}
+.task-box{background:#f8fafc;border:1.5px solid var(--border);padding:18px 20px;border-radius:10px;margin:12px 0;font-size:.92em;line-height:2.8;}
 .example-intro{background:var(--warn-light);border:1.5px solid var(--warn);padding:12px 16px;border-radius:10px;margin:10px 0;font-size:.9em;line-height:1.9;}
 .hint-text{font-size:.8em;color:var(--accent);font-weight:700;}
-.ruby-text{font-size:.72em;color:var(--primary);font-weight:700;margin-left:4px;}
-.q-item{border-bottom:1px dashed var(--border);padding:12px 0;font-size:.92em;line-height:2;}
+.ruby-text{font-size:.72em;color:var(--primary);font-weight:700;margin-left:4px;vertical-align:super;}
+.q-item{border-bottom:1px dashed var(--border);padding:16px 0;font-size:.95em;line-height:2.5;}
 .jp-text{display:block;color:var(--text-sub);font-size:.88em;margin-bottom:4px;}
 .fixed-mark{font-weight:700;font-size:1.2em;margin-left:2px;vertical-align:middle;color:var(--text-sub);}
 .line-break{display:block;height:8px;}
@@ -356,36 +356,36 @@ function render() {
                     <strong>【確認問題】( )内の指示に従って書き換えなさい。</strong><br>
                     <div class="q-item">
                         <span class="jp-text">1. Ken plays ${wrapWord("soccer")}. (否定文に：ケンはサッカーをしません。)</span>
-                        → Ken <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="play">play</span> soccer. <button class="voice-btn" onclick="speak('Ken doesn\'t play soccer.')">🔊</button>
+                        → Ken <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="play">play</span> soccer. <button class="voice-btn" onclick="speak("Ken doesn't play soccer.")">🔊</button>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">2. She likes ${wrapWord("tennis")}. (疑問文に：彼女はテニスが好きですか？)</span>
-                        → <span class="blank" data-ans="Does">Does</span> she <span class="blank" data-ans="like">like</span> tennis? <button class="voice-btn" onclick="speak('Does she like tennis?')">🔊</button>
+                        → <span class="blank" data-ans="Does">Does</span> she <span class="blank" data-ans="like">like</span> tennis? <button class="voice-btn" onclick="speak("Does she like tennis?")">🔊</button>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">3. Tom studies ${wrapWord("math")}. (疑問文に：トムは数学を勉強しますか？)</span>
-                        → <span class="blank" data-ans="Does">Does</span> Tom <span class="blank" data-ans="study">study</span> math? <button class="voice-btn" onclick="speak('Does Tom study math?')">🔊</button>
+                        → <span class="blank" data-ans="Does">Does</span> Tom <span class="blank" data-ans="study">study</span> math? <button class="voice-btn" onclick="speak("Does Tom study math?")">🔊</button>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">4. Does he speak English? (はいで答える：はい、彼は話します。)</span>
-                        → Yes, he <span class="blank" data-ans="does">does</span>. <button class="voice-btn" onclick="speak('Yes, he does.')">🔊</button>
+                        → Yes, he <span class="blank" data-ans="does">does</span>. <button class="voice-btn" onclick="speak("Yes, he does.")">🔊</button>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">5. My father uses a ${wrapWord("computer")}. (否定文に：私の父はコンピュータを使いません。)</span>
-                        → My father <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="use">use</span> a computer. <button class="voice-btn" onclick="speak('My father doesn\'t use a computer.')">🔊</button>
+                        → My father <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="use">use</span> a computer. <button class="voice-btn" onclick="speak("My father doesn't use a computer.")">🔊</button>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">6. Does she teach music? (いいえで答える：いいえ、彼女は教えません。)</span>
-                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak('No, she doesn\'t.')">🔊</button>
+                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak("No, she doesn't.")">🔊</button>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">7. Tom studies ${wrapWord("Japanese")} ${wrapWord("every")} ${wrapWord("day")}. (否定文に：トムは毎日日本語を勉強しません。)</span>
-                        → Tom <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="study">study</span> Japanese every day. <button class="voice-btn" onclick="speak('Tom doesn\'t study Japanese every day.')">🔊</button>
+                        → Tom <span class="blank" data-ans="doesn't">doesn't</span> <span class="blank" data-ans="study">study</span> Japanese every day. <button class="voice-btn" onclick="speak("Tom doesn't study Japanese every day.")">🔊</button>
                         <span style="color:red; font-size:0.85rem; display:block;">※Tomの繰り返しをさけて答えるときは he を使います。</span>
                     </div>
                     <div class="q-item">
                         <span class="jp-text">8. Does Mary play the piano? (いいえで答える：いいえ、メアリー（彼女）は弾きません。)</span>
-                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak('No, she doesn\'t.')">🔊</button>
+                        → No, she <span class="blank" data-ans="doesn't">doesn't</span>. <button class="voice-btn" onclick="speak("No, she doesn't.")">🔊</button>
                         <span style="color:red; font-size:0.85rem; display:block;">※Maryの繰り返しをさけて答えには she を使います。</span>
                     </div>
                 </div>
