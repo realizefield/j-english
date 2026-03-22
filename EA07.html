@@ -127,28 +127,22 @@ tr:nth-child(even) td{background:var(--primary-light);}
 </style>
 </head>
 <body>
-
 <div class="page-header">
   <div class="unit-code">EA07</div>
   <h1>⚡ 爆速英文法：一般動詞(2) 否定・疑問</h1>
 </div>
-
 <nav class="step-nav">
   <button class="step-btn" id="btn-info"  onclick="changeStep('info')">1.説明</button>
   <button class="step-btn" id="btn-ex"    onclick="changeStep('ex')">2.例題</button>
   <button class="step-btn" id="btn-prac"  onclick="changeStep('prac')">3.類題</button>
   <button class="step-btn" id="btn-test"  onclick="changeStep('test')">4.テスト</button>
 </nav>
-
 <div class="g-container">
-
   <div class="timer-bar">
     <div class="timer-display" id="timer">00:00</div>
     <button id="start-btn" class="btn-start" onclick="startChallenge()">▶ チャレンジ開始！</button>
   </div>
-
   <div id="display-area"></div>
-
   <div class="record-section">
     <div class="record-title">⏱ タイムレコード</div>
     <ul class="record-list">
@@ -160,24 +154,18 @@ tr:nth-child(even) td{background:var(--primary-light);}
     </ul>
     <button class="btn-reset" onclick="resetRecords()">記録をリセット</button>
   </div>
-
   <div class="vocab-section">
     <div class="vocab-title">📗 マイ単語帳</div>
     <ul id="my-vocab" class="word-list"></ul>
-    <button class="btn-vocab-test" onclick="startVocabTest()" id="btn-vocab-test">📝 単語テストをする</button>
+    <button class="btn-vocab-test" onclick="startVocabTest()">📝 単語テストをする</button>
   </div>
-
   <div id="vocab-test-area" style="display:none;"></div>
-
   <div class="nav-btns">
     <a href="index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
     <a href="EA08.html" class="btn-nav btn-next">EA08へ →</a>
   </div>
-
 </div>
-
 <div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
-
 <script>
 const DICT = {
     "don't": "ド【ウ】ント (短縮)～しない (do notの略)",
@@ -323,6 +311,7 @@ function render() {
 
 }
 
+
 function startChallenge() {
     isChallenging = true;
     render();
@@ -370,9 +359,7 @@ function handleTargetClick(el) {
 function finishStep() {
     clearInterval(timerInterval);
     const finalTime = document.getElementById("timer").textContent;
-    alert("🎉 合格！　タイム："+finalTime+"
-
-EA08に進もう！");
+    alert("合格！");
     completedSteps[currentMode] = true;
     document.getElementById("btn-" + currentMode).classList.add("completed");
     if (currentMode !== 'info') {
