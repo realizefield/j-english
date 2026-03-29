@@ -137,7 +137,7 @@ body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:
     <div class="progress-area">
       <div class="progress-row">
         <span>学習進捗</span>
-        <span id="prog-text">0 / 10 単元合格</span>
+        <span id="prog-text">0 / 16 単元合格</span>
       </div>
       <div class="progress-bar-bg">
         <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
@@ -151,24 +151,35 @@ body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:
       📌 単元をタップして「1.説明 → 2.例題 → 3.類題 → 4.テスト」の順に学習しよう！
     </div>
 
-    <div class="section-title">⚡️ EA　英文法の基礎</div>
-    <div class="unit-list" id="list-ea"></div>
+    <div class="section-title">⚡️ EA01〜10　英文法の基礎</div>
+    <div class="unit-list" id="list-ea-a"></div>
+
+    <div class="section-title">📖 EA11〜16　疑問詞・命令文・進行形・助動詞</div>
+    <div class="unit-list" id="list-ea-b"></div>
   </main>
 </div>
 
 <script>
-/* ── 単元マスター ── */
+/* ── 単元マスター（EA01〜EA16） ── */
 const UNITS = [
-  {code:'EA01', name:'be動詞（1）',           sub:'am / is / are の使い分け',        path:'EA01.html'},
-  {code:'EA02', name:'This / That / It',      sub:'これ・あれ・それ の使い分け',       path:'EA02.html'},
-  {code:'EA03', name:'所有格 my / your',       sub:'私の・あなたの を表す',            path:'EA03.html'},
-  {code:'EA04', name:'be動詞の否定文',          sub:'～ではありません（not の使い方）',  path:'EA04.html'},
-  {code:'EA05', name:'be動詞の疑問文',          sub:'～ですか？（Are you ～?）',        path:'EA05.html'},
-  {code:'EA06', name:'一般動詞（1）肯定文',     sub:'動作を表す動詞の基本',             path:'EA06.html'},
-  {code:'EA07', name:'一般動詞（2）否定・疑問', sub:'don\'t / Do you ～?',             path:'EA07.html'},
-  {code:'EA08', name:'代名詞の目的格',          sub:'me / you / him / her …',         path:'EA08.html'},
-  {code:'EA09', name:'名詞の複数形',            sub:'s / es のつけ方',                 path:'EA09.html'},
-  {code:'EA10', name:'三単現のs',              sub:'He plays / She likes …',         path:'EA10.html'},
+  /* EA01〜10 基礎 */
+  {code:'EA01', name:'be動詞（1）',             sub:'am / is / are の使い分け',             path:'EA01.html'},
+  {code:'EA02', name:'This / That / It',        sub:'これ・あれ・それ の使い分け',           path:'EA02.html'},
+  {code:'EA03', name:'所有格 my / your',         sub:'私の・あなたの を表す',                path:'EA03.html'},
+  {code:'EA04', name:'be動詞の否定文',            sub:'〜ではありません（not の使い方）',      path:'EA04.html'},
+  {code:'EA05', name:'be動詞の疑問文',            sub:'〜ですか？（Are you 〜?）',            path:'EA05.html'},
+  {code:'EA06', name:'一般動詞①　肯定文',        sub:'動作を表す動詞の基本',                 path:'EA06.html'},
+  {code:'EA07', name:'一般動詞②　否定・疑問',    sub:"don't / Do you 〜?",                  path:'EA07.html'},
+  {code:'EA08', name:'代名詞の目的格',            sub:'me / you / him / her …',              path:'EA08.html'},
+  {code:'EA09', name:'名詞の複数形',              sub:'s / es のつけ方',                      path:'EA09.html'},
+  {code:'EA10', name:'三単現のs',                sub:'He plays / She likes …',              path:'EA10.html'},
+  /* EA11〜16 発展 */
+  {code:'EA11', name:'疑問詞①',                 sub:'What time / How / What 〜?',           path:'EA11.html'},
+  {code:'EA12', name:'疑問詞②',                 sub:'When / Where / How many / Who 〜?',    path:'EA12.html'},
+  {code:'EA13', name:'命令文',                   sub:'〜しなさい・するな・Please・Let\'s',   path:'EA13.html'},
+  {code:'EA14', name:'現在進行形',               sub:'be動詞 ＋ -ing「〜している」',          path:'EA14.html'},
+  {code:'EA15', name:'習慣的な疑問文',           sub:'何曜日？天気は？誕生日はいつ？',        path:'EA15.html'},
+  {code:'EA16', name:'助動詞 can',               sub:'〜できる / できない / できますか？',     path:'EA16.html'},
 ];
 const TOTAL = UNITS.length;
 
@@ -206,9 +217,15 @@ function showMain(){
 
 /* ── 単元カード描画 ── */
 function render(){
-  const list = document.getElementById('list-ea');
-  list.innerHTML='';
-  UNITS.forEach(u => list.appendChild(makeCard(u)));
+  const listA = document.getElementById('list-ea-a');
+  const listB = document.getElementById('list-ea-b');
+  listA.innerHTML=''; listB.innerHTML='';
+  UNITS.forEach(u => {
+    const card = makeCard(u);
+    // EA01〜10 → listA、EA11〜16 → listB
+    const num = parseInt(u.code.replace('EA',''));
+    (num <= 10 ? listA : listB).appendChild(card);
+  });
 }
 
 function makeCard(u){
@@ -228,7 +245,6 @@ function makeCard(u){
     ${badgeMap[st]}
     <span class="u-arrow">›</span>`;
 
-  // 合格 → 「復習する」ボタン
   if(st==='pass'){
     const btn = document.createElement('button');
     btn.className='btn-review-toggle';
@@ -236,7 +252,6 @@ function makeCard(u){
     btn.onclick = e => { e.stopPropagation(); setStatus(u.code,'review'); render(); updateProgress(); };
     div.insertBefore(btn, div.querySelector('.u-arrow'));
   }
-  // 復習中 → 「合格に戻す」ボタン
   if(st==='review'){
     const btn = document.createElement('button');
     btn.className='btn-review-toggle';
@@ -246,7 +261,6 @@ function makeCard(u){
     div.insertBefore(btn, div.querySelector('.u-arrow'));
   }
 
-  // カードタップで単元へ
   div.onclick = e => {
     if(e.target.classList.contains('btn-review-toggle')) return;
     window.location.href = u.path;

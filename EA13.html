@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爆速英文法｜EA13 命令文</title>
+<style>
+:root{
+  --primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#2563eb;
+  --accent:#e8372d;--accent-light:#fff1f0;
+  --success:#16a34a;--success-light:#dcfce7;
+  --warn:#d97706;--warn-light:#fffbeb;
+  --orange:#f97316;--orange-light:#fff7ed;
+  --purple:#7c3aed;--purple-light:#ede9fe;
+  --bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;
+  --text:#1e293b;--text-sub:#64748b;--radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:160px;}
+.page-header{background:linear-gradient(135deg,#dc2626 0%,#f97316 100%);color:#fff;padding:18px 20px 14px;text-align:center;box-shadow:0 4px 16px rgba(220,38,38,.35);}
+.page-header .unit-code{font-size:.78em;opacity:.75;letter-spacing:.15em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(1.05em,3vw,1.42em);font-weight:700;margin:0 0 4px;}
+.page-header .unit-sub{font-size:.8em;opacity:.82;}
+.step-nav{display:flex;gap:4px;padding:10px 12px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;}
+.step-btn{flex:1;padding:9px 2px;border:none;background:#e2e8f0;cursor:pointer;font-weight:700;border-radius:8px;font-size:clamp(.7em,1.8vw,.84em);font-family:'BIZ UDPGothic',sans-serif;color:var(--text-sub);transition:.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.step-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(26,86,160,.3);}
+.step-btn.completed{background:var(--success);color:#fff;}
+.g-container{max-width:760px;margin:0 auto;padding:14px 14px 20px;}
+.timer-bar{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.timer-display{font-size:clamp(1.8em,6vw,2.4em);font-weight:700;font-family:monospace;color:var(--accent);min-width:76px;text-align:center;}
+.btn-start{font-family:'BIZ UDPGothic',sans-serif;background:var(--accent);color:#fff;border:none;padding:11px 22px;border-radius:50px;font-weight:700;font-size:clamp(.9em,2.5vw,1.05em);cursor:pointer;transition:.2s;}
+.btn-start:hover{transform:translateY(-1px);}
+.challenge-controls{display:none;flex-direction:row;flex-wrap:wrap;gap:6px;margin-top:6px;width:100%;}
+.challenge-controls.visible{display:flex;}
+.btn-stop{font-family:inherit;background:#64748b;color:#fff;padding:8px 12px;border:none;border-radius:8px;font-weight:700;font-size:.82em;cursor:pointer;flex:1;min-width:70px;}
+.btn-retry{font-family:inherit;background:var(--warn);color:#fff;padding:8px 12px;border:none;border-radius:8px;font-weight:700;font-size:.82em;cursor:pointer;flex:1;min-width:70px;}
+.btn-show-ans{font-family:inherit;background:var(--purple);color:#fff;padding:8px 12px;border:none;border-radius:8px;font-weight:700;font-size:.82em;cursor:pointer;flex:1;min-width:70px;}
+.section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;}
+.section-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:8px;font-weight:700;font-size:1em;margin-right:8px;flex-shrink:0;}
+.section-title-row{display:flex;align-items:center;margin-bottom:14px;}
+.section-title-text{font-size:1.05em;font-weight:700;color:var(--primary);}
+.origin-box{background:#f8faff;border-left:4px solid var(--primary);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:10px;}
+.origin-en{font-size:1.05em;font-weight:700;color:var(--text);margin-bottom:4px;}
+.origin-en .ul{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px;color:var(--accent);}
+.origin-jp{font-size:.88em;color:var(--text-sub);}
+.voice-btn{background:var(--orange);color:#fff;border:none;padding:3px 10px;border-radius:50px;cursor:pointer;font-size:.76em;vertical-align:middle;white-space:nowrap;margin-left:6px;}
+.proc-box{background:var(--primary-light);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;}
+.proc-label{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:8px;}
+.proc-step{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;}
+.proc-step:last-child{margin-bottom:0;}
+.proc-arrow{color:var(--primary);font-size:1.1em;flex-shrink:0;margin-top:1px;}
+.proc-txt{font-size:.92em;line-height:1.65;flex:1;}
+.proc-txt strong{color:var(--primary);}
+.proc-txt .red{color:var(--accent);font-weight:700;}
+.result-en{background:#fff7ed;border:2px solid var(--orange);border-radius:10px;padding:12px 16px;margin:10px 0;font-size:1.05em;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.result-en .wh{color:var(--purple);font-size:1.1em;}
+.point-box{background:linear-gradient(135deg,#fffbeb,#dbeafe);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;}
+.point-title{font-weight:700;color:var(--warn);font-size:.95em;margin-bottom:8px;}
+.point-formula{font-size:1.02em;font-weight:700;color:var(--primary);background:#fff;border-radius:8px;padding:10px 14px;text-align:center;margin:6px 0;line-height:1.8;}
+.point-formula .wh{color:var(--purple);}
+/* 4タイプカード */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px;}
+.type-card{border-radius:var(--radius);padding:14px;border:2px solid transparent;text-align:center;}
+.type-card.t1{background:#fff1f0;border-color:#fca5a5;}
+.type-card.t2{background:#fff8e1;border-color:#fbbf24;}
+.type-card.t3{background:#ecfdf5;border-color:#6ee7b7;}
+.type-card.t4{background:var(--purple-light);border-color:#c4b5fd;}
+.type-card .tc-label{font-size:.8em;font-weight:700;margin-bottom:4px;}
+.type-card.t1 .tc-label{color:#dc2626;}
+.type-card.t2 .tc-label{color:#d97706;}
+.type-card.t3 .tc-label{color:#059669;}
+.type-card.t4 .tc-label{color:var(--purple);}
+.type-card .tc-formula{font-size:.95em;font-weight:700;color:var(--text);margin-bottom:4px;}
+.type-card .tc-ex{font-size:.82em;color:var(--text-sub);}
+.drill-box{background:#f8faff;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.drill-num{font-size:.82em;font-weight:700;color:var(--text-sub);margin-bottom:6px;}
+.drill-src{font-size:.95em;color:var(--text);margin-bottom:4px;}
+.drill-src .ul{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px;color:var(--accent);font-weight:700;}
+.bracket-answer-row{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin:8px 0;}
+.bk-blank{display:inline-flex;align-items:center;justify-content:center;min-width:72px;height:32px;border:2px solid var(--success);border-radius:6px;background:#fff;font-weight:700;font-size:.9em;color:var(--primary-mid);cursor:pointer;transition:.15s;padding:0 6px;}
+.bk-blank.is-active{background:var(--success-light);}
+.bk-fixed{display:inline-flex;align-items:center;justify-content:center;height:32px;border:1.5px solid var(--border);border-radius:6px;background:#f1f5f9;font-weight:700;font-size:.9em;color:var(--text-sub);padding:0 8px;}
+.drill-result{font-size:.88em;color:var(--text-sub);margin-top:6px;}
+.fixed-mark{font-weight:700;font-size:1.1em;padding:0 2px;vertical-align:middle;}
+.sentence-block{background:#f8faff;border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;}
+.sentence-jp{font-weight:700;font-size:.9em;margin-bottom:8px;color:var(--text);}
+.word-squares{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.square{display:inline-flex;align-items:center;justify-content:center;min-width:72px;height:38px;padding:0 10px;border:2px solid var(--success);border-radius:8px;background:#fff;color:var(--primary-mid);font-weight:700;cursor:pointer;font-size:.92em;transition:.15s;font-family:'BIZ UDPGothic',sans-serif;}
+.square:hover{background:var(--primary-light);}
+.imp-word{color:var(--success);font-weight:700;text-decoration:underline;cursor:pointer;position:relative;display:inline-block;}
+.tooltip{visibility:hidden;width:200px;background:#1e293b;color:#fff;text-align:center;padding:8px;border-radius:8px;position:absolute;bottom:130%;left:50%;transform:translateX(-50%);z-index:10000;font-size:.8em;line-height:1.5;opacity:0;transition:.2s;pointer-events:auto;}
+.imp-word:hover .tooltip{visibility:visible;opacity:1;}
+.add-btn{background:var(--orange);color:#fff;border:none;padding:3px 8px;border-radius:4px;cursor:pointer;font-size:.72em;margin-top:4px;pointer-events:auto;margin-left:2px;}
+.record-section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:12px;}
+.record-title{font-size:.88em;font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px;margin-bottom:10px;}
+.record-list{list-style:none;padding:0;}
+.record-list li{display:flex;justify-content:space-between;padding:6px 4px;font-size:.86em;border-bottom:1px solid var(--border);}
+.record-list li:last-child{border-bottom:none;}
+.record-time{font-family:monospace;font-weight:700;color:var(--primary);}
+.btn-reset{font-family:'BIZ UDPGothic',sans-serif;background:#f1f5f9;color:var(--text-sub);border:none;padding:7px;width:100%;border-radius:8px;cursor:pointer;font-size:.82em;margin-top:8px;}
+.vocab-section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:12px;}
+.vocab-title{font-size:.88em;font-weight:700;color:var(--success);border-bottom:2px solid var(--success);padding-bottom:6px;margin-bottom:10px;}
+.word-list{list-style:none;padding:0;}
+.word-list li{background:var(--success-light);margin-bottom:5px;padding:7px 10px;border-radius:7px;font-size:.86em;border-left:4px solid var(--success);}
+.btn-vocab-test{font-family:'BIZ UDPGothic',sans-serif;background:var(--success);color:#fff;border:none;padding:9px;width:100%;border-radius:8px;cursor:pointer;font-size:.88em;font-weight:700;margin-top:10px;}
+.vocab-test-card{background:var(--card);border:2px solid var(--primary);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
+.vocab-q{font-size:clamp(1.1em,4vw,1.5em);font-weight:700;text-align:center;color:var(--primary);margin-bottom:14px;padding:10px;background:var(--primary-light);border-radius:8px;}
+.vocab-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vocab-choice{font-family:'BIZ UDPGothic',sans-serif;background:#fff;border:2px solid var(--border);border-radius:8px;padding:10px 8px;font-size:.86em;font-weight:700;cursor:pointer;text-align:center;transition:.15s;}
+.vocab-choice:hover{background:var(--primary-light);border-color:var(--primary);}
+.vocab-choice.correct{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.vocab-choice.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.vocab-score{text-align:center;padding:16px;font-size:1.1em;font-weight:700;}
+.btn-vocab-retry{font-family:'BIZ UDPGothic',sans-serif;background:var(--primary);color:#fff;border:none;padding:10px 24px;border-radius:50px;cursor:pointer;font-size:.9em;font-weight:700;margin-top:10px;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:16px;}
+.btn-nav{font-family:'BIZ UDPGothic',sans-serif;font-size:.92em;font-weight:700;padding:11px 22px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:.15s;}
+.btn-nav:hover{transform:translateY(-1px);}
+.btn-home{background:#e0e7ff;color:#3730a3;}
+.btn-next{background:var(--primary);color:#fff;}
+.btn-prev{background:#f1f5f9;color:var(--text-sub);}
+.fixed-pool{position:fixed;bottom:0;left:0;width:100%;background:#eef4ff;border-top:3px solid var(--primary);padding:12px 10px;z-index:999;text-align:center;display:none;}
+.word-card{display:inline-block;background:#fff;border:1.5px solid var(--border);padding:8px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.93em;box-shadow:0 1px 4px rgba(0,0,0,.08);font-family:'BIZ UDPGothic',sans-serif;}
+.word-card.selected{background:var(--warn-light);border-color:var(--warn);}
+.word-card.hidden{visibility:hidden;pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EA13</div>
+  <h1>⚡ 爆速英文法：命令文</h1>
+  <div class="unit-sub">〜しなさい・するな・Please・Let's</div>
+</div>
+<nav class="step-nav">
+  <button class="step-btn" id="btn-info" onclick="changeStep('info')">1.説明</button>
+  <button class="step-btn" id="btn-ex"   onclick="changeStep('ex')">2.例題</button>
+  <button class="step-btn" id="btn-prac" onclick="changeStep('prac')">3.類題</button>
+  <button class="step-btn" id="btn-test" onclick="changeStep('test')">4.テスト</button>
+</nav>
+<div class="g-container">
+  <div class="timer-bar">
+    <div class="timer-display" id="timer">00:00</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+      <button id="start-btn" class="btn-start" onclick="startChallenge()">▶ チャレンジ開始！</button>
+      <div class="challenge-controls" id="challenge-controls">
+        <button class="btn-stop" onclick="stopChallenge()">⏹ ストップ</button>
+        <button class="btn-retry" onclick="retryChallenge()">↩ 元に戻す</button>
+        <button class="btn-show-ans" onclick="showAnswers()">👁 答えを見る</button>
+      </div>
+    </div>
+  </div>
+  <div id="display-area"></div>
+  <div class="record-section">
+    <div class="record-title">⏱ タイムレコード</div>
+    <ul class="record-list">
+      <li><span>1回目</span><span class="record-time" id="rec-0">--:--</span></li>
+      <li><span>2回目</span><span class="record-time" id="rec-1">--:--</span></li>
+      <li><span>3回目</span><span class="record-time" id="rec-2">--:--</span></li>
+      <li><span>4回目</span><span class="record-time" id="rec-3">--:--</span></li>
+      <li><span>5回目</span><span class="record-time" id="rec-4">--:--</span></li>
+    </ul>
+    <button class="btn-reset" onclick="resetRecords()">記録をリセット</button>
+  </div>
+  <div class="vocab-section">
+    <div class="vocab-title">📗 マイ単語帳</div>
+    <ul id="my-vocab" class="word-list"></ul>
+    <button class="btn-vocab-test" onclick="startVocabTest()">📝 単語テストをする</button>
+  </div>
+  <div id="vocab-test-area" style="display:none;"></div>
+  <div class="nav-btns">
+    <a href="index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="EA12.html" class="btn-nav btn-prev">← EA12へ</a>
+    <a href="EA14.html" class="btn-nav btn-next">EA14へ →</a>
+  </div>
+</div>
+<div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
+<script>
+const DICT={
+  "Be":"ビー (動)be動詞の原形（命令文で使う）",
+  "Don't":"ドウント (助)〜するな（禁止の命令）",
+  "Please":"プリーズ (副)どうか〜してください",
+  "Let's":"レッツ (助)〜しましょう（let us の短縮形）",
+  "kind":"カインド (形)親切な",
+  "careful":"ケアフル (形)注意深い・気をつけて",
+  "quiet":"クワイエット (形)静かな",
+  "hard":"ハード (副)一生懸命に",
+  "run":"ラン (動)走る",
+  "swim":"スウィム (動)泳ぐ",
+  "open":"オウプン (動)開ける",
+  "clean":"クリーン (動)掃除する",
+  "wash":"ウォッシュ (動)洗う",
+  "study":"スタディ (動)勉強する",
+  "have":"ハヴ (動)食べる・持つ",
+  "go":"ゴウ (動)行く",
+  "play":"プレイ (動)する・弾く",
+  "read":"リード (動)読む",
+  "together":"トゥギャザー (副)一緒に",
+  "breakfast":"ブレックファスト (名)朝食",
+  "lunch":"ランチ (名)昼食",
+  "math":"マス (名)数学",
+  "room":"ルーム (名)部屋",
+  "window":"ウィンドウ (名)窓",
+  "river":"リバー (名)川",
+  "face":"フェイス (名)顔",
+  "library":"ライブラリ (名)図書館",
+  "baseball":"ベースボール (名)野球",
+};
+const INFO_DRILLS=[
+  {num:"(1)",src:'あなたの部屋を掃除しなさい。',ans:["Clean","your","room"],jp:"Clean your room.",mark:"."},
+  {num:"(2)",src:'数学を一生懸命勉強しなさい。',ans:["Study","math","hard"],jp:"Study math hard.",mark:"."},
+  {num:"(3)",src:'老人に親切にしなさい。',ans:["Be","kind","to","old","people"],jp:"Be kind to old people.",mark:"."},
+  {num:"(4)",src:'教室では走るな。',ans:["Don't","run","in","the","classroom"],jp:"Don't run in the classroom.",mark:"."},
+  {num:"(5)",src:'どうか窓を開けてください。',ans:["Please","open","the","window"],jp:"Please open the window.",mark:"."},
+  {num:"(6)",src:'朝食をいっしょに食べましょう。',ans:["Let's","have","breakfast","together"],jp:"Let's have breakfast together.",mark:"."},
+  {num:"(7)",src:'いっしょに図書館へ行きましょう。',ans:["Let's","go","to","the","library","together"],jp:"Let's go to the library together.",mark:"."},
+  {num:"(8)",src:'この川では泳ぐな。',ans:["Don't","swim","in","this","river"],jp:"Don't swim in this river.",mark:"."},
+];
+const MASTER_DATA={
+  ex:[
+    {jp:"顔を洗いなさい。",en:["Wash","your","face"],mark:"."},
+    {jp:"気をつけなさい。",en:["Be","careful"],mark:"."},
+    {jp:"教室では静かにしなさい。",en:["Be","quiet","in","the","classroom"],mark:"."},
+    {jp:"英語を一生懸命勉強しなさい。",en:["Study","English","hard"],mark:"."},
+    {jp:"いっしょに野球をしましょう。",en:["Let's","play","baseball","together"],mark:"."},
+    {jp:"どうか静かにしてください。",en:["Please","be","quiet"],mark:"."},
+  ],
+  prac:[
+    {jp:"あなたの部屋を掃除しなさい。",en:["Clean","your","room"],mark:"."},
+    {jp:"本を読みなさい。",en:["Read","the","book"],mark:"."},
+    {jp:"車を洗いなさい。",en:["Wash","your","car"],mark:"."},
+    {jp:"いっしょに昼食を食べましょう。",en:["Let's","have","lunch","together"],mark:"."},
+    {jp:"公園では走るな。",en:["Don't","run","in","the","park"],mark:"."},
+    {jp:"どうか窓を開けてください。",en:["Please","open","the","window"],mark:"."},
+  ],
+  test:[
+    {jp:"数学を一生懸命勉強しなさい。",en:["Study","math","hard"],mark:"."},
+    {jp:"老人に親切にしなさい。",en:["Be","kind","to","old","people"],mark:"."},
+    {jp:"この川では泳ぐな。",en:["Don't","swim","in","this","river"],mark:"."},
+    {jp:"いっしょに図書館へ行きましょう。",en:["Let's","go","to","the","library","together"],mark:"."},
+    {jp:"どうか気をつけてください。",en:["Please","be","careful"],mark:"."},
+    {jp:"はい、そうしましょう。",en:["Yes,","let's"],mark:"."},
+  ]
+};
+let currentMode='info',isChallenging=false,selectedWord=null,selectedId=null,startTime,timerInterval;
+let records=[null,null,null,null,null];
+function speak(text){
+  if(!window.speechSynthesis)return;
+  const s=window.speechSynthesis;s.cancel();
+  const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=0.82;
+  function d(){const vs=s.getVoices();if(vs.length>0){const v=vs.find(v=>v.lang==='en-US')||vs.find(v=>v.lang.startsWith('en'));if(v)u.voice=v;}setTimeout(()=>{try{s.speak(u);}catch(e){}},50);}
+  if(s.getVoices().length===0){s.onvoiceschanged=()=>{s.onvoiceschanged=null;d();};setTimeout(()=>{s.onvoiceschanged=null;d();},1500);}else d();
+}
+function speakData(btn){speak(btn.getAttribute('data-sp'));}
+function wrapWord(word){
+  const key=Object.keys(DICT).find(k=>k.toLowerCase()===word.toLowerCase().replace(/[.,?!']/g,''));
+  if(key)return`<span class="imp-word">${word}<span class="tooltip">${DICT[key]}<br><button class="add-btn" onclick="event.stopPropagation();speak('${word}')">🔊</button><button class="add-btn" onclick="event.stopPropagation();addToVocab('${key}')">📗</button></span></span>`;
+  return word;
+}
+function addToVocab(word){
+  const list=document.getElementById('my-vocab');
+  if([...list.querySelectorAll('strong')].some(s=>s.textContent===word))return;
+  const li=document.createElement('li');
+  li.innerHTML=`<strong>${word}</strong> <button onclick="speak('${word}')" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button><br><small style="color:var(--text-sub)">${DICT[word]||''}</small>`;
+  list.appendChild(li);
+}
+function changeStep(mode){
+  currentMode=mode;isChallenging=false;clearInterval(timerInterval);
+  document.getElementById('timer').textContent='00:00';
+  document.getElementById('pool-fixed').style.display='none';
+  document.getElementById('start-btn').style.display='block';
+  const cc=document.getElementById('challenge-controls');if(cc)cc.classList.remove('visible');
+  document.querySelectorAll('.step-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('btn-'+mode).classList.add('active');
+  render();
+}
+function renderInfo(){
+  return`
+  <div class="section">
+    <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">命令文①「〜しなさい」</span></div>
+    <div class="proc-box">
+      <div class="proc-label">📌 命令文の作り方</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">「You」を取り除く（省略する）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">動詞を文の先頭に置く（<strong>原形</strong>のまま）</div></div>
+    </div>
+    <div class="origin-box"><div class="origin-en">You <span class="ul">read</span> the book. → <strong>Read</strong> the book. <button class="voice-btn" onclick="speak('Read the book.')">🔊</button></div><div class="origin-jp">その本を読みなさい。</div></div>
+    <div class="origin-box"><div class="origin-en">You <span class="ul">have</span> lunch. → <strong>Have</strong> lunch. <button class="voice-btn" onclick="speak('Have lunch.')">🔊</button></div><div class="origin-jp">昼食を食べなさい。</div></div>
+    <div style="background:var(--accent-light);border:1.5px solid var(--accent);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:.88em;">
+      ⚠️ <strong>be動詞の命令文は「Be」を使う！</strong><br>
+      You are kind. → <strong>Be kind.</strong>（親切にしなさい。）<button class="voice-btn" onclick="speak('Be kind.')">🔊</button>
+    </div>
+    <div class="point-box"><div class="point-title">📌 命令文①の公式</div><div class="point-formula"><span class="wh">動詞の原形</span> ＋ 〜 .</div></div>
+  </div>
+  <div class="section">
+    <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">命令文②「〜するな」（禁止）</span></div>
+    <div class="proc-box"><div class="proc-label">📌 禁止の命令文</div><div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">文の先頭に <strong>Don't</strong> を置く</div></div></div>
+    <div class="origin-box"><div class="origin-en"><strong>Don't</strong> run in the classroom. <button class="voice-btn" onclick="speak('Don\'t run in the classroom.')">🔊</button></div><div class="origin-jp">教室では走るな。</div></div>
+    <div class="point-box"><div class="point-title">📌 命令文②の公式</div><div class="point-formula"><span class="wh">Don't</span> ＋ 動詞の原形 ＋ 〜 .</div></div>
+  </div>
+  <div class="section">
+    <div class="section-title-row"><span class="section-num">3</span><span class="section-title-text">命令文③「どうか〜してください」（Please）</span></div>
+    <div class="proc-box"><div class="proc-label">📌 お願いの命令文</div><div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">文の先頭に <strong>Please</strong> を置く（やわらかい命令）</div></div></div>
+    <div class="origin-box"><div class="origin-en"><strong>Please</strong> open the window. <button class="voice-btn" onclick="speak('Please open the window.')">🔊</button></div><div class="origin-jp">どうか窓を開けてください。</div></div>
+    <div class="origin-box"><div class="origin-en"><strong>Please</strong> be quiet. <button class="voice-btn" onclick="speak('Please be quiet.')">🔊</button></div><div class="origin-jp">どうか静かにしてください。</div></div>
+    <div class="point-box"><div class="point-title">📌 命令文③の公式</div><div class="point-formula"><span class="wh">Please</span> ＋ 動詞の原形 ＋ 〜 .</div></div>
+  </div>
+  <div class="section">
+    <div class="section-title-row"><span class="section-num">4</span><span class="section-title-text">命令文④「〜しましょう」（Let's）</span></div>
+    <div class="proc-box"><div class="proc-label">📌 誘いかけの命令文</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">文の先頭に <strong>Let's</strong> を置く（<strong>let us</strong> の短縮形）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">答え方：<strong>Yes, let's.</strong>（はい，そうしましょう）／ <strong>No, let's not.</strong>（いいえ，よしましょう）</div></div>
+    </div>
+    <div class="origin-box"><div class="origin-en"><strong>Let's</strong> go together. <button class="voice-btn" onclick="speak('Let\'s go together.')">🔊</button></div><div class="origin-jp">一緒に行きましょう。</div></div>
+    <div class="origin-box"><div class="origin-en"><strong>Let's</strong> have lunch together. <button class="voice-btn" onclick="speak('Let\'s have lunch together.')">🔊</button></div><div class="origin-jp">一緒に昼食を食べましょう。</div></div>
+    <div class="point-box"><div class="point-title">📌 命令文④の公式</div><div class="point-formula"><span class="wh">Let's</span> ＋ 動詞の原形 ＋ 〜 .</div></div>
+  </div>
+  <div class="section">
+    <div class="section-title-row"><span class="section-num" style="background:var(--success);">練</span><span class="section-title-text">練習問題　― 日本語を英語の命令文にしよう</span></div>
+    <p style="font-size:.85em;color:var(--text-sub);margin-bottom:14px;">まず「タイプ」を考えよう：①動詞で始める　②Don't　③Please　④Let's</p>
+    ${INFO_DRILLS.map((d,i)=>`
+    <div class="drill-box">
+      <div class="drill-num">${d.num}</div>
+      <div class="drill-src">${d.src}</div>
+      <div class="bracket-answer-row" id="drill-row-${i}">
+        ${d.ans.map((w,j)=>`<span class="bk-blank" data-ans="${w}" data-drill="${i}" data-idx="${j}" onclick="handleDrillClick(this)">${isChallenging?'':w}</span>`).join('')}
+        <span class="fixed-mark">${d.mark}</span>
+      </div>
+      <div class="drill-result">${d.jp}</div>
+    </div>`).join('')}
+  </div>`;
+}
+function render(){
+  const area=document.getElementById('display-area');
+  if(currentMode==='info'){
+    area.innerHTML=renderInfo();
+    if(!isChallenging)document.querySelectorAll('.bk-blank').forEach(el=>el.textContent=el.dataset.ans);
+  }else{
+    const titles={ex:'例題',prac:'類題',test:'修了テスト'};
+    let html=`<div class="section"><h2 style="font-size:1em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px;margin-bottom:14px;">${titles[currentMode]}演習（各6問）</h2>
+    <p style="font-size:.85em;color:var(--text-sub);margin-bottom:14px;">タイプを確認：①動詞で始める　②<strong>Don't</strong>〜するな　③<strong>Please</strong>〜してください　④<strong>Let's</strong>〜しましょう</p>`;
+    MASTER_DATA[currentMode].forEach(q=>{
+      const sp=q.en.join(' ')+q.mark;
+      html+=`<div class="sentence-block"><div class="sentence-jp">${q.jp}</div><div class="word-squares">
+        ${q.en.map(w=>`<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join('')}
+        <span class="fixed-mark">${q.mark}</span>
+        <button class="voice-btn" onclick="speakData(this)" data-sp="${sp}" style="margin-left:4px;">🔊</button>
+      </div></div>`;
+    });
+    area.innerHTML=html+'</div>';
+  }
+}
+function handleDrillClick(el){
+  if(!isChallenging||!selectedWord||el.textContent!=='')return;
+  if(selectedWord===el.dataset.ans){
+    el.textContent=selectedWord;el.style.background='var(--success-light)';el.style.borderColor='var(--success)';el.style.color='var(--success)';
+    document.getElementById(selectedId).classList.add('hidden');selectedWord=null;
+    if([...document.querySelectorAll('.bk-blank,.square')].every(s=>s.textContent!==''))finishStep();
+  }else{alert('もうチョイ！命令文のタイプを確認しよう。');}
+}
+function handleTargetClick(el){
+  if(!isChallenging||!selectedWord||el.textContent!=='')return;
+  if(selectedWord===el.dataset.ans){
+    el.textContent=selectedWord;el.classList.remove('is-active');
+    document.getElementById(selectedId).classList.add('hidden');selectedWord=null;
+    if([...document.querySelectorAll('.bk-blank,.square')].every(s=>s.textContent!==''))finishStep();
+  }else{alert('もうチョイ！');}
+}
+function startChallenge(){
+  isChallenging=true;render();
+  if(currentMode==='info')document.querySelectorAll('.bk-blank').forEach(el=>{el.textContent='';el.classList.add('is-active');});
+  document.getElementById('pool-fixed').style.display='block';
+  document.getElementById('start-btn').style.display='none';
+  document.getElementById('challenge-controls').classList.add('visible');
+  renderPool();startTime=Date.now();
+  timerInterval=setInterval(()=>{const d=Math.floor((Date.now()-startTime)/1000);document.getElementById('timer').textContent=String(Math.floor(d/60)).padStart(2,'0')+':'+String(d%60).padStart(2,'0');},100);
+}
+function renderPool(){
+  const pool=document.getElementById('word-pool');pool.innerHTML='';
+  let words=[];
+  if(currentMode==='info')INFO_DRILLS.forEach(d=>d.ans.forEach(w=>words.push(w)));
+  else MASTER_DATA[currentMode].forEach(q=>q.en.forEach(w=>words.push(w)));
+  words.sort((a,b)=>a.toLowerCase().localeCompare(b.toLowerCase()));
+  words.forEach((w,i)=>{
+    const card=document.createElement('div');card.className='word-card';card.id='c-'+i;card.textContent=w;
+    card.onclick=()=>{selectedWord=w;selectedId=card.id;document.querySelectorAll('.word-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');};
+    pool.appendChild(card);
+  });
+}
+function finishStep(){
+  clearInterval(timerInterval);const t=document.getElementById('timer').textContent;
+  alert('🎉 合格！よくできました！');
+  document.getElementById('btn-'+currentMode).classList.add('completed');
+  if(currentMode!=='info'){for(let i=0;i<5;i++){if(records[i]===null){records[i]=t;document.getElementById('rec-'+i).textContent=t;break;}}}
+  if(currentMode==='test')localStorage.setItem('gamba_prog_EA13','pass');
+  isChallenging=false;document.getElementById('challenge-controls').classList.remove('visible');
+  document.getElementById('start-btn').style.display='block';document.getElementById('pool-fixed').style.display='none';
+}
+function stopChallenge(){if(!isChallenging)return;clearInterval(timerInterval);isChallenging=false;selectedWord=null;document.getElementById('pool-fixed').style.display='none';document.getElementById('start-btn').style.display='block';document.getElementById('challenge-controls').classList.remove('visible');}
+function retryChallenge(){clearInterval(timerInterval);isChallenging=false;selectedWord=null;startChallenge();}
+function showAnswers(){
+  clearInterval(timerInterval);isChallenging=false;document.getElementById('pool-fixed').style.display='none';document.getElementById('start-btn').style.display='block';document.getElementById('challenge-controls').classList.remove('visible');
+  document.querySelectorAll('.bk-blank,.square').forEach(el=>{if(el.dataset.ans&&el.textContent.trim()===''){el.textContent=el.dataset.ans;el.style.color='#7c3aed';el.style.background='#ede9fe';el.style.borderColor='#7c3aed';}});
+  document.querySelectorAll('.word-card').forEach(c=>c.classList.add('hidden'));
+}
+function resetRecords(){if(!confirm('リセットしますか？'))return;records=[null,null,null,null,null];for(let i=0;i<5;i++)document.getElementById('rec-'+i).textContent='--:--';document.querySelectorAll('.step-btn').forEach(b=>b.classList.remove('completed'));changeStep('info');}
+function getMean(raw){const p=raw.split(')');return p.length>=2?p[p.length-1].trim():raw.trim();}
+let vtQ=[],vtIdx=0,vtOk=0;
+function startVocabTest(){
+  const items=[...document.getElementById('my-vocab').children];const area=document.getElementById('vocab-test-area');
+  if(items.length===0){alert('単語帳にまだ単語がありません！');return;}
+  vtQ=items.map(li=>({word:li.querySelector('strong')?.textContent.trim()||'',mean:getMean(li.querySelector('small')?.textContent.trim()||'')})).filter(v=>v.word&&v.mean);
+  vtQ.sort(()=>Math.random()-.5);vtIdx=0;vtOk=0;area.style.display='block';renderVtQ();area.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderVtQ(){
+  const area=document.getElementById('vocab-test-area'),total=vtQ.length;
+  if(vtIdx>=total){renderVtEnd();return;}
+  const q=vtQ[vtIdx];const pool=Object.values(DICT).map(getMean).filter(m=>m&&m!==q.mean).sort(()=>Math.random()-.5);
+  const choices=[q.mean,...pool.slice(0,3)].sort(()=>Math.random()-.5);const pct=Math.round(vtIdx/total*100);
+  const btns=choices.map(ch=>`<button class="vocab-choice" onclick="checkVtA(this,${JSON.stringify(ch)},${JSON.stringify(q.mean)},${JSON.stringify(q.word)})">${ch}</button>`).join('');
+  area.innerHTML=`<div class="vocab-test-card"><div style="font-size:.82em;color:var(--text-sub);font-weight:700;margin-bottom:10px;">📝 単語テスト ${vtIdx+1}/${total}問<div style="background:var(--border);border-radius:4px;height:5px;margin-top:6px;"><div style="background:var(--primary);height:5px;border-radius:4px;width:${pct}%;"></div></div></div><div class="vocab-q">${q.word} <button onclick="speak('${q.word}')" style="background:var(--orange);color:#fff;border:none;padding:3px 10px;border-radius:50px;font-size:.72em;cursor:pointer;vertical-align:middle;">🔊</button></div><div class="vocab-choices">${btns}</div></div>`;
+}
+function checkVtA(btn,chosen,correct,word){
+  [...btn.parentElement.querySelectorAll('.vocab-choice')].forEach(b=>{b.disabled=true;if(b.textContent.trim()===correct)b.classList.add('correct');});
+  const ok=chosen.trim()===correct.trim();if(ok){btn.classList.add('correct');vtOk++;}else btn.classList.add('wrong');
+  setTimeout(()=>{vtIdx++;renderVtQ();},ok?700:1400);
+}
+function renderVtEnd(){
+  const total=vtQ.length,area=document.getElementById('vocab-test-area');
+  const msg=vtOk===total?'🎉 全問正解！':vtOk>=total*.75?'👍 あと少し！':'📖 もう一度復習しよう！';
+  area.innerHTML=`<div class="vocab-test-card" style="text-align:center;"><div class="vocab-score" style="color:${vtOk===total?'var(--success)':'var(--accent)'};">${msg}<br>${vtOk}/${total} 正解</div><button class="btn-vocab-retry" onclick="startVocabTest()">🔁 もう一度</button> <button class="btn-vocab-retry" style="background:var(--text-sub);" onclick="document.getElementById('vocab-test-area').style.display='none'">✕ 閉じる</button></div>`;
+}
+window.addEventListener('pagehide',()=>{if(window.speechSynthesis)speechSynthesis.cancel();});
+changeStep('info');
+</script>
+<script src="gamba_support.js"></script>
+</body>
+</html>
