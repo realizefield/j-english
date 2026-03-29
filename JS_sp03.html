@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スポーツ・楽器 単元3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f4f8;min-height:100vh;padding-bottom:120px;}
+.header{background:linear-gradient(135deg,#17375E,#4472C4);color:white;padding:12px 16px;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+.header-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.header h1{font-size:0.92rem;flex:1;}
+.btn-hd{background:rgba(255,255,255,0.2);border:none;color:white;border-radius:8px;padding:4px 10px;font-size:0.75rem;cursor:pointer;white-space:nowrap;}
+.btn-hd:hover{background:rgba(255,255,255,0.35);}
+.step-bar{display:flex;gap:4px;}
+.step-pip{height:5px;flex:1;border-radius:99px;background:rgba(255,255,255,0.25);transition:background .3s;}
+.step-pip.active{background:white;}.step-pip.done{background:#22a06b;}
+.mute-bar{display:flex;align-items:center;justify-content:flex-end;padding:6px 16px;max-width:700px;margin:0 auto;}
+.mute-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;}
+.mute-wrap span{font-size:0.78rem;color:#555;font-weight:bold;}
+.mute-track{width:42px;height:22px;background:#ccc;border-radius:99px;position:relative;transition:background .25s;flex-shrink:0;}
+.mute-track.on{background:#4472C4;}
+.mute-thumb{width:18px;height:18px;background:white;border-radius:50%;position:absolute;top:2px;left:2px;box-shadow:0 1px 4px rgba(0,0,0,0.3);transition:transform .25s;}
+.mute-track.on .mute-thumb{transform:translateX(20px);}
+.timer-row{display:flex;align-items:center;justify-content:space-between;padding:6px 16px 8px;max-width:700px;margin:0 auto;}
+.timer-disp{font-size:1.4rem;font-weight:bold;color:#17375E;letter-spacing:2px;}
+.step-label{font-size:0.75rem;font-weight:bold;color:#4472C4;background:#EBF3FB;padding:3px 10px;border-radius:20px;}
+.wordlist-wrap{max-width:680px;margin:0 auto;padding:0 16px;}
+.wordlist-title{text-align:center;margin-bottom:10px;}
+.wordlist-title h2{font-size:1rem;font-weight:bold;color:#17375E;}
+.wordlist-title p{font-size:0.76rem;color:#888;margin-top:2px;}
+.wordlist-table{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.08);margin-bottom:12px;}
+.wordlist-table th{background:#17375E;color:white;padding:8px 5px;font-size:0.76rem;text-align:center;}
+.wordlist-table td{border:1px solid #dde3f0;padding:8px 5px;text-align:center;font-size:0.86rem;vertical-align:middle;}
+.wordlist-table tr:nth-child(even) td{background:#EBF3FB;}
+.wl-no{color:#aaa;font-size:0.72rem;width:24px;}.wl-en{font-weight:bold;color:#17375E;font-size:0.96rem;text-align:left;padding-left:8px !important;}
+.wl-kana{color:#888;font-size:0.72rem;}.wl-ja{font-weight:bold;color:#4472C4;text-align:left;padding-left:6px !important;}.wl-spk{width:40px;}
+.flash-wrap{max-width:500px;margin:0 auto;padding:0 16px;}
+.flash-phase-label{text-align:center;margin-bottom:6px;}
+.flash-phase-badge{display:inline-block;padding:3px 14px;border-radius:20px;font-size:0.78rem;font-weight:bold;}
+.flash-phase-badge.phaseA{background:#EBF3FB;color:#4472C4;}.flash-phase-badge.phaseB{background:#e6f4ee;color:#145e3e;}
+.flash-hint-msg{text-align:center;font-size:0.78rem;color:#E36C09;font-weight:bold;margin-bottom:8px;background:#fff8f0;border-radius:8px;padding:5px 10px;}
+.speed-ctrl{display:flex;align-items:center;gap:7px;margin-bottom:8px;justify-content:center;flex-wrap:wrap;}
+.speed-ctrl label{font-size:0.78rem;color:#555;}
+.speed-btns{display:flex;gap:4px;}
+.spd-btn{padding:4px 10px;border:2px solid #b3c7e6;border-radius:14px;background:white;font-size:0.76rem;cursor:pointer;font-weight:bold;color:#555;transition:all .15s;}
+.spd-btn.active{border-color:#4472C4;background:#4472C4;color:white;}
+.flash-card{background:white;border-radius:20px;box-shadow:0 6px 24px rgba(23,55,94,0.15);padding:26px 22px;text-align:center;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;position:relative;}
+.flash-card:active{transform:scale(0.97);}
+.flash-tap-hint{font-size:0.68rem;color:#ccc;margin-bottom:5px;}
+.flash-en{font-size:2rem;font-weight:bold;color:#17375E;margin-bottom:4px;}
+.flash-kana{font-size:0.88rem;color:#888;margin-bottom:7px;}
+.flash-ja{font-size:1.25rem;color:#4472C4;font-weight:bold;}
+.flash-pos{font-size:0.7rem;color:#aaa;margin-top:3px;}
+.flash-counter{font-size:0.72rem;color:#aaa;margin-top:8px;}
+.flash-progress{width:100%;background:#eee;border-radius:99px;height:4px;margin-top:6px;overflow:hidden;}
+.flash-bar{height:4px;border-radius:99px;background:linear-gradient(90deg,#4472C4,#22a06b);transition:width .3s;}
+.flash-controls{display:flex;gap:7px;margin-top:10px;justify-content:center;flex-wrap:wrap;}
+.fc-btn{padding:8px 14px;border:none;border-radius:18px;font-size:0.8rem;font-weight:bold;cursor:pointer;transition:all .15s;}
+.fc-btn:hover{transform:translateY(-2px);}
+.fc-play{background:linear-gradient(135deg,#4472C4,#17375E);color:white;}
+.fc-pause{background:linear-gradient(135deg,#E36C09,#c45400);color:white;}
+.fc-prev{background:#eee;color:#555;}.fc-next{background:linear-gradient(135deg,#22a06b,#145e3e);color:white;}
+.fc-list{background:#f0f4f8;color:#17375E;border:2px solid #b3c7e6;}
+.pause-overlay{display:none;position:absolute;inset:0;background:rgba(23,55,94,0.8);border-radius:20px;flex-direction:column;align-items:center;justify-content:center;color:white;gap:10px;z-index:10;}
+.pause-overlay.show{display:flex;}
+.po-icon{font-size:2.5rem;}.po-msg{font-size:1rem;font-weight:bold;}
+.po-resume{padding:10px 24px;background:#22a06b;border:none;border-radius:20px;color:white;font-size:0.9rem;font-weight:bold;cursor:pointer;}
+.speak-btn{background:linear-gradient(135deg,#4472C4,#17375E);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(23,55,94,0.35);transition:transform .15s;flex-shrink:0;}
+.speak-btn:hover{transform:scale(1.1);}.speak-btn svg{width:17px;height:17px;fill:white;}
+.tap-wrap{max-width:680px;margin:0 auto;padding:0 16px;}
+.word-bank{background:white;border-radius:14px;padding:10px 12px;box-shadow:0 2px 10px rgba(0,0,0,0.08);margin-bottom:10px;}
+.word-bank h3{font-size:0.76rem;color:#555;margin-bottom:7px;line-height:1.5;}
+.bank-inner{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{display:inline-block;padding:5px 12px;border-radius:20px;background:linear-gradient(135deg,#4472C4,#17375E);color:white;font-size:0.83rem;font-weight:bold;cursor:pointer;user-select:none;box-shadow:0 2px 5px rgba(23,55,94,0.3);transition:all .15s;}
+.chip:hover{transform:scale(1.06);}.chip.selected{background:linear-gradient(135deg,#E36C09,#c45400);outline:2px solid #ff8c00;transform:scale(1.08);}
+.chip.used{opacity:0;pointer-events:none;width:0;padding:0;margin:0;overflow:hidden;}
+.tap-table{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.08);margin-bottom:10px;}
+.tap-table th{background:#4472C4;color:white;padding:7px;font-size:0.76rem;text-align:center;}.tap-table th:first-child{background:#17375E;}
+.tap-table td{border:1px solid #dde3f0;padding:6px 4px;text-align:center;font-size:0.83rem;vertical-align:middle;}.tap-table tr:nth-child(even) td{background:#EBF3FB;}
+.td-ja{text-align:left;padding-left:9px !important;font-weight:bold;font-size:0.8rem;color:#333;}
+.dropzone{min-height:32px;min-width:84px;border:2px dashed #b3c7e6;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
+.dropzone:hover{border-color:#4472C4;background:#e8f0fc;}.dropzone.correct{border-color:#22a06b;background:#e6f4ee;}.dropzone.wrong{border-color:#e53935;background:#fdecea;animation:shake .3s;}
+.placed{display:inline-block;padding:3px 10px;border-radius:12px;background:linear-gradient(135deg,#4472C4,#17375E);color:white;font-size:0.8rem;font-weight:bold;cursor:pointer;}
+.dropzone.correct .placed{background:linear-gradient(135deg,#22a06b,#145e3e);cursor:default;}
+.quiz-wrap{max-width:500px;margin:0 auto;padding:0 16px;}
+.score-bar{max-width:500px;margin:0 auto 8px;background:white;border-radius:12px;padding:8px 14px;box-shadow:0 2px 10px rgba(0,0,0,0.08);display:none;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center;}
+.score-bar.show{display:flex;}
+.s-item{text-align:center;}.s-val{font-size:1.2rem;font-weight:bold;}.s-lbl{font-size:0.62rem;color:#888;}
+.s-ok{color:#22a06b;}.s-ng{color:#e53935;}.s-rt{color:#17375E;}
+.quiz-card{background:white;border-radius:20px;box-shadow:0 4px 20px rgba(23,55,94,0.12);padding:22px 20px;text-align:center;margin-bottom:12px;}
+.quiz-q{font-size:1.75rem;font-weight:bold;color:#17375E;margin-bottom:3px;}.quiz-qkana{font-size:0.83rem;color:#888;}.quiz-num{font-size:0.7rem;color:#aaa;margin-top:5px;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.choice-btn{padding:12px 7px;border:2px solid #d0dff0;border-radius:14px;background:white;font-size:0.86rem;font-weight:bold;color:#333;cursor:pointer;transition:all .2s;line-height:1.4;}
+.choice-btn:hover{border-color:#4472C4;background:#EBF3FB;color:#17375E;}.choice-btn.correct{border-color:#22a06b;background:#e6f4ee;color:#145e3e;}
+.choice-btn.wrong{border-color:#e53935;background:#fdecea;color:#b71c1c;animation:shake .3s;}.choice-btn.show-correct{border-color:#22a06b;background:#e6f4ee;color:#145e3e;}
+.quiz-result{font-size:0.9rem;font-weight:bold;text-align:center;min-height:24px;margin-bottom:5px;}
+.quiz-result.ok{color:#22a06b;}.quiz-result.ng{color:#e53935;}
+.spell-wrap{max-width:500px;margin:0 auto;padding:0 16px;}
+.spell-prog{display:flex;gap:4px;justify-content:center;margin-bottom:10px;flex-wrap:wrap;}
+.sp-dot{width:25px;height:25px;border-radius:50%;border:2px solid #d0dff0;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:#aaa;transition:all .2s;}
+.sp-dot.ok{background:#22a06b;border-color:#22a06b;color:white;}.sp-dot.ng{background:#e53935;border-color:#e53935;color:white;}.sp-dot.cur{border-color:#4472C4;color:#4472C4;font-weight:bold;}
+.spell-card{background:white;border-radius:20px;box-shadow:0 4px 20px rgba(23,55,94,0.12);padding:22px 20px;text-align:center;margin-bottom:10px;}
+.spell-ja{font-size:1.45rem;font-weight:bold;color:#17375E;margin-bottom:3px;}.spell-kana{font-size:0.83rem;color:#888;}.spell-num{font-size:0.7rem;color:#aaa;margin-top:5px;}
+.spell-result{font-size:0.9rem;font-weight:bold;text-align:center;min-height:24px;margin-bottom:5px;}
+.spell-result.ok{color:#22a06b;}.spell-result.ng{color:#e53935;}
+.spell-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.spell-choice{padding:11px 7px;border:2px solid #d0dff0;border-radius:14px;background:white;font-size:0.88rem;font-weight:bold;color:#17375E;cursor:pointer;transition:all .2s;font-family:monospace;letter-spacing:.5px;}
+.spell-choice:hover{border-color:#4472C4;background:#EBF3FB;}.spell-choice.correct{border-color:#22a06b;background:#e6f4ee;color:#145e3e;}
+.spell-choice.wrong{border-color:#e53935;background:#fdecea;color:#b71c1c;animation:shake .3s;}.spell-choice.show-correct{border-color:#22a06b;background:#e6f4ee;color:#145e3e;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+@media(max-width:400px){.spell-choices,.choices{grid-template-columns:1fr;}}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #dde3f0;padding:8px 12px;display:flex;gap:7px;justify-content:center;flex-wrap:wrap;box-shadow:0 -2px 10px rgba(0,0,0,0.08);z-index:200;}
+.btn{padding:9px 16px;border:none;border-radius:22px;font-size:0.84rem;font-weight:bold;cursor:pointer;transition:all .15s;box-shadow:0 3px 8px rgba(0,0,0,0.12);}
+.btn:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(0,0,0,0.16);}.btn:active{transform:scale(0.96);}
+.btn-next{background:linear-gradient(135deg,#4472C4,#17375E);color:white;}
+.btn-judge{background:linear-gradient(135deg,#22a06b,#145e3e);color:white;}
+.btn-skip{background:#eee;color:#555;}
+.btn-list{background:#f0f4f8;color:#17375E;border:2px solid #b3c7e6;}
+.confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;overflow:hidden;}
+.petal{position:absolute;top:-20px;border-radius:50%;animation:fall linear forwards;}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+.complete-screen{display:none;position:fixed;inset:0;background:rgba(23,55,94,0.93);z-index:500;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:white;padding:30px;}
+.complete-screen.show{display:flex;}
+.complete-screen h2{font-size:1.9rem;margin-bottom:6px;}
+.complete-screen p{font-size:0.95rem;opacity:.85;margin-bottom:12px;}
+.complete-time{font-size:2.8rem;font-weight:bold;color:#ffd700;margin-bottom:4px;}
+.complete-best{font-size:0.88rem;opacity:.8;margin-bottom:20px;}
+.complete-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.c-btn{padding:11px 20px;border:none;border-radius:22px;font-size:0.88rem;font-weight:bold;cursor:pointer;}
+.c-btn-again{background:#E36C09;color:white;}
+.c-btn-next{background:#22a06b;color:white;}
+.c-btn-list{background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.5);}
+@media(max-width:480px){.flash-en{font-size:1.6rem;}.btn{padding:8px 12px;font-size:0.79rem;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <button class="btn-hd" onclick="window.location.href='index.html'">🏠 一覧</button>
+    <h1>📖 スポーツ・楽器　単元 3 / 5</h1>
+  </div>
+  <div class="step-bar">
+    <div class="step-pip" id="pip0"></div><div class="step-pip" id="pip1"></div>
+    <div class="step-pip" id="pip2"></div><div class="step-pip" id="pip3"></div>
+    <div class="step-pip" id="pip4"></div>
+  </div>
+</div>
+<div class="mute-bar">
+  <div class="mute-wrap" id="muteWrap">
+    <span id="muteLabel">🔊 音声ON</span>
+    <div class="mute-track" id="muteTrack"><div class="mute-thumb"></div></div>
+  </div>
+</div>
+<div class="timer-row">
+  <div><div class="timer-disp" id="timerDisp">00:00</div><div style="font-size:0.6rem;color:#888;">タイム</div></div>
+  <div class="step-label" id="stepLabel">単語一覧</div>
+</div>
+<div id="step0" style="display:none;">
+  <div class="wordlist-wrap">
+    <div class="wordlist-title">
+      <h2>今週の単語　10語</h2>
+      <p>音声ボタンで発音を確認しよう</p>
+    </div>
+    <table class="wordlist-table">
+      <thead><tr><th class="wl-no">#</th><th class="wl-en">英単語</th><th class="wl-kana">読み方</th><th class="wl-ja">意味</th><th class="wl-spk">音声</th></tr></thead>
+      <tbody id="wordListBody"></tbody>
+    </table>
+  </div>
+</div>
+<div id="step1" style="display:none;">
+  <div class="flash-wrap">
+    <div class="flash-phase-label">
+      <span class="flash-phase-badge phaseA" id="flashPhaseBadge">フェーズA：英語→意味（タップでめくる）</span>
+    </div>
+    <div class="flash-hint-msg">💡 すぐに意味が言えますか？　2秒で答えましょう！</div>
+    <div class="speed-ctrl">
+      <label>⏱ 速度：</label>
+      <div class="speed-btns" id="speedBtns">
+        <button class="spd-btn" data-sec="1">1秒</button>
+        <button class="spd-btn active" data-sec="2">2秒</button>
+        <button class="spd-btn" data-sec="3">3秒</button>
+        <button class="spd-btn" data-sec="5">5秒</button>
+        <button class="spd-btn" data-sec="0">手動</button>
+      </div>
+    </div>
+    <div class="flash-card" id="flashCard" onclick="onFlashTap()">
+      <button class="speak-btn" onclick="event.stopPropagation();speakCurrent()">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+      </button>
+      <div class="flash-tap-hint" id="flashTapHint">タップして意味を確認</div>
+      <div class="flash-en" id="flashEn">-</div>
+      <div class="flash-kana" id="flashKana">-</div>
+      <div class="flash-ja" id="flashJa" style="display:none;">-</div>
+      <div class="flash-pos" id="flashPos"></div>
+      <div class="flash-counter" id="flashCounter">1 / 10</div>
+      <div class="flash-progress"><div class="flash-bar" id="flashBar" style="width:10%"></div></div>
+      <div class="pause-overlay" id="pauseOverlay">
+        <div class="po-icon">⏸</div>
+        <div class="po-msg">一時停止中</div>
+        <button class="po-resume" onclick="event.stopPropagation();resumeAuto()">▶ 再開</button>
+      </div>
+    </div>
+    <div class="flash-controls">
+      <button class="fc-btn fc-list" onclick="showStep(0)">📋 一覧</button>
+      <button class="fc-btn fc-prev" onclick="flashPrev()">◀ 前へ</button>
+      <button class="fc-btn fc-play"  id="fcPlayBtn"  onclick="toggleAuto()">▶ 自動</button>
+      <button class="fc-btn fc-pause" id="fcPauseBtn" onclick="pauseAuto()" style="display:none;">⏸ 停止</button>
+      <button class="fc-btn fc-next" onclick="flashNext()">次へ ▶</button>
+    </div>
+  </div>
+</div>
+<div id="step2" style="display:none;">
+  <div class="tap-wrap">
+    <div class="word-bank">
+      <h3>📦 語群　─　①単語をタップ（オレンジ）　②表の空欄をタップして配置　③空欄タップで戻せる</h3>
+      <div class="bank-inner" id="wordBank"></div>
+    </div>
+    <table class="tap-table">
+      <thead><tr><th>意味</th><th>英単語</th></tr></thead>
+      <tbody id="tapBody"></tbody>
+    </table>
+  </div>
+</div>
+<div id="step3" style="display:none;">
+  <div class="quiz-wrap">
+    <div class="score-bar" id="quizScore">
+      <div class="s-item"><div class="s-val s-ok" id="qOk">0</div><div class="s-lbl">✅ 正解</div></div>
+      <div class="s-item"><div class="s-val s-ng" id="qNg">0</div><div class="s-lbl">❌ 不正解</div></div>
+      <div class="s-item"><div class="s-val s-rt" id="qRt">--%</div><div class="s-lbl">正解率</div></div>
+    </div>
+    <div class="quiz-card">
+      <div id="qSpeakWrap" style="display:flex;justify-content:center;margin-bottom:8px;"></div>
+      <div class="quiz-q" id="quizQ">-</div>
+      <div class="quiz-qkana" id="quizQkana"></div>
+      <div class="quiz-num" id="quizNum">1/10</div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="quiz-result" id="quizResult"></div>
+  </div>
+</div>
+<div id="step4" style="display:none;">
+  <div class="spell-wrap">
+    <div class="spell-prog" id="spellProg"></div>
+    <div class="score-bar" id="spellScore">
+      <div class="s-item"><div class="s-val s-ok" id="spOk">0</div><div class="s-lbl">✅ 正解</div></div>
+      <div class="s-item"><div class="s-val s-ng" id="spNg">0</div><div class="s-lbl">❌ 不正解</div></div>
+      <div class="s-item"><div class="s-val s-rt" id="spRt">--%</div><div class="s-lbl">正解率</div></div>
+    </div>
+    <div class="spell-card">
+      <div id="spSpeakWrap" style="display:flex;justify-content:center;margin-bottom:7px;"></div>
+      <div class="spell-ja" id="spellJa">-</div>
+      <div class="spell-kana" id="spellKana">-</div>
+      <div class="spell-num" id="spellNum">1/10</div>
+    </div>
+    <div class="spell-choices" id="spellChoices"></div>
+    <div class="spell-result" id="spellResult"></div>
+  </div>
+</div>
+<div class="complete-screen" id="completeScreen">
+  <div style="font-size:2.8rem;margin-bottom:8px;">🎉</div>
+  <h2>単元クリア！</h2>
+  <p id="completeMsg"></p>
+  <div class="complete-time" id="completeTime">00:00</div>
+  <div class="complete-best" id="completeBest"></div>
+  <div class="complete-btns">
+    <button class="c-btn c-btn-again" id="btnAgain">🔄 もう一度</button>
+    <button class="c-btn c-btn-next" onclick="window.location.href='JS_sp04.html'">次の単元 →</button>
+    <button class="c-btn c-btn-list" onclick="window.location.href='index.html'">📋 単元一覧</button>
+  </div>
+</div>
+<div class="confetti-container" id="confetti"></div>
+<div class="bottom-bar">
+  <button class="btn btn-list" onclick="window.location.href='index.html'">📋 一覧に戻る</button>
+  <button class="btn btn-skip" id="btnSkip" style="display:none;">スキップ</button>
+  <button class="btn btn-judge" id="btnJudge" style="display:none;">✅ 判定</button>
+  <button class="btn btn-next" id="btnNext">フラッシュカードへ →</button>
+</div>
+<script>
+const WORDS=[
+  {no:21,en:'athlete',kana:'【ア】スリート',pos:'名詞',ja:'運動選手'},
+  {no:22,en:'champion',kana:'【チャン】ピオン',pos:'名詞',ja:'チャンピオン'},
+  {no:23,en:'championship',kana:'【チャンピオン】シップ',pos:'名詞',ja:'選手権'},
+  {no:24,en:'score',kana:'スコア',pos:'名詞/動詞',ja:'得点'},
+  {no:25,en:'win',kana:'ウィン',pos:'動詞',ja:'勝つ'},
+  {no:26,en:'lose',kana:'ルーズ',pos:'動詞',ja:'負ける'},
+  {no:27,en:'practice',kana:'【プラク】ティス',pos:'名詞/動詞',ja:'練習'},
+  {no:28,en:'instrument',kana:'【イン】ストルメント',pos:'名詞',ja:'楽器'},
+  {no:29,en:'musical instrument',kana:'ミュージカルインストゥルメント',pos:'名詞',ja:'楽器'},
+  {no:30,en:'piano',kana:'ピ【ア】ノ',pos:'名詞',ja:'ピアノ'}
+];
+const LS_KEY_PROG='JS_sp03_p',LS_KEY_REVIEW='JS_sp03_r';
+const lsGet=k=>{try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
+function saveProgress(sec){const p=lsGet(LS_KEY_PROG)||{};lsSet(LS_KEY_PROG,{cleared:true,bestSec:p.bestSec?Math.min(p.bestSec,sec):sec});}
+function addReview(w){const rv=lsGet(LS_KEY_REVIEW)||[];if(!rv.some(r=>r.en===w.en))rv.push({en:w.en,ja:w.ja,kana:w.kana});lsSet(LS_KEY_REVIEW,rv);}
+let timerSec=0,timerRunning=false,timerInterval=null;
+const fmtT=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+const startTimer=()=>{if(timerRunning)return;timerRunning=true;timerInterval=setInterval(()=>{timerSec++;document.getElementById('timerDisp').textContent=fmtT(timerSec);},1000);};
+const stopTimer=()=>{clearInterval(timerInterval);timerRunning=false;};
+const synth=window.speechSynthesis;let isMuted=false;
+function speak(t){synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=0.85;synth.speak(u);}
+function speakIfOn(t){if(!isMuted)speak(t);}
+document.getElementById('muteWrap').addEventListener('click',()=>{isMuted=!isMuted;document.getElementById('muteTrack').classList.toggle('on',isMuted);document.getElementById('muteLabel').textContent=isMuted?'🔇 音声OFF':'🔊 音声ON';if(isMuted)synth.cancel();});
+function makeSpeakBtn(t){const b=document.createElement('button');b.className='speak-btn';b.innerHTML='<svg viewBox="0 0 24 24" fill="white" width="17" height="17"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';b.onclick=()=>speakIfOn(t);return b;}
+let currentStep=0;
+const STEP_LABELS=['単語一覧','STEP1:フラッシュ','STEP2:語群タップ','STEP3:四択','STEP4:つづり四択'];
+function showStep(s){currentStep=s;['step0','step1','step2','step3','step4'].forEach((id,i)=>{document.getElementById(id).style.display=i===s?'block':'none';});for(let i=0;i<5;i++){const p=document.getElementById('pip'+i);if(p)p.className='step-pip'+(i<s?' done':(i===s?' active':''));}document.getElementById('stepLabel').textContent=STEP_LABELS[s];document.getElementById('btnJudge').style.display=s===2?'inline-block':'none';document.getElementById('btnSkip').style.display=s===0?'none':'inline-block';document.getElementById('btnNext').textContent=s===0?'フラッシュカードへ →':'次のSTEP →';}
+function initWordList(){const tb=document.getElementById('wordListBody');tb.innerHTML='';WORDS.forEach((w,i)=>{const tr=document.createElement('tr');tr.innerHTML='<td class="wl-no">'+(i+1)+'</td><td class="wl-en">'+w.en+'</td><td class="wl-kana">'+w.kana+'</td><td class="wl-ja">'+w.ja+'</td>';const td=document.createElement('td');td.className='wl-spk';td.appendChild(makeSpeakBtn(w.en));tr.appendChild(td);tb.appendChild(tr);});}
+let flashIdx=0,autoTimer=null,autoSec=2,flashPhase='A',flashRevealed=false,autoPaused=false;
+function initFlash(){flashIdx=0;flashPhase='A';flashRevealed=false;autoPaused=false;updatePhaseBadge();renderFlash();}
+function updatePhaseBadge(){const b=document.getElementById('flashPhaseBadge'),h=document.getElementById('flashTapHint');if(flashPhase==='A'){b.textContent='フェーズA：英語→意味（タップでめくる）';b.className='flash-phase-badge phaseA';h.textContent='タップして意味を確認';}else{b.textContent='フェーズB：意味→英語（タップでめくる）';b.className='flash-phase-badge phaseB';h.textContent='タップして英単語を確認';}}
+function renderFlash(){const w=WORDS[flashIdx];if(!w)return;flashRevealed=false;document.getElementById('flashCounter').textContent=(flashIdx+1)+' / '+WORDS.length;document.getElementById('flashBar').style.width=((flashIdx+1)/WORDS.length*100)+'%';document.getElementById('flashPos').textContent=w.pos;document.getElementById('flashEn').textContent=w.en;document.getElementById('flashKana').textContent=w.kana;document.getElementById('flashJa').textContent=w.ja;if(flashPhase==='A'){document.getElementById('flashEn').style.display='block';document.getElementById('flashKana').style.display='block';document.getElementById('flashJa').style.display='none';}else{document.getElementById('flashEn').style.display='none';document.getElementById('flashKana').style.display='none';document.getElementById('flashJa').style.display='block';}speakIfOn(w.en);}
+function onFlashTap(){if(autoPaused)return;if(!flashRevealed){flashRevealed=true;if(flashPhase==='A')document.getElementById('flashJa').style.display='block';else{document.getElementById('flashEn').style.display='block';document.getElementById('flashKana').style.display='block';}}else flashNext();}
+function flashNext(){if(flashIdx<WORDS.length-1){flashIdx++;renderFlash();}else{if(flashPhase==='A'){flashPhase='B';flashIdx=0;updatePhaseBadge();renderFlash();alert('フェーズA完了！\n今度は意味→英語に挑戦しよう！');}else stopAuto();}}
+function flashPrev(){if(flashIdx>0){flashIdx--;renderFlash();}else if(flashPhase==='B'){flashPhase='A';flashIdx=WORDS.length-1;updatePhaseBadge();renderFlash();}}
+function speakCurrent(){speakIfOn(WORDS[flashIdx]&&WORDS[flashIdx].en||'');}
+function toggleAuto(){if(autoTimer){stopAuto();return;}document.getElementById('fcPlayBtn').style.display='none';document.getElementById('fcPauseBtn').style.display='inline-block';autoPaused=false;document.getElementById('pauseOverlay').classList.remove('show');flashIdx=0;flashPhase='A';updatePhaseBadge();renderFlash();autoTimer=setInterval(()=>{if(autoPaused)return;if(!flashRevealed){flashRevealed=true;if(flashPhase==='A')document.getElementById('flashJa').style.display='block';else{document.getElementById('flashEn').style.display='block';document.getElementById('flashKana').style.display='block';}}else flashNext();},autoSec*1000);}
+function pauseAuto(){if(!autoTimer)return;autoPaused=true;synth.cancel();document.getElementById('pauseOverlay').classList.add('show');}
+function resumeAuto(){autoPaused=false;document.getElementById('pauseOverlay').classList.remove('show');}
+function stopAuto(){clearInterval(autoTimer);autoTimer=null;autoPaused=false;document.getElementById('fcPlayBtn').style.display='inline-block';document.getElementById('fcPauseBtn').style.display='none';document.getElementById('pauseOverlay').classList.remove('show');}
+document.getElementById('speedBtns').addEventListener('click',e=>{if(!e.target.dataset.sec)return;autoSec=parseInt(e.target.dataset.sec)||99;document.querySelectorAll('.spd-btn').forEach(b=>b.classList.remove('active'));e.target.classList.add('active');if(autoTimer){stopAuto();toggleAuto();}});
+let tapSel=null;
+function initTap(){tapSel=null;buildWordBank();buildTapTable();}
+function buildWordBank(){const bk=document.getElementById('wordBank');bk.innerHTML='';[...WORDS].sort(()=>Math.random()-0.5).forEach((w,i)=>{const c=document.createElement('span');c.className='chip';c.textContent=w.en;c.dataset.en=w.en;c.dataset.i=i;c.addEventListener('click',()=>onChipTap(c));bk.appendChild(c);});}
+function onChipTap(c){if(c.classList.contains('used'))return;if(tapSel===c){c.classList.remove('selected');tapSel=null;return;}if(tapSel)tapSel.classList.remove('selected');tapSel=c;c.classList.add('selected');}
+function buildTapTable(){const tb=document.getElementById('tapBody');tb.innerHTML='';WORDS.forEach((w,i)=>{const tr=document.createElement('tr');const td1=document.createElement('td');td1.className='td-ja';td1.textContent=w.ja;tr.appendChild(td1);const td2=document.createElement('td');const dz=document.createElement('div');dz.className='dropzone';dz.dataset.en=w.en;dz.dataset.i=i;dz.addEventListener('click',()=>onZoneTap(dz));td2.appendChild(dz);tr.appendChild(td2);tb.appendChild(tr);});}
+function onZoneTap(dz){if(dz.classList.contains('correct'))return;if(dz.querySelector('.placed')){retChip(dz);return;}if(!tapSel)return;const p=document.createElement('span');p.className='placed';p.textContent=tapSel.textContent;p.dataset.ci=tapSel.dataset.i;dz.appendChild(p);tapSel.classList.add('used');tapSel.classList.remove('selected');tapSel=null;}
+function retChip(dz){const p=dz.querySelector('.placed');if(!p)return;const c=document.querySelector('.chip[data-i="'+p.dataset.ci+'"]');if(c)c.classList.remove('used','selected');dz.removeChild(p);dz.classList.remove('correct','wrong');}
+function judgeTap(){let ok=true;document.querySelectorAll('.dropzone').forEach(dz=>{if(dz.classList.contains('correct'))return;const p=dz.querySelector('.placed');if(!p){ok=false;return;}if(p.textContent.trim()===dz.dataset.en){dz.classList.add('correct');}else{dz.classList.add('wrong');ok=false;const w=WORDS[parseInt(dz.dataset.i)];if(w)addReview(w);setTimeout(()=>retChip(dz),600);}});if(ok)setTimeout(()=>goNext(),400);}
+let qIdx=0,qOk=0,qNg=0,qAnswered=false,qOrder=[];
+function initQuiz(){qIdx=0;qOk=0;qNg=0;qOrder=[...WORDS].sort(()=>Math.random()-0.5);document.getElementById('quizScore').classList.remove('show');renderQuiz();}
+function renderQuiz(){qAnswered=false;const w=qOrder[qIdx];if(!w)return;document.getElementById('quizQ').textContent=w.en;document.getElementById('quizQkana').textContent=w.kana;document.getElementById('quizNum').textContent=(qIdx+1)+'/'+qOrder.length;document.getElementById('quizResult').textContent='';document.getElementById('quizResult').className='quiz-result';const sw=document.getElementById('qSpeakWrap');sw.innerHTML='';sw.appendChild(makeSpeakBtn(w.en));speakIfOn(w.en);const pool=WORDS.filter(x=>x!==w).sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.ja);const ch=[w.ja,...pool].sort(()=>Math.random()-0.5);const div=document.getElementById('choices');div.innerHTML='';ch.forEach(c=>{const b=document.createElement('button');b.className='choice-btn';b.textContent=c;b.addEventListener('click',()=>answerQuiz(b,c,w.ja));div.appendChild(b);});}
+function answerQuiz(btn,chosen,correct){if(qAnswered)return;qAnswered=true;const ok=chosen===correct;btn.classList.add(ok?'correct':'wrong');if(!ok){document.querySelectorAll('.choice-btn').forEach(b=>{if(b.textContent===correct)b.classList.add('show-correct')});addReview(qOrder[qIdx]);qNg++;}else qOk++;document.getElementById('quizResult').textContent=ok?'✅ 正解！':'❌ 正解：'+correct;document.getElementById('quizResult').className='quiz-result '+(ok?'ok':'ng');const done=qIdx+1;document.getElementById('qOk').textContent=qOk;document.getElementById('qNg').textContent=qNg;document.getElementById('qRt').textContent=Math.round(qOk/done*100)+'%';document.getElementById('quizScore').classList.add('show');setTimeout(()=>{qIdx++;if(qIdx<qOrder.length)renderQuiz();},1300);}
+let spIdx=0,spOk=0,spNg=0,spOrder=[],spAnswered=false;
+function initSpell(){spIdx=0;spOk=0;spNg=0;spAnswered=false;spOrder=[...WORDS].sort(()=>Math.random()-0.5);document.getElementById('spellScore').classList.remove('show');renderSpProg();renderSpell();}
+function renderSpProg(){const pg=document.getElementById('spellProg');pg.innerHTML='';spOrder.forEach((_,i)=>{const d=document.createElement('div');d.className='sp-dot'+(i<spIdx?(spOrder[i]._ok?' ok':' ng'):(i===spIdx?' cur':''));d.textContent=i+1;pg.appendChild(d);});}
+function renderSpell(){spAnswered=false;const w=spOrder[spIdx];if(!w)return;document.getElementById('spellJa').textContent=w.ja;document.getElementById('spellKana').textContent=w.kana;document.getElementById('spellNum').textContent=(spIdx+1)+'/'+spOrder.length;document.getElementById('spellResult').textContent='';document.getElementById('spellResult').className='spell-result';const sw=document.getElementById('spSpeakWrap');sw.innerHTML='';sw.appendChild(makeSpeakBtn(w.en));speakIfOn(w.en);const pool=WORDS.filter(x=>x!==w).sort((a,b)=>Math.abs(a.en.length-w.en.length)-Math.abs(b.en.length-w.en.length)).slice(0,6).sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.en);while(pool.length<3){const ex=WORDS.filter(x=>x!==w&&!pool.includes(x.en)).sort(()=>Math.random()-0.5)[0];if(ex)pool.push(ex.en);else break;}const ch=[w.en,...pool].sort(()=>Math.random()-0.5);const div=document.getElementById('spellChoices');div.innerHTML='';ch.forEach(c=>{const b=document.createElement('button');b.className='spell-choice';b.textContent=c;b.addEventListener('click',()=>answerSpell(b,c,w.en));div.appendChild(b);});renderSpProg();}
+function answerSpell(btn,chosen,correct){if(spAnswered)return;spAnswered=true;const ok=chosen===correct;btn.classList.add(ok?'correct':'wrong');if(!ok){document.querySelectorAll('.spell-choice').forEach(b=>{if(b.textContent===correct)b.classList.add('show-correct')});addReview(spOrder[spIdx]);spNg++;spOrder[spIdx]._ok=false;}else{spOk++;spOrder[spIdx]._ok=true;}document.getElementById('spellResult').textContent=ok?'✅ 正解！':'❌ 正解：'+correct;document.getElementById('spellResult').className='spell-result '+(ok?'ok':'ng');const done=spIdx+1;document.getElementById('spOk').textContent=spOk;document.getElementById('spNg').textContent=spNg;document.getElementById('spRt').textContent=Math.round(spOk/done*100)+'%';document.getElementById('spellScore').classList.add('show');setTimeout(()=>{spIdx++;if(spIdx<spOrder.length)renderSpell();else{stopTimer();saveProgress(timerSec);showComplete();}},1000);}
+function showComplete(){const prog=lsGet(LS_KEY_PROG)||{};document.getElementById('completeTime').textContent=fmtT(timerSec);document.getElementById('completeBest').textContent=prog.bestSec?'🏅 ベスト：'+fmtT(prog.bestSec):'';document.getElementById('completeMsg').textContent=spNg===0?'全問正解！🎊 素晴らしい！':'つづり正解率：'+Math.round(spOk/spOrder.length*100)+'%';document.getElementById('completeScreen').classList.add('show');launchConfetti();}
+function launchConfetti(){const c=document.getElementById('confetti');c.innerHTML='';const cols=['#E36C09','#4472C4','#22a06b','#ffd700','#e53935','#9c27b0','#00bcd4'];for(let i=0;i<90;i++){const p=document.createElement('div');p.className='petal';p.style.left=Math.random()*100+'vw';p.style.background=cols[Math.floor(Math.random()*cols.length)];const sz=(Math.random()*10+6)+'px';p.style.width=sz;p.style.height=sz;p.style.animationDuration=(Math.random()*2+1.5)+'s';p.style.animationDelay=(Math.random()*0.8)+'s';c.appendChild(p);}setTimeout(()=>c.innerHTML='',4500);}
+document.getElementById('btnSkip').addEventListener('click',()=>{if(currentStep>0&&currentStep<4)goNext();});
+document.getElementById('btnNext').addEventListener('click',goNext);
+document.getElementById('btnJudge').addEventListener('click',()=>{if(currentStep===2)judgeTap();});
+document.getElementById('btnAgain').addEventListener('click',()=>{document.getElementById('completeScreen').classList.remove('show');timerSec=0;clearInterval(timerInterval);timerRunning=false;document.getElementById('timerDisp').textContent='00:00';initWordList();showStep(0);});
+function goNext(){stopAuto();const n=currentStep+1;if(n>4)return;showStep(n);if(n===1){initFlash();startTimer();}else if(n===2)initTap();else if(n===3)initQuiz();else if(n===4)initSpell();}
+initWordList();showStep(0);
+</script>
+</body>
+</html>
