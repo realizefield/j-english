@@ -3,310 +3,8235 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>爆速英文法 GAMBA ─ 単元一覧</title>
+<title>中学英単語 学習トップ</title>
 <style>
-:root{
-  --primary:#1e3a8a;--primary-light:#dbeafe;--primary-mid:#2563eb;
-  --accent:#dc2626;--accent-light:#fee2e2;
-  --success:#16a34a;--success-light:#dcfce7;
-  --warn:#d97706;--warn-light:#fffbeb;
-  --orange:#fb923c;--orange-light:#fff7ed;
-  --bg:#f4f6fb;--card:#ffffff;--border:#c7d2fe;
-  --text:#1e293b;--text-sub:#64748b;--radius:12px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
-
-/* ── ログイン画面 ── */
-#login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:linear-gradient(160deg,#1e3a8a 0%,#1e40af 100%);}
-.login-box{background:#fff;border-radius:20px;padding:36px 28px;width:100%;max-width:380px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25);}
-.login-logo{font-size:2.8em;margin-bottom:4px;}
-.login-title{font-size:1.5em;font-weight:700;color:var(--primary);margin-bottom:2px;}
-.login-sub{font-size:.85em;color:var(--orange);font-weight:700;margin-bottom:4px;}
-.login-tagline{font-size:.83em;color:var(--text-sub);margin-bottom:28px;line-height:1.6;}
-.login-label{display:block;font-size:.85em;font-weight:700;color:var(--text-sub);text-align:left;margin-bottom:8px;}
-.login-input{width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:12px;font-size:1.05em;font-family:inherit;outline:none;transition:border-color .2s;margin-bottom:20px;}
-.login-input:focus{border-color:var(--primary);}
-.btn-login{width:100%;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:16px;font-size:1.05em;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(220,38,38,.35);transition:transform .15s;letter-spacing:.05em;}
-.btn-login:hover{transform:translateY(-2px);}
-
-/* ── メイン画面 ── */
-#main-screen{display:none;}
-
-/* ── ヘッダー ── */
-.top-header{background:var(--primary);color:#fff;padding:16px 16px 14px;box-shadow:0 4px 16px rgba(30,58,138,.3);}
-.header-row{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;}
-.header-logo{font-size:1.2em;font-weight:700;flex:1;line-height:1.3;}
-.header-logo small{font-size:.65em;opacity:.8;display:block;}
-.header-logo .spark{color:var(--orange);}
-.student-badge{background:rgba(255,255,255,.2);border-radius:20px;padding:5px 12px;font-size:.82em;font-weight:700;white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;}
-.btn-change{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:20px;padding:5px 11px;font-size:.75em;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;}
-
-/* 進捗エリア */
-.progress-area{max-width:760px;margin:10px auto 0;padding:0 2px;}
-.progress-row{display:flex;justify-content:space-between;font-size:.76em;color:rgba(255,255,255,.85);margin-bottom:5px;}
-.progress-bar-bg{background:rgba(255,255,255,.25);border-radius:8px;height:9px;overflow:hidden;}
-.progress-bar-fill{height:100%;background:var(--orange);border-radius:8px;transition:width .7s ease;}
-.progress-chips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
-.prog-chip{background:rgba(255,255,255,.18);border-radius:8px;padding:3px 10px;font-size:.76em;font-weight:700;color:#fff;}
-
-/* ── コンテナ ── */
-.g-container{max-width:760px;margin:0 auto;padding:18px 14px 60px;}
-
-/* ── お知らせ ── */
-.notice{border-radius:var(--radius);padding:12px 16px;margin-bottom:18px;font-size:.88em;line-height:1.75;}
-.notice-default{background:var(--primary-light);border:1.5px solid var(--primary-mid);color:var(--primary);}
-.notice-progress{background:var(--orange-light);border:1.5px solid var(--orange);color:#92400e;}
-.notice-complete{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
-
-/* ── セクションタイトル ── */
-.section-title{font-size:1em;font-weight:700;color:var(--primary);border-left:4px solid var(--orange);padding-left:11px;margin:22px 0 10px;}
-.section-title:first-of-type{margin-top:0;}
-
-/* ── 単元カード ── */
-.unit-list{display:flex;flex-direction:column;gap:7px;}
-.unit-card{
-  background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);
-  display:flex;align-items:center;gap:10px;padding:12px 14px;
-  text-decoration:none;color:var(--text);
-  transition:box-shadow .18s,border-color .18s;
-  cursor:pointer;position:relative;
-}
-.unit-card:active{opacity:.85;}
-.unit-card.s-pass  {border-color:#86efac;background:#f0fdf4;}
-.unit-card.s-review{border-color:var(--orange);background:var(--orange-light);}
-.unit-card.s-none  {border-color:var(--border);}
-
-/* コードバッジ */
-.u-code{font-size:.72em;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;background:var(--primary-light);color:var(--primary);}
-
-/* 単元名 */
-.u-name{flex:1;font-size:.9em;font-weight:700;line-height:1.4;min-width:0;}
-.u-sub{font-size:.75em;color:var(--text-sub);font-weight:400;margin-top:1px;}
-
-/* 状態バッジ */
-.u-badge{font-size:.72em;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
-.b-pass  {background:var(--success-light);color:var(--success);}
-.b-review{background:var(--orange-light);color:var(--orange);border:1px solid var(--orange);}
-.b-none  {background:#f1f5f9;color:#94a3b8;}
-
-/* 矢印 */
-.u-arrow{color:#cbd5e1;font-size:1.05em;flex-shrink:0;}
-
-/* 復習ボタン */
-.btn-review-toggle{
-  background:none;border:1.5px solid #86efac;color:var(--success);
-  border-radius:12px;padding:3px 9px;font-size:.7em;font-weight:700;
-  font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0;
-}
-.unit-card.s-review .btn-review-toggle{border-color:var(--success);color:var(--success);}
-
-@media(max-width:400px){
-  .u-sub{display:none;}
-  .unit-card{padding:11px 10px;gap:8px;}
-}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f4f8;min-height:100vh;}
+.header{background:linear-gradient(135deg,#17375E,#4472C4);color:white;padding:16px 20px 20px;}
+.header h1{font-size:1.25rem;margin-bottom:4px;}
+.header p{font-size:0.78rem;opacity:.85;}
+.dashboard{display:flex;gap:12px;padding:14px 16px;max-width:860px;margin:0 auto;flex-wrap:wrap;}
+.dash-card{background:white;border-radius:14px;padding:14px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.08);flex:1;min-width:130px;text-align:center;}
+.dash-big{font-size:2rem;font-weight:bold;line-height:1;}
+.dash-lbl{font-size:0.7rem;color:#888;margin-top:4px;}
+.dash-card.streak .dash-big{color:#E36C09;}
+.dash-card.done   .dash-big{color:#22a06b;}
+.dash-card.total  .dash-big{color:#4472C4;}
+.overall-bar-wrap{background:#eee;border-radius:99px;height:8px;margin-top:8px;overflow:hidden;}
+.overall-bar{background:linear-gradient(90deg,#4472C4,#22a06b);height:8px;border-radius:99px;transition:width .6s;}
+.sec-title{font-size:0.9rem;font-weight:bold;color:#17375E;padding:14px 16px 6px;max-width:860px;margin:0 auto;}
+.cat-list{display:flex;flex-direction:column;gap:10px;padding:0 16px 100px;max-width:860px;margin:0 auto;}
+.cat-card{background:white;border-radius:14px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.07);cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.cat-card:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(0,0,0,0.12);}
+.cat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.cat-name{font-weight:bold;font-size:0.95rem;color:#17375E;}
+.cat-badge{font-size:0.72rem;background:#EBF3FB;color:#4472C4;border-radius:8px;padding:2px 8px;font-weight:bold;}
+.cat-badge.done-all{background:#e6f4ee;color:#22a06b;}
+.cat-progress-wrap{background:#f0f4f8;border-radius:99px;height:8px;overflow:hidden;}
+.cat-progress{height:8px;border-radius:99px;background:linear-gradient(90deg,#4472C4,#7ab3e8);transition:width .5s;}
+.cat-units{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.unit-dot{width:34px;height:34px;border-radius:50%;border:2px solid #d0dff0;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:bold;color:#aaa;cursor:pointer;transition:all .15s;background:white;}
+.unit-dot:hover{border-color:#4472C4;color:#4472C4;transform:scale(1.1);}
+.unit-dot.cleared{background:linear-gradient(135deg,#22a06b,#145e3e);border-color:#22a06b;color:white;}
+.unit-dot.best{background:linear-gradient(135deg,#E36C09,#c45400);border-color:#E36C09;color:white;}
 </style>
 </head>
 <body>
-
-<!-- ════════ ログイン画面 ════════ -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">⚡️</div>
-    <div class="login-title">爆速英文法</div>
-    <div class="login-sub">GAMBA</div>
-    <div class="login-tagline">高認合格をめざして<br>英文法を爆速でマスターしよう！</div>
-    <label class="login-label" for="name-input">あなたの名前を入力してください</label>
-    <input class="login-input" type="text" id="name-input" placeholder="例：山田 花子" maxlength="20" autocomplete="name">
-    <button class="btn-login" onclick="doLogin()">スタート！ →</button>
+<div class="header">
+  <h1>📚 中学英単語 1096</h1>
+  <p>21カテゴリ・119単元　─　毎日少しずつ、着実に覚えよう！</p>
+</div>
+<div class="dashboard">
+  <div class="dash-card streak">
+    <div class="dash-big" id="streakNum">0</div>
+    <div class="dash-lbl">🔥 連続学習日数</div>
+  </div>
+  <div class="dash-card done">
+    <div class="dash-big" id="doneNum">0</div>
+    <div class="dash-lbl">✅ クリア済み単元</div>
+    <div class="overall-bar-wrap"><div class="overall-bar" id="overallBar" style="width:0%"></div></div>
+  </div>
+  <div class="dash-card total">
+    <div class="dash-big">119</div>
+    <div class="dash-lbl">📖 全単元数</div>
   </div>
 </div>
-
-<!-- ════════ メイン画面 ════════ -->
-<div id="main-screen">
-
-  <div class="top-header">
-    <div class="header-row">
-      <div class="header-logo">
-        <span class="spark">⚡️</span> 爆速英文法
-        <small>GAMBA</small>
-      </div>
-      <div class="student-badge" id="badge-name">---</div>
-      <button class="btn-change" onclick="doLogout()">名前変更</button>
-    </div>
-    <div class="progress-area">
-      <div class="progress-row">
-        <span>学習進捗</span>
-        <span id="prog-text">0 / 16 単元合格</span>
-      </div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
-      </div>
-      <div class="progress-chips" id="prog-chips"></div>
-    </div>
-  </div>
-
-  <main class="g-container">
-    <div class="notice notice-default" id="notice-msg">
-      📌 単元をタップして「1.説明 → 2.例題 → 3.類題 → 4.テスト」の順に学習しよう！
-    </div>
-
-    <div class="section-title">⚡️ EA01〜10　英文法の基礎</div>
-    <div class="unit-list" id="list-ea-a"></div>
-
-    <div class="section-title">📖 EA11〜16　疑問詞・命令文・進行形・助動詞</div>
-    <div class="unit-list" id="list-ea-b"></div>
-  </main>
-</div>
+<div class="sec-title">📂 カテゴリ一覧</div>
+<div class="cat-list" id="catList"></div>
 
 <script>
-/* ── 単元マスター（EA01〜EA16） ── */
-const UNITS = [
-  /* EA01〜10 基礎 */
-  {code:'EA01', name:'be動詞（1）',             sub:'am / is / are の使い分け',             path:'EA01.html'},
-  {code:'EA02', name:'This / That / It',        sub:'これ・あれ・それ の使い分け',           path:'EA02.html'},
-  {code:'EA03', name:'所有格 my / your',         sub:'私の・あなたの を表す',                path:'EA03.html'},
-  {code:'EA04', name:'be動詞の否定文',            sub:'〜ではありません（not の使い方）',      path:'EA04.html'},
-  {code:'EA05', name:'be動詞の疑問文',            sub:'〜ですか？（Are you 〜?）',            path:'EA05.html'},
-  {code:'EA06', name:'一般動詞①　肯定文',        sub:'動作を表す動詞の基本',                 path:'EA06.html'},
-  {code:'EA07', name:'一般動詞②　否定・疑問',    sub:"don't / Do you 〜?",                  path:'EA07.html'},
-  {code:'EA08', name:'代名詞の目的格',            sub:'me / you / him / her …',              path:'EA08.html'},
-  {code:'EA09', name:'名詞の複数形',              sub:'s / es のつけ方',                      path:'EA09.html'},
-  {code:'EA10', name:'三単現のs',                sub:'He plays / She likes …',              path:'EA10.html'},
-  /* EA11〜16 発展 */
-  {code:'EA11', name:'疑問詞①',                 sub:'What time / How / What 〜?',           path:'EA11.html'},
-  {code:'EA12', name:'疑問詞②',                 sub:'When / Where / How many / Who 〜?',    path:'EA12.html'},
-  {code:'EA13', name:'命令文',                   sub:'〜しなさい・するな・Please・Let\'s',   path:'EA13.html'},
-  {code:'EA14', name:'現在進行形',               sub:'be動詞 ＋ -ing「〜している」',          path:'EA14.html'},
-  {code:'EA15', name:'習慣的な疑問文',           sub:'何曜日？天気は？誕生日はいつ？',        path:'EA15.html'},
-  {code:'EA16', name:'助動詞 can',               sub:'〜できる / できない / できますか？',     path:'EA16.html'},
+// ===== データ（先頭に定義） =====
+const TANGO_DATA = [
+  {
+    "id": "01",
+    "name": "曜日・月名",
+    "total": 19,
+    "unitCount": 2,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "Monday",
+          "kana": "【マン】デイ",
+          "pos": "名詞",
+          "ja": "月曜日"
+        },
+        {
+          "no": 2,
+          "en": "Tuesday",
+          "kana": "【チューズ】デイ",
+          "pos": "名詞",
+          "ja": "火曜日"
+        },
+        {
+          "no": 3,
+          "en": "Wednesday",
+          "kana": "【ウェンズ】デイ",
+          "pos": "名詞",
+          "ja": "水曜日"
+        },
+        {
+          "no": 4,
+          "en": "Thursday",
+          "kana": "【サーズ】デイ",
+          "pos": "名詞",
+          "ja": "木曜日"
+        },
+        {
+          "no": 5,
+          "en": "Friday",
+          "kana": "【フライ】デイ",
+          "pos": "名詞",
+          "ja": "金曜日"
+        },
+        {
+          "no": 6,
+          "en": "Saturday",
+          "kana": "【サ】タデイ",
+          "pos": "名詞",
+          "ja": "土曜日"
+        },
+        {
+          "no": 7,
+          "en": "Sunday",
+          "kana": "【サン】デイ",
+          "pos": "名詞",
+          "ja": "日曜日"
+        },
+        {
+          "no": 8,
+          "en": "January",
+          "kana": "【ジャ】ニュアリー",
+          "pos": "名詞",
+          "ja": "1月"
+        },
+        {
+          "no": 9,
+          "en": "February",
+          "kana": "【フェブ】ルアリー",
+          "pos": "名詞",
+          "ja": "2月"
+        },
+        {
+          "no": 10,
+          "en": "March",
+          "kana": "マーチ",
+          "pos": "名詞",
+          "ja": "3月"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "April",
+          "kana": "【エイ】プリル",
+          "pos": "名詞",
+          "ja": "4月"
+        },
+        {
+          "no": 12,
+          "en": "May",
+          "kana": "メイ",
+          "pos": "名詞",
+          "ja": "5月"
+        },
+        {
+          "no": 13,
+          "en": "June",
+          "kana": "ジューン",
+          "pos": "名詞",
+          "ja": "6月"
+        },
+        {
+          "no": 14,
+          "en": "July",
+          "kana": "ジュ【ライ】",
+          "pos": "名詞",
+          "ja": "7月"
+        },
+        {
+          "no": 15,
+          "en": "August",
+          "kana": "【オー】ガスト",
+          "pos": "名詞",
+          "ja": "8月"
+        },
+        {
+          "no": 16,
+          "en": "September",
+          "kana": "セプ【テン】バー",
+          "pos": "名詞",
+          "ja": "9月"
+        },
+        {
+          "no": 17,
+          "en": "October",
+          "kana": "オク【トウ】バー",
+          "pos": "名詞",
+          "ja": "10月"
+        },
+        {
+          "no": 18,
+          "en": "November",
+          "kana": "ノウ【ベン】バー",
+          "pos": "名詞",
+          "ja": "11月"
+        },
+        {
+          "no": 19,
+          "en": "December",
+          "kana": "ディ【センバー】",
+          "pos": "名詞",
+          "ja": "12月"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "02",
+    "name": "数・序数",
+    "total": 57,
+    "unitCount": 6,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "one",
+          "kana": "ワン",
+          "pos": "名詞",
+          "ja": "1"
+        },
+        {
+          "no": 2,
+          "en": "two",
+          "kana": "トゥー",
+          "pos": "名詞",
+          "ja": "2"
+        },
+        {
+          "no": 3,
+          "en": "three",
+          "kana": "スリー",
+          "pos": "名詞",
+          "ja": "3"
+        },
+        {
+          "no": 4,
+          "en": "four",
+          "kana": "フォー",
+          "pos": "名詞",
+          "ja": "4"
+        },
+        {
+          "no": 5,
+          "en": "five",
+          "kana": "ファイブ",
+          "pos": "名詞",
+          "ja": "5"
+        },
+        {
+          "no": 6,
+          "en": "six",
+          "kana": "シックス",
+          "pos": "名詞",
+          "ja": "6"
+        },
+        {
+          "no": 7,
+          "en": "seven",
+          "kana": "【セ】ブン",
+          "pos": "名詞",
+          "ja": "7"
+        },
+        {
+          "no": 8,
+          "en": "eight",
+          "kana": "エイト",
+          "pos": "名詞",
+          "ja": "8"
+        },
+        {
+          "no": 9,
+          "en": "nine",
+          "kana": "ナイン",
+          "pos": "名詞",
+          "ja": "9"
+        },
+        {
+          "no": 10,
+          "en": "ten",
+          "kana": "テン",
+          "pos": "名詞",
+          "ja": "10"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "eleven",
+          "kana": "イ【レ】ブン",
+          "pos": "名詞",
+          "ja": "11"
+        },
+        {
+          "no": 12,
+          "en": "twelve",
+          "kana": "トゥエルブ",
+          "pos": "名詞",
+          "ja": "12"
+        },
+        {
+          "no": 13,
+          "en": "thirteen",
+          "kana": "サー【ティーン】",
+          "pos": "名詞",
+          "ja": "13"
+        },
+        {
+          "no": 14,
+          "en": "fourteen",
+          "kana": "フォー【ティーン】",
+          "pos": "名詞",
+          "ja": "14"
+        },
+        {
+          "no": 15,
+          "en": "fifteen",
+          "kana": "フィフ【ティーン】",
+          "pos": "名詞",
+          "ja": "15"
+        },
+        {
+          "no": 16,
+          "en": "sixteen",
+          "kana": "シックス【ティーン】",
+          "pos": "名詞",
+          "ja": "16"
+        },
+        {
+          "no": 17,
+          "en": "seventeen",
+          "kana": "セブン【ティーン】",
+          "pos": "名詞",
+          "ja": "17"
+        },
+        {
+          "no": 18,
+          "en": "eighteen",
+          "kana": "エイ【ティーン】",
+          "pos": "名詞",
+          "ja": "18"
+        },
+        {
+          "no": 19,
+          "en": "nineteen",
+          "kana": "ナイン【ティーン】",
+          "pos": "名詞",
+          "ja": "19"
+        },
+        {
+          "no": 20,
+          "en": "twenty",
+          "kana": "【トゥエン】ティ",
+          "pos": "名詞",
+          "ja": "20"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "thirty",
+          "kana": "【サー】ティ",
+          "pos": "名詞",
+          "ja": "30"
+        },
+        {
+          "no": 22,
+          "en": "forty",
+          "kana": "【フォー】ティ",
+          "pos": "名詞",
+          "ja": "40"
+        },
+        {
+          "no": 23,
+          "en": "fifty",
+          "kana": "【フィフ】ティ",
+          "pos": "名詞",
+          "ja": "50"
+        },
+        {
+          "no": 24,
+          "en": "sixty",
+          "kana": "【シック】スティ",
+          "pos": "名詞",
+          "ja": "60"
+        },
+        {
+          "no": 25,
+          "en": "seventy",
+          "kana": "【セ】ブンティ",
+          "pos": "名詞",
+          "ja": "70"
+        },
+        {
+          "no": 26,
+          "en": "eighty",
+          "kana": "【エイ】ティ",
+          "pos": "名詞",
+          "ja": "80"
+        },
+        {
+          "no": 27,
+          "en": "ninety",
+          "kana": "【ナイン】ティ",
+          "pos": "名詞",
+          "ja": "90"
+        },
+        {
+          "no": 28,
+          "en": "hundred",
+          "kana": "【ハン】ドレッド",
+          "pos": "名詞",
+          "ja": "100"
+        },
+        {
+          "no": 29,
+          "en": "thousand",
+          "kana": "【サウ】ザンド",
+          "pos": "名詞",
+          "ja": "1,000"
+        },
+        {
+          "no": 30,
+          "en": "million",
+          "kana": "【ミ】リオン",
+          "pos": "名詞",
+          "ja": "100万"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "billion",
+          "kana": "【ビ】リオン",
+          "pos": "名詞",
+          "ja": "10億"
+        },
+        {
+          "no": 32,
+          "en": "zero",
+          "kana": "【ジア】ロウ",
+          "pos": "名詞",
+          "ja": "0"
+        },
+        {
+          "no": 33,
+          "en": "first",
+          "kana": "ファースト",
+          "pos": "形容詞",
+          "ja": "1番目の"
+        },
+        {
+          "no": 34,
+          "en": "second",
+          "kana": "【セ】コンド",
+          "pos": "形容詞",
+          "ja": "2番目の"
+        },
+        {
+          "no": 35,
+          "en": "third",
+          "kana": "サード",
+          "pos": "形容詞",
+          "ja": "3番目の"
+        },
+        {
+          "no": 36,
+          "en": "fourth",
+          "kana": "フォース",
+          "pos": "形容詞",
+          "ja": "4番目の"
+        },
+        {
+          "no": 37,
+          "en": "fifth",
+          "kana": "フィフス",
+          "pos": "形容詞",
+          "ja": "5番目の"
+        },
+        {
+          "no": 38,
+          "en": "sixth",
+          "kana": "シックスス",
+          "pos": "形容詞",
+          "ja": "6番目の"
+        },
+        {
+          "no": 39,
+          "en": "seventh",
+          "kana": "【セ】ブンス",
+          "pos": "形容詞",
+          "ja": "7番目の"
+        },
+        {
+          "no": 40,
+          "en": "eighth",
+          "kana": "エイトゥス",
+          "pos": "形容詞",
+          "ja": "8番目の"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "ninth",
+          "kana": "ナインス",
+          "pos": "形容詞",
+          "ja": "9番目の"
+        },
+        {
+          "no": 42,
+          "en": "tenth",
+          "kana": "テンス",
+          "pos": "形容詞",
+          "ja": "10番目の"
+        },
+        {
+          "no": 43,
+          "en": "eleventh",
+          "kana": "イ【レ】ブンス",
+          "pos": "形容詞",
+          "ja": "11番目の"
+        },
+        {
+          "no": 44,
+          "en": "twelfth",
+          "kana": "トゥエルフス",
+          "pos": "形容詞",
+          "ja": "12番目の"
+        },
+        {
+          "no": 45,
+          "en": "thirteenth",
+          "kana": "サーティーンス",
+          "pos": "形容詞",
+          "ja": "13番目の"
+        },
+        {
+          "no": 46,
+          "en": "fifteenth",
+          "kana": "フィフ【ティーンス】",
+          "pos": "形容詞",
+          "ja": "15番目の"
+        },
+        {
+          "no": 47,
+          "en": "eighteenth",
+          "kana": "エイ【ティーンス】",
+          "pos": "形容詞",
+          "ja": "18番目の"
+        },
+        {
+          "no": 48,
+          "en": "nineteenth",
+          "kana": "ナイン【ティーンス】",
+          "pos": "形容詞",
+          "ja": "19番目の"
+        },
+        {
+          "no": 49,
+          "en": "twentieth",
+          "kana": "【トゥエン】ティエス",
+          "pos": "形容詞",
+          "ja": "20番目の"
+        },
+        {
+          "no": 50,
+          "en": "twenty-first",
+          "kana": "トゥエンティファースト",
+          "pos": "形容詞",
+          "ja": "21番目の"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "once",
+          "kana": "ワンス",
+          "pos": "副詞",
+          "ja": "1回、かつて"
+        },
+        {
+          "no": 52,
+          "en": "twice",
+          "kana": "トワイス",
+          "pos": "副詞",
+          "ja": "2回"
+        },
+        {
+          "no": 53,
+          "en": "percent",
+          "kana": "パー【セント】",
+          "pos": "名詞",
+          "ja": "パーセント"
+        },
+        {
+          "no": 54,
+          "en": "half",
+          "kana": "ハーフ",
+          "pos": "名詞",
+          "ja": "半分"
+        },
+        {
+          "no": 55,
+          "en": "double",
+          "kana": "【ダ】ブル",
+          "pos": "形容詞",
+          "ja": "2倍の"
+        },
+        {
+          "no": 56,
+          "en": "pair",
+          "kana": "ペア",
+          "pos": "名詞",
+          "ja": "ペア、2つ"
+        },
+        {
+          "no": 57,
+          "en": "couple",
+          "kana": "【カ】プル",
+          "pos": "名詞",
+          "ja": "2つ、カップル"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "03",
+    "name": "季節・天気・災害",
+    "total": 26,
+    "unitCount": 3,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "spring",
+          "kana": "スプリング",
+          "pos": "名詞",
+          "ja": "春"
+        },
+        {
+          "no": 2,
+          "en": "summer",
+          "kana": "【サ】マー",
+          "pos": "名詞",
+          "ja": "夏"
+        },
+        {
+          "no": 3,
+          "en": "fall",
+          "kana": "フォール",
+          "pos": "名詞",
+          "ja": "秋"
+        },
+        {
+          "no": 4,
+          "en": "winter",
+          "kana": "【ウィン】ター",
+          "pos": "名詞",
+          "ja": "冬"
+        },
+        {
+          "no": 5,
+          "en": "season",
+          "kana": "【シー】ズン",
+          "pos": "名詞",
+          "ja": "季節"
+        },
+        {
+          "no": 6,
+          "en": "weather",
+          "kana": "【ウェ】ザー",
+          "pos": "名詞",
+          "ja": "天気"
+        },
+        {
+          "no": 7,
+          "en": "sunny",
+          "kana": "【サ】ニー",
+          "pos": "形容詞",
+          "ja": "晴れた"
+        },
+        {
+          "no": 8,
+          "en": "cloudy",
+          "kana": "【クラウ】ディ",
+          "pos": "形容詞",
+          "ja": "曇っている"
+        },
+        {
+          "no": 9,
+          "en": "rainy",
+          "kana": "【レイ】ニー",
+          "pos": "形容詞",
+          "ja": "雨の"
+        },
+        {
+          "no": 10,
+          "en": "snowy",
+          "kana": "【スノウ】ィー",
+          "pos": "形容詞",
+          "ja": "雪の"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "windy",
+          "kana": "【ウィン】ディ",
+          "pos": "形容詞",
+          "ja": "風の強い"
+        },
+        {
+          "no": 12,
+          "en": "rain",
+          "kana": "レイン",
+          "pos": "名詞/動詞",
+          "ja": "雨"
+        },
+        {
+          "no": 13,
+          "en": "snow",
+          "kana": "スノウ",
+          "pos": "名詞/動詞",
+          "ja": "雪"
+        },
+        {
+          "no": 14,
+          "en": "wind",
+          "kana": "ウィンド",
+          "pos": "名詞",
+          "ja": "風"
+        },
+        {
+          "no": 15,
+          "en": "cloud",
+          "kana": "クラウド",
+          "pos": "名詞",
+          "ja": "雲"
+        },
+        {
+          "no": 16,
+          "en": "sunshine",
+          "kana": "【サン】シャイン",
+          "pos": "名詞",
+          "ja": "日光"
+        },
+        {
+          "no": 17,
+          "en": "rainbow",
+          "kana": "【レイン】ボウ",
+          "pos": "名詞",
+          "ja": "虹"
+        },
+        {
+          "no": 18,
+          "en": "storm",
+          "kana": "ストーム",
+          "pos": "名詞",
+          "ja": "嵐"
+        },
+        {
+          "no": 19,
+          "en": "flood",
+          "kana": "フラッド",
+          "pos": "名詞",
+          "ja": "洪水"
+        },
+        {
+          "no": 20,
+          "en": "earthquake",
+          "kana": "【アース】クエイク",
+          "pos": "名詞",
+          "ja": "地震"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "freeze",
+          "kana": "フリーズ",
+          "pos": "動詞",
+          "ja": "凍る"
+        },
+        {
+          "no": 22,
+          "en": "temperature",
+          "kana": "【テン】ペラチャー",
+          "pos": "名詞",
+          "ja": "温度"
+        },
+        {
+          "no": 23,
+          "en": "climate",
+          "kana": "【クライ】メット",
+          "pos": "名詞",
+          "ja": "気候"
+        },
+        {
+          "no": 24,
+          "en": "fog",
+          "kana": "フォグ",
+          "pos": "名詞",
+          "ja": "霧"
+        },
+        {
+          "no": 25,
+          "en": "ice",
+          "kana": "アイス",
+          "pos": "名詞",
+          "ja": "氷"
+        },
+        {
+          "no": 26,
+          "en": "thunder",
+          "kana": "【サン】ダー",
+          "pos": "名詞",
+          "ja": "雷"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "04",
+    "name": "環境・自然",
+    "total": 35,
+    "unitCount": 4,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "environment",
+          "kana": "エン【バイ】ロンメント",
+          "pos": "名詞",
+          "ja": "環境"
+        },
+        {
+          "no": 2,
+          "en": "environmental",
+          "kana": "エンバイロン【メン】タル",
+          "pos": "形容詞",
+          "ja": "環境の"
+        },
+        {
+          "no": 3,
+          "en": "pollution",
+          "kana": "ポ【ルー】ション",
+          "pos": "名詞",
+          "ja": "汚染"
+        },
+        {
+          "no": 4,
+          "en": "pollute",
+          "kana": "ポ【ルート】",
+          "pos": "動詞",
+          "ja": "汚染する"
+        },
+        {
+          "no": 5,
+          "en": "global warming",
+          "kana": "グローバルウォーミング",
+          "pos": "名詞",
+          "ja": "地球温暖化"
+        },
+        {
+          "no": 6,
+          "en": "recycle",
+          "kana": "リー【サイ】クル",
+          "pos": "動詞",
+          "ja": "リサイクルする"
+        },
+        {
+          "no": 7,
+          "en": "reduce",
+          "kana": "リ【デュース】",
+          "pos": "動詞",
+          "ja": "減らす"
+        },
+        {
+          "no": 8,
+          "en": "energy",
+          "kana": "【エ】ナジー",
+          "pos": "名詞",
+          "ja": "エネルギー"
+        },
+        {
+          "no": 9,
+          "en": "solar",
+          "kana": "【ソウ】ラー",
+          "pos": "形容詞",
+          "ja": "太陽の"
+        },
+        {
+          "no": 10,
+          "en": "nature",
+          "kana": "【ネイ】チャー",
+          "pos": "名詞",
+          "ja": "自然"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "natural",
+          "kana": "【ナ】チュラル",
+          "pos": "形容詞",
+          "ja": "自然な"
+        },
+        {
+          "no": 12,
+          "en": "forest",
+          "kana": "【フォ】レスト",
+          "pos": "名詞",
+          "ja": "森"
+        },
+        {
+          "no": 13,
+          "en": "earth",
+          "kana": "アース",
+          "pos": "名詞",
+          "ja": "地球、土"
+        },
+        {
+          "no": 14,
+          "en": "air",
+          "kana": "エア",
+          "pos": "名詞",
+          "ja": "空気"
+        },
+        {
+          "no": 15,
+          "en": "water",
+          "kana": "【ウォー】ター",
+          "pos": "名詞",
+          "ja": "水"
+        },
+        {
+          "no": 16,
+          "en": "fire",
+          "kana": "ファイア",
+          "pos": "名詞",
+          "ja": "火"
+        },
+        {
+          "no": 17,
+          "en": "land",
+          "kana": "ランド",
+          "pos": "名詞",
+          "ja": "土地"
+        },
+        {
+          "no": 18,
+          "en": "sky",
+          "kana": "スカイ",
+          "pos": "名詞",
+          "ja": "空"
+        },
+        {
+          "no": 19,
+          "en": "star",
+          "kana": "スター",
+          "pos": "名詞",
+          "ja": "星"
+        },
+        {
+          "no": 20,
+          "en": "moon",
+          "kana": "ムーン",
+          "pos": "名詞",
+          "ja": "月"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "sun",
+          "kana": "サン",
+          "pos": "名詞",
+          "ja": "太陽"
+        },
+        {
+          "no": 22,
+          "en": "sand",
+          "kana": "サンド",
+          "pos": "名詞",
+          "ja": "砂"
+        },
+        {
+          "no": 23,
+          "en": "rock",
+          "kana": "ロック",
+          "pos": "名詞",
+          "ja": "岩"
+        },
+        {
+          "no": 24,
+          "en": "grass",
+          "kana": "グラス",
+          "pos": "名詞",
+          "ja": "草、芝"
+        },
+        {
+          "no": 25,
+          "en": "wood",
+          "kana": "ウッド",
+          "pos": "名詞",
+          "ja": "木材"
+        },
+        {
+          "no": 26,
+          "en": "darkness",
+          "kana": "【ダーク】ネス",
+          "pos": "名詞",
+          "ja": "暗闇"
+        },
+        {
+          "no": 27,
+          "en": "shadow",
+          "kana": "【シャ】ドウ",
+          "pos": "名詞",
+          "ja": "影"
+        },
+        {
+          "no": 28,
+          "en": "surface",
+          "kana": "【サー】フェス",
+          "pos": "名詞",
+          "ja": "表面"
+        },
+        {
+          "no": 29,
+          "en": "atmosphere",
+          "kana": "【ア】トモスフィア",
+          "pos": "名詞",
+          "ja": "大気"
+        },
+        {
+          "no": 30,
+          "en": "waste",
+          "kana": "ウェイスト",
+          "pos": "名詞/動詞",
+          "ja": "無駄、廃棄物"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "resource",
+          "kana": "【リー】ソース",
+          "pos": "名詞",
+          "ja": "資源"
+        },
+        {
+          "no": 32,
+          "en": "campaign",
+          "kana": "キャン【ペイン】",
+          "pos": "名詞",
+          "ja": "キャンペーン"
+        },
+        {
+          "no": 33,
+          "en": "preserve",
+          "kana": "プリ【ザーブ】",
+          "pos": "動詞",
+          "ja": "保存する"
+        },
+        {
+          "no": 34,
+          "en": "protect",
+          "kana": "プロ【テクト】",
+          "pos": "動詞",
+          "ja": "守る"
+        },
+        {
+          "no": 35,
+          "en": "spread",
+          "kana": "スプレッド",
+          "pos": "動詞",
+          "ja": "広がる"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "05",
+    "name": "動物",
+    "total": 33,
+    "unitCount": 4,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "animal",
+          "kana": "【ア】ニマル",
+          "pos": "名詞",
+          "ja": "動物"
+        },
+        {
+          "no": 2,
+          "en": "dog",
+          "kana": "ドッグ",
+          "pos": "名詞",
+          "ja": "犬"
+        },
+        {
+          "no": 3,
+          "en": "cat",
+          "kana": "キャット",
+          "pos": "名詞",
+          "ja": "猫"
+        },
+        {
+          "no": 4,
+          "en": "bird",
+          "kana": "バード",
+          "pos": "名詞",
+          "ja": "鳥"
+        },
+        {
+          "no": 5,
+          "en": "fish",
+          "kana": "フィッシュ",
+          "pos": "名詞",
+          "ja": "魚"
+        },
+        {
+          "no": 6,
+          "en": "horse",
+          "kana": "ホース",
+          "pos": "名詞",
+          "ja": "馬"
+        },
+        {
+          "no": 7,
+          "en": "cow",
+          "kana": "カウ",
+          "pos": "名詞",
+          "ja": "牛"
+        },
+        {
+          "no": 8,
+          "en": "sheep",
+          "kana": "シープ",
+          "pos": "名詞",
+          "ja": "羊"
+        },
+        {
+          "no": 9,
+          "en": "pig",
+          "kana": "ピッグ",
+          "pos": "名詞",
+          "ja": "豚"
+        },
+        {
+          "no": 10,
+          "en": "rabbit",
+          "kana": "【ラ】ビット",
+          "pos": "名詞",
+          "ja": "うさぎ"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "elephant",
+          "kana": "【エ】レファント",
+          "pos": "名詞",
+          "ja": "象"
+        },
+        {
+          "no": 12,
+          "en": "lion",
+          "kana": "【ライ】オン",
+          "pos": "名詞",
+          "ja": "ライオン"
+        },
+        {
+          "no": 13,
+          "en": "tiger",
+          "kana": "【タイ】ガー",
+          "pos": "名詞",
+          "ja": "トラ"
+        },
+        {
+          "no": 14,
+          "en": "bear",
+          "kana": "ベア",
+          "pos": "名詞",
+          "ja": "クマ"
+        },
+        {
+          "no": 15,
+          "en": "monkey",
+          "kana": "【マン】キー",
+          "pos": "名詞",
+          "ja": "サル"
+        },
+        {
+          "no": 16,
+          "en": "snake",
+          "kana": "スネイク",
+          "pos": "名詞",
+          "ja": "蛇"
+        },
+        {
+          "no": 17,
+          "en": "frog",
+          "kana": "フロッグ",
+          "pos": "名詞",
+          "ja": "カエル"
+        },
+        {
+          "no": 18,
+          "en": "butterfly",
+          "kana": "【バ】タフライ",
+          "pos": "名詞",
+          "ja": "蝶"
+        },
+        {
+          "no": 19,
+          "en": "bee",
+          "kana": "ビー",
+          "pos": "名詞",
+          "ja": "ハチ"
+        },
+        {
+          "no": 20,
+          "en": "dolphin",
+          "kana": "【ドル】フィン",
+          "pos": "名詞",
+          "ja": "イルカ"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "whale",
+          "kana": "ウェイル",
+          "pos": "名詞",
+          "ja": "クジラ"
+        },
+        {
+          "no": 22,
+          "en": "koala",
+          "kana": "コウアラ",
+          "pos": "名詞",
+          "ja": "コアラ"
+        },
+        {
+          "no": 23,
+          "en": "kangaroo",
+          "kana": "カンガ【ルー】",
+          "pos": "名詞",
+          "ja": "カンガルー"
+        },
+        {
+          "no": 24,
+          "en": "zebra",
+          "kana": "【ジー】ブラ",
+          "pos": "名詞",
+          "ja": "シマウマ"
+        },
+        {
+          "no": 25,
+          "en": "deer",
+          "kana": "ディア",
+          "pos": "名詞",
+          "ja": "鹿"
+        },
+        {
+          "no": 26,
+          "en": "fox",
+          "kana": "フォックス",
+          "pos": "名詞",
+          "ja": "キツネ"
+        },
+        {
+          "no": 27,
+          "en": "wolf",
+          "kana": "ウルフ",
+          "pos": "名詞",
+          "ja": "オオカミ"
+        },
+        {
+          "no": 28,
+          "en": "penguin",
+          "kana": "【ペン】グウィン",
+          "pos": "名詞",
+          "ja": "ペンギン"
+        },
+        {
+          "no": 29,
+          "en": "beetle",
+          "kana": "【ビー】トル",
+          "pos": "名詞",
+          "ja": "甲虫"
+        },
+        {
+          "no": 30,
+          "en": "bat",
+          "kana": "バット",
+          "pos": "名詞",
+          "ja": "こうもり"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "creature",
+          "kana": "【クリー】チャー",
+          "pos": "名詞",
+          "ja": "生き物"
+        },
+        {
+          "no": 32,
+          "en": "insect",
+          "kana": "【イン】セクト",
+          "pos": "名詞",
+          "ja": "昆虫"
+        },
+        {
+          "no": 33,
+          "en": "species",
+          "kana": "【スピー】シーズ",
+          "pos": "名詞",
+          "ja": "種"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "06",
+    "name": "スポーツ・楽器",
+    "total": 42,
+    "unitCount": 5,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "sport",
+          "kana": "スポーツ",
+          "pos": "名詞",
+          "ja": "スポーツ"
+        },
+        {
+          "no": 2,
+          "en": "baseball",
+          "kana": "【ベイス】ボール",
+          "pos": "名詞",
+          "ja": "野球"
+        },
+        {
+          "no": 3,
+          "en": "soccer",
+          "kana": "【ソ】ッカー",
+          "pos": "名詞",
+          "ja": "サッカー"
+        },
+        {
+          "no": 4,
+          "en": "basketball",
+          "kana": "【バス】ケットボール",
+          "pos": "名詞",
+          "ja": "バスケットボール"
+        },
+        {
+          "no": 5,
+          "en": "volleyball",
+          "kana": "【ヴォリー】ボール",
+          "pos": "名詞",
+          "ja": "バレーボール"
+        },
+        {
+          "no": 6,
+          "en": "tennis",
+          "kana": "【テ】ニス",
+          "pos": "名詞",
+          "ja": "テニス"
+        },
+        {
+          "no": 7,
+          "en": "golf",
+          "kana": "ゴルフ",
+          "pos": "名詞",
+          "ja": "ゴルフ"
+        },
+        {
+          "no": 8,
+          "en": "swimming",
+          "kana": "【スウィ】ミング",
+          "pos": "名詞",
+          "ja": "水泳"
+        },
+        {
+          "no": 9,
+          "en": "jogging",
+          "kana": "【ジョ】ギング",
+          "pos": "名詞",
+          "ja": "ジョギング"
+        },
+        {
+          "no": 10,
+          "en": "cycling",
+          "kana": "【サイク】リング",
+          "pos": "名詞",
+          "ja": "サイクリング"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "hiking",
+          "kana": "【ハイ】キング",
+          "pos": "名詞",
+          "ja": "ハイキング"
+        },
+        {
+          "no": 12,
+          "en": "skiing",
+          "kana": "スキーイング",
+          "pos": "名詞",
+          "ja": "スキー"
+        },
+        {
+          "no": 13,
+          "en": "skating",
+          "kana": "スケイティング",
+          "pos": "名詞",
+          "ja": "スケート"
+        },
+        {
+          "no": 14,
+          "en": "football",
+          "kana": "【フット】ボール",
+          "pos": "名詞",
+          "ja": "フットボール"
+        },
+        {
+          "no": 15,
+          "en": "rugby",
+          "kana": "【ラグ】ビー",
+          "pos": "名詞",
+          "ja": "ラグビー"
+        },
+        {
+          "no": 16,
+          "en": "race",
+          "kana": "レイス",
+          "pos": "名詞/動詞",
+          "ja": "レース"
+        },
+        {
+          "no": 17,
+          "en": "game",
+          "kana": "ゲイム",
+          "pos": "名詞",
+          "ja": "ゲーム"
+        },
+        {
+          "no": 18,
+          "en": "match",
+          "kana": "マッチ",
+          "pos": "名詞",
+          "ja": "試合"
+        },
+        {
+          "no": 19,
+          "en": "team",
+          "kana": "ティーム",
+          "pos": "名詞",
+          "ja": "チーム"
+        },
+        {
+          "no": 20,
+          "en": "player",
+          "kana": "【プレイ】ヤー",
+          "pos": "名詞",
+          "ja": "選手"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "athlete",
+          "kana": "【ア】スリート",
+          "pos": "名詞",
+          "ja": "運動選手"
+        },
+        {
+          "no": 22,
+          "en": "champion",
+          "kana": "【チャン】ピオン",
+          "pos": "名詞",
+          "ja": "チャンピオン"
+        },
+        {
+          "no": 23,
+          "en": "championship",
+          "kana": "【チャンピオン】シップ",
+          "pos": "名詞",
+          "ja": "選手権"
+        },
+        {
+          "no": 24,
+          "en": "score",
+          "kana": "スコア",
+          "pos": "名詞/動詞",
+          "ja": "得点"
+        },
+        {
+          "no": 25,
+          "en": "win",
+          "kana": "ウィン",
+          "pos": "動詞",
+          "ja": "勝つ"
+        },
+        {
+          "no": 26,
+          "en": "lose",
+          "kana": "ルーズ",
+          "pos": "動詞",
+          "ja": "負ける"
+        },
+        {
+          "no": 27,
+          "en": "practice",
+          "kana": "【プラク】ティス",
+          "pos": "名詞/動詞",
+          "ja": "練習"
+        },
+        {
+          "no": 28,
+          "en": "instrument",
+          "kana": "【イン】ストルメント",
+          "pos": "名詞",
+          "ja": "楽器"
+        },
+        {
+          "no": 29,
+          "en": "musical instrument",
+          "kana": "ミュージカルインストゥルメント",
+          "pos": "名詞",
+          "ja": "楽器"
+        },
+        {
+          "no": 30,
+          "en": "piano",
+          "kana": "ピ【ア】ノ",
+          "pos": "名詞",
+          "ja": "ピアノ"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "guitar",
+          "kana": "ギ【ター】",
+          "pos": "名詞",
+          "ja": "ギター"
+        },
+        {
+          "no": 32,
+          "en": "violin",
+          "kana": "ヴァイオ【リン】",
+          "pos": "名詞",
+          "ja": "バイオリン"
+        },
+        {
+          "no": 33,
+          "en": "flute",
+          "kana": "フルート",
+          "pos": "名詞",
+          "ja": "フルート"
+        },
+        {
+          "no": 34,
+          "en": "drum",
+          "kana": "ドラム",
+          "pos": "名詞",
+          "ja": "ドラム"
+        },
+        {
+          "no": 35,
+          "en": "brass band",
+          "kana": "ブラスバンド",
+          "pos": "名詞",
+          "ja": "吹奏楽団"
+        },
+        {
+          "no": 36,
+          "en": "chorus",
+          "kana": "【コー】ラス",
+          "pos": "名詞",
+          "ja": "合唱"
+        },
+        {
+          "no": 37,
+          "en": "music",
+          "kana": "【ミュー】ジック",
+          "pos": "名詞",
+          "ja": "音楽"
+        },
+        {
+          "no": 38,
+          "en": "musician",
+          "kana": "ミュー【ジ】シャン",
+          "pos": "名詞",
+          "ja": "音楽家"
+        },
+        {
+          "no": 39,
+          "en": "song",
+          "kana": "ソング",
+          "pos": "名詞",
+          "ja": "歌"
+        },
+        {
+          "no": 40,
+          "en": "concert",
+          "kana": "【コン】サート",
+          "pos": "名詞",
+          "ja": "コンサート"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "stadium",
+          "kana": "【スタ】ディアム",
+          "pos": "名詞",
+          "ja": "スタジアム"
+        },
+        {
+          "no": 42,
+          "en": "gym",
+          "kana": "ジム",
+          "pos": "名詞",
+          "ja": "体育館"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "07",
+    "name": "食べ物・飲み物",
+    "total": 57,
+    "unitCount": 6,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "food",
+          "kana": "フード",
+          "pos": "名詞",
+          "ja": "食べ物"
+        },
+        {
+          "no": 2,
+          "en": "drink",
+          "kana": "ドリンク",
+          "pos": "名詞/動詞",
+          "ja": "飲み物、飲む"
+        },
+        {
+          "no": 3,
+          "en": "meal",
+          "kana": "ミール",
+          "pos": "名詞",
+          "ja": "食事"
+        },
+        {
+          "no": 4,
+          "en": "breakfast",
+          "kana": "【ブレック】ファスト",
+          "pos": "名詞",
+          "ja": "朝食"
+        },
+        {
+          "no": 5,
+          "en": "lunch",
+          "kana": "ランチ",
+          "pos": "名詞",
+          "ja": "昼食"
+        },
+        {
+          "no": 6,
+          "en": "dinner",
+          "kana": "【ディ】ナー",
+          "pos": "名詞",
+          "ja": "夕食"
+        },
+        {
+          "no": 7,
+          "en": "supper",
+          "kana": "【サ】パー",
+          "pos": "名詞",
+          "ja": "夕食"
+        },
+        {
+          "no": 8,
+          "en": "rice",
+          "kana": "ライス",
+          "pos": "名詞",
+          "ja": "米"
+        },
+        {
+          "no": 9,
+          "en": "bread",
+          "kana": "ブレッド",
+          "pos": "名詞",
+          "ja": "パン"
+        },
+        {
+          "no": 10,
+          "en": "meat",
+          "kana": "ミート",
+          "pos": "名詞",
+          "ja": "肉"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "beef",
+          "kana": "ビーフ",
+          "pos": "名詞",
+          "ja": "牛肉"
+        },
+        {
+          "no": 12,
+          "en": "chicken",
+          "kana": "【チキン】",
+          "pos": "名詞",
+          "ja": "鶏肉"
+        },
+        {
+          "no": 13,
+          "en": "fish",
+          "kana": "フィッシュ",
+          "pos": "名詞",
+          "ja": "魚"
+        },
+        {
+          "no": 14,
+          "en": "egg",
+          "kana": "エッグ",
+          "pos": "名詞",
+          "ja": "卵"
+        },
+        {
+          "no": 15,
+          "en": "milk",
+          "kana": "ミルク",
+          "pos": "名詞",
+          "ja": "牛乳"
+        },
+        {
+          "no": 16,
+          "en": "water",
+          "kana": "【ウォー】ター",
+          "pos": "名詞",
+          "ja": "水"
+        },
+        {
+          "no": 17,
+          "en": "juice",
+          "kana": "ジュース",
+          "pos": "名詞",
+          "ja": "ジュース"
+        },
+        {
+          "no": 18,
+          "en": "tea",
+          "kana": "ティー",
+          "pos": "名詞",
+          "ja": "お茶"
+        },
+        {
+          "no": 19,
+          "en": "coffee",
+          "kana": "【コー】ヒー",
+          "pos": "名詞",
+          "ja": "コーヒー"
+        },
+        {
+          "no": 20,
+          "en": "cola",
+          "kana": "【コウ】ラ",
+          "pos": "名詞",
+          "ja": "コーラ"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "soda",
+          "kana": "【ソウ】ダ",
+          "pos": "名詞",
+          "ja": "ソーダ"
+        },
+        {
+          "no": 22,
+          "en": "apple",
+          "kana": "【ア】プル",
+          "pos": "名詞",
+          "ja": "りんご"
+        },
+        {
+          "no": 23,
+          "en": "banana",
+          "kana": "バナナ",
+          "pos": "名詞",
+          "ja": "バナナ"
+        },
+        {
+          "no": 24,
+          "en": "orange",
+          "kana": "【オ】レンジ",
+          "pos": "名詞",
+          "ja": "オレンジ"
+        },
+        {
+          "no": 25,
+          "en": "grape",
+          "kana": "グレイプ",
+          "pos": "名詞",
+          "ja": "ぶどう"
+        },
+        {
+          "no": 26,
+          "en": "cherry",
+          "kana": "【チェ】リー",
+          "pos": "名詞",
+          "ja": "さくらんぼ"
+        },
+        {
+          "no": 27,
+          "en": "vegetable",
+          "kana": "【ヴェジ】タブル",
+          "pos": "名詞",
+          "ja": "野菜"
+        },
+        {
+          "no": 28,
+          "en": "potato",
+          "kana": "ポ【テイ】トウ",
+          "pos": "名詞",
+          "ja": "じゃがいも"
+        },
+        {
+          "no": 29,
+          "en": "tomato",
+          "kana": "トマトウ",
+          "pos": "名詞",
+          "ja": "トマト"
+        },
+        {
+          "no": 30,
+          "en": "onion",
+          "kana": "【オ】ニオン",
+          "pos": "名詞",
+          "ja": "玉ねぎ"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "salad",
+          "kana": "【サ】ラッド",
+          "pos": "名詞",
+          "ja": "サラダ"
+        },
+        {
+          "no": 32,
+          "en": "soup",
+          "kana": "スープ",
+          "pos": "名詞",
+          "ja": "スープ"
+        },
+        {
+          "no": 33,
+          "en": "cake",
+          "kana": "ケイク",
+          "pos": "名詞",
+          "ja": "ケーキ"
+        },
+        {
+          "no": 34,
+          "en": "cookie",
+          "kana": "【クッ】キー",
+          "pos": "名詞",
+          "ja": "クッキー"
+        },
+        {
+          "no": 35,
+          "en": "chocolate",
+          "kana": "【チョコ】レート",
+          "pos": "名詞",
+          "ja": "チョコレート"
+        },
+        {
+          "no": 36,
+          "en": "candy",
+          "kana": "【キャン】ディ",
+          "pos": "名詞",
+          "ja": "キャンディ"
+        },
+        {
+          "no": 37,
+          "en": "cheese",
+          "kana": "チーズ",
+          "pos": "名詞",
+          "ja": "チーズ"
+        },
+        {
+          "no": 38,
+          "en": "butter",
+          "kana": "【バ】ター",
+          "pos": "名詞",
+          "ja": "バター"
+        },
+        {
+          "no": 39,
+          "en": "sugar",
+          "kana": "【シュ】ガー",
+          "pos": "名詞",
+          "ja": "砂糖"
+        },
+        {
+          "no": 40,
+          "en": "salt",
+          "kana": "ソルト",
+          "pos": "名詞",
+          "ja": "塩"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "sandwich",
+          "kana": "【サン】ドウィッチ",
+          "pos": "名詞",
+          "ja": "サンドウィッチ"
+        },
+        {
+          "no": 42,
+          "en": "hamburger",
+          "kana": "【ハン】バーガー",
+          "pos": "名詞",
+          "ja": "ハンバーガー"
+        },
+        {
+          "no": 43,
+          "en": "pizza",
+          "kana": "【ピッ】ツァ",
+          "pos": "名詞",
+          "ja": "ピザ"
+        },
+        {
+          "no": 44,
+          "en": "spaghetti",
+          "kana": "スパ【ゲ】ティ",
+          "pos": "名詞",
+          "ja": "スパゲティ"
+        },
+        {
+          "no": 45,
+          "en": "curry",
+          "kana": "【カ】リー",
+          "pos": "名詞",
+          "ja": "カレー"
+        },
+        {
+          "no": 46,
+          "en": "steak",
+          "kana": "ステイク",
+          "pos": "名詞",
+          "ja": "ステーキ"
+        },
+        {
+          "no": 47,
+          "en": "barbecue",
+          "kana": "【バー】ビキュー",
+          "pos": "名詞",
+          "ja": "バーベキュー"
+        },
+        {
+          "no": 48,
+          "en": "toast",
+          "kana": "トウスト",
+          "pos": "名詞",
+          "ja": "トースト"
+        },
+        {
+          "no": 49,
+          "en": "pie",
+          "kana": "パイ",
+          "pos": "名詞",
+          "ja": "パイ"
+        },
+        {
+          "no": 50,
+          "en": "fruit",
+          "kana": "フルート",
+          "pos": "名詞",
+          "ja": "果物"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "taste",
+          "kana": "テイスト",
+          "pos": "名詞/動詞",
+          "ja": "味"
+        },
+        {
+          "no": 52,
+          "en": "cook",
+          "kana": "クック",
+          "pos": "動詞/名詞",
+          "ja": "料理する"
+        },
+        {
+          "no": 53,
+          "en": "eat",
+          "kana": "イート",
+          "pos": "動詞",
+          "ja": "食べる"
+        },
+        {
+          "no": 54,
+          "en": "hungry",
+          "kana": "【ハン】グリー",
+          "pos": "形容詞",
+          "ja": "空腹の"
+        },
+        {
+          "no": 55,
+          "en": "thirsty",
+          "kana": "【サース】ティ",
+          "pos": "形容詞",
+          "ja": "のどが渇いた"
+        },
+        {
+          "no": 56,
+          "en": "delicious",
+          "kana": "ディ【リシャス】",
+          "pos": "形容詞",
+          "ja": "おいしい"
+        },
+        {
+          "no": 57,
+          "en": "sweet",
+          "kana": "スウィート",
+          "pos": "形容詞",
+          "ja": "甘い"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "08",
+    "name": "学校生活",
+    "total": 56,
+    "unitCount": 6,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "school",
+          "kana": "スクール",
+          "pos": "名詞",
+          "ja": "学校"
+        },
+        {
+          "no": 2,
+          "en": "class",
+          "kana": "クラス",
+          "pos": "名詞",
+          "ja": "クラス、授業"
+        },
+        {
+          "no": 3,
+          "en": "classroom",
+          "kana": "【クラス】ルーム",
+          "pos": "名詞",
+          "ja": "教室"
+        },
+        {
+          "no": 4,
+          "en": "teacher",
+          "kana": "【ティー】チャー",
+          "pos": "名詞",
+          "ja": "先生"
+        },
+        {
+          "no": 5,
+          "en": "student",
+          "kana": "【ステュー】デント",
+          "pos": "名詞",
+          "ja": "生徒"
+        },
+        {
+          "no": 6,
+          "en": "classmate",
+          "kana": "【クラス】メイト",
+          "pos": "名詞",
+          "ja": "クラスメート"
+        },
+        {
+          "no": 7,
+          "en": "principal",
+          "kana": "【プリン】シパル",
+          "pos": "名詞",
+          "ja": "校長"
+        },
+        {
+          "no": 8,
+          "en": "lesson",
+          "kana": "【レ】スン",
+          "pos": "名詞",
+          "ja": "授業"
+        },
+        {
+          "no": 9,
+          "en": "subject",
+          "kana": "【サブ】ジェクト",
+          "pos": "名詞",
+          "ja": "科目"
+        },
+        {
+          "no": 10,
+          "en": "math",
+          "kana": "マス",
+          "pos": "名詞",
+          "ja": "数学"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "science",
+          "kana": "【サイ】エンス",
+          "pos": "名詞",
+          "ja": "理科"
+        },
+        {
+          "no": 12,
+          "en": "English",
+          "kana": "【イング】リッシュ",
+          "pos": "名詞",
+          "ja": "英語"
+        },
+        {
+          "no": 13,
+          "en": "Japanese",
+          "kana": "ジャパ【ニーズ】",
+          "pos": "名詞",
+          "ja": "国語"
+        },
+        {
+          "no": 14,
+          "en": "history",
+          "kana": "【ヒス】トリー",
+          "pos": "名詞",
+          "ja": "歴史"
+        },
+        {
+          "no": 15,
+          "en": "music",
+          "kana": "【ミュー】ジック",
+          "pos": "名詞",
+          "ja": "音楽"
+        },
+        {
+          "no": 16,
+          "en": "art",
+          "kana": "アート",
+          "pos": "名詞",
+          "ja": "美術"
+        },
+        {
+          "no": 17,
+          "en": "P.E.",
+          "kana": "ピーイー",
+          "pos": "名詞",
+          "ja": "体育"
+        },
+        {
+          "no": 18,
+          "en": "homework",
+          "kana": "【ホウム】ワーク",
+          "pos": "名詞",
+          "ja": "宿題"
+        },
+        {
+          "no": 19,
+          "en": "textbook",
+          "kana": "【テキスト】ブック",
+          "pos": "名詞",
+          "ja": "教科書"
+        },
+        {
+          "no": 20,
+          "en": "notebook",
+          "kana": "【ノウト】ブック",
+          "pos": "名詞",
+          "ja": "ノート"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "blackboard",
+          "kana": "【ブラック】ボード",
+          "pos": "名詞",
+          "ja": "黒板"
+        },
+        {
+          "no": 22,
+          "en": "desk",
+          "kana": "デスク",
+          "pos": "名詞",
+          "ja": "机"
+        },
+        {
+          "no": 23,
+          "en": "chair",
+          "kana": "チェア",
+          "pos": "名詞",
+          "ja": "椅子"
+        },
+        {
+          "no": 24,
+          "en": "library",
+          "kana": "【ライ】ブラリー",
+          "pos": "名詞",
+          "ja": "図書館"
+        },
+        {
+          "no": 25,
+          "en": "gymnasium",
+          "kana": "ジム【ネイ】ジアム",
+          "pos": "名詞",
+          "ja": "体育館"
+        },
+        {
+          "no": 26,
+          "en": "pool",
+          "kana": "プール",
+          "pos": "名詞",
+          "ja": "プール"
+        },
+        {
+          "no": 27,
+          "en": "ground",
+          "kana": "グラウンド",
+          "pos": "名詞",
+          "ja": "グラウンド"
+        },
+        {
+          "no": 28,
+          "en": "test",
+          "kana": "テスト",
+          "pos": "名詞/動詞",
+          "ja": "テスト"
+        },
+        {
+          "no": 29,
+          "en": "exam",
+          "kana": "エグ【ザム】",
+          "pos": "名詞",
+          "ja": "試験"
+        },
+        {
+          "no": 30,
+          "en": "study",
+          "kana": "【スタ】ディ",
+          "pos": "動詞/名詞",
+          "ja": "勉強する"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "learn",
+          "kana": "ラーン",
+          "pos": "動詞",
+          "ja": "学ぶ"
+        },
+        {
+          "no": 32,
+          "en": "teach",
+          "kana": "ティーチ",
+          "pos": "動詞",
+          "ja": "教える"
+        },
+        {
+          "no": 33,
+          "en": "read",
+          "kana": "リード",
+          "pos": "動詞",
+          "ja": "読む"
+        },
+        {
+          "no": 34,
+          "en": "write",
+          "kana": "ライト",
+          "pos": "動詞",
+          "ja": "書く"
+        },
+        {
+          "no": 35,
+          "en": "answer",
+          "kana": "【アン】サー",
+          "pos": "名詞/動詞",
+          "ja": "答え、答える"
+        },
+        {
+          "no": 36,
+          "en": "question",
+          "kana": "【クエス】チョン",
+          "pos": "名詞",
+          "ja": "質問"
+        },
+        {
+          "no": 37,
+          "en": "absent",
+          "kana": "【アブ】セント",
+          "pos": "形容詞",
+          "ja": "欠席の"
+        },
+        {
+          "no": 38,
+          "en": "late",
+          "kana": "レイト",
+          "pos": "形容詞",
+          "ja": "遅刻の"
+        },
+        {
+          "no": 39,
+          "en": "holiday",
+          "kana": "【ホ】リデイ",
+          "pos": "名詞",
+          "ja": "休日"
+        },
+        {
+          "no": 40,
+          "en": "vacation",
+          "kana": "ヴェイ【ケイ】ション",
+          "pos": "名詞",
+          "ja": "休暇"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "club",
+          "kana": "クラブ",
+          "pos": "名詞",
+          "ja": "部活"
+        },
+        {
+          "no": 42,
+          "en": "activity",
+          "kana": "アク【ティ】ビティ",
+          "pos": "名詞",
+          "ja": "活動"
+        },
+        {
+          "no": 43,
+          "en": "junior high school",
+          "kana": "ジュニアハイスクール",
+          "pos": "名詞",
+          "ja": "中学校"
+        },
+        {
+          "no": 44,
+          "en": "high school",
+          "kana": "ハイスクール",
+          "pos": "名詞",
+          "ja": "高校"
+        },
+        {
+          "no": 45,
+          "en": "elementary school",
+          "kana": "エレ【メン】タリースクール",
+          "pos": "名詞",
+          "ja": "小学校"
+        },
+        {
+          "no": 46,
+          "en": "kindergarten",
+          "kana": "【キン】ダーガーテン",
+          "pos": "名詞",
+          "ja": "幼稚園"
+        },
+        {
+          "no": 47,
+          "en": "university",
+          "kana": "ユニ【バー】シティ",
+          "pos": "名詞",
+          "ja": "大学"
+        },
+        {
+          "no": 48,
+          "en": "grade",
+          "kana": "グレイド",
+          "pos": "名詞",
+          "ja": "成績、学年"
+        },
+        {
+          "no": 49,
+          "en": "pen",
+          "kana": "ペン",
+          "pos": "名詞",
+          "ja": "ペン"
+        },
+        {
+          "no": 50,
+          "en": "pencil",
+          "kana": "【ペン】スル",
+          "pos": "名詞",
+          "ja": "鉛筆"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "eraser",
+          "kana": "イ【レイ】サー",
+          "pos": "名詞",
+          "ja": "消しゴム"
+        },
+        {
+          "no": 52,
+          "en": "ruler",
+          "kana": "【ルー】ラー",
+          "pos": "名詞",
+          "ja": "定規"
+        },
+        {
+          "no": 53,
+          "en": "dictionary",
+          "kana": "【ディク】ショナリー",
+          "pos": "名詞",
+          "ja": "辞書"
+        },
+        {
+          "no": 54,
+          "en": "map",
+          "kana": "マップ",
+          "pos": "名詞",
+          "ja": "地図"
+        },
+        {
+          "no": 55,
+          "en": "schedule",
+          "kana": "【スケ】ジュール",
+          "pos": "名詞",
+          "ja": "時間割"
+        },
+        {
+          "no": 56,
+          "en": "timetable",
+          "kana": "【タイム】テイブル",
+          "pos": "名詞",
+          "ja": "時間割"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "09",
+    "name": "家・家具・家電",
+    "total": 51,
+    "unitCount": 6,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "house",
+          "kana": "ハウス",
+          "pos": "名詞",
+          "ja": "家"
+        },
+        {
+          "no": 2,
+          "en": "home",
+          "kana": "ホウム",
+          "pos": "名詞",
+          "ja": "家"
+        },
+        {
+          "no": 3,
+          "en": "room",
+          "kana": "ルーム",
+          "pos": "名詞",
+          "ja": "部屋"
+        },
+        {
+          "no": 4,
+          "en": "bedroom",
+          "kana": "【ベッド】ルーム",
+          "pos": "名詞",
+          "ja": "寝室"
+        },
+        {
+          "no": 5,
+          "en": "bathroom",
+          "kana": "【バス】ルーム",
+          "pos": "名詞",
+          "ja": "浴室"
+        },
+        {
+          "no": 6,
+          "en": "kitchen",
+          "kana": "【キッ】チン",
+          "pos": "名詞",
+          "ja": "台所"
+        },
+        {
+          "no": 7,
+          "en": "dining room",
+          "kana": "ダイニングルーム",
+          "pos": "名詞",
+          "ja": "食堂"
+        },
+        {
+          "no": 8,
+          "en": "living room",
+          "kana": "リビングルーム",
+          "pos": "名詞",
+          "ja": "居間"
+        },
+        {
+          "no": 9,
+          "en": "garden",
+          "kana": "【ガー】デン",
+          "pos": "名詞",
+          "ja": "庭"
+        },
+        {
+          "no": 10,
+          "en": "garage",
+          "kana": "ガ【ラージ】",
+          "pos": "名詞",
+          "ja": "ガレージ"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "roof",
+          "kana": "ルーフ",
+          "pos": "名詞",
+          "ja": "屋根"
+        },
+        {
+          "no": 12,
+          "en": "wall",
+          "kana": "ウォール",
+          "pos": "名詞",
+          "ja": "壁"
+        },
+        {
+          "no": 13,
+          "en": "door",
+          "kana": "ドア",
+          "pos": "名詞",
+          "ja": "ドア"
+        },
+        {
+          "no": 14,
+          "en": "window",
+          "kana": "【ウィン】ドウ",
+          "pos": "名詞",
+          "ja": "窓"
+        },
+        {
+          "no": 15,
+          "en": "floor",
+          "kana": "フロア",
+          "pos": "名詞",
+          "ja": "床"
+        },
+        {
+          "no": 16,
+          "en": "ceiling",
+          "kana": "【シー】リング",
+          "pos": "名詞",
+          "ja": "天井"
+        },
+        {
+          "no": 17,
+          "en": "gate",
+          "kana": "ゲイト",
+          "pos": "名詞",
+          "ja": "門"
+        },
+        {
+          "no": 18,
+          "en": "stairs",
+          "kana": "ステアズ",
+          "pos": "名詞",
+          "ja": "階段"
+        },
+        {
+          "no": 19,
+          "en": "bed",
+          "kana": "ベッド",
+          "pos": "名詞",
+          "ja": "ベッド"
+        },
+        {
+          "no": 20,
+          "en": "table",
+          "kana": "【テイ】ブル",
+          "pos": "名詞",
+          "ja": "テーブル"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "chair",
+          "kana": "チェア",
+          "pos": "名詞",
+          "ja": "椅子"
+        },
+        {
+          "no": 22,
+          "en": "sofa",
+          "kana": "【ソウ】ファ",
+          "pos": "名詞",
+          "ja": "ソファ"
+        },
+        {
+          "no": 23,
+          "en": "shelf",
+          "kana": "シェルフ",
+          "pos": "名詞",
+          "ja": "棚"
+        },
+        {
+          "no": 24,
+          "en": "curtain",
+          "kana": "【カー】テン",
+          "pos": "名詞",
+          "ja": "カーテン"
+        },
+        {
+          "no": 25,
+          "en": "carpet",
+          "kana": "【カー】ペット",
+          "pos": "名詞",
+          "ja": "カーペット"
+        },
+        {
+          "no": 26,
+          "en": "lamp",
+          "kana": "ランプ",
+          "pos": "名詞",
+          "ja": "ランプ"
+        },
+        {
+          "no": 27,
+          "en": "clock",
+          "kana": "クロック",
+          "pos": "名詞",
+          "ja": "時計"
+        },
+        {
+          "no": 28,
+          "en": "telephone",
+          "kana": "【テ】レフォン",
+          "pos": "名詞",
+          "ja": "電話"
+        },
+        {
+          "no": 29,
+          "en": "cell phone",
+          "kana": "セルフォン",
+          "pos": "名詞",
+          "ja": "携帯電話"
+        },
+        {
+          "no": 30,
+          "en": "mobile phone",
+          "kana": "モバイルフォン",
+          "pos": "名詞",
+          "ja": "携帯電話"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "television",
+          "kana": "【テ】レビジョン",
+          "pos": "名詞",
+          "ja": "テレビ"
+        },
+        {
+          "no": 32,
+          "en": "computer",
+          "kana": "コン【ピュー】ター",
+          "pos": "名詞",
+          "ja": "コンピュータ"
+        },
+        {
+          "no": 33,
+          "en": "refrigerator",
+          "kana": "リ【フリジ】レイター",
+          "pos": "名詞",
+          "ja": "冷蔵庫"
+        },
+        {
+          "no": 34,
+          "en": "washing machine",
+          "kana": "ウォッシングマシーン",
+          "pos": "名詞",
+          "ja": "洗濯機"
+        },
+        {
+          "no": 35,
+          "en": "bath",
+          "kana": "バス",
+          "pos": "名詞",
+          "ja": "風呂"
+        },
+        {
+          "no": 36,
+          "en": "bathtub",
+          "kana": "【バス】タブ",
+          "pos": "名詞",
+          "ja": "浴槽"
+        },
+        {
+          "no": 37,
+          "en": "toilet",
+          "kana": "【トイ】レット",
+          "pos": "名詞",
+          "ja": "トイレ"
+        },
+        {
+          "no": 38,
+          "en": "vase",
+          "kana": "ヴェイズ",
+          "pos": "名詞",
+          "ja": "花瓶"
+        },
+        {
+          "no": 39,
+          "en": "tool",
+          "kana": "トゥール",
+          "pos": "名詞",
+          "ja": "道具"
+        },
+        {
+          "no": 40,
+          "en": "key",
+          "kana": "キー",
+          "pos": "名詞",
+          "ja": "鍵"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "lock",
+          "kana": "ロック",
+          "pos": "名詞/動詞",
+          "ja": "鍵"
+        },
+        {
+          "no": 42,
+          "en": "housework",
+          "kana": "【ハウス】ワーク",
+          "pos": "名詞",
+          "ja": "家事"
+        },
+        {
+          "no": 43,
+          "en": "second floor",
+          "kana": "セカンドフロア",
+          "pos": "名詞",
+          "ja": "2階"
+        },
+        {
+          "no": 44,
+          "en": "entrance",
+          "kana": "【エン】トランス",
+          "pos": "名詞",
+          "ja": "玄関"
+        },
+        {
+          "no": 45,
+          "en": "heater",
+          "kana": "【ヒー】ター",
+          "pos": "名詞",
+          "ja": "ヒーター"
+        },
+        {
+          "no": 46,
+          "en": "oven",
+          "kana": "【オー】ブン",
+          "pos": "名詞",
+          "ja": "オーブン"
+        },
+        {
+          "no": 47,
+          "en": "pan",
+          "kana": "パン",
+          "pos": "名詞",
+          "ja": "なべ"
+        },
+        {
+          "no": 48,
+          "en": "brush",
+          "kana": "ブラッシュ",
+          "pos": "名詞",
+          "ja": "ブラシ"
+        },
+        {
+          "no": 49,
+          "en": "comb",
+          "kana": "コウム",
+          "pos": "名詞",
+          "ja": "くし"
+        },
+        {
+          "no": 50,
+          "en": "mirror",
+          "kana": "【ミ】ラー",
+          "pos": "名詞",
+          "ja": "鏡"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "towel",
+          "kana": "【タウ】エル",
+          "pos": "名詞",
+          "ja": "タオル"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "10",
+    "name": "家族・人",
+    "total": 48,
+    "unitCount": 5,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "family",
+          "kana": "【ファ】ミリー",
+          "pos": "名詞",
+          "ja": "家族"
+        },
+        {
+          "no": 2,
+          "en": "father",
+          "kana": "【ファー】ザー",
+          "pos": "名詞",
+          "ja": "父"
+        },
+        {
+          "no": 3,
+          "en": "mother",
+          "kana": "【マ】ザー",
+          "pos": "名詞",
+          "ja": "母"
+        },
+        {
+          "no": 4,
+          "en": "dad",
+          "kana": "ダッド",
+          "pos": "名詞",
+          "ja": "お父さん"
+        },
+        {
+          "no": 5,
+          "en": "mom",
+          "kana": "マム",
+          "pos": "名詞",
+          "ja": "お母さん"
+        },
+        {
+          "no": 6,
+          "en": "parents",
+          "kana": "【ペア】レンツ",
+          "pos": "名詞",
+          "ja": "両親"
+        },
+        {
+          "no": 7,
+          "en": "brother",
+          "kana": "【ブラ】ザー",
+          "pos": "名詞",
+          "ja": "兄弟"
+        },
+        {
+          "no": 8,
+          "en": "sister",
+          "kana": "【シス】ター",
+          "pos": "名詞",
+          "ja": "姉妹"
+        },
+        {
+          "no": 9,
+          "en": "grandfather",
+          "kana": "【グランド】ファーザー",
+          "pos": "名詞",
+          "ja": "祖父"
+        },
+        {
+          "no": 10,
+          "en": "grandmother",
+          "kana": "【グランド】マザー",
+          "pos": "名詞",
+          "ja": "祖母"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "grandma",
+          "kana": "【グランド】マ",
+          "pos": "名詞",
+          "ja": "おばあちゃん"
+        },
+        {
+          "no": 12,
+          "en": "grandpa",
+          "kana": "【グランド】パ",
+          "pos": "名詞",
+          "ja": "おじいちゃん"
+        },
+        {
+          "no": 13,
+          "en": "grandparents",
+          "kana": "【グランド】ペアレンツ",
+          "pos": "名詞",
+          "ja": "祖父母"
+        },
+        {
+          "no": 14,
+          "en": "grandchild",
+          "kana": "【グランド】チャイルド",
+          "pos": "名詞",
+          "ja": "孫"
+        },
+        {
+          "no": 15,
+          "en": "uncle",
+          "kana": "【アン】クル",
+          "pos": "名詞",
+          "ja": "おじ"
+        },
+        {
+          "no": 16,
+          "en": "aunt",
+          "kana": "アント",
+          "pos": "名詞",
+          "ja": "おば"
+        },
+        {
+          "no": 17,
+          "en": "cousin",
+          "kana": "【カ】ズン",
+          "pos": "名詞",
+          "ja": "いとこ"
+        },
+        {
+          "no": 18,
+          "en": "nephew",
+          "kana": "【ネ】フュー",
+          "pos": "名詞",
+          "ja": "甥"
+        },
+        {
+          "no": 19,
+          "en": "niece",
+          "kana": "ニース",
+          "pos": "名詞",
+          "ja": "姪"
+        },
+        {
+          "no": 20,
+          "en": "son",
+          "kana": "サン",
+          "pos": "名詞",
+          "ja": "息子"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "daughter",
+          "kana": "【ドー】ター",
+          "pos": "名詞",
+          "ja": "娘"
+        },
+        {
+          "no": 22,
+          "en": "husband",
+          "kana": "【ハズ】バンド",
+          "pos": "名詞",
+          "ja": "夫"
+        },
+        {
+          "no": 23,
+          "en": "wife",
+          "kana": "ワイフ",
+          "pos": "名詞",
+          "ja": "妻"
+        },
+        {
+          "no": 24,
+          "en": "baby",
+          "kana": "【ベイ】ビー",
+          "pos": "名詞",
+          "ja": "赤ちゃん"
+        },
+        {
+          "no": 25,
+          "en": "child",
+          "kana": "チャイルド",
+          "pos": "名詞",
+          "ja": "子供"
+        },
+        {
+          "no": 26,
+          "en": "kid",
+          "kana": "キッド",
+          "pos": "名詞",
+          "ja": "子供"
+        },
+        {
+          "no": 27,
+          "en": "boy",
+          "kana": "ボイ",
+          "pos": "名詞",
+          "ja": "男の子"
+        },
+        {
+          "no": 28,
+          "en": "girl",
+          "kana": "ガール",
+          "pos": "名詞",
+          "ja": "女の子"
+        },
+        {
+          "no": 29,
+          "en": "man",
+          "kana": "マン",
+          "pos": "名詞",
+          "ja": "男性"
+        },
+        {
+          "no": 30,
+          "en": "woman",
+          "kana": "【ウ】マン",
+          "pos": "名詞",
+          "ja": "女性"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "adult",
+          "kana": "アダルト",
+          "pos": "名詞",
+          "ja": "大人"
+        },
+        {
+          "no": 32,
+          "en": "senior",
+          "kana": "【シー】ニア",
+          "pos": "名詞",
+          "ja": "お年寄り"
+        },
+        {
+          "no": 33,
+          "en": "elderly",
+          "kana": "【エル】ダリー",
+          "pos": "形容詞",
+          "ja": "お年寄りの"
+        },
+        {
+          "no": 34,
+          "en": "friend",
+          "kana": "フレンド",
+          "pos": "名詞",
+          "ja": "友達"
+        },
+        {
+          "no": 35,
+          "en": "person",
+          "kana": "【パー】スン",
+          "pos": "名詞",
+          "ja": "人"
+        },
+        {
+          "no": 36,
+          "en": "people",
+          "kana": "【ピー】プル",
+          "pos": "名詞",
+          "ja": "人々"
+        },
+        {
+          "no": 37,
+          "en": "human",
+          "kana": "【ヒュー】マン",
+          "pos": "名詞",
+          "ja": "人間"
+        },
+        {
+          "no": 38,
+          "en": "gentleman",
+          "kana": "【ジェントル】マン",
+          "pos": "名詞",
+          "ja": "紳士"
+        },
+        {
+          "no": 39,
+          "en": "lady",
+          "kana": "【レイ】ディ",
+          "pos": "名詞",
+          "ja": "女性、淑女"
+        },
+        {
+          "no": 40,
+          "en": "marriage",
+          "kana": "【マ】リッジ",
+          "pos": "名詞",
+          "ja": "結婚"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "marry",
+          "kana": "【マ】リー",
+          "pos": "動詞",
+          "ja": "結婚する"
+        },
+        {
+          "no": 42,
+          "en": "teammate",
+          "kana": "【ティーム】メイト",
+          "pos": "名詞",
+          "ja": "チームメート"
+        },
+        {
+          "no": 43,
+          "en": "classmate",
+          "kana": "【クラス】メイト",
+          "pos": "名詞",
+          "ja": "クラスメート"
+        },
+        {
+          "no": 44,
+          "en": "neighbor",
+          "kana": "【ネイ】バー",
+          "pos": "名詞",
+          "ja": "隣人"
+        },
+        {
+          "no": 45,
+          "en": "stranger",
+          "kana": "【ストレン】ジャー",
+          "pos": "名詞",
+          "ja": "見知らぬ人"
+        },
+        {
+          "no": 46,
+          "en": "guest",
+          "kana": "ゲスト",
+          "pos": "名詞",
+          "ja": "客"
+        },
+        {
+          "no": 47,
+          "en": "host",
+          "kana": "ホウスト",
+          "pos": "名詞",
+          "ja": "主人"
+        },
+        {
+          "no": 48,
+          "en": "visitor",
+          "kana": "【ヴィ】ジター",
+          "pos": "名詞",
+          "ja": "訪問者"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "11",
+    "name": "乗り物・交通",
+    "total": 27,
+    "unitCount": 3,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "car",
+          "kana": "カー",
+          "pos": "名詞",
+          "ja": "車"
+        },
+        {
+          "no": 2,
+          "en": "bicycle",
+          "kana": "【バイ】シクル",
+          "pos": "名詞",
+          "ja": "自転車"
+        },
+        {
+          "no": 3,
+          "en": "bike",
+          "kana": "バイク",
+          "pos": "名詞",
+          "ja": "自転車、バイク"
+        },
+        {
+          "no": 4,
+          "en": "train",
+          "kana": "トレイン",
+          "pos": "名詞",
+          "ja": "電車"
+        },
+        {
+          "no": 5,
+          "en": "bus",
+          "kana": "バス",
+          "pos": "名詞",
+          "ja": "バス"
+        },
+        {
+          "no": 6,
+          "en": "taxi",
+          "kana": "【タク】シー",
+          "pos": "名詞",
+          "ja": "タクシー"
+        },
+        {
+          "no": 7,
+          "en": "airplane",
+          "kana": "【エア】プレイン",
+          "pos": "名詞",
+          "ja": "飛行機"
+        },
+        {
+          "no": 8,
+          "en": "plane",
+          "kana": "プレイン",
+          "pos": "名詞",
+          "ja": "飛行機"
+        },
+        {
+          "no": 9,
+          "en": "ship",
+          "kana": "シップ",
+          "pos": "名詞",
+          "ja": "船"
+        },
+        {
+          "no": 10,
+          "en": "boat",
+          "kana": "ボート",
+          "pos": "名詞",
+          "ja": "ボート"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "truck",
+          "kana": "トラック",
+          "pos": "名詞",
+          "ja": "トラック"
+        },
+        {
+          "no": 12,
+          "en": "spaceship",
+          "kana": "【スペイス】シップ",
+          "pos": "名詞",
+          "ja": "宇宙船"
+        },
+        {
+          "no": 13,
+          "en": "subway",
+          "kana": "【サブ】ウェイ",
+          "pos": "名詞",
+          "ja": "地下鉄"
+        },
+        {
+          "no": 14,
+          "en": "station",
+          "kana": "【ステイ】ション",
+          "pos": "名詞",
+          "ja": "駅"
+        },
+        {
+          "no": 15,
+          "en": "bus stop",
+          "kana": "バスストップ",
+          "pos": "名詞",
+          "ja": "バス停"
+        },
+        {
+          "no": 16,
+          "en": "airport",
+          "kana": "【エア】ポート",
+          "pos": "名詞",
+          "ja": "空港"
+        },
+        {
+          "no": 17,
+          "en": "traffic",
+          "kana": "【トラ】フィック",
+          "pos": "名詞",
+          "ja": "交通"
+        },
+        {
+          "no": 18,
+          "en": "road",
+          "kana": "ロード",
+          "pos": "名詞",
+          "ja": "道路"
+        },
+        {
+          "no": 19,
+          "en": "street",
+          "kana": "ストリート",
+          "pos": "名詞",
+          "ja": "通り"
+        },
+        {
+          "no": 20,
+          "en": "drive",
+          "kana": "ドライブ",
+          "pos": "動詞",
+          "ja": "運転する"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "ride",
+          "kana": "ライド",
+          "pos": "動詞",
+          "ja": "乗る"
+        },
+        {
+          "no": 22,
+          "en": "fly",
+          "kana": "フライ",
+          "pos": "動詞",
+          "ja": "飛ぶ"
+        },
+        {
+          "no": 23,
+          "en": "sail",
+          "kana": "セイル",
+          "pos": "動詞/名詞",
+          "ja": "航海する"
+        },
+        {
+          "no": 24,
+          "en": "ticket",
+          "kana": "【ティ】ケット",
+          "pos": "名詞",
+          "ja": "切符"
+        },
+        {
+          "no": 25,
+          "en": "fare",
+          "kana": "フェア",
+          "pos": "名詞",
+          "ja": "運賃"
+        },
+        {
+          "no": 26,
+          "en": "underground",
+          "kana": "【アンダー】グラウンド",
+          "pos": "名詞",
+          "ja": "地下"
+        },
+        {
+          "no": 27,
+          "en": "wheelchair",
+          "kana": "【ウィール】チェア",
+          "pos": "名詞",
+          "ja": "車いす"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "12",
+    "name": "町・施設・地理",
+    "total": 54,
+    "unitCount": 6,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "city",
+          "kana": "【シ】ティ",
+          "pos": "名詞",
+          "ja": "都市"
+        },
+        {
+          "no": 2,
+          "en": "town",
+          "kana": "タウン",
+          "pos": "名詞",
+          "ja": "町"
+        },
+        {
+          "no": 3,
+          "en": "village",
+          "kana": "【ヴィ】レッジ",
+          "pos": "名詞",
+          "ja": "村"
+        },
+        {
+          "no": 4,
+          "en": "country",
+          "kana": "【カン】トリー",
+          "pos": "名詞",
+          "ja": "田舎"
+        },
+        {
+          "no": 5,
+          "en": "park",
+          "kana": "パーク",
+          "pos": "名詞",
+          "ja": "公園"
+        },
+        {
+          "no": 6,
+          "en": "museum",
+          "kana": "ミュー【ジアム】",
+          "pos": "名詞",
+          "ja": "博物館"
+        },
+        {
+          "no": 7,
+          "en": "castle",
+          "kana": "【キャ】スル",
+          "pos": "名詞",
+          "ja": "城"
+        },
+        {
+          "no": 8,
+          "en": "church",
+          "kana": "チャーチ",
+          "pos": "名詞",
+          "ja": "教会"
+        },
+        {
+          "no": 9,
+          "en": "shrine",
+          "kana": "シュライン",
+          "pos": "名詞",
+          "ja": "神社"
+        },
+        {
+          "no": 10,
+          "en": "temple",
+          "kana": "【テン】プル",
+          "pos": "名詞",
+          "ja": "寺"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "hospital",
+          "kana": "【ホス】ピタル",
+          "pos": "名詞",
+          "ja": "病院"
+        },
+        {
+          "no": 12,
+          "en": "police station",
+          "kana": "ポリースステイション",
+          "pos": "名詞",
+          "ja": "交番"
+        },
+        {
+          "no": 13,
+          "en": "post office",
+          "kana": "ポストオフィス",
+          "pos": "名詞",
+          "ja": "郵便局"
+        },
+        {
+          "no": 14,
+          "en": "city hall",
+          "kana": "シティホール",
+          "pos": "名詞",
+          "ja": "市役所"
+        },
+        {
+          "no": 15,
+          "en": "restaurant",
+          "kana": "【レス】トラント",
+          "pos": "名詞",
+          "ja": "レストラン"
+        },
+        {
+          "no": 16,
+          "en": "hotel",
+          "kana": "ホ【テル】",
+          "pos": "名詞",
+          "ja": "ホテル"
+        },
+        {
+          "no": 17,
+          "en": "shop",
+          "kana": "ショップ",
+          "pos": "名詞",
+          "ja": "店"
+        },
+        {
+          "no": 18,
+          "en": "store",
+          "kana": "ストア",
+          "pos": "名詞",
+          "ja": "店"
+        },
+        {
+          "no": 19,
+          "en": "supermarket",
+          "kana": "【スーパー】マーケット",
+          "pos": "名詞",
+          "ja": "スーパーマーケット"
+        },
+        {
+          "no": 20,
+          "en": "convenience store",
+          "kana": "コン【ビ】ニエンスストア",
+          "pos": "名詞",
+          "ja": "コンビニ"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "bookshop",
+          "kana": "【ブック】ショップ",
+          "pos": "名詞",
+          "ja": "本屋"
+        },
+        {
+          "no": 22,
+          "en": "bank",
+          "kana": "バンク",
+          "pos": "名詞",
+          "ja": "銀行"
+        },
+        {
+          "no": 23,
+          "en": "library",
+          "kana": "【ライ】ブラリー",
+          "pos": "名詞",
+          "ja": "図書館"
+        },
+        {
+          "no": 24,
+          "en": "zoo",
+          "kana": "ズー",
+          "pos": "名詞",
+          "ja": "動物園"
+        },
+        {
+          "no": 25,
+          "en": "aquarium",
+          "kana": "ア【クエア】リアム",
+          "pos": "名詞",
+          "ja": "水族館"
+        },
+        {
+          "no": 26,
+          "en": "station",
+          "kana": "【ステイ】ション",
+          "pos": "名詞",
+          "ja": "駅"
+        },
+        {
+          "no": 27,
+          "en": "bridge",
+          "kana": "ブリッジ",
+          "pos": "名詞",
+          "ja": "橋"
+        },
+        {
+          "no": 28,
+          "en": "river",
+          "kana": "【リ】バー",
+          "pos": "名詞",
+          "ja": "川"
+        },
+        {
+          "no": 29,
+          "en": "lake",
+          "kana": "レイク",
+          "pos": "名詞",
+          "ja": "湖"
+        },
+        {
+          "no": 30,
+          "en": "pond",
+          "kana": "ポンド",
+          "pos": "名詞",
+          "ja": "池"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "sea",
+          "kana": "シー",
+          "pos": "名詞",
+          "ja": "海"
+        },
+        {
+          "no": 32,
+          "en": "ocean",
+          "kana": "【オウ】シャン",
+          "pos": "名詞",
+          "ja": "海"
+        },
+        {
+          "no": 33,
+          "en": "beach",
+          "kana": "ビーチ",
+          "pos": "名詞",
+          "ja": "浜辺"
+        },
+        {
+          "no": 34,
+          "en": "mountain",
+          "kana": "【マウン】テン",
+          "pos": "名詞",
+          "ja": "山"
+        },
+        {
+          "no": 35,
+          "en": "hill",
+          "kana": "ヒル",
+          "pos": "名詞",
+          "ja": "丘"
+        },
+        {
+          "no": 36,
+          "en": "island",
+          "kana": "【アイ】ランド",
+          "pos": "名詞",
+          "ja": "島"
+        },
+        {
+          "no": 37,
+          "en": "valley",
+          "kana": "【ヴァ】リー",
+          "pos": "名詞",
+          "ja": "谷"
+        },
+        {
+          "no": 38,
+          "en": "coast",
+          "kana": "コウスト",
+          "pos": "名詞",
+          "ja": "海岸"
+        },
+        {
+          "no": 39,
+          "en": "field",
+          "kana": "フィールド",
+          "pos": "名詞",
+          "ja": "野原"
+        },
+        {
+          "no": 40,
+          "en": "forest",
+          "kana": "【フォ】レスト",
+          "pos": "名詞",
+          "ja": "森"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "coin",
+          "kana": "コイン",
+          "pos": "名詞",
+          "ja": "硬貨"
+        },
+        {
+          "no": 42,
+          "en": "gold",
+          "kana": "ゴールド",
+          "pos": "名詞",
+          "ja": "金"
+        },
+        {
+          "no": 43,
+          "en": "silver",
+          "kana": "【シル】バー",
+          "pos": "名詞",
+          "ja": "銀"
+        },
+        {
+          "no": 44,
+          "en": "money",
+          "kana": "【マ】ニー",
+          "pos": "名詞",
+          "ja": "お金"
+        },
+        {
+          "no": 45,
+          "en": "dollar",
+          "kana": "【ド】ラー",
+          "pos": "名詞",
+          "ja": "ドル"
+        },
+        {
+          "no": 46,
+          "en": "yen",
+          "kana": "エン",
+          "pos": "名詞",
+          "ja": "円"
+        },
+        {
+          "no": 47,
+          "en": "pound",
+          "kana": "パウンド",
+          "pos": "名詞",
+          "ja": "ポンド"
+        },
+        {
+          "no": 48,
+          "en": "port",
+          "kana": "ポート",
+          "pos": "名詞",
+          "ja": "港"
+        },
+        {
+          "no": 49,
+          "en": "road",
+          "kana": "ロード",
+          "pos": "名詞",
+          "ja": "道路"
+        },
+        {
+          "no": 50,
+          "en": "corner",
+          "kana": "【コー】ナー",
+          "pos": "名詞",
+          "ja": "角"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "neighborhood",
+          "kana": "【ネイ】バーフッド",
+          "pos": "名詞",
+          "ja": "近所"
+        },
+        {
+          "no": 52,
+          "en": "downtown",
+          "kana": "【ダウン】タウン",
+          "pos": "名詞",
+          "ja": "繁華街"
+        },
+        {
+          "no": 53,
+          "en": "hometown",
+          "kana": "【ホウム】タウン",
+          "pos": "名詞",
+          "ja": "故郷"
+        },
+        {
+          "no": 54,
+          "en": "abroad",
+          "kana": "アブロード",
+          "pos": "副詞",
+          "ja": "外国へ"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "13",
+    "name": "職業",
+    "total": 36,
+    "unitCount": 4,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "job",
+          "kana": "ジョブ",
+          "pos": "名詞",
+          "ja": "仕事"
+        },
+        {
+          "no": 2,
+          "en": "work",
+          "kana": "ワーク",
+          "pos": "名詞/動詞",
+          "ja": "仕事、働く"
+        },
+        {
+          "no": 3,
+          "en": "teacher",
+          "kana": "【ティー】チャー",
+          "pos": "名詞",
+          "ja": "教師"
+        },
+        {
+          "no": 4,
+          "en": "professor",
+          "kana": "プロ【フェ】サー",
+          "pos": "名詞",
+          "ja": "教授"
+        },
+        {
+          "no": 5,
+          "en": "doctor",
+          "kana": "【ドク】ター",
+          "pos": "名詞",
+          "ja": "医者"
+        },
+        {
+          "no": 6,
+          "en": "nurse",
+          "kana": "ナース",
+          "pos": "名詞",
+          "ja": "看護師"
+        },
+        {
+          "no": 7,
+          "en": "dentist",
+          "kana": "【デン】ティスト",
+          "pos": "名詞",
+          "ja": "歯医者"
+        },
+        {
+          "no": 8,
+          "en": "scientist",
+          "kana": "【サイ】エンティスト",
+          "pos": "名詞",
+          "ja": "科学者"
+        },
+        {
+          "no": 9,
+          "en": "engineer",
+          "kana": "エンジ【ニア】",
+          "pos": "名詞",
+          "ja": "エンジニア"
+        },
+        {
+          "no": 10,
+          "en": "pilot",
+          "kana": "【パイ】ロット",
+          "pos": "名詞",
+          "ja": "パイロット"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "cook",
+          "kana": "クック",
+          "pos": "名詞",
+          "ja": "料理人"
+        },
+        {
+          "no": 12,
+          "en": "baker",
+          "kana": "【ベイ】カー",
+          "pos": "名詞",
+          "ja": "パン屋"
+        },
+        {
+          "no": 13,
+          "en": "farmer",
+          "kana": "【ファー】マー",
+          "pos": "名詞",
+          "ja": "農家"
+        },
+        {
+          "no": 14,
+          "en": "fisherman",
+          "kana": "【フィッシャー】マン",
+          "pos": "名詞",
+          "ja": "漁師"
+        },
+        {
+          "no": 15,
+          "en": "police officer",
+          "kana": "ポリースオフィサー",
+          "pos": "名詞",
+          "ja": "警察官"
+        },
+        {
+          "no": 16,
+          "en": "firefighter",
+          "kana": "【ファイア】ファイター",
+          "pos": "名詞",
+          "ja": "消防士"
+        },
+        {
+          "no": 17,
+          "en": "soldier",
+          "kana": "【ソウル】ジャー",
+          "pos": "名詞",
+          "ja": "兵士"
+        },
+        {
+          "no": 18,
+          "en": "mayor",
+          "kana": "【メイ】ヤー",
+          "pos": "名詞",
+          "ja": "市長"
+        },
+        {
+          "no": 19,
+          "en": "officer",
+          "kana": "【オ】フィサー",
+          "pos": "名詞",
+          "ja": "将校"
+        },
+        {
+          "no": 20,
+          "en": "government",
+          "kana": "【ガバン】メント",
+          "pos": "名詞",
+          "ja": "政府"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "writer",
+          "kana": "【ライ】ター",
+          "pos": "名詞",
+          "ja": "作家"
+        },
+        {
+          "no": 22,
+          "en": "reporter",
+          "kana": "リ【ポー】ター",
+          "pos": "名詞",
+          "ja": "記者"
+        },
+        {
+          "no": 23,
+          "en": "musician",
+          "kana": "ミュー【ジ】シャン",
+          "pos": "名詞",
+          "ja": "音楽家"
+        },
+        {
+          "no": 24,
+          "en": "artist",
+          "kana": "【アー】ティスト",
+          "pos": "名詞",
+          "ja": "芸術家"
+        },
+        {
+          "no": 25,
+          "en": "actor",
+          "kana": "【ア】クター",
+          "pos": "名詞",
+          "ja": "俳優"
+        },
+        {
+          "no": 26,
+          "en": "athlete",
+          "kana": "【ア】スリート",
+          "pos": "名詞",
+          "ja": "運動選手"
+        },
+        {
+          "no": 27,
+          "en": "trainer",
+          "kana": "【トレイ】ナー",
+          "pos": "名詞",
+          "ja": "トレーナー"
+        },
+        {
+          "no": 28,
+          "en": "driver",
+          "kana": "【ドライ】バー",
+          "pos": "名詞",
+          "ja": "運転手"
+        },
+        {
+          "no": 29,
+          "en": "carpenter",
+          "kana": "【カー】ペンター",
+          "pos": "名詞",
+          "ja": "大工"
+        },
+        {
+          "no": 30,
+          "en": "clerk",
+          "kana": "クラーク",
+          "pos": "名詞",
+          "ja": "店員"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "salesclerk",
+          "kana": "【セイルズ】クラーク",
+          "pos": "名詞",
+          "ja": "店員"
+        },
+        {
+          "no": 32,
+          "en": "lawyer",
+          "kana": "【ロー】ヤー",
+          "pos": "名詞",
+          "ja": "弁護士"
+        },
+        {
+          "no": 33,
+          "en": "astronaut",
+          "kana": "【ア】ストロノート",
+          "pos": "名詞",
+          "ja": "宇宙飛行士"
+        },
+        {
+          "no": 34,
+          "en": "volunteer",
+          "kana": "ヴォランティア",
+          "pos": "名詞",
+          "ja": "ボランティア"
+        },
+        {
+          "no": 35,
+          "en": "photographer",
+          "kana": "フォ【トグ】ラファー",
+          "pos": "名詞",
+          "ja": "カメラマン"
+        },
+        {
+          "no": 36,
+          "en": "camel",
+          "kana": "【ケイ】メル",
+          "pos": "名詞",
+          "ja": "ラクダ"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "14",
+    "name": "形容詞",
+    "total": 132,
+    "unitCount": 14,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "good",
+          "kana": "グッド",
+          "pos": "形容詞",
+          "ja": "良い"
+        },
+        {
+          "no": 2,
+          "en": "bad",
+          "kana": "バッド",
+          "pos": "形容詞",
+          "ja": "悪い"
+        },
+        {
+          "no": 3,
+          "en": "big",
+          "kana": "ビッグ",
+          "pos": "形容詞",
+          "ja": "大きい"
+        },
+        {
+          "no": 4,
+          "en": "small",
+          "kana": "スモール",
+          "pos": "形容詞",
+          "ja": "小さい"
+        },
+        {
+          "no": 5,
+          "en": "long",
+          "kana": "ロング",
+          "pos": "形容詞",
+          "ja": "長い"
+        },
+        {
+          "no": 6,
+          "en": "short",
+          "kana": "ショート",
+          "pos": "形容詞",
+          "ja": "短い"
+        },
+        {
+          "no": 7,
+          "en": "tall",
+          "kana": "トール",
+          "pos": "形容詞",
+          "ja": "背が高い"
+        },
+        {
+          "no": 8,
+          "en": "high",
+          "kana": "ハイ",
+          "pos": "形容詞",
+          "ja": "高い"
+        },
+        {
+          "no": 9,
+          "en": "low",
+          "kana": "ロウ",
+          "pos": "形容詞",
+          "ja": "低い"
+        },
+        {
+          "no": 10,
+          "en": "large",
+          "kana": "ラージ",
+          "pos": "形容詞",
+          "ja": "大きい"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "heavy",
+          "kana": "【ヘ】ビー",
+          "pos": "形容詞",
+          "ja": "重い"
+        },
+        {
+          "no": 12,
+          "en": "light",
+          "kana": "ライト",
+          "pos": "形容詞",
+          "ja": "軽い"
+        },
+        {
+          "no": 13,
+          "en": "fast",
+          "kana": "ファスト",
+          "pos": "形容詞",
+          "ja": "速い"
+        },
+        {
+          "no": 14,
+          "en": "slow",
+          "kana": "スロウ",
+          "pos": "形容詞",
+          "ja": "遅い"
+        },
+        {
+          "no": 15,
+          "en": "easy",
+          "kana": "【イー】ジー",
+          "pos": "形容詞",
+          "ja": "簡単な"
+        },
+        {
+          "no": 16,
+          "en": "difficult",
+          "kana": "【ディ】フィカルト",
+          "pos": "形容詞",
+          "ja": "難しい"
+        },
+        {
+          "no": 17,
+          "en": "hard",
+          "kana": "ハード",
+          "pos": "形容詞",
+          "ja": "難しい"
+        },
+        {
+          "no": 18,
+          "en": "cute",
+          "kana": "キュート",
+          "pos": "形容詞",
+          "ja": "かわいい"
+        },
+        {
+          "no": 19,
+          "en": "beautiful",
+          "kana": "【ビュー】ティフル",
+          "pos": "形容詞",
+          "ja": "美しい"
+        },
+        {
+          "no": 20,
+          "en": "pretty",
+          "kana": "【プリ】ティ",
+          "pos": "形容詞",
+          "ja": "かわいい"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "smart",
+          "kana": "スマート",
+          "pos": "形容詞",
+          "ja": "賢い"
+        },
+        {
+          "no": 22,
+          "en": "clever",
+          "kana": "【クレ】バー",
+          "pos": "形容詞",
+          "ja": "頭がいい"
+        },
+        {
+          "no": 23,
+          "en": "intelligent",
+          "kana": "イン【テ】リジェント",
+          "pos": "形容詞",
+          "ja": "賢い"
+        },
+        {
+          "no": 24,
+          "en": "wise",
+          "kana": "ワイズ",
+          "pos": "形容詞",
+          "ja": "賢い"
+        },
+        {
+          "no": 25,
+          "en": "strange",
+          "kana": "ストレンジ",
+          "pos": "形容詞",
+          "ja": "奇妙な"
+        },
+        {
+          "no": 26,
+          "en": "unusual",
+          "kana": "アン【ユー】ジュアル",
+          "pos": "形容詞",
+          "ja": "珍しい"
+        },
+        {
+          "no": 27,
+          "en": "right",
+          "kana": "ライト",
+          "pos": "形容詞",
+          "ja": "正しい"
+        },
+        {
+          "no": 28,
+          "en": "wrong",
+          "kana": "ロング",
+          "pos": "形容詞",
+          "ja": "間違った"
+        },
+        {
+          "no": 29,
+          "en": "rich",
+          "kana": "リッチ",
+          "pos": "形容詞",
+          "ja": "お金持ちの"
+        },
+        {
+          "no": 30,
+          "en": "poor",
+          "kana": "プア",
+          "pos": "形容詞",
+          "ja": "貧しい"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "happy",
+          "kana": "【ハ】ピー",
+          "pos": "形容詞",
+          "ja": "幸せな"
+        },
+        {
+          "no": 32,
+          "en": "sad",
+          "kana": "サッド",
+          "pos": "形容詞",
+          "ja": "悲しい"
+        },
+        {
+          "no": 33,
+          "en": "angry",
+          "kana": "【アン】グリー",
+          "pos": "形容詞",
+          "ja": "怒っている"
+        },
+        {
+          "no": 34,
+          "en": "scared",
+          "kana": "スケアード",
+          "pos": "形容詞",
+          "ja": "怖がった"
+        },
+        {
+          "no": 35,
+          "en": "excited",
+          "kana": "エク【サイ】テッド",
+          "pos": "形容詞",
+          "ja": "興奮した"
+        },
+        {
+          "no": 36,
+          "en": "tired",
+          "kana": "【タイ】アード",
+          "pos": "形容詞",
+          "ja": "疲れた"
+        },
+        {
+          "no": 37,
+          "en": "surprised",
+          "kana": "サー【プライズ】ド",
+          "pos": "形容詞",
+          "ja": "驚いた"
+        },
+        {
+          "no": 38,
+          "en": "glad",
+          "kana": "グラッド",
+          "pos": "形容詞",
+          "ja": "うれしい"
+        },
+        {
+          "no": 39,
+          "en": "lonely",
+          "kana": "【ロウン】リー",
+          "pos": "形容詞",
+          "ja": "寂しい"
+        },
+        {
+          "no": 40,
+          "en": "nervous",
+          "kana": "【ナー】バス",
+          "pos": "形容詞",
+          "ja": "緊張した"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "worried",
+          "kana": "【ワ】リード",
+          "pos": "形容詞",
+          "ja": "心配した"
+        },
+        {
+          "no": 42,
+          "en": "proud",
+          "kana": "プラウド",
+          "pos": "形容詞",
+          "ja": "誇りに思う"
+        },
+        {
+          "no": 43,
+          "en": "comfortable",
+          "kana": "【カン】フォータブル",
+          "pos": "形容詞",
+          "ja": "快適な"
+        },
+        {
+          "no": 44,
+          "en": "boring",
+          "kana": "【ボー】リング",
+          "pos": "形容詞",
+          "ja": "退屈な"
+        },
+        {
+          "no": 45,
+          "en": "interesting",
+          "kana": "【イン】テレスティング",
+          "pos": "形容詞",
+          "ja": "おもしろい"
+        },
+        {
+          "no": 46,
+          "en": "exciting",
+          "kana": "エク【サイ】ティング",
+          "pos": "形容詞",
+          "ja": "わくわくする"
+        },
+        {
+          "no": 47,
+          "en": "amazing",
+          "kana": "アメイジング",
+          "pos": "形容詞",
+          "ja": "驚くべき"
+        },
+        {
+          "no": 48,
+          "en": "wonderful",
+          "kana": "【ワン】ダーフル",
+          "pos": "形容詞",
+          "ja": "素晴らしい"
+        },
+        {
+          "no": 49,
+          "en": "fantastic",
+          "kana": "ファン【タス】ティック",
+          "pos": "形容詞",
+          "ja": "素晴らしい"
+        },
+        {
+          "no": 50,
+          "en": "terrible",
+          "kana": "【テ】リブル",
+          "pos": "形容詞",
+          "ja": "ひどい"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "hot",
+          "kana": "ホット",
+          "pos": "形容詞",
+          "ja": "熱い"
+        },
+        {
+          "no": 52,
+          "en": "cold",
+          "kana": "コウルド",
+          "pos": "形容詞",
+          "ja": "寒い"
+        },
+        {
+          "no": 53,
+          "en": "warm",
+          "kana": "ウォーム",
+          "pos": "形容詞",
+          "ja": "暖かい"
+        },
+        {
+          "no": 54,
+          "en": "cool",
+          "kana": "クール",
+          "pos": "形容詞",
+          "ja": "涼しい"
+        },
+        {
+          "no": 55,
+          "en": "wet",
+          "kana": "ウェット",
+          "pos": "形容詞",
+          "ja": "濡れた"
+        },
+        {
+          "no": 56,
+          "en": "dry",
+          "kana": "ドライ",
+          "pos": "形容詞",
+          "ja": "乾いた"
+        },
+        {
+          "no": 57,
+          "en": "clean",
+          "kana": "クリーン",
+          "pos": "形容詞",
+          "ja": "きれいな"
+        },
+        {
+          "no": 58,
+          "en": "dirty",
+          "kana": "【ダー】ティ",
+          "pos": "形容詞",
+          "ja": "汚い"
+        },
+        {
+          "no": 59,
+          "en": "safe",
+          "kana": "セイフ",
+          "pos": "形容詞",
+          "ja": "安全な"
+        },
+        {
+          "no": 60,
+          "en": "dangerous",
+          "kana": "【デイン】ジャラス",
+          "pos": "形容詞",
+          "ja": "危険な"
+        }
+      ],
+      [
+        {
+          "no": 61,
+          "en": "sick",
+          "kana": "シック",
+          "pos": "形容詞",
+          "ja": "病気の"
+        },
+        {
+          "no": 62,
+          "en": "healthy",
+          "kana": "【ヘル】スィー",
+          "pos": "形容詞",
+          "ja": "健康な"
+        },
+        {
+          "no": 63,
+          "en": "hungry",
+          "kana": "【ハン】グリー",
+          "pos": "形容詞",
+          "ja": "空腹の"
+        },
+        {
+          "no": 64,
+          "en": "thirsty",
+          "kana": "【サース】ティ",
+          "pos": "形容詞",
+          "ja": "のどが渇いた"
+        },
+        {
+          "no": 65,
+          "en": "busy",
+          "kana": "【ビ】ジー",
+          "pos": "形容詞",
+          "ja": "忙しい"
+        },
+        {
+          "no": 66,
+          "en": "free",
+          "kana": "フリー",
+          "pos": "形容詞",
+          "ja": "自由な、暇な"
+        },
+        {
+          "no": 67,
+          "en": "ready",
+          "kana": "【レ】ディ",
+          "pos": "形容詞",
+          "ja": "準備ができた"
+        },
+        {
+          "no": 68,
+          "en": "alone",
+          "kana": "アロウン",
+          "pos": "形容詞",
+          "ja": "一人で"
+        },
+        {
+          "no": 69,
+          "en": "alive",
+          "kana": "アライブ",
+          "pos": "形容詞",
+          "ja": "生きている"
+        },
+        {
+          "no": 70,
+          "en": "blind",
+          "kana": "ブラインド",
+          "pos": "形容詞",
+          "ja": "目の見えない"
+        }
+      ],
+      [
+        {
+          "no": 71,
+          "en": "deaf",
+          "kana": "デフ",
+          "pos": "形容詞",
+          "ja": "耳の聞こえない"
+        },
+        {
+          "no": 72,
+          "en": "disabled",
+          "kana": "ディス【エイ】ブルド",
+          "pos": "形容詞",
+          "ja": "障害のある"
+        },
+        {
+          "no": 73,
+          "en": "handicapped",
+          "kana": "【ハンディ】キャップド",
+          "pos": "形容詞",
+          "ja": "障害のある"
+        },
+        {
+          "no": 74,
+          "en": "kind",
+          "kana": "カインド",
+          "pos": "形容詞",
+          "ja": "親切な"
+        },
+        {
+          "no": 75,
+          "en": "gentle",
+          "kana": "【ジェン】トル",
+          "pos": "形容詞",
+          "ja": "優しい"
+        },
+        {
+          "no": 76,
+          "en": "honest",
+          "kana": "【オ】ネスト",
+          "pos": "形容詞",
+          "ja": "正直な"
+        },
+        {
+          "no": 77,
+          "en": "brave",
+          "kana": "ブレイブ",
+          "pos": "形容詞",
+          "ja": "勇敢な"
+        },
+        {
+          "no": 78,
+          "en": "shy",
+          "kana": "シャイ",
+          "pos": "形容詞",
+          "ja": "恥ずかしがりの"
+        },
+        {
+          "no": 79,
+          "en": "cheerful",
+          "kana": "【チア】フル",
+          "pos": "形容詞",
+          "ja": "陽気な"
+        },
+        {
+          "no": 80,
+          "en": "serious",
+          "kana": "【シア】リアス",
+          "pos": "形容詞",
+          "ja": "真剣な"
+        }
+      ],
+      [
+        {
+          "no": 81,
+          "en": "popular",
+          "kana": "【ポ】ピュラー",
+          "pos": "形容詞",
+          "ja": "人気のある"
+        },
+        {
+          "no": 82,
+          "en": "special",
+          "kana": "【スペ】シャル",
+          "pos": "形容詞",
+          "ja": "特別な"
+        },
+        {
+          "no": 83,
+          "en": "important",
+          "kana": "イン【ポー】タント",
+          "pos": "形容詞",
+          "ja": "重要な"
+        },
+        {
+          "no": 84,
+          "en": "necessary",
+          "kana": "【ネ】セサリー",
+          "pos": "形容詞",
+          "ja": "必要な"
+        },
+        {
+          "no": 85,
+          "en": "possible",
+          "kana": "【ポ】シブル",
+          "pos": "形容詞",
+          "ja": "可能な"
+        },
+        {
+          "no": 86,
+          "en": "impossible",
+          "kana": "イン【ポ】シブル",
+          "pos": "形容詞",
+          "ja": "不可能な"
+        },
+        {
+          "no": 87,
+          "en": "useful",
+          "kana": "【ユース】フル",
+          "pos": "形容詞",
+          "ja": "役に立つ"
+        },
+        {
+          "no": 88,
+          "en": "helpful",
+          "kana": "【ヘルプ】フル",
+          "pos": "形容詞",
+          "ja": "役に立つ"
+        },
+        {
+          "no": 89,
+          "en": "wide",
+          "kana": "ワイド",
+          "pos": "形容詞",
+          "ja": "広い"
+        },
+        {
+          "no": 90,
+          "en": "narrow",
+          "kana": "【ナ】ロウ",
+          "pos": "形容詞",
+          "ja": "狭い"
+        }
+      ],
+      [
+        {
+          "no": 91,
+          "en": "deep",
+          "kana": "ディープ",
+          "pos": "形容詞",
+          "ja": "深い"
+        },
+        {
+          "no": 92,
+          "en": "flat",
+          "kana": "フラット",
+          "pos": "形容詞",
+          "ja": "平らな"
+        },
+        {
+          "no": 93,
+          "en": "sharp",
+          "kana": "シャープ",
+          "pos": "形容詞",
+          "ja": "鋭い"
+        },
+        {
+          "no": 94,
+          "en": "soft",
+          "kana": "ソフト",
+          "pos": "形容詞",
+          "ja": "柔らかい"
+        },
+        {
+          "no": 95,
+          "en": "thick",
+          "kana": "シック",
+          "pos": "形容詞",
+          "ja": "厚い"
+        },
+        {
+          "no": 96,
+          "en": "thin",
+          "kana": "シン",
+          "pos": "形容詞",
+          "ja": "薄い"
+        },
+        {
+          "no": 97,
+          "en": "bright",
+          "kana": "ブライト",
+          "pos": "形容詞",
+          "ja": "明るい"
+        },
+        {
+          "no": 98,
+          "en": "dark",
+          "kana": "ダーク",
+          "pos": "形容詞",
+          "ja": "暗い"
+        },
+        {
+          "no": 99,
+          "en": "loud",
+          "kana": "ラウド",
+          "pos": "形容詞",
+          "ja": "大声な"
+        },
+        {
+          "no": 100,
+          "en": "quiet",
+          "kana": "【クワイ】エット",
+          "pos": "形容詞",
+          "ja": "静かな"
+        }
+      ],
+      [
+        {
+          "no": 101,
+          "en": "noisy",
+          "kana": "【ノイ】ジー",
+          "pos": "形容詞",
+          "ja": "うるさい"
+        },
+        {
+          "no": 102,
+          "en": "silent",
+          "kana": "【サイ】レント",
+          "pos": "形容詞",
+          "ja": "静かな"
+        },
+        {
+          "no": 103,
+          "en": "sweet",
+          "kana": "スウィート",
+          "pos": "形容詞",
+          "ja": "甘い"
+        },
+        {
+          "no": 104,
+          "en": "bitter",
+          "kana": "【ビ】ター",
+          "pos": "形容詞",
+          "ja": "苦い"
+        },
+        {
+          "no": 105,
+          "en": "fresh",
+          "kana": "フレッシュ",
+          "pos": "形容詞",
+          "ja": "新鮮な"
+        },
+        {
+          "no": 106,
+          "en": "delicious",
+          "kana": "ディ【リシャス】",
+          "pos": "形容詞",
+          "ja": "おいしい"
+        },
+        {
+          "no": 107,
+          "en": "ancient",
+          "kana": "【エイン】シェント",
+          "pos": "形容詞",
+          "ja": "古代の"
+        },
+        {
+          "no": 108,
+          "en": "modern",
+          "kana": "【モ】ダン",
+          "pos": "形容詞",
+          "ja": "現代の"
+        },
+        {
+          "no": 109,
+          "en": "international",
+          "kana": "インター【ナ】ショナル",
+          "pos": "形容詞",
+          "ja": "国際的な"
+        },
+        {
+          "no": 110,
+          "en": "national",
+          "kana": "【ナ】ショナル",
+          "pos": "形容詞",
+          "ja": "国の"
+        }
+      ],
+      [
+        {
+          "no": 111,
+          "en": "local",
+          "kana": "【ロウ】カル",
+          "pos": "形容詞",
+          "ja": "地元の"
+        },
+        {
+          "no": 112,
+          "en": "traditional",
+          "kana": "トラ【ディ】ショナル",
+          "pos": "形容詞",
+          "ja": "伝統的な"
+        },
+        {
+          "no": 113,
+          "en": "cultural",
+          "kana": "【カル】チュラル",
+          "pos": "形容詞",
+          "ja": "文化的な"
+        },
+        {
+          "no": 114,
+          "en": "natural",
+          "kana": "【ナ】チュラル",
+          "pos": "形容詞",
+          "ja": "自然な"
+        },
+        {
+          "no": 115,
+          "en": "environmental",
+          "kana": "エンバイロン【メン】タル",
+          "pos": "形容詞",
+          "ja": "環境の"
+        },
+        {
+          "no": 116,
+          "en": "electric",
+          "kana": "エ【レク】トリック",
+          "pos": "形容詞",
+          "ja": "電気の"
+        },
+        {
+          "no": 117,
+          "en": "peaceful",
+          "kana": "【ピース】フル",
+          "pos": "形容詞",
+          "ja": "平和な"
+        },
+        {
+          "no": 118,
+          "en": "crowded",
+          "kana": "【クラウ】デッド",
+          "pos": "形容詞",
+          "ja": "混雑した"
+        },
+        {
+          "no": 119,
+          "en": "wooden",
+          "kana": "【ウッ】デン",
+          "pos": "形容詞",
+          "ja": "木製の"
+        },
+        {
+          "no": 120,
+          "en": "plastic",
+          "kana": "【プラス】ティック",
+          "pos": "形容詞",
+          "ja": "プラスチックの"
+        }
+      ],
+      [
+        {
+          "no": 121,
+          "en": "perfect",
+          "kana": "【パー】フェクト",
+          "pos": "形容詞",
+          "ja": "完璧な"
+        },
+        {
+          "no": 122,
+          "en": "careful",
+          "kana": "【ケア】フル",
+          "pos": "形容詞",
+          "ja": "注意深い"
+        },
+        {
+          "no": 123,
+          "en": "positive",
+          "kana": "【ポ】ジティブ",
+          "pos": "形容詞",
+          "ja": "前向きな"
+        },
+        {
+          "no": 124,
+          "en": "independent",
+          "kana": "インディ【ペン】ダント",
+          "pos": "形容詞",
+          "ja": "独立した"
+        },
+        {
+          "no": 125,
+          "en": "responsible",
+          "kana": "リス【ポン】シブル",
+          "pos": "形容詞",
+          "ja": "責任ある"
+        },
+        {
+          "no": 126,
+          "en": "successful",
+          "kana": "サク【セス】フル",
+          "pos": "形容詞",
+          "ja": "成功した"
+        },
+        {
+          "no": 127,
+          "en": "uneasy",
+          "kana": "アン【イー】ジー",
+          "pos": "形容詞",
+          "ja": "不安な"
+        },
+        {
+          "no": 128,
+          "en": "similar",
+          "kana": "【シ】ミラー",
+          "pos": "形容詞",
+          "ja": "似ている"
+        },
+        {
+          "no": 129,
+          "en": "common",
+          "kana": "【コ】モン",
+          "pos": "形容詞",
+          "ja": "普通の、共通の"
+        },
+        {
+          "no": 130,
+          "en": "unique",
+          "kana": "ユ【ニーク】",
+          "pos": "形容詞",
+          "ja": "ユニークな"
+        }
+      ],
+      [
+        {
+          "no": 131,
+          "en": "various",
+          "kana": "【ヴェア】リアス",
+          "pos": "形容詞",
+          "ja": "様々な"
+        },
+        {
+          "no": 132,
+          "en": "different",
+          "kana": "【ディ】ファレント",
+          "pos": "形容詞",
+          "ja": "異なる"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "15",
+    "name": "副詞・頻度",
+    "total": 88,
+    "unitCount": 9,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "very",
+          "kana": "【ヴェ】リー",
+          "pos": "副詞",
+          "ja": "とても"
+        },
+        {
+          "no": 2,
+          "en": "really",
+          "kana": "【リア】リー",
+          "pos": "副詞",
+          "ja": "本当に"
+        },
+        {
+          "no": 3,
+          "en": "quite",
+          "kana": "クワイト",
+          "pos": "副詞",
+          "ja": "まったく、かなり"
+        },
+        {
+          "no": 4,
+          "en": "enough",
+          "kana": "イ【ナフ】",
+          "pos": "副詞/形容詞",
+          "ja": "十分に"
+        },
+        {
+          "no": 5,
+          "en": "hard",
+          "kana": "ハード",
+          "pos": "副詞",
+          "ja": "一生懸命に"
+        },
+        {
+          "no": 6,
+          "en": "well",
+          "kana": "ウェル",
+          "pos": "副詞",
+          "ja": "上手に"
+        },
+        {
+          "no": 7,
+          "en": "slowly",
+          "kana": "【スロウ】リー",
+          "pos": "副詞",
+          "ja": "ゆっくりと"
+        },
+        {
+          "no": 8,
+          "en": "quickly",
+          "kana": "【クウィック】リー",
+          "pos": "副詞",
+          "ja": "素早く"
+        },
+        {
+          "no": 9,
+          "en": "carefully",
+          "kana": "【ケア】フリー",
+          "pos": "副詞",
+          "ja": "注意深く"
+        },
+        {
+          "no": 10,
+          "en": "easily",
+          "kana": "【イー】ジリー",
+          "pos": "副詞",
+          "ja": "簡単に"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "deeply",
+          "kana": "【ディープ】リー",
+          "pos": "副詞",
+          "ja": "深く"
+        },
+        {
+          "no": 12,
+          "en": "clearly",
+          "kana": "【クリア】リー",
+          "pos": "副詞",
+          "ja": "はっきりと"
+        },
+        {
+          "no": 13,
+          "en": "quietly",
+          "kana": "【クワイ】エットリー",
+          "pos": "副詞",
+          "ja": "静かに"
+        },
+        {
+          "no": 14,
+          "en": "loudly",
+          "kana": "【ラウド】リー",
+          "pos": "副詞",
+          "ja": "大声で"
+        },
+        {
+          "no": 15,
+          "en": "freely",
+          "kana": "【フリー】リー",
+          "pos": "副詞",
+          "ja": "自由に"
+        },
+        {
+          "no": 16,
+          "en": "kindly",
+          "kana": "【カインド】リー",
+          "pos": "副詞",
+          "ja": "親切に"
+        },
+        {
+          "no": 17,
+          "en": "sincerely",
+          "kana": "シン【シア】リー",
+          "pos": "副詞",
+          "ja": "心から"
+        },
+        {
+          "no": 18,
+          "en": "suddenly",
+          "kana": "【サ】ドゥンリー",
+          "pos": "副詞",
+          "ja": "突然"
+        },
+        {
+          "no": 19,
+          "en": "immediately",
+          "kana": "イ【ミー】ディエトリー",
+          "pos": "副詞",
+          "ja": "すぐに"
+        },
+        {
+          "no": 20,
+          "en": "soon",
+          "kana": "スーン",
+          "pos": "副詞",
+          "ja": "すぐに"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "already",
+          "kana": "オール【レ】ディ",
+          "pos": "副詞",
+          "ja": "すでに"
+        },
+        {
+          "no": 22,
+          "en": "still",
+          "kana": "スティル",
+          "pos": "副詞",
+          "ja": "まだ"
+        },
+        {
+          "no": 23,
+          "en": "yet",
+          "kana": "イェット",
+          "pos": "副詞",
+          "ja": "まだ、もう"
+        },
+        {
+          "no": 24,
+          "en": "just",
+          "kana": "ジャスト",
+          "pos": "副詞",
+          "ja": "ちょうど"
+        },
+        {
+          "no": 25,
+          "en": "now",
+          "kana": "ナウ",
+          "pos": "副詞",
+          "ja": "今"
+        },
+        {
+          "no": 26,
+          "en": "then",
+          "kana": "ゼン",
+          "pos": "副詞",
+          "ja": "そのとき"
+        },
+        {
+          "no": 27,
+          "en": "ago",
+          "kana": "アゴウ",
+          "pos": "副詞",
+          "ja": "～前に"
+        },
+        {
+          "no": 28,
+          "en": "today",
+          "kana": "トゥ【デイ】",
+          "pos": "副詞",
+          "ja": "今日"
+        },
+        {
+          "no": 29,
+          "en": "yesterday",
+          "kana": "【イェス】タデイ",
+          "pos": "副詞",
+          "ja": "昨日"
+        },
+        {
+          "no": 30,
+          "en": "tomorrow",
+          "kana": "トゥ【モロウ】",
+          "pos": "副詞",
+          "ja": "明日"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "tonight",
+          "kana": "トゥ【ナイト】",
+          "pos": "副詞",
+          "ja": "今夜"
+        },
+        {
+          "no": 32,
+          "en": "always",
+          "kana": "【オール】ウェイズ",
+          "pos": "副詞",
+          "ja": "いつも"
+        },
+        {
+          "no": 33,
+          "en": "usually",
+          "kana": "【ユー】ジュアリー",
+          "pos": "副詞",
+          "ja": "たいてい"
+        },
+        {
+          "no": 34,
+          "en": "often",
+          "kana": "【オー】フン",
+          "pos": "副詞",
+          "ja": "よく"
+        },
+        {
+          "no": 35,
+          "en": "sometimes",
+          "kana": "【サム】タイムズ",
+          "pos": "副詞",
+          "ja": "時々"
+        },
+        {
+          "no": 36,
+          "en": "rarely",
+          "kana": "【レア】リー",
+          "pos": "副詞",
+          "ja": "めったに～ない"
+        },
+        {
+          "no": 37,
+          "en": "never",
+          "kana": "【ネ】バー",
+          "pos": "副詞",
+          "ja": "決して～ない"
+        },
+        {
+          "no": 38,
+          "en": "once",
+          "kana": "ワンス",
+          "pos": "副詞",
+          "ja": "かつて、一度"
+        },
+        {
+          "no": 39,
+          "en": "twice",
+          "kana": "トワイス",
+          "pos": "副詞",
+          "ja": "2回"
+        },
+        {
+          "no": 40,
+          "en": "again",
+          "kana": "アゲン",
+          "pos": "副詞",
+          "ja": "再び"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "also",
+          "kana": "【オール】ソウ",
+          "pos": "副詞",
+          "ja": "また"
+        },
+        {
+          "no": 42,
+          "en": "too",
+          "kana": "トゥー",
+          "pos": "副詞",
+          "ja": "～も、あまりにも"
+        },
+        {
+          "no": 43,
+          "en": "either",
+          "kana": "【イー】ザー",
+          "pos": "副詞",
+          "ja": "（否定文で）～も"
+        },
+        {
+          "no": 44,
+          "en": "almost",
+          "kana": "【オール】モスト",
+          "pos": "副詞",
+          "ja": "ほとんど"
+        },
+        {
+          "no": 45,
+          "en": "nearly",
+          "kana": "【ニア】リー",
+          "pos": "副詞",
+          "ja": "ほぼ"
+        },
+        {
+          "no": 46,
+          "en": "mostly",
+          "kana": "【モウスト】リー",
+          "pos": "副詞",
+          "ja": "たいてい"
+        },
+        {
+          "no": 47,
+          "en": "only",
+          "kana": "【オウン】リー",
+          "pos": "副詞",
+          "ja": "ただ～だけ"
+        },
+        {
+          "no": 48,
+          "en": "just",
+          "kana": "ジャスト",
+          "pos": "副詞",
+          "ja": "ただ"
+        },
+        {
+          "no": 49,
+          "en": "even",
+          "kana": "【イー】ブン",
+          "pos": "副詞",
+          "ja": "～でさえ"
+        },
+        {
+          "no": 50,
+          "en": "perhaps",
+          "kana": "パー【ハップス】",
+          "pos": "副詞",
+          "ja": "たぶん"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "maybe",
+          "kana": "【メイ】ビー",
+          "pos": "副詞",
+          "ja": "たぶん"
+        },
+        {
+          "no": 52,
+          "en": "probably",
+          "kana": "【プロ】バブリー",
+          "pos": "副詞",
+          "ja": "おそらく"
+        },
+        {
+          "no": 53,
+          "en": "possibly",
+          "kana": "【ポ】シブリー",
+          "pos": "副詞",
+          "ja": "おそらく"
+        },
+        {
+          "no": 54,
+          "en": "certainly",
+          "kana": "【サー】テンリー",
+          "pos": "副詞",
+          "ja": "確かに"
+        },
+        {
+          "no": 55,
+          "en": "definitely",
+          "kana": "【デフィ】ニトリー",
+          "pos": "副詞",
+          "ja": "確実に"
+        },
+        {
+          "no": 56,
+          "en": "actually",
+          "kana": "【ア】クチュアリー",
+          "pos": "副詞",
+          "ja": "実際に"
+        },
+        {
+          "no": 57,
+          "en": "really",
+          "kana": "【リア】リー",
+          "pos": "副詞",
+          "ja": "本当に"
+        },
+        {
+          "no": 58,
+          "en": "indeed",
+          "kana": "イン【ディード】",
+          "pos": "副詞",
+          "ja": "実に"
+        },
+        {
+          "no": 59,
+          "en": "therefore",
+          "kana": "【ゼア】フォア",
+          "pos": "副詞",
+          "ja": "したがって"
+        },
+        {
+          "no": 60,
+          "en": "however",
+          "kana": "ハウ【エ】バー",
+          "pos": "副詞",
+          "ja": "しかしながら"
+        }
+      ],
+      [
+        {
+          "no": 61,
+          "en": "instead",
+          "kana": "イン【ステッド】",
+          "pos": "副詞",
+          "ja": "代わりに"
+        },
+        {
+          "no": 62,
+          "en": "together",
+          "kana": "トゥ【ゲ】ザー",
+          "pos": "副詞",
+          "ja": "一緒に"
+        },
+        {
+          "no": 63,
+          "en": "apart",
+          "kana": "アパート",
+          "pos": "副詞",
+          "ja": "離れて"
+        },
+        {
+          "no": 64,
+          "en": "away",
+          "kana": "アウェイ",
+          "pos": "副詞",
+          "ja": "離れて"
+        },
+        {
+          "no": 65,
+          "en": "abroad",
+          "kana": "アブロード",
+          "pos": "副詞",
+          "ja": "外国へ"
+        },
+        {
+          "no": 66,
+          "en": "everywhere",
+          "kana": "【エ】ブリーウェア",
+          "pos": "副詞",
+          "ja": "至るところに"
+        },
+        {
+          "no": 67,
+          "en": "somewhere",
+          "kana": "【サム】ウェア",
+          "pos": "副詞",
+          "ja": "どこかに"
+        },
+        {
+          "no": 68,
+          "en": "anywhere",
+          "kana": "【エ】ニーウェア",
+          "pos": "副詞",
+          "ja": "どこでも"
+        },
+        {
+          "no": 69,
+          "en": "nowhere",
+          "kana": "【ノウ】ウェア",
+          "pos": "副詞",
+          "ja": "どこにも～ない"
+        },
+        {
+          "no": 70,
+          "en": "forward",
+          "kana": "【フォー】ワード",
+          "pos": "副詞",
+          "ja": "前に"
+        }
+      ],
+      [
+        {
+          "no": 71,
+          "en": "backward",
+          "kana": "【バック】ワード",
+          "pos": "副詞",
+          "ja": "後ろに"
+        },
+        {
+          "no": 72,
+          "en": "upstairs",
+          "kana": "アップ【ステアズ】",
+          "pos": "副詞",
+          "ja": "上の階に"
+        },
+        {
+          "no": 73,
+          "en": "downstairs",
+          "kana": "ダウン【ステアズ】",
+          "pos": "副詞",
+          "ja": "下の階に"
+        },
+        {
+          "no": 74,
+          "en": "outside",
+          "kana": "アウト【サイド】",
+          "pos": "副詞",
+          "ja": "外側に"
+        },
+        {
+          "no": 75,
+          "en": "inside",
+          "kana": "イン【サイド】",
+          "pos": "副詞",
+          "ja": "内側に"
+        },
+        {
+          "no": 76,
+          "en": "fortunately",
+          "kana": "【フォー】チュネトリー",
+          "pos": "副詞",
+          "ja": "幸運にも"
+        },
+        {
+          "no": 77,
+          "en": "unfortunately",
+          "kana": "アン【フォー】チュネトリー",
+          "pos": "副詞",
+          "ja": "不幸にも"
+        },
+        {
+          "no": 78,
+          "en": "recently",
+          "kana": "【リー】セントリー",
+          "pos": "副詞",
+          "ja": "最近"
+        },
+        {
+          "no": 79,
+          "en": "finally",
+          "kana": "【ファイ】ナリー",
+          "pos": "副詞",
+          "ja": "ついに"
+        },
+        {
+          "no": 80,
+          "en": "gradually",
+          "kana": "【グラ】ジュアリー",
+          "pos": "副詞",
+          "ja": "次第に"
+        }
+      ],
+      [
+        {
+          "no": 81,
+          "en": "especially",
+          "kana": "エス【ペ】シャリー",
+          "pos": "副詞",
+          "ja": "特に"
+        },
+        {
+          "no": 82,
+          "en": "exactly",
+          "kana": "エグ【ザク】トリー",
+          "pos": "副詞",
+          "ja": "正確に"
+        },
+        {
+          "no": 83,
+          "en": "widely",
+          "kana": "【ワイド】リー",
+          "pos": "副詞",
+          "ja": "広く"
+        },
+        {
+          "no": 84,
+          "en": "proudly",
+          "kana": "【プラウド】リー",
+          "pos": "副詞",
+          "ja": "誇りを持って"
+        },
+        {
+          "no": 85,
+          "en": "safely",
+          "kana": "【セイフ】リー",
+          "pos": "副詞",
+          "ja": "安全に"
+        },
+        {
+          "no": 86,
+          "en": "happily",
+          "kana": "【ハ】ピリー",
+          "pos": "副詞",
+          "ja": "幸せに"
+        },
+        {
+          "no": 87,
+          "en": "sadly",
+          "kana": "【サッド】リー",
+          "pos": "副詞",
+          "ja": "悲しそうに"
+        },
+        {
+          "no": 88,
+          "en": "loudly",
+          "kana": "【ラウド】リー",
+          "pos": "副詞",
+          "ja": "大声で"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "16",
+    "name": "接続詞",
+    "total": 25,
+    "unitCount": 3,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "and",
+          "kana": "アンド",
+          "pos": "接続詞",
+          "ja": "そして、～と"
+        },
+        {
+          "no": 2,
+          "en": "but",
+          "kana": "バット",
+          "pos": "接続詞",
+          "ja": "しかし"
+        },
+        {
+          "no": 3,
+          "en": "or",
+          "kana": "オー",
+          "pos": "接続詞",
+          "ja": "または"
+        },
+        {
+          "no": 4,
+          "en": "so",
+          "kana": "ソウ",
+          "pos": "接続詞",
+          "ja": "だから"
+        },
+        {
+          "no": 5,
+          "en": "because",
+          "kana": "ビコーズ",
+          "pos": "接続詞",
+          "ja": "なぜなら"
+        },
+        {
+          "no": 6,
+          "en": "that",
+          "kana": "ザット",
+          "pos": "接続詞",
+          "ja": "～ということ"
+        },
+        {
+          "no": 7,
+          "en": "if",
+          "kana": "イフ",
+          "pos": "接続詞",
+          "ja": "もし～なら"
+        },
+        {
+          "no": 8,
+          "en": "when",
+          "kana": "ウェン",
+          "pos": "接続詞",
+          "ja": "～するとき"
+        },
+        {
+          "no": 9,
+          "en": "while",
+          "kana": "ワイル",
+          "pos": "接続詞",
+          "ja": "～する間"
+        },
+        {
+          "no": 10,
+          "en": "although",
+          "kana": "オール【ゾウ】",
+          "pos": "接続詞",
+          "ja": "～だけれども"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "though",
+          "kana": "ゾウ",
+          "pos": "接続詞",
+          "ja": "～だけれども"
+        },
+        {
+          "no": 12,
+          "en": "since",
+          "kana": "シンス",
+          "pos": "接続詞",
+          "ja": "～して以来"
+        },
+        {
+          "no": 13,
+          "en": "until",
+          "kana": "アン【ティル】",
+          "pos": "接続詞",
+          "ja": "～まで"
+        },
+        {
+          "no": 14,
+          "en": "before",
+          "kana": "ビフォア",
+          "pos": "接続詞",
+          "ja": "～の前に"
+        },
+        {
+          "no": 15,
+          "en": "after",
+          "kana": "【ア】フター",
+          "pos": "接続詞",
+          "ja": "～の後で"
+        },
+        {
+          "no": 16,
+          "en": "as",
+          "kana": "アズ",
+          "pos": "接続詞",
+          "ja": "～のように"
+        },
+        {
+          "no": 17,
+          "en": "than",
+          "kana": "ザン",
+          "pos": "接続詞",
+          "ja": "～より"
+        },
+        {
+          "no": 18,
+          "en": "unless",
+          "kana": "アン【レス】",
+          "pos": "接続詞",
+          "ja": "～でない限り"
+        },
+        {
+          "no": 19,
+          "en": "whether",
+          "kana": "【ウェ】ザー",
+          "pos": "接続詞",
+          "ja": "～かどうか"
+        },
+        {
+          "no": 20,
+          "en": "both A and B",
+          "kana": "ボウス アンド",
+          "pos": "接続詞",
+          "ja": "AもBも"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "either A or B",
+          "kana": "イーザー オア",
+          "pos": "接続詞",
+          "ja": "AかBのどちらか"
+        },
+        {
+          "no": 22,
+          "en": "neither A nor B",
+          "kana": "ニーザー ノア",
+          "pos": "接続詞",
+          "ja": "AもBも～ない"
+        },
+        {
+          "no": 23,
+          "en": "not only A but also B",
+          "kana": "ノット オウンリー バット オールソウ",
+          "pos": "接続詞",
+          "ja": "AだけでなくBも"
+        },
+        {
+          "no": 24,
+          "en": "however",
+          "kana": "ハウ【エ】バー",
+          "pos": "接続詞",
+          "ja": "しかしながら"
+        },
+        {
+          "no": 25,
+          "en": "therefore",
+          "kana": "【ゼア】フォア",
+          "pos": "接続詞",
+          "ja": "したがって"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "17",
+    "name": "動詞(規則変化)",
+    "total": 99,
+    "unitCount": 10,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "walk",
+          "kana": "ウォーク",
+          "pos": "動詞",
+          "ja": "歩く  → walked"
+        },
+        {
+          "no": 2,
+          "en": "talk",
+          "kana": "トーク",
+          "pos": "動詞",
+          "ja": "話す  → talked"
+        },
+        {
+          "no": 3,
+          "en": "call",
+          "kana": "コール",
+          "pos": "動詞",
+          "ja": "呼ぶ、電話する  → called"
+        },
+        {
+          "no": 4,
+          "en": "ask",
+          "kana": "アスク",
+          "pos": "動詞",
+          "ja": "尋ねる  → asked"
+        },
+        {
+          "no": 5,
+          "en": "answer",
+          "kana": "【アン】サー",
+          "pos": "動詞",
+          "ja": "答える  → answered"
+        },
+        {
+          "no": 6,
+          "en": "watch",
+          "kana": "ウォッチ",
+          "pos": "動詞",
+          "ja": "見る  → watched"
+        },
+        {
+          "no": 7,
+          "en": "look",
+          "kana": "ルック",
+          "pos": "動詞",
+          "ja": "見る  → looked"
+        },
+        {
+          "no": 8,
+          "en": "listen",
+          "kana": "【リ】スン",
+          "pos": "動詞",
+          "ja": "聞く  → listened"
+        },
+        {
+          "no": 9,
+          "en": "play",
+          "kana": "プレイ",
+          "pos": "動詞",
+          "ja": "遊ぶ  → played"
+        },
+        {
+          "no": 10,
+          "en": "enjoy",
+          "kana": "エン【ジョイ】",
+          "pos": "動詞",
+          "ja": "楽しむ  → enjoyed"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "help",
+          "kana": "ヘルプ",
+          "pos": "動詞",
+          "ja": "助ける  → helped"
+        },
+        {
+          "no": 12,
+          "en": "want",
+          "kana": "ウォント",
+          "pos": "動詞",
+          "ja": "望む  → wanted"
+        },
+        {
+          "no": 13,
+          "en": "need",
+          "kana": "ニード",
+          "pos": "動詞",
+          "ja": "必要とする  → needed"
+        },
+        {
+          "no": 14,
+          "en": "use",
+          "kana": "ユーズ",
+          "pos": "動詞",
+          "ja": "使う  → used"
+        },
+        {
+          "no": 15,
+          "en": "open",
+          "kana": "【オウ】プン",
+          "pos": "動詞",
+          "ja": "開ける  → opened"
+        },
+        {
+          "no": 16,
+          "en": "close",
+          "kana": "クロウズ",
+          "pos": "動詞",
+          "ja": "閉じる  → closed"
+        },
+        {
+          "no": 17,
+          "en": "clean",
+          "kana": "クリーン",
+          "pos": "動詞",
+          "ja": "掃除する  → cleaned"
+        },
+        {
+          "no": 18,
+          "en": "wash",
+          "kana": "ウォッシュ",
+          "pos": "動詞",
+          "ja": "洗う  → washed"
+        },
+        {
+          "no": 19,
+          "en": "cook",
+          "kana": "クック",
+          "pos": "動詞",
+          "ja": "料理する  → cooked"
+        },
+        {
+          "no": 20,
+          "en": "jump",
+          "kana": "ジャンプ",
+          "pos": "動詞",
+          "ja": "跳ぶ  → jumped"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "push",
+          "kana": "プッシュ",
+          "pos": "動詞",
+          "ja": "押す  → pushed"
+        },
+        {
+          "no": 22,
+          "en": "pull",
+          "kana": "プル",
+          "pos": "動詞",
+          "ja": "引く  → pulled"
+        },
+        {
+          "no": 23,
+          "en": "carry",
+          "kana": "【キャ】リー",
+          "pos": "動詞",
+          "ja": "運ぶ  → carried"
+        },
+        {
+          "no": 24,
+          "en": "drop",
+          "kana": "ドロップ",
+          "pos": "動詞",
+          "ja": "落とす  → dropped"
+        },
+        {
+          "no": 25,
+          "en": "pick",
+          "kana": "ピック",
+          "pos": "動詞",
+          "ja": "摘む  → picked"
+        },
+        {
+          "no": 26,
+          "en": "move",
+          "kana": "ムーブ",
+          "pos": "動詞",
+          "ja": "動く  → moved"
+        },
+        {
+          "no": 27,
+          "en": "turn",
+          "kana": "ターン",
+          "pos": "動詞",
+          "ja": "回る  → turned"
+        },
+        {
+          "no": 28,
+          "en": "start",
+          "kana": "スタート",
+          "pos": "動詞",
+          "ja": "始める  → started"
+        },
+        {
+          "no": 29,
+          "en": "finish",
+          "kana": "【フィ】ニッシュ",
+          "pos": "動詞",
+          "ja": "終える  → finished"
+        },
+        {
+          "no": 30,
+          "en": "stop",
+          "kana": "ストップ",
+          "pos": "動詞",
+          "ja": "止める  → stopped"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "visit",
+          "kana": "【ヴィ】ジット",
+          "pos": "動詞",
+          "ja": "訪問する  → visited"
+        },
+        {
+          "no": 32,
+          "en": "arrive",
+          "kana": "アライブ",
+          "pos": "動詞",
+          "ja": "到着する  → arrived"
+        },
+        {
+          "no": 33,
+          "en": "stay",
+          "kana": "ステイ",
+          "pos": "動詞",
+          "ja": "滞在する  → stayed"
+        },
+        {
+          "no": 34,
+          "en": "work",
+          "kana": "ワーク",
+          "pos": "動詞",
+          "ja": "働く  → worked"
+        },
+        {
+          "no": 35,
+          "en": "study",
+          "kana": "【スタ】ディ",
+          "pos": "動詞",
+          "ja": "勉強する  → studied"
+        },
+        {
+          "no": 36,
+          "en": "practice",
+          "kana": "【プラク】ティス",
+          "pos": "動詞",
+          "ja": "練習する  → practiced"
+        },
+        {
+          "no": 37,
+          "en": "learn",
+          "kana": "ラーン",
+          "pos": "動詞",
+          "ja": "学ぶ  → learned"
+        },
+        {
+          "no": 38,
+          "en": "remember",
+          "kana": "リ【メン】バー",
+          "pos": "動詞",
+          "ja": "覚えている  → remembered"
+        },
+        {
+          "no": 39,
+          "en": "forget",
+          "kana": "フォー【ゲット】",
+          "pos": "動詞",
+          "ja": "忘れる  → forgot"
+        },
+        {
+          "no": 40,
+          "en": "believe",
+          "kana": "ビ【リー】ブ",
+          "pos": "動詞",
+          "ja": "信じる  → believed"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "hope",
+          "kana": "ホウプ",
+          "pos": "動詞",
+          "ja": "希望する  → hoped"
+        },
+        {
+          "no": 42,
+          "en": "try",
+          "kana": "トライ",
+          "pos": "動詞",
+          "ja": "試みる  → tried"
+        },
+        {
+          "no": 43,
+          "en": "decide",
+          "kana": "ディ【サイド】",
+          "pos": "動詞",
+          "ja": "決める  → decided"
+        },
+        {
+          "no": 44,
+          "en": "agree",
+          "kana": "アグ【リー】",
+          "pos": "動詞",
+          "ja": "同意する  → agreed"
+        },
+        {
+          "no": 45,
+          "en": "disagree",
+          "kana": "ディサグ【リー】",
+          "pos": "動詞",
+          "ja": "同意しない  → disagreed"
+        },
+        {
+          "no": 46,
+          "en": "change",
+          "kana": "チェンジ",
+          "pos": "動詞",
+          "ja": "変える  → changed"
+        },
+        {
+          "no": 47,
+          "en": "improve",
+          "kana": "イン【プルーブ】",
+          "pos": "動詞",
+          "ja": "改善する  → improved"
+        },
+        {
+          "no": 48,
+          "en": "increase",
+          "kana": "イン【クリース】",
+          "pos": "動詞",
+          "ja": "増える  → increased"
+        },
+        {
+          "no": 49,
+          "en": "reduce",
+          "kana": "リ【デュース】",
+          "pos": "動詞",
+          "ja": "減らす  → reduced"
+        },
+        {
+          "no": 50,
+          "en": "add",
+          "kana": "アド",
+          "pos": "動詞",
+          "ja": "加える  → added"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "collect",
+          "kana": "コ【レクト】",
+          "pos": "動詞",
+          "ja": "集める  → collected"
+        },
+        {
+          "no": 52,
+          "en": "prepare",
+          "kana": "プリ【ペア】",
+          "pos": "動詞",
+          "ja": "準備する  → prepared"
+        },
+        {
+          "no": 53,
+          "en": "protect",
+          "kana": "プロ【テクト】",
+          "pos": "動詞",
+          "ja": "守る  → protected"
+        },
+        {
+          "no": 54,
+          "en": "create",
+          "kana": "クリエイト",
+          "pos": "動詞",
+          "ja": "作る  → created"
+        },
+        {
+          "no": 55,
+          "en": "produce",
+          "kana": "プロ【デュース】",
+          "pos": "動詞",
+          "ja": "生産する  → produced"
+        },
+        {
+          "no": 56,
+          "en": "introduce",
+          "kana": "イントロ【デュース】",
+          "pos": "動詞",
+          "ja": "紹介する  → introduced"
+        },
+        {
+          "no": 57,
+          "en": "explain",
+          "kana": "エクス【プレイン】",
+          "pos": "動詞",
+          "ja": "説明する  → explained"
+        },
+        {
+          "no": 58,
+          "en": "translate",
+          "kana": "トランス【レイト】",
+          "pos": "動詞",
+          "ja": "翻訳する  → translated"
+        },
+        {
+          "no": 59,
+          "en": "repeat",
+          "kana": "リ【ピート】",
+          "pos": "動詞",
+          "ja": "繰り返す  → repeated"
+        },
+        {
+          "no": 60,
+          "en": "recycle",
+          "kana": "リー【サイ】クル",
+          "pos": "動詞",
+          "ja": "リサイクルする  → recycled"
+        }
+      ],
+      [
+        {
+          "no": 61,
+          "en": "smile",
+          "kana": "スマイル",
+          "pos": "動詞",
+          "ja": "微笑む  → smiled"
+        },
+        {
+          "no": 62,
+          "en": "laugh",
+          "kana": "ラフ",
+          "pos": "動詞",
+          "ja": "笑う  → laughed"
+        },
+        {
+          "no": 63,
+          "en": "cry",
+          "kana": "クライ",
+          "pos": "動詞",
+          "ja": "泣く  → cried"
+        },
+        {
+          "no": 64,
+          "en": "shout",
+          "kana": "シャウト",
+          "pos": "動詞",
+          "ja": "叫ぶ  → shouted"
+        },
+        {
+          "no": 65,
+          "en": "worry",
+          "kana": "【ワ】リー",
+          "pos": "動詞",
+          "ja": "心配する  → worried"
+        },
+        {
+          "no": 66,
+          "en": "relax",
+          "kana": "リ【ラックス】",
+          "pos": "動詞",
+          "ja": "リラックスする  → relaxed"
+        },
+        {
+          "no": 67,
+          "en": "accept",
+          "kana": "アクセプト",
+          "pos": "動詞",
+          "ja": "受け入れる  → accepted"
+        },
+        {
+          "no": 68,
+          "en": "invite",
+          "kana": "イン【バイト】",
+          "pos": "動詞",
+          "ja": "招待する  → invited"
+        },
+        {
+          "no": 69,
+          "en": "celebrate",
+          "kana": "【セ】レブレイト",
+          "pos": "動詞",
+          "ja": "祝う  → celebrated"
+        },
+        {
+          "no": 70,
+          "en": "promise",
+          "kana": "【プロ】ミス",
+          "pos": "動詞",
+          "ja": "約束する  → promised"
+        }
+      ],
+      [
+        {
+          "no": 71,
+          "en": "respect",
+          "kana": "リス【ペクト】",
+          "pos": "動詞",
+          "ja": "尊重する  → respected"
+        },
+        {
+          "no": 72,
+          "en": "support",
+          "kana": "サ【ポート】",
+          "pos": "動詞",
+          "ja": "支持する  → supported"
+        },
+        {
+          "no": 73,
+          "en": "follow",
+          "kana": "【フォ】ロウ",
+          "pos": "動詞",
+          "ja": "従う  → followed"
+        },
+        {
+          "no": 74,
+          "en": "return",
+          "kana": "リ【ターン】",
+          "pos": "動詞",
+          "ja": "戻る  → returned"
+        },
+        {
+          "no": 75,
+          "en": "appear",
+          "kana": "アピア",
+          "pos": "動詞",
+          "ja": "現れる  → appeared"
+        },
+        {
+          "no": 76,
+          "en": "disappear",
+          "kana": "ディサ【ピア】",
+          "pos": "動詞",
+          "ja": "消える  → disappeared"
+        },
+        {
+          "no": 77,
+          "en": "remain",
+          "kana": "リ【メイン】",
+          "pos": "動詞",
+          "ja": "残る  → remained"
+        },
+        {
+          "no": 78,
+          "en": "belong",
+          "kana": "ビロング",
+          "pos": "動詞",
+          "ja": "属する  → belonged"
+        },
+        {
+          "no": 79,
+          "en": "happen",
+          "kana": "【ハ】ペン",
+          "pos": "動詞",
+          "ja": "起きる  → happened"
+        },
+        {
+          "no": 80,
+          "en": "seem",
+          "kana": "シーム",
+          "pos": "動詞",
+          "ja": "見える  → seemed"
+        }
+      ],
+      [
+        {
+          "no": 81,
+          "en": "discover",
+          "kana": "ディス【カ】バー",
+          "pos": "動詞",
+          "ja": "発見する  → discovered"
+        },
+        {
+          "no": 82,
+          "en": "invent",
+          "kana": "イン【ベント】",
+          "pos": "動詞",
+          "ja": "発明する  → invented"
+        },
+        {
+          "no": 83,
+          "en": "develop",
+          "kana": "ディ【ベ】ロップ",
+          "pos": "動詞",
+          "ja": "発展する  → developed"
+        },
+        {
+          "no": 84,
+          "en": "succeed",
+          "kana": "サク【シード】",
+          "pos": "動詞",
+          "ja": "成功する  → succeeded"
+        },
+        {
+          "no": 85,
+          "en": "fail",
+          "kana": "フェイル",
+          "pos": "動詞",
+          "ja": "失敗する  → failed"
+        },
+        {
+          "no": 86,
+          "en": "damage",
+          "kana": "【ダ】メージ",
+          "pos": "動詞",
+          "ja": "損傷する  → damaged"
+        },
+        {
+          "no": 87,
+          "en": "repair",
+          "kana": "リ【ペア】",
+          "pos": "動詞",
+          "ja": "修理する  → repaired"
+        },
+        {
+          "no": 88,
+          "en": "save",
+          "kana": "セイブ",
+          "pos": "動詞",
+          "ja": "救う  → saved"
+        },
+        {
+          "no": 89,
+          "en": "marry",
+          "kana": "【マ】リー",
+          "pos": "動詞",
+          "ja": "結婚する  → married"
+        },
+        {
+          "no": 90,
+          "en": "travel",
+          "kana": "【トラ】ベル",
+          "pos": "動詞",
+          "ja": "旅行する  → traveled"
+        }
+      ],
+      [
+        {
+          "no": 91,
+          "en": "camp",
+          "kana": "キャンプ",
+          "pos": "動詞",
+          "ja": "キャンプする  → camped"
+        },
+        {
+          "no": 92,
+          "en": "climb",
+          "kana": "クライム",
+          "pos": "動詞",
+          "ja": "登る  → climbed"
+        },
+        {
+          "no": 93,
+          "en": "paint",
+          "kana": "ペイント",
+          "pos": "動詞",
+          "ja": "描く  → painted"
+        },
+        {
+          "no": 94,
+          "en": "dance",
+          "kana": "ダンス",
+          "pos": "動詞",
+          "ja": "踊る  → danced"
+        },
+        {
+          "no": 95,
+          "en": "kiss",
+          "kana": "キス",
+          "pos": "動詞",
+          "ja": "キスする  → kissed"
+        },
+        {
+          "no": 96,
+          "en": "hug",
+          "kana": "ハグ",
+          "pos": "動詞",
+          "ja": "抱きしめる  → hugged"
+        },
+        {
+          "no": 97,
+          "en": "bow",
+          "kana": "ボウ",
+          "pos": "動詞",
+          "ja": "お辞儀する  → bowed"
+        },
+        {
+          "no": 98,
+          "en": "vote",
+          "kana": "ヴォウト",
+          "pos": "動詞",
+          "ja": "投票する  → voted"
+        },
+        {
+          "no": 99,
+          "en": "recycle",
+          "kana": "リー【サイ】クル",
+          "pos": "動詞",
+          "ja": "リサイクルする  → recycled"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "18",
+    "name": "動詞(不規則変化)",
+    "total": 82,
+    "unitCount": 9,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "be / am / is / are",
+          "kana": "ビー",
+          "pos": "動詞",
+          "ja": "〜である  → was / were / been"
+        },
+        {
+          "no": 2,
+          "en": "go",
+          "kana": "ゴウ",
+          "pos": "動詞",
+          "ja": "行く  → went / gone"
+        },
+        {
+          "no": 3,
+          "en": "come",
+          "kana": "カム",
+          "pos": "動詞",
+          "ja": "来る  → came / come"
+        },
+        {
+          "no": 4,
+          "en": "see",
+          "kana": "シー",
+          "pos": "動詞",
+          "ja": "見る  → saw / seen"
+        },
+        {
+          "no": 5,
+          "en": "do",
+          "kana": "ドゥー",
+          "pos": "動詞",
+          "ja": "する  → did / done"
+        },
+        {
+          "no": 6,
+          "en": "make",
+          "kana": "メイク",
+          "pos": "動詞",
+          "ja": "作る  → made / made"
+        },
+        {
+          "no": 7,
+          "en": "take",
+          "kana": "テイク",
+          "pos": "動詞",
+          "ja": "取る  → took / taken"
+        },
+        {
+          "no": 8,
+          "en": "get",
+          "kana": "ゲット",
+          "pos": "動詞",
+          "ja": "得る  → got / gotten"
+        },
+        {
+          "no": 9,
+          "en": "give",
+          "kana": "ギブ",
+          "pos": "動詞",
+          "ja": "与える  → gave / given"
+        },
+        {
+          "no": 10,
+          "en": "have",
+          "kana": "ハブ",
+          "pos": "動詞",
+          "ja": "持っている  → had / had"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "say",
+          "kana": "セイ",
+          "pos": "動詞",
+          "ja": "言う  → said / said"
+        },
+        {
+          "no": 12,
+          "en": "tell",
+          "kana": "テル",
+          "pos": "動詞",
+          "ja": "話す  → told / told"
+        },
+        {
+          "no": 13,
+          "en": "know",
+          "kana": "ノウ",
+          "pos": "動詞",
+          "ja": "知っている  → knew / known"
+        },
+        {
+          "no": 14,
+          "en": "think",
+          "kana": "シンク",
+          "pos": "動詞",
+          "ja": "考える  → thought / thought"
+        },
+        {
+          "no": 15,
+          "en": "feel",
+          "kana": "フィール",
+          "pos": "動詞",
+          "ja": "感じる  → felt / felt"
+        },
+        {
+          "no": 16,
+          "en": "find",
+          "kana": "ファインド",
+          "pos": "動詞",
+          "ja": "見つける  → found / found"
+        },
+        {
+          "no": 17,
+          "en": "leave",
+          "kana": "リーブ",
+          "pos": "動詞",
+          "ja": "去る  → left / left"
+        },
+        {
+          "no": 18,
+          "en": "put",
+          "kana": "プット",
+          "pos": "動詞",
+          "ja": "置く  → put / put"
+        },
+        {
+          "no": 19,
+          "en": "let",
+          "kana": "レット",
+          "pos": "動詞",
+          "ja": "させる  → let / let"
+        },
+        {
+          "no": 20,
+          "en": "cut",
+          "kana": "カット",
+          "pos": "動詞",
+          "ja": "切る  → cut / cut"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "read",
+          "kana": "リード",
+          "pos": "動詞",
+          "ja": "読む  → read(レッド) / read"
+        },
+        {
+          "no": 22,
+          "en": "write",
+          "kana": "ライト",
+          "pos": "動詞",
+          "ja": "書く  → wrote / written"
+        },
+        {
+          "no": 23,
+          "en": "speak",
+          "kana": "スピーク",
+          "pos": "動詞",
+          "ja": "話す  → spoke / spoken"
+        },
+        {
+          "no": 24,
+          "en": "sing",
+          "kana": "シング",
+          "pos": "動詞",
+          "ja": "歌う  → sang / sung"
+        },
+        {
+          "no": 25,
+          "en": "bring",
+          "kana": "ブリング",
+          "pos": "動詞",
+          "ja": "持ってくる  → brought / brought"
+        },
+        {
+          "no": 26,
+          "en": "buy",
+          "kana": "バイ",
+          "pos": "動詞",
+          "ja": "買う  → bought / bought"
+        },
+        {
+          "no": 27,
+          "en": "sell",
+          "kana": "セル",
+          "pos": "動詞",
+          "ja": "売る  → sold / sold"
+        },
+        {
+          "no": 28,
+          "en": "send",
+          "kana": "センド",
+          "pos": "動詞",
+          "ja": "送る  → sent / sent"
+        },
+        {
+          "no": 29,
+          "en": "spend",
+          "kana": "スペンド",
+          "pos": "動詞",
+          "ja": "過ごす  → spent / spent"
+        },
+        {
+          "no": 30,
+          "en": "meet",
+          "kana": "ミート",
+          "pos": "動詞",
+          "ja": "会う  → met / met"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "keep",
+          "kana": "キープ",
+          "pos": "動詞",
+          "ja": "保つ  → kept / kept"
+        },
+        {
+          "no": 32,
+          "en": "sleep",
+          "kana": "スリープ",
+          "pos": "動詞",
+          "ja": "眠る  → slept / slept"
+        },
+        {
+          "no": 33,
+          "en": "lose",
+          "kana": "ルーズ",
+          "pos": "動詞",
+          "ja": "失う  → lost / lost"
+        },
+        {
+          "no": 34,
+          "en": "hold",
+          "kana": "ホールド",
+          "pos": "動詞",
+          "ja": "持つ  → held / held"
+        },
+        {
+          "no": 35,
+          "en": "build",
+          "kana": "ビルド",
+          "pos": "動詞",
+          "ja": "建てる  → built / built"
+        },
+        {
+          "no": 36,
+          "en": "teach",
+          "kana": "ティーチ",
+          "pos": "動詞",
+          "ja": "教える  → taught / taught"
+        },
+        {
+          "no": 37,
+          "en": "catch",
+          "kana": "キャッチ",
+          "pos": "動詞",
+          "ja": "捕まえる  → caught / caught"
+        },
+        {
+          "no": 38,
+          "en": "draw",
+          "kana": "ドロー",
+          "pos": "動詞",
+          "ja": "描く  → drew / drawn"
+        },
+        {
+          "no": 39,
+          "en": "grow",
+          "kana": "グロウ",
+          "pos": "動詞",
+          "ja": "育つ  → grew / grown"
+        },
+        {
+          "no": 40,
+          "en": "throw",
+          "kana": "スロウ",
+          "pos": "動詞",
+          "ja": "投げる  → threw / thrown"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "show",
+          "kana": "ショウ",
+          "pos": "動詞",
+          "ja": "見せる  → showed / shown"
+        },
+        {
+          "no": 42,
+          "en": "know",
+          "kana": "ノウ",
+          "pos": "動詞",
+          "ja": "知る  → knew / known"
+        },
+        {
+          "no": 43,
+          "en": "run",
+          "kana": "ラン",
+          "pos": "動詞",
+          "ja": "走る  → ran / run"
+        },
+        {
+          "no": 44,
+          "en": "swim",
+          "kana": "スウィム",
+          "pos": "動詞",
+          "ja": "泳ぐ  → swam / swum"
+        },
+        {
+          "no": 45,
+          "en": "sit",
+          "kana": "シット",
+          "pos": "動詞",
+          "ja": "座る  → sat / sat"
+        },
+        {
+          "no": 46,
+          "en": "stand",
+          "kana": "スタンド",
+          "pos": "動詞",
+          "ja": "立つ  → stood / stood"
+        },
+        {
+          "no": 47,
+          "en": "fall",
+          "kana": "フォール",
+          "pos": "動詞",
+          "ja": "落ちる  → fell / fallen"
+        },
+        {
+          "no": 48,
+          "en": "ride",
+          "kana": "ライド",
+          "pos": "動詞",
+          "ja": "乗る  → rode / ridden"
+        },
+        {
+          "no": 49,
+          "en": "drive",
+          "kana": "ドライブ",
+          "pos": "動詞",
+          "ja": "運転する  → drove / driven"
+        },
+        {
+          "no": 50,
+          "en": "fly",
+          "kana": "フライ",
+          "pos": "動詞",
+          "ja": "飛ぶ  → flew / flown"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "eat",
+          "kana": "イート",
+          "pos": "動詞",
+          "ja": "食べる  → ate / eaten"
+        },
+        {
+          "no": 52,
+          "en": "drink",
+          "kana": "ドリンク",
+          "pos": "動詞",
+          "ja": "飲む  → drank / drunk"
+        },
+        {
+          "no": 53,
+          "en": "bite",
+          "kana": "バイト",
+          "pos": "動詞",
+          "ja": "かむ  → bit / bitten"
+        },
+        {
+          "no": 54,
+          "en": "break",
+          "kana": "ブレイク",
+          "pos": "動詞",
+          "ja": "壊す  → broke / broken"
+        },
+        {
+          "no": 55,
+          "en": "steal",
+          "kana": "スティール",
+          "pos": "動詞",
+          "ja": "盗む  → stole / stolen"
+        },
+        {
+          "no": 56,
+          "en": "choose",
+          "kana": "チューズ",
+          "pos": "動詞",
+          "ja": "選ぶ  → chose / chosen"
+        },
+        {
+          "no": 57,
+          "en": "wear",
+          "kana": "ウェア",
+          "pos": "動詞",
+          "ja": "着る  → wore / worn"
+        },
+        {
+          "no": 58,
+          "en": "hear",
+          "kana": "ヒア",
+          "pos": "動詞",
+          "ja": "聞こえる  → heard / heard"
+        },
+        {
+          "no": 59,
+          "en": "hide",
+          "kana": "ハイド",
+          "pos": "動詞",
+          "ja": "隠れる  → hid / hidden"
+        },
+        {
+          "no": 60,
+          "en": "begin",
+          "kana": "ビギン",
+          "pos": "動詞",
+          "ja": "始める  → began / begun"
+        }
+      ],
+      [
+        {
+          "no": 61,
+          "en": "become",
+          "kana": "ビカム",
+          "pos": "動詞",
+          "ja": "なる  → became / become"
+        },
+        {
+          "no": 62,
+          "en": "win",
+          "kana": "ウィン",
+          "pos": "動詞",
+          "ja": "勝つ  → won / won"
+        },
+        {
+          "no": 63,
+          "en": "hit",
+          "kana": "ヒット",
+          "pos": "動詞",
+          "ja": "打つ  → hit / hit"
+        },
+        {
+          "no": 64,
+          "en": "hurt",
+          "kana": "ハート",
+          "pos": "動詞",
+          "ja": "傷つける  → hurt / hurt"
+        },
+        {
+          "no": 65,
+          "en": "cost",
+          "kana": "コスト",
+          "pos": "動詞",
+          "ja": "かかる  → cost / cost"
+        },
+        {
+          "no": 66,
+          "en": "understand",
+          "kana": "アンダー【スタンド】",
+          "pos": "動詞",
+          "ja": "理解する  → understood / understood"
+        },
+        {
+          "no": 67,
+          "en": "stand",
+          "kana": "スタンド",
+          "pos": "動詞",
+          "ja": "立つ  → stood / stood"
+        },
+        {
+          "no": 68,
+          "en": "overcome",
+          "kana": "オウバー【カム】",
+          "pos": "動詞",
+          "ja": "乗り越える  → overcame / overcome"
+        },
+        {
+          "no": 69,
+          "en": "lie",
+          "kana": "ライ",
+          "pos": "動詞",
+          "ja": "横になる  → lay / lain"
+        },
+        {
+          "no": 70,
+          "en": "lay",
+          "kana": "レイ",
+          "pos": "動詞",
+          "ja": "置く  → laid / laid"
+        }
+      ],
+      [
+        {
+          "no": 71,
+          "en": "rise",
+          "kana": "ライズ",
+          "pos": "動詞",
+          "ja": "上がる  → rose / risen"
+        },
+        {
+          "no": 72,
+          "en": "raise",
+          "kana": "レイズ",
+          "pos": "動詞",
+          "ja": "上げる  → raised / raised"
+        },
+        {
+          "no": 73,
+          "en": "lend",
+          "kana": "レンド",
+          "pos": "動詞",
+          "ja": "貸す  → lent / lent"
+        },
+        {
+          "no": 74,
+          "en": "mean",
+          "kana": "ミーン",
+          "pos": "動詞",
+          "ja": "意味する  → meant / meant"
+        },
+        {
+          "no": 75,
+          "en": "lead",
+          "kana": "リード",
+          "pos": "動詞",
+          "ja": "導く  → led / led"
+        },
+        {
+          "no": 76,
+          "en": "spread",
+          "kana": "スプレッド",
+          "pos": "動詞",
+          "ja": "広がる  → spread / spread"
+        },
+        {
+          "no": 77,
+          "en": "set",
+          "kana": "セット",
+          "pos": "動詞",
+          "ja": "置く  → set / set"
+        },
+        {
+          "no": 78,
+          "en": "beat",
+          "kana": "ビート",
+          "pos": "動詞",
+          "ja": "打ち負かす  → beat / beaten"
+        },
+        {
+          "no": 79,
+          "en": "pay",
+          "kana": "ペイ",
+          "pos": "動詞",
+          "ja": "支払う  → paid / paid"
+        },
+        {
+          "no": 80,
+          "en": "shine",
+          "kana": "シャイン",
+          "pos": "動詞",
+          "ja": "輝く  → shone / shone"
+        }
+      ],
+      [
+        {
+          "no": 81,
+          "en": "burn",
+          "kana": "バーン",
+          "pos": "動詞",
+          "ja": "燃える  → burned/burnt"
+        },
+        {
+          "no": 82,
+          "en": "dream",
+          "kana": "ドリーム",
+          "pos": "動詞",
+          "ja": "夢を見る  → dreamed/dreamt"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "19",
+    "name": "比較(原級・比較級・最上級)",
+    "total": 48,
+    "unitCount": 5,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "tall / taller / tallest",
+          "kana": "トール/トーラー/トーレスト",
+          "pos": "形容詞",
+          "ja": "背が高い"
+        },
+        {
+          "no": 2,
+          "en": "short / shorter / shortest",
+          "kana": "ショート/ショーター/ショーテスト",
+          "pos": "形容詞",
+          "ja": "短い、背が低い"
+        },
+        {
+          "no": 3,
+          "en": "long / longer / longest",
+          "kana": "ロング/ロンガー/ロンゲスト",
+          "pos": "形容詞",
+          "ja": "長い"
+        },
+        {
+          "no": 4,
+          "en": "big / bigger / biggest",
+          "kana": "ビッグ/ビガー/ビゲスト",
+          "pos": "形容詞",
+          "ja": "大きい"
+        },
+        {
+          "no": 5,
+          "en": "small / smaller / smallest",
+          "kana": "スモール/スモーラー/スモーレスト",
+          "pos": "形容詞",
+          "ja": "小さい"
+        },
+        {
+          "no": 6,
+          "en": "large / larger / largest",
+          "kana": "ラージ/ラージャー/ラージェスト",
+          "pos": "形容詞",
+          "ja": "大きい"
+        },
+        {
+          "no": 7,
+          "en": "fast / faster / fastest",
+          "kana": "ファスト/ファスター/ファステスト",
+          "pos": "形容詞/副詞",
+          "ja": "速い"
+        },
+        {
+          "no": 8,
+          "en": "slow / slower / slowest",
+          "kana": "スロウ/スロワー/スロウエスト",
+          "pos": "形容詞/副詞",
+          "ja": "遅い"
+        },
+        {
+          "no": 9,
+          "en": "high / higher / highest",
+          "kana": "ハイ/ハイアー/ハイエスト",
+          "pos": "形容詞/副詞",
+          "ja": "高い"
+        },
+        {
+          "no": 10,
+          "en": "low / lower / lowest",
+          "kana": "ロウ/ロワー/ロウエスト",
+          "pos": "形容詞/副詞",
+          "ja": "低い"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "heavy / heavier / heaviest",
+          "kana": "ヘビー/ヘビアー/ヘビエスト",
+          "pos": "形容詞",
+          "ja": "重い"
+        },
+        {
+          "no": 12,
+          "en": "light / lighter / lightest",
+          "kana": "ライト/ライター/ライテスト",
+          "pos": "形容詞",
+          "ja": "軽い"
+        },
+        {
+          "no": 13,
+          "en": "easy / easier / easiest",
+          "kana": "イージー/イージアー/イージエスト",
+          "pos": "形容詞",
+          "ja": "簡単な"
+        },
+        {
+          "no": 14,
+          "en": "difficult / more / most difficult",
+          "kana": "ディフィカルト",
+          "pos": "形容詞",
+          "ja": "難しい"
+        },
+        {
+          "no": 15,
+          "en": "hot / hotter / hottest",
+          "kana": "ホット/ホッター/ホッテスト",
+          "pos": "形容詞",
+          "ja": "熱い"
+        },
+        {
+          "no": 16,
+          "en": "cold / colder / coldest",
+          "kana": "コウルド/コウルダー/コウルデスト",
+          "pos": "形容詞",
+          "ja": "寒い"
+        },
+        {
+          "no": 17,
+          "en": "warm / warmer / warmest",
+          "kana": "ウォーム/ウォーマー/ウォーメスト",
+          "pos": "形容詞",
+          "ja": "暖かい"
+        },
+        {
+          "no": 18,
+          "en": "cool / cooler / coolest",
+          "kana": "クール/クーラー/クーレスト",
+          "pos": "形容詞",
+          "ja": "涼しい"
+        },
+        {
+          "no": 19,
+          "en": "old / older / oldest",
+          "kana": "オウルド/オウルダー/オウルデスト",
+          "pos": "形容詞",
+          "ja": "年をとった"
+        },
+        {
+          "no": 20,
+          "en": "young / younger / youngest",
+          "kana": "ヤング/ヤンガー/ヤンゲスト",
+          "pos": "形容詞",
+          "ja": "若い"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "new / newer / newest",
+          "kana": "ニュー/ニューアー/ニューエスト",
+          "pos": "形容詞",
+          "ja": "新しい"
+        },
+        {
+          "no": 22,
+          "en": "early / earlier / earliest",
+          "kana": "アーリー/アーリアー/アーリエスト",
+          "pos": "形容詞/副詞",
+          "ja": "早い"
+        },
+        {
+          "no": 23,
+          "en": "late / later / latest",
+          "kana": "レイト/レイター/レイテスト",
+          "pos": "形容詞/副詞",
+          "ja": "遅い"
+        },
+        {
+          "no": 24,
+          "en": "kind / kinder / kindest",
+          "kana": "カインド/カインダー/カインデスト",
+          "pos": "形容詞",
+          "ja": "親切な"
+        },
+        {
+          "no": 25,
+          "en": "bright / brighter / brightest",
+          "kana": "ブライト/ブライター/ブライテスト",
+          "pos": "形容詞",
+          "ja": "明るい"
+        },
+        {
+          "no": 26,
+          "en": "dark / darker / darkest",
+          "kana": "ダーク/ダーカー/ダーケスト",
+          "pos": "形容詞",
+          "ja": "暗い"
+        },
+        {
+          "no": 27,
+          "en": "strong / stronger / strongest",
+          "kana": "ストロング/ストロンガー/ストロンゲスト",
+          "pos": "形容詞",
+          "ja": "強い"
+        },
+        {
+          "no": 28,
+          "en": "weak / weaker / weakest",
+          "kana": "ウィーク/ウィーカー/ウィーケスト",
+          "pos": "形容詞",
+          "ja": "弱い"
+        },
+        {
+          "no": 29,
+          "en": "rich / richer / richest",
+          "kana": "リッチ/リッチャー/リッチェスト",
+          "pos": "形容詞",
+          "ja": "お金持ちの"
+        },
+        {
+          "no": 30,
+          "en": "poor / poorer / poorest",
+          "kana": "プア/プアラー/プアレスト",
+          "pos": "形容詞",
+          "ja": "貧しい"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "wide / wider / widest",
+          "kana": "ワイド/ワイダー/ワイデスト",
+          "pos": "形容詞",
+          "ja": "広い"
+        },
+        {
+          "no": 32,
+          "en": "narrow / narrower / narrowest",
+          "kana": "ナロウ/ナロワー/ナロウエスト",
+          "pos": "形容詞",
+          "ja": "狭い"
+        },
+        {
+          "no": 33,
+          "en": "deep / deeper / deepest",
+          "kana": "ディープ/ディーパー/ディーペスト",
+          "pos": "形容詞",
+          "ja": "深い"
+        },
+        {
+          "no": 34,
+          "en": "cheap / cheaper / cheapest",
+          "kana": "チープ/チーパー/チーペスト",
+          "pos": "形容詞",
+          "ja": "安い"
+        },
+        {
+          "no": 35,
+          "en": "popular / more / most popular",
+          "kana": "ポピュラー",
+          "pos": "形容詞",
+          "ja": "人気のある"
+        },
+        {
+          "no": 36,
+          "en": "beautiful / more / most beautiful",
+          "kana": "ビューティフル",
+          "pos": "形容詞",
+          "ja": "美しい"
+        },
+        {
+          "no": 37,
+          "en": "important / more / most important",
+          "kana": "インポータント",
+          "pos": "形容詞",
+          "ja": "重要な"
+        },
+        {
+          "no": 38,
+          "en": "interesting / more / most interesting",
+          "kana": "インテレスティング",
+          "pos": "形容詞",
+          "ja": "おもしろい"
+        },
+        {
+          "no": 39,
+          "en": "exciting / more / most exciting",
+          "kana": "エクサイティング",
+          "pos": "形容詞",
+          "ja": "わくわくする"
+        },
+        {
+          "no": 40,
+          "en": "dangerous / more / most dangerous",
+          "kana": "デインジャラス",
+          "pos": "形容詞",
+          "ja": "危険な"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "comfortable / more / most comfortable",
+          "kana": "カンフォータブル",
+          "pos": "形容詞",
+          "ja": "快適な"
+        },
+        {
+          "no": 42,
+          "en": "good / better / best",
+          "kana": "グッド/ベター/ベスト",
+          "pos": "形容詞",
+          "ja": "良い（不規則）"
+        },
+        {
+          "no": 43,
+          "en": "well / better / best",
+          "kana": "ウェル/ベター/ベスト",
+          "pos": "副詞",
+          "ja": "上手に（不規則）"
+        },
+        {
+          "no": 44,
+          "en": "bad / worse / worst",
+          "kana": "バッド/ワース/ワースト",
+          "pos": "形容詞",
+          "ja": "悪い（不規則）"
+        },
+        {
+          "no": 45,
+          "en": "many / more / most",
+          "kana": "メニー/モア/モウスト",
+          "pos": "形容詞",
+          "ja": "多くの（不規則）"
+        },
+        {
+          "no": 46,
+          "en": "much / more / most",
+          "kana": "マッチ/モア/モウスト",
+          "pos": "形容詞/副詞",
+          "ja": "たくさんの（不規則）"
+        },
+        {
+          "no": 47,
+          "en": "little / less / least",
+          "kana": "リトル/レス/リースト",
+          "pos": "形容詞",
+          "ja": "少ない（不規則）"
+        },
+        {
+          "no": 48,
+          "en": "far / farther / farthest",
+          "kana": "ファー/ファーザー/ファーゼスト",
+          "pos": "形容詞/副詞",
+          "ja": "遠い（不規則）"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "20",
+    "name": "代名詞の格変化",
+    "total": 59,
+    "unitCount": 6,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "I",
+          "kana": "アイ",
+          "pos": "代名詞（主格）",
+          "ja": "私は"
+        },
+        {
+          "no": 2,
+          "en": "my",
+          "kana": "マイ",
+          "pos": "代名詞（所有格）",
+          "ja": "私の"
+        },
+        {
+          "no": 3,
+          "en": "me",
+          "kana": "ミー",
+          "pos": "代名詞（目的格）",
+          "ja": "私を・私に"
+        },
+        {
+          "no": 4,
+          "en": "mine",
+          "kana": "マイン",
+          "pos": "代名詞（所有代名詞）",
+          "ja": "私のもの"
+        },
+        {
+          "no": 5,
+          "en": "myself",
+          "kana": "マイ【セルフ】",
+          "pos": "代名詞（再帰）",
+          "ja": "私自身"
+        },
+        {
+          "no": 6,
+          "en": "you",
+          "kana": "ユー",
+          "pos": "代名詞（主格）",
+          "ja": "あなたは"
+        },
+        {
+          "no": 7,
+          "en": "your",
+          "kana": "ユア",
+          "pos": "代名詞（所有格）",
+          "ja": "あなたの"
+        },
+        {
+          "no": 8,
+          "en": "you",
+          "kana": "ユー",
+          "pos": "代名詞（目的格）",
+          "ja": "あなたを・あなたに"
+        },
+        {
+          "no": 9,
+          "en": "yours",
+          "kana": "ユアズ",
+          "pos": "代名詞（所有代名詞）",
+          "ja": "あなたのもの"
+        },
+        {
+          "no": 10,
+          "en": "yourself",
+          "kana": "ユア【セルフ】",
+          "pos": "代名詞（再帰）",
+          "ja": "あなた自身"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "he",
+          "kana": "ヒー",
+          "pos": "代名詞（主格）",
+          "ja": "彼は"
+        },
+        {
+          "no": 12,
+          "en": "his",
+          "kana": "ヒズ",
+          "pos": "代名詞（所有格）",
+          "ja": "彼の"
+        },
+        {
+          "no": 13,
+          "en": "him",
+          "kana": "ヒム",
+          "pos": "代名詞（目的格）",
+          "ja": "彼を・彼に"
+        },
+        {
+          "no": 14,
+          "en": "his",
+          "kana": "ヒズ",
+          "pos": "代名詞（所有代名詞）",
+          "ja": "彼のもの"
+        },
+        {
+          "no": 15,
+          "en": "himself",
+          "kana": "ヒム【セルフ】",
+          "pos": "代名詞（再帰）",
+          "ja": "彼自身"
+        },
+        {
+          "no": 16,
+          "en": "she",
+          "kana": "シー",
+          "pos": "代名詞（主格）",
+          "ja": "彼女は"
+        },
+        {
+          "no": 17,
+          "en": "her",
+          "kana": "ハー",
+          "pos": "代名詞（所有格）",
+          "ja": "彼女の"
+        },
+        {
+          "no": 18,
+          "en": "her",
+          "kana": "ハー",
+          "pos": "代名詞（目的格）",
+          "ja": "彼女を・彼女に"
+        },
+        {
+          "no": 19,
+          "en": "hers",
+          "kana": "ハーズ",
+          "pos": "代名詞（所有代名詞）",
+          "ja": "彼女のもの"
+        },
+        {
+          "no": 20,
+          "en": "herself",
+          "kana": "ハー【セルフ】",
+          "pos": "代名詞（再帰）",
+          "ja": "彼女自身"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "it",
+          "kana": "イット",
+          "pos": "代名詞（主格）",
+          "ja": "それは"
+        },
+        {
+          "no": 22,
+          "en": "its",
+          "kana": "イッツ",
+          "pos": "代名詞（所有格）",
+          "ja": "それの"
+        },
+        {
+          "no": 23,
+          "en": "it",
+          "kana": "イット",
+          "pos": "代名詞（目的格）",
+          "ja": "それを"
+        },
+        {
+          "no": 24,
+          "en": "itself",
+          "kana": "イット【セルフ】",
+          "pos": "代名詞（再帰）",
+          "ja": "それ自身"
+        },
+        {
+          "no": 25,
+          "en": "we",
+          "kana": "ウィー",
+          "pos": "代名詞（主格）",
+          "ja": "私たちは"
+        },
+        {
+          "no": 26,
+          "en": "our",
+          "kana": "アウア",
+          "pos": "代名詞（所有格）",
+          "ja": "私たちの"
+        },
+        {
+          "no": 27,
+          "en": "us",
+          "kana": "アス",
+          "pos": "代名詞（目的格）",
+          "ja": "私たちを・私たちに"
+        },
+        {
+          "no": 28,
+          "en": "ours",
+          "kana": "アウアズ",
+          "pos": "代名詞（所有代名詞）",
+          "ja": "私たちのもの"
+        },
+        {
+          "no": 29,
+          "en": "ourselves",
+          "kana": "アウア【セルブズ】",
+          "pos": "代名詞（再帰）",
+          "ja": "私たち自身"
+        },
+        {
+          "no": 30,
+          "en": "they",
+          "kana": "ゼイ",
+          "pos": "代名詞（主格）",
+          "ja": "彼らは"
+        }
+      ],
+      [
+        {
+          "no": 31,
+          "en": "their",
+          "kana": "ゼア",
+          "pos": "代名詞（所有格）",
+          "ja": "彼らの"
+        },
+        {
+          "no": 32,
+          "en": "them",
+          "kana": "ゼム",
+          "pos": "代名詞（目的格）",
+          "ja": "彼らを・彼らに"
+        },
+        {
+          "no": 33,
+          "en": "theirs",
+          "kana": "ゼアズ",
+          "pos": "代名詞（所有代名詞）",
+          "ja": "彼らのもの"
+        },
+        {
+          "no": 34,
+          "en": "themselves",
+          "kana": "ゼム【セルブズ】",
+          "pos": "代名詞（再帰）",
+          "ja": "彼ら自身"
+        },
+        {
+          "no": 35,
+          "en": "this",
+          "kana": "ジス",
+          "pos": "指示代名詞",
+          "ja": "これ"
+        },
+        {
+          "no": 36,
+          "en": "that",
+          "kana": "ザット",
+          "pos": "指示代名詞",
+          "ja": "あれ、それ"
+        },
+        {
+          "no": 37,
+          "en": "these",
+          "kana": "ジーズ",
+          "pos": "指示代名詞",
+          "ja": "これら"
+        },
+        {
+          "no": 38,
+          "en": "those",
+          "kana": "ゾウズ",
+          "pos": "指示代名詞",
+          "ja": "あれら、それら"
+        },
+        {
+          "no": 39,
+          "en": "one",
+          "kana": "ワン",
+          "pos": "不定代名詞",
+          "ja": "1つ（代わり）"
+        },
+        {
+          "no": 40,
+          "en": "some",
+          "kana": "サム",
+          "pos": "不定代名詞",
+          "ja": "いくつか"
+        }
+      ],
+      [
+        {
+          "no": 41,
+          "en": "any",
+          "kana": "【エ】ニー",
+          "pos": "不定代名詞",
+          "ja": "いくつか（疑問・否定）"
+        },
+        {
+          "no": 42,
+          "en": "none",
+          "kana": "ナン",
+          "pos": "不定代名詞",
+          "ja": "何も～ない"
+        },
+        {
+          "no": 43,
+          "en": "all",
+          "kana": "オール",
+          "pos": "不定代名詞",
+          "ja": "すべて"
+        },
+        {
+          "no": 44,
+          "en": "both",
+          "kana": "ボウス",
+          "pos": "不定代名詞",
+          "ja": "両方"
+        },
+        {
+          "no": 45,
+          "en": "each",
+          "kana": "イーチ",
+          "pos": "不定代名詞",
+          "ja": "それぞれ"
+        },
+        {
+          "no": 46,
+          "en": "every",
+          "kana": "【エ】ブリー",
+          "pos": "不定代名詞",
+          "ja": "すべての"
+        },
+        {
+          "no": 47,
+          "en": "everyone",
+          "kana": "【エ】ブリーワン",
+          "pos": "不定代名詞",
+          "ja": "みんな"
+        },
+        {
+          "no": 48,
+          "en": "everything",
+          "kana": "【エ】ブリーシング",
+          "pos": "不定代名詞",
+          "ja": "すべてのもの"
+        },
+        {
+          "no": 49,
+          "en": "everybody",
+          "kana": "【エ】ブリーバディ",
+          "pos": "不定代名詞",
+          "ja": "みんな"
+        },
+        {
+          "no": 50,
+          "en": "someone",
+          "kana": "【サム】ワン",
+          "pos": "不定代名詞",
+          "ja": "誰か"
+        }
+      ],
+      [
+        {
+          "no": 51,
+          "en": "something",
+          "kana": "【サム】シング",
+          "pos": "不定代名詞",
+          "ja": "何か"
+        },
+        {
+          "no": 52,
+          "en": "somebody",
+          "kana": "【サム】バディ",
+          "pos": "不定代名詞",
+          "ja": "誰か"
+        },
+        {
+          "no": 53,
+          "en": "anyone",
+          "kana": "【エ】ニーワン",
+          "pos": "不定代名詞",
+          "ja": "誰でも"
+        },
+        {
+          "no": 54,
+          "en": "anything",
+          "kana": "【エ】ニーシング",
+          "pos": "不定代名詞",
+          "ja": "何でも"
+        },
+        {
+          "no": 55,
+          "en": "nobody",
+          "kana": "【ノウ】バディ",
+          "pos": "不定代名詞",
+          "ja": "誰もいない"
+        },
+        {
+          "no": 56,
+          "en": "nothing",
+          "kana": "【ナ】シング",
+          "pos": "不定代名詞",
+          "ja": "何も～ない"
+        },
+        {
+          "no": 57,
+          "en": "another",
+          "kana": "アナザー",
+          "pos": "不定代名詞",
+          "ja": "別の、もう一つの"
+        },
+        {
+          "no": 58,
+          "en": "other",
+          "kana": "【ア】ザー",
+          "pos": "不定代名詞",
+          "ja": "他の"
+        },
+        {
+          "no": 59,
+          "en": "others",
+          "kana": "【ア】ザーズ",
+          "pos": "不定代名詞",
+          "ja": "他のもの"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "21",
+    "name": "疑問詞",
+    "total": 22,
+    "unitCount": 3,
+    "units": [
+      [
+        {
+          "no": 1,
+          "en": "what",
+          "kana": "ウォット",
+          "pos": "疑問詞",
+          "ja": "何"
+        },
+        {
+          "no": 2,
+          "en": "who",
+          "kana": "フー",
+          "pos": "疑問詞",
+          "ja": "誰"
+        },
+        {
+          "no": 3,
+          "en": "whose",
+          "kana": "フーズ",
+          "pos": "疑問詞",
+          "ja": "誰の"
+        },
+        {
+          "no": 4,
+          "en": "whom",
+          "kana": "フーム",
+          "pos": "疑問詞",
+          "ja": "誰を・誰に"
+        },
+        {
+          "no": 5,
+          "en": "which",
+          "kana": "ウィッチ",
+          "pos": "疑問詞",
+          "ja": "どちら、どれ"
+        },
+        {
+          "no": 6,
+          "en": "when",
+          "kana": "ウェン",
+          "pos": "疑問詞",
+          "ja": "いつ"
+        },
+        {
+          "no": 7,
+          "en": "where",
+          "kana": "ウェア",
+          "pos": "疑問詞",
+          "ja": "どこで"
+        },
+        {
+          "no": 8,
+          "en": "why",
+          "kana": "ワイ",
+          "pos": "疑問詞",
+          "ja": "なぜ"
+        },
+        {
+          "no": 9,
+          "en": "how",
+          "kana": "ハウ",
+          "pos": "疑問詞",
+          "ja": "どのように"
+        },
+        {
+          "no": 10,
+          "en": "how many",
+          "kana": "ハウメニー",
+          "pos": "疑問詞",
+          "ja": "いくつ（数）"
+        }
+      ],
+      [
+        {
+          "no": 11,
+          "en": "how much",
+          "kana": "ハウマッチ",
+          "pos": "疑問詞",
+          "ja": "いくら（量・値段）"
+        },
+        {
+          "no": 12,
+          "en": "how long",
+          "kana": "ハウロング",
+          "pos": "疑問詞",
+          "ja": "どのくらい（長さ・期間）"
+        },
+        {
+          "no": 13,
+          "en": "how far",
+          "kana": "ハウファー",
+          "pos": "疑問詞",
+          "ja": "どのくらい遠い"
+        },
+        {
+          "no": 14,
+          "en": "how often",
+          "kana": "ハウオーフン",
+          "pos": "疑問詞",
+          "ja": "どのくらいの頻度で"
+        },
+        {
+          "no": 15,
+          "en": "how old",
+          "kana": "ハウオウルド",
+          "pos": "疑問詞",
+          "ja": "何歳"
+        },
+        {
+          "no": 16,
+          "en": "how tall",
+          "kana": "ハウトール",
+          "pos": "疑問詞",
+          "ja": "身長はどのくらい"
+        },
+        {
+          "no": 17,
+          "en": "what time",
+          "kana": "ウォットタイム",
+          "pos": "疑問詞",
+          "ja": "何時"
+        },
+        {
+          "no": 18,
+          "en": "what day",
+          "kana": "ウォットデイ",
+          "pos": "疑問詞",
+          "ja": "何曜日"
+        },
+        {
+          "no": 19,
+          "en": "what date",
+          "kana": "ウォットデイト",
+          "pos": "疑問詞",
+          "ja": "何日"
+        },
+        {
+          "no": 20,
+          "en": "what kind of",
+          "kana": "ウォットカインドオブ",
+          "pos": "疑問詞",
+          "ja": "どんな種類の"
+        }
+      ],
+      [
+        {
+          "no": 21,
+          "en": "what color",
+          "kana": "ウォットカラー",
+          "pos": "疑問詞",
+          "ja": "何色"
+        },
+        {
+          "no": 22,
+          "en": "what sport",
+          "kana": "ウォットスポーツ",
+          "pos": "疑問詞",
+          "ja": "どんなスポーツ"
+        }
+      ]
+    ]
+  }
 ];
-const TOTAL = UNITS.length;
 
-/* ── ストレージ ── */
-function sKey(code){ return 'gamba_prog_'+code; }
-function getStatus(code){ return localStorage.getItem(sKey(code))||'none'; }
-function setStatus(code,st){ localStorage.setItem(sKey(code),st); }
+// ===== localStorage =====
+const LS_PROGRESS = 'tango_progress';
+const LS_STREAK   = 'tango_streak';
+const lsGet = k => { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } };
+const lsSet = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} };
 
-/* ── ログイン ── */
-function doLogin(){
-  const name = document.getElementById('name-input').value.trim();
-  if(!name){ alert('名前を入力してください'); return; }
-  localStorage.setItem('studentName', name);
-  localStorage.setItem('studentId',   'stu_'+encodeURIComponent(name));
-  showMain();
-}
-function doLogout(){
-  if(!confirm('名前を変更しますか？\n（学習記録はそのまま残ります）')) return;
-  localStorage.removeItem('studentName');
-  localStorage.removeItem('studentId');
-  document.getElementById('main-screen').style.display='none';
-  document.getElementById('login-screen').style.display='flex';
-  document.getElementById('name-input').value='';
+function fmtT(s){ return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function progressKey(catId, unitIdx){ return catId+'_'+unitIdx; }
+
+function updateStreak(){
+  const today = new Date().toISOString().slice(0,10);
+  let s = lsGet(LS_STREAK) || {lastDate:null, count:0};
+  if(s.lastDate === today) return s.count;
+  const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  s.count = (s.lastDate === yesterday) ? s.count+1 : 1;
+  s.lastDate = today;
+  lsSet(LS_STREAK, s);
+  return s.count;
 }
 
-/* ── メイン表示 ── */
-function showMain(){
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('main-screen').style.display='block';
-  const name = localStorage.getItem('studentName')||'ゲスト';
-  document.getElementById('badge-name').textContent = name+' さん';
-  render();
-  updateProgress();
+// ===== カテゴリIDとファイル名の対応 =====
+const CAT_ABBR = {
+  '01':'ew','02':'ns','03':'sw','04':'en','05':'an',
+  '06':'sp','07':'fd','08':'sc','09':'hh','10':'fm',
+  '11':'tr','12':'to','13':'jb','14':'adj','15':'adv',
+  '16':'conj','17':'rv','18':'irv','19':'cmp','20':'pro','21':'qw'
+};
+
+function unitFile(catId, unitIdx){
+  const abbr = CAT_ABBR[catId] || catId;
+  return 'JS_' + abbr + String(unitIdx+1).padStart(2,'0') + '.html';
 }
 
-/* ── 単元カード描画 ── */
 function render(){
-  const listA = document.getElementById('list-ea-a');
-  const listB = document.getElementById('list-ea-b');
-  listA.innerHTML=''; listB.innerHTML='';
-  UNITS.forEach(u => {
-    const card = makeCard(u);
-    // EA01〜10 → listA、EA11〜16 → listB
-    const num = parseInt(u.code.replace('EA',''));
-    (num <= 10 ? listA : listB).appendChild(card);
+  const prog = lsGet(LS_PROGRESS) || {};
+  document.getElementById('streakNum').textContent = updateStreak();
+
+  const totalUnits = TANGO_DATA.reduce((a,c)=>a+c.unitCount,0);
+  const doneUnits  = Object.values(prog).filter(v=>v&&v.cleared).length;
+  document.getElementById('doneNum').textContent = doneUnits;
+  document.getElementById('overallBar').style.width = (doneUnits/totalUnits*100)+'%';
+
+  const list = document.getElementById('catList');
+  list.innerHTML = '';
+
+  TANGO_DATA.forEach(cat => {
+    const doneCat = Array.from({length:cat.unitCount},(_,i)=>{
+      const p = prog[progressKey(cat.id,i)];
+      return (p && p.cleared) ? 1 : 0;
+    }).reduce((a,b)=>a+b,0);
+    const pct = Math.round(doneCat/cat.unitCount*100);
+
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+    const badge = doneCat===cat.unitCount
+      ? '<span class="cat-badge done-all">✅ 完了</span>'
+      : '<span class="cat-badge">'+doneCat+'/'+cat.unitCount+' 単元</span>';
+
+    card.innerHTML =
+      '<div class="cat-head"><span class="cat-name">'+cat.id+'. '+cat.name+'</span>'+badge+'</div>'+
+      '<div class="cat-progress-wrap"><div class="cat-progress" style="width:'+pct+'%"></div></div>'+
+      '<div class="cat-units" id="units_'+cat.id+'"></div>';
+    list.appendChild(card);
+
+    const unitsDiv = card.querySelector('#units_'+cat.id);
+    for(let i=0;i<cat.unitCount;i++){
+      const p   = prog[progressKey(cat.id,i)];
+      const dot = document.createElement('div');
+      dot.className = 'unit-dot'+(p&&p.cleared?(p.bestSec?' best':' cleared'):'');
+      dot.textContent = i+1;
+      dot.title = p&&p.bestSec ? 'ベスト:'+fmtT(p.bestSec) : (p&&p.cleared?'クリア済み':'未挑戦');
+      const ci=i;
+      dot.addEventListener('click', e => {
+        e.stopPropagation();
+        window.location.href = unitFile(cat.id, ci);
+      });
+      unitsDiv.appendChild(dot);
+    }
+    card.addEventListener('click', ()=>{
+      let t=0;
+      for(let i=0;i<cat.unitCount;i++){
+        const p=prog[progressKey(cat.id,i)];
+        if(!(p&&p.cleared)){t=i;break;}
+      }
+      window.location.href = unitFile(cat.id, t);
+    });
   });
 }
 
-function makeCard(u){
-  const st = getStatus(u.code);
-  const div = document.createElement('div');
-  div.className = 'unit-card s-'+st;
-
-  const badgeMap = {
-    pass:  '<span class="u-badge b-pass">✅ 合格</span>',
-    review:'<span class="u-badge b-review">🔁 復習中</span>',
-    none:  '<span class="u-badge b-none">📖 未修</span>'
-  };
-
-  div.innerHTML = `
-    <span class="u-code">${u.code}</span>
-    <div class="u-name">${u.name}<div class="u-sub">${u.sub}</div></div>
-    ${badgeMap[st]}
-    <span class="u-arrow">›</span>`;
-
-  if(st==='pass'){
-    const btn = document.createElement('button');
-    btn.className='btn-review-toggle';
-    btn.textContent='🔁 復習';
-    btn.onclick = e => { e.stopPropagation(); setStatus(u.code,'review'); render(); updateProgress(); };
-    div.insertBefore(btn, div.querySelector('.u-arrow'));
-  }
-  if(st==='review'){
-    const btn = document.createElement('button');
-    btn.className='btn-review-toggle';
-    btn.style.cssText='border-color:var(--success);color:var(--success);';
-    btn.textContent='✅ 済み';
-    btn.onclick = e => { e.stopPropagation(); setStatus(u.code,'pass'); render(); updateProgress(); };
-    div.insertBefore(btn, div.querySelector('.u-arrow'));
-  }
-
-  div.onclick = e => {
-    if(e.target.classList.contains('btn-review-toggle')) return;
-    window.location.href = u.path;
-  };
-  return div;
-}
-
-/* ── 進捗バー更新 ── */
-function updateProgress(){
-  let pass=0, review=0, none=0;
-  UNITS.forEach(u=>{
-    const s=getStatus(u.code);
-    if(s==='pass')pass++;
-    else if(s==='review')review++;
-    else none++;
-  });
-  const pct = Math.round(pass/TOTAL*100);
-  document.getElementById('prog-bar').style.width = pct+'%';
-  document.getElementById('prog-text').textContent = pass+' / '+TOTAL+' 単元合格';
-  document.getElementById('prog-chips').innerHTML =
-    `<span class="prog-chip">✅ 合格 ${pass}</span>
-     <span class="prog-chip">🔁 復習中 ${review}</span>
-     <span class="prog-chip">📖 未修 ${none}</span>`;
-
-  const notice = document.getElementById('notice-msg');
-  if(pass===TOTAL){
-    notice.className='notice notice-complete';
-    notice.innerHTML='🎉 <strong>全単元合格！</strong>　英文法マスターです！おめでとうございます！';
-  } else if(pass===0 && review===0){
-    notice.className='notice notice-default';
-    notice.innerHTML='📌 単元をタップして「1.説明 → 2.例題 → 3.類題 → 4.テスト」の順に学習しよう！';
-  } else {
-    const next = UNITS.find(u=>getStatus(u.code)==='none');
-    notice.className='notice notice-progress';
-    notice.innerHTML = `⚡️ <strong>${pass}単元</strong> 合格！${review>0?'<strong>🔁'+review+'単元</strong>が復習中。':''}${next?'次は <strong>'+next.name+'</strong> に挑戦しよう！':'あと少し！'}`;
-  }
-}
-
-/* ── 起動 ── */
-document.addEventListener('DOMContentLoaded', ()=>{
-  if(localStorage.getItem('studentName')) showMain();
-  document.getElementById('name-input').addEventListener('keydown', e=>{
-    if(e.key==='Enter') doLogin();
-  });
-});
+render();
 </script>
-<script src="gamba_support.js"></script>
 </body>
 </html>
