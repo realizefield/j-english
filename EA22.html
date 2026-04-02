@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爆速英文法｜EA22 最上級</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#2563eb;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--orange:#f97316;--purple:#7c3aed;--purple-light:#ede9fe;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:160px;}
+.page-header{background:linear-gradient(135deg,#b45309 0%,#7c3aed 100%);color:#fff;padding:18px 20px 14px;text-align:center;box-shadow:0 4px 16px rgba(180,83,9,.35);}
+.page-header .unit-code{font-size:.78em;opacity:.75;letter-spacing:.15em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(1.05em,3vw,1.42em);font-weight:700;margin:0 0 4px;}
+.page-header .unit-sub{font-size:.8em;opacity:.82;}
+.step-nav{display:flex;gap:4px;padding:10px 12px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;}
+.step-btn{flex:1;padding:9px 2px;border:none;background:#e2e8f0;cursor:pointer;font-weight:700;border-radius:8px;font-size:clamp(.7em,1.8vw,.84em);font-family:'BIZ UDPGothic',sans-serif;color:var(--text-sub);transition:.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.step-btn.active{background:var(--primary);color:#fff;}.step-btn.completed{background:var(--success);color:#fff;}
+.g-container{max-width:760px;margin:0 auto;padding:14px 14px 20px;}
+.timer-bar{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.timer-display{font-size:clamp(1.8em,6vw,2.4em);font-weight:700;font-family:monospace;color:var(--accent);min-width:76px;text-align:center;}
+.btn-start{font-family:'BIZ UDPGothic',sans-serif;background:var(--accent);color:#fff;border:none;padding:11px 22px;border-radius:50px;font-weight:700;font-size:clamp(.9em,2.5vw,1.05em);cursor:pointer;transition:.2s;}
+.btn-start:hover{transform:translateY(-1px);}
+.challenge-controls{display:none;flex-direction:row;flex-wrap:wrap;gap:6px;margin-top:6px;width:100%;}
+.challenge-controls.visible{display:flex;}
+.btn-stop{font-family:inherit;background:#64748b;color:#fff;padding:8px 12px;border:none;border-radius:8px;font-weight:700;font-size:.82em;cursor:pointer;flex:1;min-width:70px;}
+.btn-retry{font-family:inherit;background:var(--warn);color:#fff;padding:8px 12px;border:none;border-radius:8px;font-weight:700;font-size:.82em;cursor:pointer;flex:1;min-width:70px;}
+.btn-show-ans{font-family:inherit;background:var(--purple);color:#fff;padding:8px 12px;border:none;border-radius:8px;font-weight:700;font-size:.82em;cursor:pointer;flex:1;min-width:70px;}
+.section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;}
+.section-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:8px;font-weight:700;font-size:1em;margin-right:8px;flex-shrink:0;}
+.section-title-row{display:flex;align-items:center;margin-bottom:14px;}
+.section-title-text{font-size:1.05em;font-weight:700;color:var(--primary);}
+.origin-box{background:#f8faff;border-left:4px solid var(--primary);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:10px;}
+.origin-en{font-size:1.05em;font-weight:700;color:var(--text);margin-bottom:4px;}
+.origin-jp{font-size:.88em;color:var(--text-sub);}
+.voice-btn{background:var(--orange);color:#fff;border:none;padding:3px 10px;border-radius:50px;cursor:pointer;font-size:.76em;vertical-align:middle;white-space:nowrap;margin-left:6px;}
+.proc-box{background:var(--primary-light);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;}
+.proc-label{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:8px;}
+.proc-step{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;}
+.proc-step:last-child{margin-bottom:0;}
+.proc-arrow{color:var(--primary);font-size:1.1em;flex-shrink:0;margin-top:1px;}
+.proc-txt{font-size:.92em;line-height:1.65;flex:1;}
+.proc-txt strong{color:var(--primary);}
+.point-box{background:linear-gradient(135deg,#fffbeb,#dbeafe);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;}
+.point-title{font-weight:700;color:var(--warn);font-size:.95em;margin-bottom:8px;}
+.point-formula{font-size:1.02em;font-weight:700;color:var(--primary);background:#fff;border-radius:8px;padding:10px 14px;text-align:center;margin:6px 0;line-height:1.8;}
+.point-formula .wh{color:var(--purple);}
+.compare-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.88em;}
+.compare-table th{background:var(--primary);color:#fff;padding:8px 10px;text-align:center;}
+.compare-table td{border:1px solid var(--border);padding:8px 10px;vertical-align:middle;}
+.compare-table tr:nth-child(even) td{background:var(--primary-light);}
+.compare-table .em{font-weight:700;color:var(--purple);}
+.drill-box{background:#f8faff;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.drill-num{font-size:.82em;font-weight:700;color:var(--text-sub);margin-bottom:6px;}
+.drill-src{font-size:.95em;color:var(--text);margin-bottom:4px;}
+.bracket-answer-row{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin:8px 0;}
+.bk-blank{display:inline-flex;align-items:center;justify-content:center;min-width:72px;height:32px;border:2px solid var(--success);border-radius:6px;background:#fff;font-weight:700;font-size:.9em;color:var(--primary-mid);cursor:pointer;transition:.15s;padding:0 6px;}
+.bk-blank.is-active{background:var(--success-light);}
+.drill-result{font-size:.88em;color:var(--text-sub);margin-top:6px;}
+.fixed-mark{font-weight:700;font-size:1.1em;padding:0 2px;vertical-align:middle;}
+.sentence-block{background:#f8faff;border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;}
+.sentence-jp{font-weight:700;font-size:.9em;margin-bottom:8px;color:var(--text);}
+.word-squares{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.square{display:inline-flex;align-items:center;justify-content:center;min-width:72px;height:38px;padding:0 10px;border:2px solid var(--success);border-radius:8px;background:#fff;color:var(--primary-mid);font-weight:700;cursor:pointer;font-size:.92em;transition:.15s;font-family:'BIZ UDPGothic',sans-serif;}
+.square:hover{background:var(--primary-light);}
+.imp-word{color:var(--success);font-weight:700;text-decoration:underline;cursor:pointer;position:relative;display:inline-block;}
+.tooltip{visibility:hidden;width:200px;background:#1e293b;color:#fff;text-align:center;padding:8px;border-radius:8px;position:absolute;bottom:130%;left:50%;transform:translateX(-50%);z-index:10000;font-size:.8em;line-height:1.5;opacity:0;transition:.2s;pointer-events:auto;}
+.imp-word:hover .tooltip{visibility:visible;opacity:1;}
+.add-btn{background:var(--orange);color:#fff;border:none;padding:3px 8px;border-radius:4px;cursor:pointer;font-size:.72em;margin-top:4px;pointer-events:auto;margin-left:2px;}
+.record-section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:12px;}
+.record-title{font-size:.88em;font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px;margin-bottom:10px;}
+.record-list{list-style:none;padding:0;}
+.record-list li{display:flex;justify-content:space-between;padding:6px 4px;font-size:.86em;border-bottom:1px solid var(--border);}
+.record-list li:last-child{border-bottom:none;}
+.record-time{font-family:monospace;font-weight:700;color:var(--primary);}
+.btn-reset{font-family:'BIZ UDPGothic',sans-serif;background:#f1f5f9;color:var(--text-sub);border:none;padding:7px;width:100%;border-radius:8px;cursor:pointer;font-size:.82em;margin-top:8px;}
+.vocab-section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:12px;}
+.vocab-title{font-size:.88em;font-weight:700;color:var(--success);border-bottom:2px solid var(--success);padding-bottom:6px;margin-bottom:10px;}
+.word-list{list-style:none;padding:0;}
+.word-list li{background:var(--success-light);margin-bottom:5px;padding:7px 10px;border-radius:7px;font-size:.86em;border-left:4px solid var(--success);}
+.btn-vocab-test{font-family:'BIZ UDPGothic',sans-serif;background:var(--success);color:#fff;border:none;padding:9px;width:100%;border-radius:8px;cursor:pointer;font-size:.88em;font-weight:700;margin-top:10px;}
+.vocab-test-card{background:var(--card);border:2px solid var(--primary);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
+.vocab-q{font-size:clamp(1.1em,4vw,1.5em);font-weight:700;text-align:center;color:var(--primary);margin-bottom:14px;padding:10px;background:var(--primary-light);border-radius:8px;}
+.vocab-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vocab-choice{font-family:'BIZ UDPGothic',sans-serif;background:#fff;border:2px solid var(--border);border-radius:8px;padding:10px 8px;font-size:.86em;font-weight:700;cursor:pointer;text-align:center;transition:.15s;}
+.vocab-choice:hover{background:var(--primary-light);border-color:var(--primary);}
+.vocab-choice.correct{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.vocab-choice.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.vocab-score{text-align:center;padding:16px;font-size:1.1em;font-weight:700;}
+.btn-vocab-retry{font-family:'BIZ UDPGothic',sans-serif;background:var(--primary);color:#fff;border:none;padding:10px 24px;border-radius:50px;cursor:pointer;font-size:.9em;font-weight:700;margin-top:10px;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:16px;}
+.btn-nav{font-family:'BIZ UDPGothic',sans-serif;font-size:.92em;font-weight:700;padding:11px 22px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:.15s;}
+.btn-nav:hover{transform:translateY(-1px);}
+.btn-home{background:#e0e7ff;color:#3730a3;}.btn-prev{background:#f1f5f9;color:var(--text-sub);}
+.fixed-pool{position:fixed;bottom:0;left:0;width:100%;background:#eef4ff;border-top:3px solid var(--primary);padding:12px 10px;z-index:999;text-align:center;display:none;}
+.word-card{display:inline-block;background:#fff;border:1.5px solid var(--border);padding:8px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.93em;box-shadow:0 1px 4px rgba(0,0,0,.08);font-family:'BIZ UDPGothic',sans-serif;}
+.word-card.selected{background:var(--warn-light);border-color:var(--warn);}
+.word-card.hidden{visibility:hidden;pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EA22</div>
+  <h1>⚡ 爆速英文法：最上級</h1>
+  <div class="unit-sub">もっとも〜 / in・of / most / best / one of the 最上級</div>
+</div>
+<nav class="step-nav">
+  <button class="step-btn" id="btn-info" onclick="changeStep('info')">1.説明</button>
+  <button class="step-btn" id="btn-ex"   onclick="changeStep('ex')">2.例題</button>
+  <button class="step-btn" id="btn-prac" onclick="changeStep('prac')">3.類題</button>
+  <button class="step-btn" id="btn-test" onclick="changeStep('test')">4.テスト</button>
+</nav>
+<div class="g-container">
+  <div class="timer-bar">
+    <div class="timer-display" id="timer">00:00</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+      <button id="start-btn" class="btn-start" onclick="startChallenge()">▶ チャレンジ開始！</button>
+      <div class="challenge-controls" id="challenge-controls">
+        <button class="btn-stop" onclick="stopChallenge()">⏹ ストップ</button>
+        <button class="btn-retry" onclick="retryChallenge()">↩ 元に戻す</button>
+        <button class="btn-show-ans" onclick="showAnswers()">👁 答えを見る</button>
+      </div>
+    </div>
+  </div>
+  <div id="display-area"></div>
+  <div class="record-section">
+    <div class="record-title">⏱ タイムレコード</div>
+    <ul class="record-list">
+      <li><span>1回目</span><span class="record-time" id="rec-0">--:--</span></li>
+      <li><span>2回目</span><span class="record-time" id="rec-1">--:--</span></li>
+      <li><span>3回目</span><span class="record-time" id="rec-2">--:--</span></li>
+      <li><span>4回目</span><span class="record-time" id="rec-3">--:--</span></li>
+      <li><span>5回目</span><span class="record-time" id="rec-4">--:--</span></li>
+    </ul>
+    <button class="btn-reset" onclick="resetRecords()">記録をリセット</button>
+  </div>
+  <div class="vocab-section">
+    <div class="vocab-title">📗 マイ単語帳</div>
+    <ul id="my-vocab" class="word-list"></ul>
+    <button class="btn-vocab-test" onclick="startVocabTest()">📝 単語テストをする</button>
+  </div>
+  <div id="vocab-test-area" style="display:none;"></div>
+  <div class="nav-btns">
+    <a href="index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="EA21.html" class="btn-nav btn-prev">← EA21へ</a>
+  </div>
+</div>
+<div id="pool-fixed" class="fixed-pool"><div id="word-pool"></div></div>
+<script>
+const DICT={
+  "the":"ザ (冠)その・（最上級の前につける）",
+  "He":"ヒー (代)彼は",
+  "She":"シー (代)彼女は",
+  "I":"アイ (代)私は",
+  "My":"マイ (代)私の",
+  "in":"イン (前)〜の中で（単数の場所・グループ）",
+  "of":"オブ (前)〜の中で（複数のもの・all）",
+  "all":"オール (代)すべて",
+  "can":"キャン (助)〜できる",
+  "like":"ライク (動)好きだ",
+  "is":"イズ (動)〜です",
+  "are":"アー (動)〜です",
+  "gets":"ゲッツ (動)起きる（三単現）",
+  "up":"アップ (副)起きて",
+  "tallest":"トーレスト (形)もっとも背が高い",
+  "youngest":"ヤンゲスト (形)もっとも若い",
+  "oldest":"オールデスト (形)もっとも年をとった",
+  "fastest":"ファーステスト (副/形)もっとも速く",
+  "earliest":"アーリエスト (副/形)もっとも早く",
+  "biggest":"ビゲスト (形)もっとも大きい",
+  "highest":"ハイエスト (形)もっとも高い",
+  "longest":"ロンゲスト (形)もっとも長い",
+  "shortest":"ショーテスト (形)もっとも短い",
+  "easiest":"イージエスト (形)もっとも簡単な",
+  "most":"モスト (形)もっとも多くの（many/much の最上級）",
+  "best":"ベスト (副/形)もっとも好き・もっとも上手に（good/well の最上級）",
+  "most interesting":"モスト インタレスティング (形)もっともおもしろい",
+  "most popular":"モスト ポピュラー (形)もっとも人気がある",
+  "most difficult":"モスト ディフィカルト (形)もっとも難しい",
+  "most beautiful":"モスト ビューティフル (形)もっとも美しい",
+  "interesting":"インタレスティング (形)おもしろい",
+  "popular":"ポピュラー (形)人気のある",
+  "difficult":"ディフィカルト (形)難しい",
+  "beautiful":"ビューティフル (形)美しい",
+  "one":"ワン (代)1つ（one of the 最上級＋複数名詞）",
+  "swim":"スウィム (動)泳ぐ",
+  "run":"ラン (動)走る",
+  "his":"ヒズ (代)彼の",
+  "your":"ユア (代)あなたの",
+  "my":"マイ (代)私の",
+  "class":"クラス (名)クラス",
+  "family":"ファミリー (名)家族",
+  "world":"ワールド (名)世界",
+  "Japan":"ジャパン (名)日本",
+  "three":"スリー (数)3",
+  "sports":"スポーツズ (名)スポーツ（複数）",
+  "foods":"フーズ (名)食べ物（複数）",
+  "animals":"アニマルズ (名)動物（複数）",
+  "subjects":"サブジェクツ (名)科目（複数）",
+  "colors":"カラーズ (名)色（複数）",
+  "cities":"シティーズ (名)都市（複数）",
+  "mountains":"マウンテンズ (名)山（複数）",
+  "story":"ストーリー (名)物語",
+  "question":"クエスチョン (名)問題",
+  "mountain":"マウンテン (名)山",
+  "city":"シティー (名)都市",
+  "river":"リバー (名)川",
+  "boy":"ボーイ (名)少年",
+  "soccer":"サッカー (名)サッカー",
+  "Tokyo":"トウキョウ (名)東京",
+  "Mt.":"マウント (名)山（固有名詞の前）",
+  "Fuji":"フジ (名)富士",
+  "Shinano":"シナノ (名)信濃",
+  "River":"リバー (名)川（固有名詞）",
+  "curry":"カリー (名)カレー",
+  "and":"アンド (接)と",
+  "rice":"ライス (名)ご飯",
+  "Which":"ウィッチ (疑)どの・どちらが",
+  "Who":"フー (疑)だれが",
+  "season":"シーズン (名)季節",
+  "color":"カラー (名)色",
+  "month":"マンス (名)月",
+  "year":"イヤー (名)年",
+};
+const INFO_DRILLS=[
+  {num:"(1)",src:"彼は3人のうちでもっとも背が高い。",ans:["He","is","the","tallest","of","the","three"],jp:"He is the tallest of the three.",mark:"."},
+  {num:"(2)",src:"彼はクラスの中でもっとも速く走ることができる。",ans:["He","can","run","the","fastest","in","his","class"],jp:"He can run the fastest in his class.",mark:"."},
+  {num:"(3)",src:"富士山は日本でもっとも美しい山です。",ans:["Mt.","Fuji","is","the","most","beautiful","mountain","in","Japan"],jp:"Mt. Fuji is the most beautiful mountain in Japan.",mark:"."},
+  {num:"(4)",src:"私はすべての食べ物のうちでカレーライスがもっとも好きです。",ans:["I","like","curry","and","rice","the","best","of","all","foods"],jp:"I like curry and rice the best of all foods.",mark:"."},
+  {num:"(5)",src:"どの季節があなたはもっとも好きですか。",ans:["Which","season","do","you","like","the","best"],jp:"Which season do you like the best?",mark:"?"},
+  {num:"(6)",src:"東京は日本でもっとも大きな都市の1つです。",ans:["Tokyo","is","one","of","the","biggest","cities","in","Japan"],jp:"Tokyo is one of the biggest cities in Japan.",mark:"."},
+];
+const MASTER_DATA={
+  ex:[
+    {jp:"彼は世界でもっとも速く泳ぐことができる。",en:["He","can","swim","the","fastest","in","the","world"],mark:"."},
+    {jp:"エベレスト山は世界一高い山です。",en:["Mt.","Everest","is","the","highest","mountain","in","the","world"],mark:"."},
+    {jp:"ヨシコは3人のうちでもっとも年が若い。",en:["Yoshiko","is","the","youngest","of","the","three"],mark:".",note:"💡 of the three（3人の中で）→ 複数なので of"},
+    {jp:"私の母は家族のうちでもっとも早く起きます。",en:["My","mother","gets","up","the","earliest","in","my","family"],mark:".",note:"💡 in my family（家族の中で）→ 単数グループなので in"},
+    {jp:"この問題はすべての中でもっとも簡単です。",en:["This","question","is","the","easiest","of","all"],mark:".",note:"💡 of all（すべての中で）→ 複数なので of"},
+    {jp:"富士山は日本でもっとも美しい山です。",en:["Mt.","Fuji","is","the","most","beautiful","mountain","in","Japan"],mark:"."},
+  ],
+  prac:[
+    {jp:"信濃川は日本でもっとも長い川です。",en:["Shinano","River","is","the","longest","river","in","Japan"],mark:"."},
+    {jp:"この話がすべての中でもっともおもしろい。",en:["This","story","is","the","most","interesting","of","all"],mark:".",note:"💡 of all（すべての中で）→ 複数なので of"},
+    {jp:"私はすべての動物のうちで猫がもっとも好きです。",en:["I","like","cats","the","best","of","all","animals"],mark:".",note:"💡 of all animals（すべての動物の中で）→ 複数なので of"},
+    {jp:"どの色があなたはもっとも好きですか。",en:["Which","color","do","you","like","the","best"],mark:"?"},
+    {jp:"あなたのクラスでもっとも速く走ることができるのはだれですか。",en:["Who","can","run","the","fastest","in","your","class"],mark:"?",note:"💡 in your class（クラスの中で）→ 単数なので in"},
+    {jp:"東京は日本でもっとも大きな都市の1つです。",en:["Tokyo","is","one","of","the","biggest","cities","in","Japan"],mark:".",note:"💡 one of the 最上級＋複数名詞（cities）→ 名詞は必ず複数形！"},
+  ],
+  test:[
+    {jp:"彼は世界でもっとも速く泳ぐことができる。",en:["He","can","swim","the","fastest","in","the","world"],mark:"."},
+    {jp:"サッカーはすべてのスポーツの中でもっとも人気がある。",en:["Soccer","is","the","most","popular","of","all","sports"],mark:".",note:"💡 of all sports（すべてのスポーツの中で）→ 複数なので of"},
+    {jp:"私はすべての食べ物のうちでカレーライスがもっとも好きです。",en:["I","like","curry","and","rice","the","best","of","all","foods"],mark:".",note:"💡 of all foods（すべての食べ物の中で）→ 複数なので of"},
+    {jp:"どの季節があなたはもっとも好きですか。",en:["Which","season","do","you","like","the","best"],mark:"?"},
+    {jp:"あなたの家族でもっとも早起きするのはだれですか。",en:["Who","gets","up","the","earliest","in","your","family"],mark:"?",note:"💡 in your family（家族の中で）→ 単数なので in"},
+    {jp:"富士山は世界でもっとも美しい山の1つです。",en:["Mt.","Fuji","is","one","of","the","most","beautiful","mountains","in","the","world"],mark:".",note:"💡 one of the 最上級＋複数名詞（mountains）→ 名詞は必ず複数形！"},
+  ]
+};
+let currentMode='info',isChallenging=false,selectedWord=null,selectedId=null,startTime,timerInterval;
+let records=[null,null,null,null,null];
+function speak(text){if(!window.speechSynthesis)return;const s=window.speechSynthesis;s.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=0.82;function d(){const vs=s.getVoices();if(vs.length>0){const v=vs.find(v=>v.lang==='en-US')||vs.find(v=>v.lang.startsWith('en'));if(v)u.voice=v;}setTimeout(()=>{try{s.speak(u);}catch(e){}},50);}if(s.getVoices().length===0){s.onvoiceschanged=()=>{s.onvoiceschanged=null;d();};setTimeout(()=>{s.onvoiceschanged=null;d();},1500);}else d();}
+function speakData(btn){speak(btn.getAttribute('data-sp'));}
+function wrapWord(word){const key=Object.keys(DICT).find(k=>k.toLowerCase()===word.toLowerCase().replace(/[.,?!']/g,''));if(key)return`<span class="imp-word">${word}<span class="tooltip">${DICT[key]}<br><button class="add-btn" onclick="event.stopPropagation();speak('${word}')">🔊</button><button class="add-btn" onclick="event.stopPropagation();addToVocab('${key}')">📗</button></span></span>`;return word;}
+function addToVocab(word){const list=document.getElementById('my-vocab');if([...list.querySelectorAll('strong')].some(s=>s.textContent===word))return;const li=document.createElement('li');li.innerHTML=`<strong>${word}</strong> <button onclick="speak('${word}')" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button><br><small style="color:var(--text-sub)">${DICT[word]||''}</small>`;list.appendChild(li);}
+function changeStep(mode){currentMode=mode;isChallenging=false;clearInterval(timerInterval);document.getElementById('timer').textContent='00:00';document.getElementById('pool-fixed').style.display='none';document.getElementById('start-btn').style.display='block';const cc=document.getElementById('challenge-controls');if(cc)cc.classList.remove('visible');document.querySelectorAll('.step-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+mode).classList.add('active');render();}
+function renderInfo(){
+  return`
+  <div class="section">
+    <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">the ＋ 最上級「もっとも〜」</span></div>
+    <div class="proc-box">
+      <div class="proc-label">📌 最上級の作り方と使い方</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">一般：語尾に <strong>-est</strong>（tall→tallest, old→oldest）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">子音＋y → <strong>-iest</strong>（easy→easiest, early→earliest）</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">短母音＋子音字 → 子音重ねて <strong>-est</strong>（big→biggest, hot→hottest）</div></div>
+      <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">3音節以上・-ly副詞 → <strong>most</strong> ＋ 原級（popular→most popular）</div></div>
+      <div class="proc-step"><div class="proc-arrow">⑤</div><div class="proc-txt">不規則変化：many/much → <strong>most</strong>、good/well → <strong>best</strong></div></div>
+    </div>
+    <div class="proc-box">
+      <div class="proc-label">📌 in と of の使い分け</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>in</strong> ＋ 単数の場所・グループ（in Japan / in his class / in the world）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt"><strong>of</strong> ＋ 複数・all（of the three / of all）</div></div>
+    </div>
+    <div class="origin-box">
+      <div class="origin-en">He is <strong>the tallest of</strong> the three. <button class="voice-btn" onclick="speak('He is the tallest of the three.')">🔊</button></div>
+      <div class="origin-jp">彼は3人のうちでもっとも背が高い。（複数 → of）</div>
+    </div>
+    <div class="origin-box">
+      <div class="origin-en">He can run <strong>the fastest in</strong> his class. <button class="voice-btn" onclick="speak('He can run the fastest in his class.')">🔊</button></div>
+      <div class="origin-jp">彼はクラスの中でもっとも速く走ることができる。（単数 → in）</div>
+    </div>
+    <div class="origin-box">
+      <div class="origin-en">Soccer is <strong>the most popular of</strong> all sports. <button class="voice-btn" onclick="speak('Soccer is the most popular of all sports.')">🔊</button></div>
+      <div class="origin-jp">サッカーはすべてのスポーツの中でもっとも人気がある。</div>
+    </div>
+    <div class="point-box"><div class="point-title">📌 最上級の公式</div>
+    <div class="point-formula"><span class="wh">the</span> ＋ 最上級 ＋ <span class="wh">in</span>（単数）/ <span class="wh">of</span>（複数・all）</div>
+    <div class="point-formula">many/much → <span class="wh">most</span>　　good/well → <span class="wh">best</span></div></div>
+  </div>
+  <div class="section">
+    <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">like 〜 the best / Who・Which ＋ 最上級 / one of the 最上級</span></div>
+    <div class="proc-box">
+      <div class="proc-label">📌 応用パターン3つ</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>like 〜 the best of …</strong>「…の中で〜がもっとも好き」</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt"><strong>Who / Which ＋ 最上級</strong>「もっとも〜なのはだれ？どれ？」</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt"><strong>one of the 最上級 ＋ 複数名詞</strong>「もっとも〜のうちの1つ」</div></div>
+    </div>
+    <div class="origin-box">
+      <div class="origin-en">I like curry and rice <strong>the best of</strong> all foods. <button class="voice-btn" onclick="speak('I like curry and rice the best of all foods.')">🔊</button></div>
+      <div class="origin-jp">私はすべての食べ物のうちでカレーライスがもっとも好きです。</div>
+    </div>
+    <div class="origin-box">
+      <div class="origin-en"><strong>Which season do you like the best?</strong> <button class="voice-btn" onclick="speak('Which season do you like the best?')">🔊</button></div>
+      <div class="origin-jp">どの季節がもっとも好きですか？</div>
+    </div>
+    <div class="origin-box">
+      <div class="origin-en">Tokyo is <strong>one of the biggest cities</strong> in Japan. <button class="voice-btn" onclick="speak('Tokyo is one of the biggest cities in Japan.')">🔊</button></div>
+      <div class="origin-jp">東京は日本でもっとも大きな都市の1つです。（cities = 複数形に注意！）</div>
+    </div>
+    <div class="point-box"><div class="point-title">📌 応用公式</div>
+    <div class="point-formula">I like 〜 <span class="wh">the best of</span> all …（もっとも好き）</div>
+    <div class="point-formula"><span class="wh">one of the</span> 最上級 ＋ <span class="wh">複数名詞</span>（〜のうちの1つ）</div></div>
+  </div>
+  <div class="section">
+    <div class="section-title-row"><span class="section-num" style="background:var(--success);">練</span><span class="section-title-text">練習問題</span></div>
+    ${INFO_DRILLS.map((d,i)=>`
+    <div class="drill-box">
+      <div class="drill-num">${d.num}</div>
+      <div class="drill-src">${d.src}</div>
+      <div class="bracket-answer-row" id="drill-row-${i}">
+        ${d.ans.map((w,j)=>`<span class="bk-blank" data-ans="${w}" data-drill="${i}" data-idx="${j}" onclick="handleDrillClick(this)">${isChallenging?'':w}</span>`).join('')}
+        <span class="fixed-mark">${d.mark}</span>
+        <button class="voice-btn" onclick="speakData(this)" data-sp="${d.ans.join(' ')+d.mark}" style="margin-left:6px;">🔊</button>
+      </div>
+      <div class="drill-result">${d.jp}</div>
+    </div>`).join('')}
+  </div>`;
+}
+function render(){
+  const area=document.getElementById('display-area');
+  if(currentMode==='info'){area.innerHTML=renderInfo();if(!isChallenging)document.querySelectorAll('.bk-blank').forEach(el=>el.textContent=el.dataset.ans);}
+  else{
+    const titles={ex:'例題',prac:'類題',test:'修了テスト'};
+    let html=`<div class="section"><h2 style="font-size:1em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px;margin-bottom:14px;">${titles[currentMode]}演習（各6問）</h2><p style="font-size:.85em;color:var(--text-sub);margin-bottom:14px;"><strong>the ＋ 最上級 ＋ in（単数）/ of（複数）</strong>・<strong>most / best</strong>・<strong>one of the 最上級＋複数名詞</strong>に注意！</p>`;
+    MASTER_DATA[currentMode].forEach(q=>{
+      const sp=q.en.join(' ')+q.mark;
+      html+=`<div class="sentence-block"><div class="sentence-jp">${q.jp} <button class="voice-btn" onclick="speakData(this)" data-sp="${sp}">🔊</button></div><div class="word-squares">${q.en.map(w=>`<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':wrapWord(w)}</span>`).join('')}<span class="fixed-mark">${q.mark}</span></div>${q.note?`<div style="font-size:.78em;color:var(--text-sub);margin-top:6px;padding:4px 8px;background:#f1f5f9;border-radius:6px;">${q.note}</div>`:''}</div>`;
+    });
+    area.innerHTML=html+'</div>';
+  }
+}
+function handleDrillClick(el){if(!isChallenging||!selectedWord||el.textContent!=='')return;if(selectedWord===el.dataset.ans){el.textContent=selectedWord;el.style.background='var(--success-light)';el.style.borderColor='var(--success)';el.style.color='var(--success)';document.getElementById(selectedId).classList.add('hidden');selectedWord=null;if([...document.querySelectorAll('.bk-blank,.square')].every(s=>s.textContent!==''))finishStep();}else{alert('もうチョイ！the ＋ 最上級・in（単数）/ of（複数）を確認しよう！');}}
+function handleTargetClick(el){if(!isChallenging||!selectedWord||el.textContent!=='')return;if(selectedWord===el.dataset.ans){el.textContent=selectedWord;el.classList.remove('is-active');document.getElementById(selectedId).classList.add('hidden');selectedWord=null;if([...document.querySelectorAll('.bk-blank,.square')].every(s=>s.textContent!==''))finishStep();}else{alert('もうチョイ！');}}
+function startChallenge(){isChallenging=true;render();if(currentMode==='info')document.querySelectorAll('.bk-blank').forEach(el=>{el.textContent='';el.classList.add('is-active');});document.getElementById('pool-fixed').style.display='block';document.getElementById('start-btn').style.display='none';document.getElementById('challenge-controls').classList.add('visible');renderPool();startTime=Date.now();timerInterval=setInterval(()=>{const d=Math.floor((Date.now()-startTime)/1000);document.getElementById('timer').textContent=String(Math.floor(d/60)).padStart(2,'0')+':'+String(d%60).padStart(2,'0');},100);}
+function renderPool(){const pool=document.getElementById('word-pool');pool.innerHTML='';let words=[];if(currentMode==='info')INFO_DRILLS.forEach(d=>d.ans.forEach(w=>words.push(w)));else MASTER_DATA[currentMode].forEach(q=>q.en.forEach(w=>words.push(w)));words.sort((a,b)=>a.toLowerCase().localeCompare(b.toLowerCase()));words.forEach((w,i)=>{const card=document.createElement('div');card.className='word-card';card.id='c-'+i;card.textContent=w;card.onclick=()=>{speak(w);selectedWord=w;selectedId=card.id;document.querySelectorAll('.word-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');};pool.appendChild(card);});}
+function finishStep(){clearInterval(timerInterval);const t=document.getElementById('timer').textContent;alert('🎉 合格！よくできました！');document.getElementById('btn-'+currentMode).classList.add('completed');if(currentMode!=='info'){for(let i=0;i<5;i++){if(records[i]===null){records[i]=t;document.getElementById('rec-'+i).textContent=t;break;}}}if(currentMode==='test')localStorage.setItem('gamba_prog_EA22','pass');isChallenging=false;document.getElementById('challenge-controls').classList.remove('visible');document.getElementById('start-btn').style.display='block';document.getElementById('pool-fixed').style.display='none';}
+function stopChallenge(){if(!isChallenging)return;clearInterval(timerInterval);isChallenging=false;selectedWord=null;document.getElementById('pool-fixed').style.display='none';document.getElementById('start-btn').style.display='block';document.getElementById('challenge-controls').classList.remove('visible');}
+function retryChallenge(){clearInterval(timerInterval);isChallenging=false;selectedWord=null;startChallenge();}
+function showAnswers(){clearInterval(timerInterval);isChallenging=false;document.getElementById('pool-fixed').style.display='none';document.getElementById('start-btn').style.display='block';document.getElementById('challenge-controls').classList.remove('visible');document.querySelectorAll('.bk-blank,.square').forEach(el=>{if(el.dataset.ans&&el.textContent.trim()===''){el.textContent=el.dataset.ans;el.style.color='#7c3aed';el.style.background='#ede9fe';el.style.borderColor='#7c3aed';}});document.querySelectorAll('.word-card').forEach(c=>c.classList.add('hidden'));}
+function resetRecords(){if(!confirm('リセットしますか？'))return;records=[null,null,null,null,null];for(let i=0;i<5;i++)document.getElementById('rec-'+i).textContent='--:--';document.querySelectorAll('.step-btn').forEach(b=>b.classList.remove('completed'));changeStep('info');}
+function getMean(raw){const p=raw.split(')');return p.length>=2?p[p.length-1].trim():raw.trim();}
+let vtQ=[],vtIdx=0,vtOk=0;
+function startVocabTest(){const items=[...document.getElementById('my-vocab').children];const area=document.getElementById('vocab-test-area');if(items.length===0){alert('単語帳にまだ単語がありません！');return;}vtQ=items.map(li=>({word:li.querySelector('strong')?.textContent.trim()||'',mean:getMean(li.querySelector('small')?.textContent.trim()||'')})).filter(v=>v.word&&v.mean);vtQ.sort(()=>Math.random()-.5);vtIdx=0;vtOk=0;area.style.display='block';renderVtQ();area.scrollIntoView({behavior:'smooth',block:'start'});}
+function renderVtQ(){const area=document.getElementById('vocab-test-area'),total=vtQ.length;if(vtIdx>=total){renderVtEnd();return;}const q=vtQ[vtIdx];const pool=Object.values(DICT).map(getMean).filter(m=>m&&m!==q.mean).sort(()=>Math.random()-.5);const choices=[q.mean,...pool.slice(0,3)].sort(()=>Math.random()-.5);const pct=Math.round(vtIdx/total*100);const btns=choices.map(ch=>`<button class="vocab-choice" onclick="checkVtA(this,${JSON.stringify(ch)},${JSON.stringify(q.mean)},${JSON.stringify(q.word)})">${ch}</button>`).join('');area.innerHTML=`<div class="vocab-test-card"><div style="font-size:.82em;color:var(--text-sub);font-weight:700;margin-bottom:10px;">📝 単語テスト ${vtIdx+1}/${total}問<div style="background:var(--border);border-radius:4px;height:5px;margin-top:6px;"><div style="background:var(--primary);height:5px;border-radius:4px;width:${pct}%;"></div></div></div><div class="vocab-q">${q.word} <button onclick="speak('${q.word}')" style="background:var(--orange);color:#fff;border:none;padding:3px 10px;border-radius:50px;font-size:.72em;cursor:pointer;vertical-align:middle;">🔊</button></div><div class="vocab-choices">${btns}</div></div>`;}
+function checkVtA(btn,chosen,correct,word){[...btn.parentElement.querySelectorAll('.vocab-choice')].forEach(b=>{b.disabled=true;if(b.textContent.trim()===correct)b.classList.add('correct');});const ok=chosen.trim()===correct.trim();if(ok){btn.classList.add('correct');vtOk++;}else btn.classList.add('wrong');setTimeout(()=>{vtIdx++;renderVtQ();},ok?700:1400);}
+function renderVtEnd(){const total=vtQ.length,area=document.getElementById('vocab-test-area');const msg=vtOk===total?'🎉 全問正解！':vtOk>=total*.75?'👍 あと少し！':'📖 もう一度復習しよう！';area.innerHTML=`<div class="vocab-test-card" style="text-align:center;"><div class="vocab-score" style="color:${vtOk===total?'var(--success)':'var(--accent)'};">${msg}<br>${vtOk}/${total} 正解</div><button class="btn-vocab-retry" onclick="startVocabTest()">🔁 もう一度</button> <button class="btn-vocab-retry" style="background:var(--text-sub);" onclick="document.getElementById('vocab-test-area').style.display='none'">✕ 閉じる</button></div>`;}
+window.addEventListener('pagehide',()=>{if(window.speechSynthesis)speechSynthesis.cancel();});
+changeStep('info');
+</script>
+<script src="gamba_support.js"></script>
+</body>
+</html>
