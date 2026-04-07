@@ -167,6 +167,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <div class="chapter-label">📙 中2英語 There is/are・数量表現・比較（EA17〜EA22）</div>
   <div class="unit-grid" id="grid-3"></div>
 
+  <div class="chapter-label">📒 中3英語 不定詞・動名詞・接続詞・受動態（EA23〜EA27）</div>
+  <div class="unit-grid" id="grid-4"></div>
+
   <div class="reset-section">
     <button class="btn-reset-abc" onclick="resetABC()">🔄 A/B/Cをリセット</button>
     <button class="btn-reset-all" onclick="resetAll()">🗑 全進捗をリセット</button>
@@ -197,6 +200,11 @@ const UNITS = [
   {id:'EA20',title:'as 原級 as / not as 原級 as',    sub:'〜と同じくらい / …ほど〜でない',    grid:3},
   {id:'EA21',title:'比較級 than',                    sub:'…より〜 / better / more / Which?', grid:3},
   {id:'EA22',title:'最上級',                         sub:'もっとも〜 / in・of / best / one of',grid:3},
+  {id:'EA23',title:'不定詞①（名詞的用法）',           sub:'want to / like to / hope to など',  grid:4},
+  {id:'EA24',title:'不定詞②（副詞的・形容詞的用法）', sub:'〜するために / glad to / time to',  grid:4},
+  {id:'EA25',title:'動名詞',                          sub:'enjoy / stop / finish ＋ing',        grid:4},
+  {id:'EA26',title:'接続詞（when / if / because / that）',sub:'時・条件・理由・that節',        grid:4},
+  {id:'EA27',title:'受動態',                          sub:'be＋過去分詞 / by〜 / 否定・疑問',  grid:4},
 ];
 
 let currentFilter = 'all';
@@ -237,7 +245,7 @@ function refreshCard(id){
 }
 
 function buildCards(){
-  const grids = {1:document.getElementById('grid-1'), 2:document.getElementById('grid-2'), 3:document.getElementById('grid-3')};
+  const grids = {1:document.getElementById('grid-1'), 2:document.getElementById('grid-2'), 3:document.getElementById('grid-3'), 4:document.getElementById('grid-4')};
 
   UNITS.forEach(u => {
     const prog = getProg(u.id);
