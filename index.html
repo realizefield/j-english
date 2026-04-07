@@ -131,7 +131,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     </div>
     <div class="progress-stats">
       <span>✅ 合格：<strong id="passCount">0</strong></span>
-      <span>全体：<strong>22</strong> 単元</span>
+      <span>全体：<strong>34</strong> 単元</span>
       <span id="progressPct" style="font-weight:700;color:var(--primary);">0%</span>
       <span>｜ <span class="stat-a">A:<strong id="cntA">0</strong></span>
                <span class="stat-b" style="margin-left:6px;">B:<strong id="cntB">0</strong></span>
@@ -170,6 +170,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <div class="chapter-label">📒 中3英語 不定詞・動名詞・接続詞・受動態（EA23〜EA27）</div>
   <div class="unit-grid" id="grid-4"></div>
 
+  <div class="chapter-label">📓 中3英語 応用（EA28〜EA39）</div>
+  <div class="unit-grid" id="grid-5"></div>
+
   <div class="reset-section">
     <button class="btn-reset-abc" onclick="resetABC()">🔄 A/B/Cをリセット</button>
     <button class="btn-reset-all" onclick="resetAll()">🗑 全進捗をリセット</button>
@@ -204,7 +207,19 @@ const UNITS = [
   {id:'EA24',title:'不定詞②（副詞的・形容詞的用法）', sub:'〜するために / glad to / time to',  grid:4},
   {id:'EA25',title:'動名詞',                          sub:'enjoy / stop / finish ＋ing',        grid:4},
   {id:'EA26',title:'接続詞（when / if / because / that）',sub:'時・条件・理由・that節',        grid:4},
-  {id:'EA27',title:'受動態',                          sub:'be＋過去分詞 / by〜 / 否定・疑問',  grid:4},
+  {id:'EA27',title:'受動態①',                         sub:'be＋過去分詞 / by〜 / 否定・疑問',  grid:4},
+  {id:'EA28',title:'受動態②（by省略・注意すべき受動態）',sub:'be surprised at / interested in / made of・from',grid:5},
+  {id:'EA29',title:'現在完了①（完了用法）',             sub:'have＋過去分詞 / just・already・yet / 否定・疑問',grid:5},
+  {id:'EA30',title:'現在完了②（継続用法）',             sub:'for / since / have been in〜 / How long〜?',      grid:5},
+  {id:'EA31',title:'現在完了③（経験用法）',             sub:'ever / never / have been to〜 / How many times〜?',grid:5},
+  {id:'EA32',title:'接続詞 that / 時制の一致',          sub:'I think/know/say＋that節 / 主節過去→従属節も過去', grid:5},
+  {id:'EA33',title:'不定詞の特別用法①（too…to）',       sub:'too＋形容詞＋to不定詞「〜すぎて…できない」',      grid:5},
+  {id:'EA34',title:'不定詞の特別用法②（It is…to）',     sub:'It is＋形容詞＋to不定詞 / for＋人＋to不定詞',    grid:5},
+  {id:'EA35',title:'分詞の形容詞的用法',                sub:'現在分詞（〜している）・過去分詞（〜された）',      grid:5},
+  {id:'EA36',title:'関係代名詞①②（who / which）',      sub:'先行詞が人→who、物→which / 主格・目的格',         grid:5},
+  {id:'EA37',title:'関係代名詞③④（that / whose）',     sub:'thatで人・物両方 / 所有格whose',                  grid:5},
+  {id:'EA38',title:'付加疑問文・間接疑問文',            sub:'〜, isn\'t it? など / I know where he lives など', grid:5},
+  {id:'EA39',title:'接続詞まとめ・前置詞',              sub:'when/if/because/that まとめ / at・in・on など',   grid:5},
 ];
 
 let currentFilter = 'all';
@@ -245,7 +260,7 @@ function refreshCard(id){
 }
 
 function buildCards(){
-  const grids = {1:document.getElementById('grid-1'), 2:document.getElementById('grid-2'), 3:document.getElementById('grid-3'), 4:document.getElementById('grid-4')};
+  const grids = {1:document.getElementById('grid-1'), 2:document.getElementById('grid-2'), 3:document.getElementById('grid-3'), 4:document.getElementById('grid-4'), 5:document.getElementById('grid-5')};
 
   UNITS.forEach(u => {
     const prog = getProg(u.id);
