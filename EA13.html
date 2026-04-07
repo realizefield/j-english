@@ -323,7 +323,7 @@ function renderInfo(){
         ${d.ans.map((w,j)=>`<span class="bk-blank" data-ans="${w}" data-drill="${i}" data-idx="${j}" onclick="handleDrillClick(this)">${isChallenging?'':w}</span>`).join('')}
         <span class="fixed-mark">${d.mark}</span>
       </div>
-      <div class="drill-result">${d.jp}</div>
+      <div class="drill-result">${d.jp} <button class="voice-btn" onclick="speakData(this)" data-sp="${d.jp}">🔊</button></div>
     </div>`).join('')}
   </div>`;
 }
@@ -380,7 +380,7 @@ function renderPool(){
   words.sort((a,b)=>a.toLowerCase().localeCompare(b.toLowerCase()));
   words.forEach((w,i)=>{
     const card=document.createElement('div');card.className='word-card';card.id='c-'+i;card.textContent=w;
-    card.onclick=()=>{selectedWord=w;selectedId=card.id;document.querySelectorAll('.word-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');};
+    card.onclick=()=>{selectedWord=w;selectedId=card.id;speak(w);document.querySelectorAll('.word-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');};
     pool.appendChild(card);
   });
 }
