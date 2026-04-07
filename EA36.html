@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>爆速英文法｜EA36 関係代名詞①②（who / which 主格・目的格）</title>
+<title>爆速英文法｜EA36 関係代名詞①②（who / which 主格）</title>
 <style>
 :root{--primary:#14532d;--primary-light:#dcfce7;--primary-mid:#15803d;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--orange:#f97316;--purple:#7c3aed;--purple-light:#ede9fe;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -100,8 +100,8 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 <body>
 <div class="page-header">
   <div class="unit-code">EA36</div>
-  <h1>⚡ 爆速英文法：関係代名詞①②（who / which 主格・目的格）</h1>
-  <div class="unit-sub">先行詞が人→who、物→which / 主格・目的格の区別</div>
+  <h1>⚡ 爆速英文法：関係代名詞①②（who / which 主格）</h1>
+  <div class="unit-sub">関係代名詞とは / 先行詞が人→who / 先行詞が物・動物→which</div>
 </div>
 <nav class="step-nav">
   <button class="step-btn" id="btn-info" onclick="changeStep('info')">1.説明</button>
@@ -150,58 +150,55 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </div>
 <script>
 const DICT={
-  "who":"\u301c\u3059\u308b\u4eba\uff08\u95a2\u4fc2\u4ee3\u540d\u8a5e who\uff09",
-  "which":"\u301c\u3059\u308b\u7269\uff08\u95a2\u4fc2\u4ee3\u540d\u8a5e which\uff09",
-  "that":"\u301c\u3059\u308b\u4eba\u30fb\u7269\uff08\u95a2\u4fc2\u4ee3\u540d\u8a5e that\uff09",
+  "who":"\u301c\u3059\u308b\uff08\u95a2\u4fc2\u4ee3\u540d\u8a5e who\uff1a\u4eba\uff09",
+  "which":"\u301c\u3059\u308b\uff08\u95a2\u4fc2\u4ee3\u540d\u8a5e which\uff1a\u7269\u30fb\u52d5\u7269\uff09",
   "lives":"\u4f4f\u3093\u3067\u3044\u308b\uff08live \u306e\u4e09\u5358\u73fe\uff09",
   "works":"\u50cd\u3044\u3066\u3044\u308b\uff08work \u306e\u4e09\u5358\u73fe\uff09",
-  "speaks":"\u8a71\u3059\uff08speak \u306e\u4e09\u5358\u73fe\uff09",
+  "teaches":"\u6559\u3048\u3066\u3044\u308b\uff08teach \u306e\u4e09\u5358\u73fe\uff09",
+  "stands":"\u7acb\u3063\u3066\u3044\u308b\uff08stand \u306e\u4e09\u5358\u73fe\uff09",
   "runs":"\u8d70\u308b\uff08run \u306e\u4e09\u5358\u73fe\uff09",
-  "made":"\u4f5c\u3063\u305f\uff08make\u306e\u904e\u53bb\u5f62\uff09",
-  "wrote":"\u66f8\u3044\u305f\uff08write\u306e\u904e\u53bb\u5f62\uff09",
-  "took":"\u64ae\u3063\u305f\uff08take\u306e\u904e\u53bb\u5f62\uff09",
-  "built":"\u5efa\u3066\u305f\uff08build\u306e\u904e\u53bb\u5f62\uff09",
-  "teacher":"\u5148\u751f",
-  "girl":"\u5c11\u5973",
-  "book":"\u672c",
-  "dog":"\u72ac",
-  "city":"\u8857",
-  "story":"\u8a71",
-  "picture":"\u5199\u771f",
-  "bridge":"\u6a4b"
+  "plays":"\u3059\u308b\u30fb\u5f3e\u304f\uff08play \u306e\u4e09\u5358\u73fe\uff09",
+  "made":"\u4f5c\u3089\u308c\u305f\uff08make \u306e\u904e\u53bb\u5206\u8a5e\uff09",
+  "written":"\u66f8\u304b\u308c\u305f\uff08write \u306e\u904e\u53bb\u5206\u8a5e\uff09",
+  "used":"\u4f7f\u308f\u308c\u305f\uff08use \u306e\u904e\u53bb\u5206\u8a5e\uff09",
+  "built":"\u5efa\u3066\u3089\u308c\u305f\uff08build \u306e\u904e\u53bb\u5206\u8a5e\uff09",
+  "famous":"\u6709\u540d\u306a",
+  "watch":"\u6642\u8a08",
+  "temple":"\u5bfa",
+  "elephant":"\u8c61"
 };
 const INFO_DRILLS=[
-  {num:"(1)",src:"\u3053\u308c\u306f\u6771\u4eac\u306b\u4f4f\u3093\u3067\u3044\u308b\u5973\u6027\u3067\u3059\u3002",ans:["This", "is", "a", "woman", "who", "lives", "in", "Tokyo"],jp:"This is a woman who lives in Tokyo.",mark:"."},
-  {num:"(2)",src:"\u79c1\u306f\u82f1\u8a9e\u3092\u8a71\u3059\u5148\u751f\u3092\u77e5\u3063\u3066\u3044\u307e\u3059\u3002",ans:["I", "know", "a", "teacher", "who", "speaks", "English"],jp:"I know a teacher who speaks English.",mark:"."},
-  {num:"(3)",src:"\u3053\u308c\u306f\u5f7c\u304c\u66f8\u3044\u305f\u672c\u3067\u3059\u3002",ans:["This", "is", "a", "book", "which", "he", "wrote"],jp:"This is a book which he wrote.",mark:"."},
-  {num:"(4)",src:"\u3042\u308c\u306f100\u5e74\u524d\u306b\u5efa\u3066\u3089\u308c\u305f\u6a4b\u3067\u3059\u3002",ans:["That", "is", "a", "bridge", "which", "was", "built", "100", "years", "ago"],jp:"That is a bridge which was built 100 years ago.",mark:"."},
-  {num:"(5)",src:"\u79c1\u306b\u306f\u6771\u4eac\u3067\u50cd\u3044\u3066\u3044\u308b\u53cb\u4eba\u304c\u3044\u307e\u3059\u3002",ans:["I", "have", "a", "friend", "who", "works", "in", "Tokyo"],jp:"I have a friend who works in Tokyo.",mark:"."},
-  {num:"(6)",src:"\u3053\u308c\u306f\u79c1\u304c\u6628\u65e5\u64ae\u3063\u305f\u5199\u771f\u3067\u3059\u3002",ans:["This", "is", "a", "picture", "which", "I", "took", "yesterday"],jp:"This is a picture which I took yesterday.",mark:"."}
+  {num:"(1)",src:"\u79c1\u306b\u306f\u6771\u4eac\u306b\u4f4f\u3093\u3067\u3044\u308b\u53cb\u3060\u3061\u304c\u3044\u307e\u3059\u3002",ans:["I", "have", "a", "friend", "who", "lives", "in", "Tokyo"],jp:"I have a friend who lives in Tokyo.",mark:"."},
+  {num:"(2)",src:"\u5f7c\u306f\u82f1\u8a9e\u3092\u6559\u3048\u308b\u5148\u751f\u3067\u3059\u3002",ans:["He", "is", "a", "teacher", "who", "teaches", "English"],jp:"He is a teacher who teaches English.",mark:"."},
+  {num:"(3)",src:"\u3053\u308c\u306f\u30a2\u30e1\u30ea\u30ab\u88fd\u306e\u30ab\u30d0\u30f3\u3067\u3059\u3002",ans:["This", "is", "a", "bag", "which", "was", "made", "in", "USA"],jp:"This is a bag which was made in USA.",mark:"."},
+  {num:"(4)",src:"\u3053\u308c\u306f\u65e5\u672c\u88fd\u306e\u6642\u8a08\u3067\u3059\u3002",ans:["This", "is", "a", "watch", "which", "was", "made", "in", "Japan"],jp:"This is a watch which was made in Japan.",mark:"."},
+  {num:"(5)",src:"\u79c1\u306b\u306f\u5317\u6d77\u9053\u306b\u4f4f\u3093\u3067\u3044\u308b\u53cb\u4eba\u304c\u3044\u307e\u3059\u3002",ans:["I", "have", "a", "friend", "who", "lives", "in", "Hokkaido"],jp:"I have a friend who lives in Hokkaido.",mark:"."},
+  {num:"(6)",src:"\u516c\u5712\u306e\u305d\u3070\u306b\u7acb\u3063\u3066\u3044\u308b\u5bfa\u306f\u3068\u3066\u3082\u6709\u540d\u3067\u3059\u3002",ans:["The", "temple", "which", "stands", "near", "the", "park", "is", "very", "famous"],jp:"The temple which stands near the park is very famous.",mark:"."}
 ];
 const MASTER_DATA={
   ex:[
-    {jp:"\u3053\u308c\u306f\u6771\u4eac\u306b\u4f4f\u3093\u3067\u3044\u308b\u5973\u6027\u3067\u3059\u3002",en:["This", "is", "a", "woman", "who", "lives", "in", "Tokyo"],mark:"."},
-    {jp:"\u79c1\u306f\u82f1\u8a9e\u3092\u8a71\u3059\u5148\u751f\u3092\u77e5\u3063\u3066\u3044\u307e\u3059\u3002",en:["I", "know", "a", "teacher", "who", "speaks", "English"],mark:"."},
-    {jp:"\u3053\u308c\u306f\u5f7c\u304c\u66f8\u3044\u305f\u672c\u3067\u3059\u3002",en:["This", "is", "a", "book", "which", "he", "wrote"],mark:"."},
-    {jp:"\u3042\u308c\u306f100\u5e74\u524d\u306b\u5efa\u3066\u3089\u308c\u305f\u6a4b\u3067\u3059\u3002",en:["That", "is", "a", "bridge", "which", "was", "built", "100", "years", "ago"],mark:"."},
-    {jp:"\u79c1\u306b\u306f\u6771\u4eac\u3067\u50cd\u3044\u3066\u3044\u308b\u53cb\u4eba\u304c\u3044\u307e\u3059\u3002",en:["I", "have", "a", "friend", "who", "works", "in", "Tokyo"],mark:"."},
-    {jp:"\u3053\u308c\u306f\u79c1\u304c\u6628\u65e5\u64ae\u3063\u305f\u5199\u771f\u3067\u3059\u3002",en:["This", "is", "a", "picture", "which", "I", "took", "yesterday"],mark:"."}
+    {jp:"\u79c1\u306b\u306f\u6771\u4eac\u306b\u4f4f\u3093\u3067\u3044\u308b\u53cb\u3060\u3061\u304c\u3044\u307e\u3059\u3002",en:["I", "have", "a", "friend", "who", "lives", "in", "Tokyo"],mark:"."},
+    {jp:"\u5f7c\u306f\u82f1\u8a9e\u3092\u6559\u3048\u308b\u5148\u751f\u3067\u3059\u3002",en:["He", "is", "a", "teacher", "who", "teaches", "English"],mark:"."},
+    {jp:"\u30b9\u30ad\u30fc\u304c\u4e0a\u624b\u306b\u3067\u304d\u308b\u5c11\u5973\u3092\u79c1\u306f\u77e5\u3063\u3066\u3044\u307e\u3059\u3002",en:["I", "know", "a", "girl", "who", "can", "ski", "very", "well"],mark:"."},
+    {jp:"\u3053\u308c\u306f\u30a2\u30e1\u30ea\u30ab\u88fd\u306e\u30ab\u30d0\u30f3\u3067\u3059\u3002",en:["This", "is", "a", "bag", "which", "was", "made", "in", "USA"],mark:"."},
+    {jp:"\u3053\u308c\u306f\u65e5\u672c\u88fd\u306e\u6642\u8a08\u3067\u3059\u3002",en:["This", "is", "a", "watch", "which", "was", "made", "in", "Japan"],mark:"."},
+    {jp:"\u79c1\u306f\u82f1\u8a9e\u3067\u66f8\u304b\u308c\u305f\u624b\u7d19\u3092\u53d7\u3051\u53d6\u308a\u307e\u3057\u305f\u3002",en:["I", "got", "a", "letter", "which", "was", "written", "in", "English"],mark:"."}
   ],
   prac:[
-    {jp:"\u79c1\u306f\u5927\u962a\u306b\u4f4f\u3093\u3067\u3044\u308b\u5973\u306e\u5b50\u3092\u77e5\u3063\u3066\u3044\u307e\u3059\u3002",en:["I", "know", "a", "girl", "who", "lives", "in", "Osaka"],mark:"."},
-    {jp:"\u3042\u305d\u3053\u3067\u8d70\u3063\u3066\u3044\u308b\u72ac\u306f\u30c8\u30e0\u306e\u3067\u3059\u3002",en:["The", "dog", "which", "is", "running", "over", "there", "is", "Tom's"],mark:"."},
-    {jp:"\u3053\u308c\u306f\u5f7c\u5973\u304c\u4f5c\u3063\u305f\u30b1\u30fc\u30ad\u3067\u3059\u3002",en:["This", "is", "a", "cake", "which", "she", "made"],mark:"."},
-    {jp:"\u79c1\u306b\u306f\u30d5\u30e9\u30f3\u30b9\u3067\u50cd\u3044\u3066\u3044\u308b\u5144\u304c\u3044\u307e\u3059\u3002",en:["I", "have", "a", "brother", "who", "works", "in", "France"],mark:"."},
-    {jp:"\u5f7c\u306f\u9762\u767d\u3044\u8a71\u3092\u3057\u3066\u304f\u308c\u308b\u5148\u751f\u304c\u597d\u304d\u3067\u3059\u3002",en:["He", "likes", "a", "teacher", "who", "tells", "interesting", "stories"],mark:"."},
-    {jp:"\u79c1\u304c\u8aad\u3093\u3060\u672c\u306f\u3068\u3066\u3082\u9762\u767d\u304b\u3063\u305f\u3002",en:["The", "book", "which", "I", "read", "was", "very", "interesting"],mark:"."}
+    {jp:"\u79c1\u306b\u306f\u5927\u962a\u306b\u4f4f\u3093\u3067\u3044\u308b\u53cb\u4eba\u304c\u3044\u307e\u3059\u3002",en:["I", "have", "a", "friend", "who", "lives", "in", "Osaka"],mark:"."},
+    {jp:"\u30c9\u30a2\u306e\u305d\u3070\u306b\u7acb\u3063\u3066\u3044\u308b\u305d\u306e\u7537\u306e\u4eba\u306f\u79c1\u306e\u7236\u3067\u3059\u3002",en:["The", "man", "who", "stands", "near", "the", "door", "is", "my", "father"],mark:"."},
+    {jp:"\u82f1\u8a9e\u3092\u4e0a\u624b\u306b\u8a71\u3059\u3053\u3068\u304c\u3067\u304d\u308b\u305d\u306e\u5c11\u5973\u306f\u30df\u30ab\u3067\u3059\u3002",en:["The", "girl", "who", "can", "speak", "English", "well", "is", "Mika"],mark:"."},
+    {jp:"\u3053\u308c\u306f\u535a\u591a\u306b\u884c\u304f\u30d0\u30b9\u3067\u3059\u3002",en:["This", "is", "the", "bus", "which", "goes", "to", "Hakata"],mark:"."},
+    {jp:"\u590f\u76ee\u6f31\u77f3\u306b\u3088\u3063\u3066\u66f8\u304b\u308c\u305f\u305d\u306e\u672c\u306f\u9762\u767d\u3044\u3002",en:["The", "book", "which", "was", "written", "by", "Soseki", "Natsume", "is", "interesting"],mark:"."},
+    {jp:"\u8c61\u306f\u9577\u3044\u9f3b\u3092\u3082\u3063\u3066\u3044\u308b\u5927\u304d\u306a\u52d5\u7269\u3067\u3059\u3002",en:["An", "elephant", "is", "a", "big", "animal", "which", "has", "a", "long", "nose"],mark:"."}
   ],
   test:[
-    {jp:"\u3053\u308c\u306f\u5317\u6d77\u9053\u306b\u4f4f\u3093\u3067\u3044\u308b\u53cb\u4eba\u304b\u3089\u6765\u305f\u624b\u7d19\u3067\u3059\u3002",en:["This", "is", "a", "letter", "from", "a", "friend", "who", "lives", "in", "Hokkaido"],mark:"."},
-    {jp:"\u79c1\u306f\u901f\u304f\u8d70\u308c\u308b\u72ac\u304c\u6b32\u3057\u3044\u3002",en:["I", "want", "a", "dog", "which", "can", "run", "fast"],mark:"."},
-    {jp:"\u3042\u306e\u7537\u6027\u306f\u5f7c\u5973\u304c\u6628\u65e5\u4f1a\u3063\u305f\u4eba\u3067\u3059\u3002",en:["That", "man", "is", "the", "person", "who", "she", "met", "yesterday"],mark:"."},
-    {jp:"\u3053\u308c\u306f\u79c1\u306e\u7956\u7236\u304c\u5efa\u3066\u305f\u5bb6\u3067\u3059\u3002",en:["This", "is", "the", "house", "which", "my", "grandfather", "built"],mark:"."},
-    {jp:"\u79c1\u306b\u306f\u30d1\u30ea\u306b\u4f4f\u3093\u3067\u3044\u308b\u53cb\u4eba\u304c\u3044\u307e\u3059\u3002",en:["I", "have", "a", "friend", "who", "lives", "in", "Paris"],mark:"."},
-    {jp:"\u5f7c\u304c\u6628\u65e5\u898b\u305f\u6620\u753b\u306f\u3068\u3066\u3082\u6016\u304b\u3063\u305f\u3002",en:["The", "movie", "which", "he", "saw", "yesterday", "was", "very", "scary"],mark:"."}
+    {jp:"\u79c1\u306b\u306f\u30ed\u30f3\u30c9\u30f3\u306b\u4f4f\u3093\u3067\u3044\u308b\u304a\u3058\u304c\u3044\u307e\u3059\u3002",en:["I", "have", "an", "uncle", "who", "lives", "in", "London"],mark:"."},
+    {jp:"\u82f1\u8a9e\u3092\u4e0a\u624b\u306b\u8a71\u305b\u308b\u5c11\u5e74\u3092\u77e5\u3063\u3066\u3044\u307e\u3059\u304b\uff1f",en:["Do", "you", "know", "the", "boy", "who", "can", "speak", "English", "well"],mark:"?"},
+    {jp:"\u79c1\u306f\u65e5\u672c\u88fd\u306e\u6642\u8a08\u3092\u6301\u3063\u3066\u3044\u307e\u3059\u3002",en:["I", "have", "a", "watch", "which", "was", "made", "in", "Japan"],mark:"."},
+    {jp:"\u9e7f\u5150\u5cf6\u306b\u884c\u304f\u30d0\u30b9\u306f\u3053\u308c\u3067\u3059\u3002",en:["This", "is", "the", "bus", "which", "goes", "to", "Kagoshima"],mark:"."},
+    {jp:"\u8eca\u3092\u6d17\u3063\u3066\u3044\u308b\u305d\u306e\u7537\u6027\u306f\u79c1\u306e\u7236\u3067\u3059\u3002",en:["The", "man", "who", "is", "washing", "the", "car", "is", "my", "father"],mark:"."},
+    {jp:"\u4e18\u306e\u4e0a\u306b\u7acb\u3063\u3066\u3044\u308b\u5efa\u7269\u306f\u6559\u4f1a\u3067\u3059\u3002",en:["The", "building", "which", "stands", "on", "the", "hill", "is", "a", "church"],mark:"."}
   ]
 };
 let currentMode='info',isChallenging=false,selectedWord=null,selectedId=null,startTime,timerInterval;
@@ -214,37 +211,60 @@ function changeStep(mode){currentMode=mode;isChallenging=false;clearInterval(tim
 function renderInfo(){
   return`
   <div class="section">
-    <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">関係代名詞 who（先行詞が人）</span></div>
+    <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">主格の関係代名詞 who（先行詞が人）</span></div>
     <div class="proc-box">
-      <div class="proc-label">📌 who のポイント</div>
-      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">先行詞（修飾される名詞）が<strong>人</strong>のとき → <strong>who</strong> を使う</div></div>
-      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt"><strong>主格</strong>（who の後ろに動詞）：a woman <strong>who lives</strong> in Tokyo</div></div>
-      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt"><strong>目的格</strong>（who の後ろに主語＋動詞）：the man <strong>who I met</strong></div></div>
+      <div class="proc-label">📌 関係代名詞とは</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">関係代名詞とは，<strong>文をつなぐはたらきを持つ代名詞</strong>のことです。</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">whoが使えるのは，<strong>後の節の主語</strong>となること，かつ修飾する語（先行詞）が<strong>人</strong>であることが条件です。</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">関係代名詞whoは，<strong>主格</strong>の関係代名詞と呼ばれています。</div></div>
     </div>
     <div class="origin-box">
-      <div class="origin-en">This is a woman <strong>who lives in Tokyo</strong>. <button class="voice-btn" onclick="speak('This is a woman who lives in Tokyo.')">🔊</button></div>
-      <div class="origin-jp">これは東京に住んでいる女性です。（who = 主格 → 後ろに動詞）</div>
+      <div class="origin-en">I have a friend. &nbsp;／&nbsp; He lives in Tokyo.</div>
+      <div class="origin-jp">私には友だちがいます。／彼は東京に住んでいます。<br>→ friendとHeは同一人物 → 関係代名詞whoを使って文をつなぐ</div>
     </div>
     <div class="origin-box">
-      <div class="origin-en">I know a teacher <strong>who speaks English</strong>. <button class="voice-btn" onclick="speak('I know a teacher who speaks English.')">🔊</button></div>
-      <div class="origin-jp">私は英語を話す先生を知っています。</div>
+      <div class="origin-en">I have a friend <strong>who lives in Tokyo</strong>. <button class="voice-btn" onclick="speak('I have a friend who lives in Tokyo.')">🔊</button></div>
+      <div class="origin-jp">私には東京に住んでいる友だちがいます。</div>
     </div>
+    <div class="origin-box">
+      <div class="origin-en">The boy is Tom. &nbsp;／&nbsp; He plays soccer well.</div>
+      <div class="origin-jp">この場合，Tom＝Heとはしません。<strong>The boy＝He</strong>と考えます。<br>※ 注）関係代名詞は，<strong>人の名前にはくっつきません</strong>。</div>
+    </div>
+    <div class="origin-box">
+      <div class="origin-en">The boy <strong>（who plays soccer well）</strong> is Tom. <button class="voice-btn" onclick="speak('The boy who plays soccer well is Tom.')">🔊</button></div>
+      <div class="origin-jp">サッカーの上手なその少年はトムです。（「The boy who plays soccer well」ここまでが主語）</div>
+    </div>
+    <div class="point-box"><div class="point-title">📌 主格の関係代名詞 who のまとめ</div>
+    <div class="point-formula">先行詞（<span class="wh">人</span>）＋ <span class="wh">who</span> ＋ 動詞〜</div>
+    <div class="point-formula">whoの後ろ ＝ 動詞（whoが主語として機能）</div></div>
   </div>
   <div class="section">
-    <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">関係代名詞 which（先行詞が物・動物）</span></div>
+    <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">主格の関係代名詞 which（先行詞が物・動物）</span></div>
     <div class="proc-box">
       <div class="proc-label">📌 which のポイント</div>
-      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">先行詞が<strong>物・動物</strong>のとき → <strong>which</strong> を使う</div></div>
-      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt"><strong>主格</strong>：a book <strong>which is</strong> interesting</div></div>
-      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt"><strong>目的格</strong>：a book <strong>which he wrote</strong></div></div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">whichはwhoと違って，<strong>物や動物が先行詞</strong>の場合に使います。</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">関係代名詞以下の節で飾られる語を<strong>先行詞</strong>といいます。</div></div>
+      <div class="proc-step"><div class="proc-arrow">重要</div><div class="proc-txt">主格の関係代名詞＝<strong>who, which</strong>　whoは人のみ。whichは物と動物のみ。</div></div>
     </div>
     <div class="origin-box">
-      <div class="origin-en">This is a book <strong>which he wrote</strong>. <button class="voice-btn" onclick="speak('This is a book which he wrote.')">🔊</button></div>
-      <div class="origin-jp">これは彼が書いた本です。（which = 目的格 → 後ろに主語＋動詞）</div>
+      <div class="origin-en">This is a bag. &nbsp;／&nbsp; It was made in USA.</div>
+      <div class="origin-jp">これはカバンです。／それはアメリカ製です。<br>→ bagとItは同一物 → 関係代名詞whichを使う</div>
     </div>
-    <div class="point-box"><div class="point-title">📌 who / which の使い分け</div>
-    <div class="point-formula">先行詞が<span class="wh">人</span> → <span class="wh">who</span>　先行詞が<span class="wh">物・動物</span> → <span class="wh">which</span></div>
-    <div class="point-formula">主格：関係代名詞の後ろに<span class="wh">動詞</span>　目的格：後ろに<span class="wh">主語＋動詞</span></div></div>
+    <div class="origin-box">
+      <div class="origin-en">This is a bag <strong>which was made in USA</strong>. <button class="voice-btn" onclick="speak('This is a bag which was made in USA.')">🔊</button></div>
+      <div class="origin-jp">これはアメリカ製のカバンです。</div>
+    </div>
+    <div class="origin-box">
+      <div class="origin-en">The bag is mine. &nbsp;／&nbsp; It was made in Italy.</div>
+      <div class="origin-jp">※ 関係代名詞は，<strong>人の名前や所有格にはつながりません</strong>。The bag＝Itと考えます。</div>
+    </div>
+    <div class="origin-box">
+      <div class="origin-en">The bag <strong>（which was made in Italy）</strong> is mine. <button class="voice-btn" onclick="speak('The bag which was made in Italy is mine.')">🔊</button></div>
+      <div class="origin-jp">そのイタリア製のバッグは私のです。（「The bag which was made in Italy」ここまでが主語）</div>
+    </div>
+    <div class="point-box"><div class="point-title">📌 主格の関係代名詞 which のまとめ</div>
+    <div class="point-formula">先行詞（<span class="wh">物・動物</span>）＋ <span class="wh">which</span> ＋ 動詞〜</div>
+    <div class="point-formula"><span class="wh">who</span>：人のみ　<span class="wh">which</span>：物・動物のみ</div></div>
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num" style="background:var(--success);">練</span><span class="section-title-text">練習問題</span></div>
@@ -266,7 +286,7 @@ function render(){
   if(currentMode==='info'){area.innerHTML=renderInfo();if(!isChallenging)document.querySelectorAll('.bk-blank').forEach(el=>el.textContent=el.dataset.ans);}
   else{
     const titles={ex:'例題',prac:'類題',test:'修了テスト'};
-    let html=`<div class="section"><h2 style="font-size:1em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px;margin-bottom:14px;">${titles[currentMode]}演習（各6問）</h2><p style="font-size:.85em;color:var(--text-sub);margin-bottom:14px;">先行詞が人→who、物・動物→which！主格は動詞の前、目的格は動詞の後に来る！</p>`;
+    let html=`<div class="section"><h2 style="font-size:1em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px;margin-bottom:14px;">${titles[currentMode]}演習（各6問）</h2><p style="font-size:.85em;color:var(--text-sub);margin-bottom:14px;">先行詞が人→who、物・動物→which！主格は後ろに動詞が来る！名前や所有格にはくっつかない！</p>`;
     MASTER_DATA[currentMode].forEach(q=>{
       const sp=q.en.join(' ')+q.mark;
       html+=`<div class="sentence-block"><div class="sentence-jp">${q.jp} <button class="voice-btn" onclick="speakData(this)" data-sp="${sp}">🔊</button></div><div class="word-squares">${q.en.map(w=>`<span class="square" data-ans="${w}" onclick="handleTargetClick(this)">${isChallenging?'':' '+wrapWord(w)}</span>`).join('')}<span class="fixed-mark">${q.mark}</span></div>${q.note?`<div style="font-size:.78em;color:var(--text-sub);margin-top:6px;padding:4px 8px;background:#f1f5f9;border-radius:6px;">${q.note}</div>`:''}</div>`;
