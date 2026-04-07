@@ -139,6 +139,27 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <button class="btn-vocab-test" onclick="startVocabTest()">📝 単語テストをする</button>
   </div>
   <div id="vocab-test-area" style="display:none;"></div>
+  <!-- ワークシート印刷ボタン -->
+  <div style="margin-bottom:12px;">
+    <a href="EA36_worksheet.pdf" target="_blank"
+       style="display:inline-flex;align-items:center;gap:8px;
+              background:#7c3aed;color:#fff;
+              border-radius:50px;padding:11px 22px;
+              font-family:'BIZ UDPGothic',sans-serif;
+              font-weight:700;font-size:.95em;
+              text-decoration:none;
+              box-shadow:0 3px 10px rgba(124,58,237,.3);
+              transition:.2s;"
+       onmouseover="this.style.background='#6d28d9'"
+       onmouseout="this.style.background='#7c3aed'">
+      🖨️ プリント（PDF）をひらく
+    </a>
+    <span style="font-size:.75em;color:#64748b;margin-left:10px;">
+      ※ A4・印刷設定は「実際のサイズ」を選んでください
+    </span>
+  </div>
+
+
   <div class="nav-btns">
     <a href="EA35.html" class="btn-nav btn-prev">← EA35</a>
     <a href="index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>

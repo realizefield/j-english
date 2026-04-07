@@ -7,7 +7,7 @@
 <style>
 :root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#2563eb;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--orange:#f97316;--purple:#7c3aed;--purple-light:#ede9fe;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px;}
 
 /* ヘッダー */
 .page-header{background:linear-gradient(135deg,#1a237e 0%,#1a56a0 60%,#0f766e 100%);color:#fff;padding:24px 20px 20px;text-align:center;box-shadow:0 4px 20px rgba(26,35,126,.4);}
@@ -19,10 +19,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .legend{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:12px 14px;background:var(--card);border-bottom:1px solid var(--border);}
 .legend-item{display:flex;align-items:center;gap:5px;font-size:.78em;color:var(--text-sub);}
 .legend-chip{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-size:.72em;font-weight:700;color:#fff;}
-.chip-a{background:#16a34a;}
-.chip-b{background:#d97706;}
-.chip-c{background:#e8372d;}
-.chip-none{background:#94a3b8;}
+.chip-a{background:#16a34a;}.chip-b{background:#d97706;}.chip-c{background:#e8372d;}.chip-none{background:#94a3b8;}
 
 /* 全体進捗 */
 .progress-section{max-width:760px;margin:16px auto;padding:0 14px;}
@@ -43,11 +40,13 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
 /* 単元カード */
 .unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;}
-.unit-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;gap:10px;position:relative;overflow:hidden;transition:box-shadow .18s;}
-
-/* 進捗ステータスによる左ボーダー */
+.unit-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:8px;position:relative;overflow:hidden;transition:box-shadow .18s;}
 .unit-card.prog-pass{border-left:5px solid var(--success);}
 .unit-card.prog-none{border-left:5px solid var(--border);}
+
+/* チェックされた状態 */
+.unit-card.ws-checked{background:linear-gradient(135deg,#ede9fe,#fff);border-color:var(--purple);}
+.unit-card.ws-checked .unit-badge{background:var(--purple-light);color:var(--purple);}
 
 /* 単元リンク部分 */
 .unit-link{display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-decoration:none;color:var(--text);}
@@ -63,16 +62,23 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .abc-group{display:flex;gap:4px;flex-shrink:0;}
 .abc-btn{width:28px;height:28px;border-radius:7px;border:2px solid #cbd5e1;background:#f8fafc;color:#94a3b8;font-size:.78em;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:'BIZ UDPGothic',sans-serif;-webkit-tap-highlight-color:transparent;}
 .abc-btn:hover{transform:scale(1.12);}
-
-/* アクティブ状態 */
 .abc-btn.active-a{background:#16a34a;border-color:#16a34a;color:#fff;box-shadow:0 2px 8px rgba(22,163,74,.4);}
 .abc-btn.active-b{background:#d97706;border-color:#d97706;color:#fff;box-shadow:0 2px 8px rgba(217,119,6,.4);}
 .abc-btn.active-c{background:#e8372d;border-color:#e8372d;color:#fff;box-shadow:0 2px 8px rgba(232,55,45,.4);}
-
-/* カード背景色（復習状態） */
 .unit-card.review-a{background:linear-gradient(135deg,#f0fdf4,#fff);}
 .unit-card.review-b{background:linear-gradient(135deg,#fffbeb,#fff);}
 .unit-card.review-c{background:linear-gradient(135deg,#fff1f0,#fff);}
+
+/* 🖨️ 印刷ボタン */
+.btn-ws{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--purple);background:var(--purple-light);color:var(--purple);font-size:.9em;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.btn-ws:hover{background:var(--purple);color:#fff;transform:scale(1.1);}
+.btn-ws.no-pdf{border-color:#cbd5e1;background:#f8fafc;color:#94a3b8;cursor:default;}
+.btn-ws.no-pdf:hover{transform:none;background:#f8fafc;color:#94a3b8;}
+
+/* ☑ チェックボックス */
+.ws-check{width:20px;height:20px;border-radius:5px;border:2px solid #cbd5e1;background:#fff;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.85em;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.ws-check:hover{border-color:var(--purple);}
+.ws-check.checked{background:var(--purple);border-color:var(--purple);color:#fff;}
 
 /* フィルターバー */
 .filter-bar{display:flex;gap:6px;flex-wrap:wrap;padding:12px 14px;background:var(--card);border-bottom:1px solid var(--border);max-width:760px;margin:0 auto;}
@@ -89,12 +95,47 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .btn-reset-abc{font-family:'BIZ UDPGothic',sans-serif;background:#fff1f0;color:var(--accent);border:1.5px solid #fca5a5;padding:10px 20px;border-radius:50px;cursor:pointer;font-size:.82em;transition:.2s;}
 .btn-reset-abc:hover{background:#ffe4e1;}
 
-/* 非表示（フィルター） */
 .unit-card.hidden-by-filter{display:none;}
 
 /* info banner */
 .info-banner{background:linear-gradient(135deg,var(--warn-light),#dbeafe);border:1.5px solid var(--warn);border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;font-size:.82em;line-height:1.7;color:var(--text);}
 .info-banner strong{color:var(--warn);}
+
+/* ── ワークシートモード切替バー ── */
+.ws-mode-bar{
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  padding:10px 14px;background:var(--purple-light);
+  border-bottom:2px solid var(--purple);
+  max-width:760px;margin:0 auto;
+}
+.ws-mode-bar .ws-mode-label{font-size:.82em;font-weight:700;color:var(--purple);}
+.btn-ws-mode{font-family:'BIZ UDPGothic',sans-serif;padding:6px 16px;border-radius:50px;border:1.5px solid var(--purple);background:#fff;color:var(--purple);font-size:.78em;font-weight:700;cursor:pointer;transition:all .15s;}
+.btn-ws-mode:hover{background:var(--purple);color:#fff;}
+.btn-ws-select-all{font-family:'BIZ UDPGothic',sans-serif;padding:5px 12px;border-radius:50px;border:1.5px solid var(--purple);background:var(--purple-light);color:var(--purple);font-size:.75em;font-weight:700;cursor:pointer;transition:all .15s;}
+.btn-ws-select-all:hover{background:var(--purple);color:#fff;}
+#ws-checked-count{font-size:.82em;color:var(--purple);font-weight:700;}
+
+/* ── まとめてダウンロードバー（画面下部固定） ── */
+#ws-dl-bar{
+  display:none;
+  position:fixed;bottom:0;left:0;width:100%;
+  background:#fff;border-top:2px solid var(--purple);
+  padding:12px 16px;z-index:1000;
+  box-shadow:0 -4px 20px rgba(124,58,237,.15);
+}
+#ws-dl-bar.visible{display:block;}
+.ws-dl-bar-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.ws-dl-bar-title{font-size:.85em;font-weight:700;color:var(--purple);flex:1;}
+.ws-dl-list{display:flex;gap:6px;flex-wrap:wrap;flex:3;}
+.ws-dl-chip{
+  background:var(--purple-light);color:var(--purple);
+  border:1px solid var(--purple);border-radius:6px;
+  padding:4px 10px;font-size:.78em;font-weight:700;
+  text-decoration:none;cursor:pointer;
+  transition:all .15s;
+}
+.ws-dl-chip:hover{background:var(--purple);color:#fff;}
+.btn-ws-clear{font-family:'BIZ UDPGothic',sans-serif;background:#f1f5f9;color:var(--text-sub);border:1.5px solid var(--border);padding:7px 14px;border-radius:50px;cursor:pointer;font-size:.78em;}
 </style>
 </head>
 <body>
@@ -122,6 +163,15 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <button class="filter-btn" onclick="setFilter('pass',this)">✅ 合格済みのみ</button>
 </div>
 
+<!-- ワークシートモードバー -->
+<div class="ws-mode-bar" id="ws-mode-bar" style="display:none;">
+  <span class="ws-mode-label">🖨️ ワークシート選択モード</span>
+  <button class="btn-ws-select-all" onclick="wsSelectAll()">全て選択</button>
+  <button class="btn-ws-select-all" onclick="wsSelectNone()">全て解除</button>
+  <span id="ws-checked-count">0 件選択中</span>
+  <button class="btn-ws-mode" onclick="toggleWsMode()">✕ モード終了</button>
+</div>
+
 <!-- 進捗 -->
 <div class="progress-section">
   <div class="progress-card">
@@ -143,7 +193,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 <div class="g-container">
   <div class="info-banner">
     <strong>💡 使い方：</strong>単元名をタップして学習スタート！修了テスト合格で ✅ が付きます。<br>
-    学習後に右側のボタンで理解度を記録しよう。<br>
+    学習後に右側のボタンで理解度を記録しよう。🖨️ボタンでワークシート（PDF）を印刷できます。<br>
     <span style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;">
       <span style="background:#16a34a;color:#fff;font-weight:700;font-size:.8em;padding:2px 8px;border-radius:6px;">A</span>
       <span style="font-size:.85em;">完了（よく理解できた）</span>
@@ -155,6 +205,10 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <span style="display:inline-flex;align-items:center;gap:4px;">
       <span style="background:#e8372d;color:#fff;font-weight:700;font-size:.8em;padding:2px 8px;border-radius:6px;">C</span>
       <span style="font-size:.85em;">数回要復習（重点的に）</span>
+    </span>　
+    <span style="display:inline-flex;align-items:center;gap:4px;margin-top:4px;">
+      <span style="background:#7c3aed;color:#fff;font-weight:700;font-size:.85em;padding:2px 8px;border-radius:6px;">🖨️ まとめて印刷</span>
+      <span style="font-size:.85em;">→ 下のボタンから複数まとめてDL</span>
     </span>
   </div>
 
@@ -174,61 +228,73 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <div class="unit-grid" id="grid-5"></div>
 
   <div class="reset-section">
+    <button class="btn-ws-mode" style="background:var(--purple);color:#fff;border-color:var(--purple);padding:10px 22px;font-size:.85em;" onclick="toggleWsMode()">🖨️ ワークシートをまとめて選ぶ</button>
     <button class="btn-reset-abc" onclick="resetABC()">🔄 A/B/Cをリセット</button>
     <button class="btn-reset-all" onclick="resetAll()">🗑 全進捗をリセット</button>
   </div>
 </div>
 
+<!-- まとめてDLバー（下部固定） -->
+<div id="ws-dl-bar">
+  <div class="ws-dl-bar-inner">
+    <div class="ws-dl-bar-title">🖨️ 選択中のワークシート：</div>
+    <div class="ws-dl-list" id="ws-dl-list"></div>
+    <button class="btn-ws-clear" onclick="wsSelectNone()">✕ 解除</button>
+  </div>
+</div>
+
 <script>
 const UNITS = [
-  {id:'EA01',title:'be動詞（am / is / are）',       sub:'〜です・〜があります',              grid:1},
-  {id:'EA02',title:'一般動詞',                       sub:'play / study / have など',          grid:1},
-  {id:'EA03',title:'三人称単数現在（三単現）',        sub:'He plays / She studies',            grid:1},
-  {id:'EA04',title:'否定文',                         sub:"don't / doesn't / isn't など",      grid:1},
-  {id:'EA05',title:'疑問文（Yes/No）',               sub:"Do / Does / Is / Are〜?",           grid:1},
-  {id:'EA06',title:'代名詞',                         sub:'I / my / me / mine など',           grid:1},
-  {id:'EA07',title:'複数形',                         sub:'books / boxes / children など',     grid:1},
-  {id:'EA08',title:'過去形',                         sub:'played / went / was など',          grid:1},
-  {id:'EA09',title:'過去の疑問文・否定文',            sub:"Did / Was〜? / didn't / wasn't",    grid:1},
-  {id:'EA10',title:'未来形（will / be going to）',   sub:'〜するつもりです・〜でしょう',       grid:1},
-  {id:'EA11',title:'疑問詞① What time / How / What',sub:'何時・どのように・何を',             grid:2},
-  {id:'EA12',title:'疑問詞② When / Where / How many / Who',sub:'いつ・どこ・何人・だれ',    grid:2},
-  {id:'EA13',title:'命令文',                         sub:"〜しなさい / するな / Please / Let's",grid:2},
-  {id:'EA14',title:'現在進行形',                     sub:'be＋ing・否定・疑問',               grid:2},
-  {id:'EA15',title:'習慣的な疑問文',                 sub:'曜日・日付・天気・誕生日',           grid:2},
-  {id:'EA16',title:'助動詞 can',                     sub:'できる・できない・できますか？',      grid:2},
-  {id:'EA17',title:'There is / There are',           sub:'〜がある・some/any・可算不可算',     grid:3},
-  {id:'EA18',title:'many / much / a few / a little', sub:'たくさんの・少しの',                grid:3},
-  {id:'EA19',title:'a piece of / a cup of / 書きかえ',sub:'1枚の・1杯の / There is ↔ has', grid:3},
-  {id:'EA20',title:'as 原級 as / not as 原級 as',    sub:'〜と同じくらい / …ほど〜でない',    grid:3},
-  {id:'EA21',title:'比較級 than',                    sub:'…より〜 / better / more / Which?', grid:3},
-  {id:'EA22',title:'最上級',                         sub:'もっとも〜 / in・of / best / one of',grid:3},
-  {id:'EA23',title:'不定詞①（名詞的用法）',           sub:'want to / like to / hope to など',  grid:4},
-  {id:'EA24',title:'不定詞②（副詞的・形容詞的用法）', sub:'〜するために / glad to / time to',  grid:4},
-  {id:'EA25',title:'動名詞',                          sub:'enjoy / stop / finish ＋ing',        grid:4},
-  {id:'EA26',title:'接続詞（when / if / because / that）',sub:'時・条件・理由・that節',        grid:4},
-  {id:'EA27',title:'受動態①',                         sub:'be＋過去分詞 / by〜 / 否定・疑問',  grid:4},
-  {id:'EA28',title:'受動態②（by省略・注意すべき受動態）',sub:'be surprised at / interested in / made of・from',grid:5},
-  {id:'EA29',title:'現在完了①（完了用法）',             sub:'have＋過去分詞 / just・already・yet / 否定・疑問',grid:5},
-  {id:'EA30',title:'現在完了②（継続用法）',             sub:'for / since / have been in〜 / How long〜?',      grid:5},
-  {id:'EA31',title:'現在完了③（経験用法）',             sub:'ever / never / have been to〜 / How many times〜?',grid:5},
-  {id:'EA32',title:'接続詞 that / 時制の一致',          sub:'I think/know/say＋that節 / 主節過去→従属節も過去', grid:5},
-  {id:'EA33',title:'不定詞の特別用法①（too…to）',       sub:'too＋形容詞＋to不定詞「〜すぎて…できない」',      grid:5},
-  {id:'EA34',title:'不定詞の特別用法②（It is…to）',     sub:'It is＋形容詞＋to不定詞 / for＋人＋to不定詞',    grid:5},
-  {id:'EA35',title:'分詞の形容詞的用法',                sub:'現在分詞（〜している）・過去分詞（〜された）',      grid:5},
-  {id:'EA36',title:'関係代名詞①②（who / which）',      sub:'先行詞が人→who、物→which / 主格・目的格',         grid:5},
-  {id:'EA37',title:'関係代名詞③④（that / whose）',     sub:'thatで人・物両方 / 所有格whose',                  grid:5},
-  {id:'EA38',title:'付加疑問文・間接疑問文',            sub:'〜, isn\'t it? など / I know where he lives など', grid:5},
-  {id:'EA39',title:'接続詞まとめ・前置詞',              sub:'when/if/because/that まとめ / at・in・on など',   grid:5},
+  {id:'EA01',title:'be動詞（am / is / are）',       sub:'〜です・〜があります',              grid:1, hasPdf:true},
+  {id:'EA02',title:'一般動詞',                       sub:'play / study / have など',          grid:1, hasPdf:true},
+  {id:'EA03',title:'三人称単数現在（三単現）',        sub:'He plays / She studies',            grid:1, hasPdf:true},
+  {id:'EA04',title:'否定文',                         sub:"don't / doesn't / isn't など",      grid:1, hasPdf:true},
+  {id:'EA05',title:'疑問文（Yes/No）',               sub:"Do / Does / Is / Are〜?",           grid:1, hasPdf:true},
+  {id:'EA06',title:'代名詞',                         sub:'I / my / me / mine など',           grid:1, hasPdf:true},
+  {id:'EA07',title:'複数形',                         sub:'books / boxes / children など',     grid:1, hasPdf:true},
+  {id:'EA08',title:'過去形',                         sub:'played / went / was など',          grid:1, hasPdf:true},
+  {id:'EA09',title:'過去の疑問文・否定文',            sub:"Did / Was〜? / didn't / wasn't",    grid:1, hasPdf:true},
+  {id:'EA10',title:'未来形（will / be going to）',   sub:'〜するつもりです・〜でしょう',       grid:1, hasPdf:true},
+  {id:'EA11',title:'疑問詞① What time / How / What',sub:'何時・どのように・何を',             grid:2, hasPdf:true},
+  {id:'EA12',title:'疑問詞② When / Where / How many / Who',sub:'いつ・どこ・何人・だれ',    grid:2, hasPdf:true},
+  {id:'EA13',title:'命令文',                         sub:"〜しなさい / するな / Please / Let's",grid:2, hasPdf:true},
+  {id:'EA14',title:'現在進行形',                     sub:'be＋ing・否定・疑問',               grid:2, hasPdf:true},
+  {id:'EA15',title:'習慣的な疑問文',                 sub:'曜日・日付・天気・誕生日',           grid:2, hasPdf:true},
+  {id:'EA16',title:'助動詞 can',                     sub:'できる・できない・できますか？',      grid:2, hasPdf:true},
+  {id:'EA17',title:'There is / There are',           sub:'〜がある・some/any・可算不可算',     grid:3, hasPdf:true},
+  {id:'EA18',title:'many / much / a few / a little', sub:'たくさんの・少しの',                grid:3, hasPdf:true},
+  {id:'EA19',title:'a piece of / a cup of / 書きかえ',sub:'1枚の・1杯の / There is ↔ has', grid:3, hasPdf:true},
+  {id:'EA20',title:'as 原級 as / not as 原級 as',    sub:'〜と同じくらい / …ほど〜でない',    grid:3, hasPdf:true},
+  {id:'EA21',title:'比較級 than',                    sub:'…より〜 / better / more / Which?', grid:3, hasPdf:true},
+  {id:'EA22',title:'最上級',                         sub:'もっとも〜 / in・of / best / one of',grid:3, hasPdf:true},
+  {id:'EA23',title:'不定詞①（名詞的用法）',           sub:'want to / like to / hope to など',  grid:4, hasPdf:true},
+  {id:'EA24',title:'不定詞②（副詞的・形容詞的用法）', sub:'〜するために / glad to / time to',  grid:4, hasPdf:true},
+  {id:'EA25',title:'動名詞',                          sub:'enjoy / stop / finish ＋ing',        grid:4, hasPdf:true},
+  {id:'EA26',title:'接続詞（when / if / because / that）',sub:'時・条件・理由・that節',        grid:4, hasPdf:true},
+  {id:'EA27',title:'受動態①',                         sub:'be＋過去分詞 / by〜 / 否定・疑問',  grid:4, hasPdf:false},
+  {id:'EA28',title:'受動態②（by省略・注意すべき受動態）',sub:'be surprised at / interested in / made of・from',grid:5, hasPdf:true},
+  {id:'EA29',title:'現在完了①（完了用法）',             sub:'have＋過去分詞 / just・already・yet / 否定・疑問',grid:5, hasPdf:true},
+  {id:'EA30',title:'現在完了②（継続用法）',             sub:'for / since / have been in〜 / How long〜?',      grid:5, hasPdf:true},
+  {id:'EA31',title:'現在完了③（経験用法）',             sub:'ever / never / have been to〜 / How many times〜?',grid:5, hasPdf:true},
+  {id:'EA32',title:'接続詞 that / 時制の一致',          sub:'I think/know/say＋that節 / 主節過去→従属節も過去', grid:5, hasPdf:true},
+  {id:'EA33',title:'不定詞の特別用法①（too…to）',       sub:'too＋形容詞＋to不定詞「〜すぎて…できない」',      grid:5, hasPdf:true},
+  {id:'EA34',title:'不定詞の特別用法②（It is…to）',     sub:'It is＋形容詞＋to不定詞 / for＋人＋to不定詞',    grid:5, hasPdf:true},
+  {id:'EA35',title:'分詞の形容詞的用法',                sub:'現在分詞（〜している）・過去分詞（〜された）',      grid:5, hasPdf:true},
+  {id:'EA36',title:'関係代名詞①②（who / which）',      sub:'先行詞が人→who、物→which / 主格・目的格',         grid:5, hasPdf:true},
+  {id:'EA37',title:'関係代名詞③④（that / whose）',     sub:'thatで人・物両方 / 所有格whose',                  grid:5, hasPdf:true},
+  {id:'EA38',title:'付加疑問文・間接疑問文',            sub:"〜, isn't it? など / I know where he lives など", grid:5, hasPdf:true},
+  {id:'EA39',title:'接続詞まとめ・前置詞',              sub:"when/if/because/that まとめ / at・in・on など",   grid:5, hasPdf:true},
 ];
 
 let currentFilter = 'all';
+let wsModeActive  = false;
+const wsChecked   = new Set();
 
 function getProg(id){ return localStorage.getItem('gamba_prog_' + id) || 'none'; }
-function getABC(id){ return localStorage.getItem('gamba_review_' + id) || ''; }
+function getABC(id){  return localStorage.getItem('gamba_review_' + id) || ''; }
+
 function setABC(id, val){
   const cur = getABC(id);
-  // 同じボタンを押したらトグルで解除
   if(cur === val) localStorage.removeItem('gamba_review_' + id);
   else localStorage.setItem('gamba_review_' + id, val);
   refreshCard(id);
@@ -236,31 +302,100 @@ function setABC(id, val){
   applyFilter();
 }
 
+/* ── ワークシートチェック ── */
+function toggleWsCheck(id, e){
+  e.stopPropagation();
+  const u = UNITS.find(u => u.id === id);
+  if(!u || !u.hasPdf) return;
+  if(wsChecked.has(id)) wsChecked.delete(id);
+  else wsChecked.add(id);
+  refreshCard(id);
+  updateWsDlBar();
+}
+
+function updateWsDlBar(){
+  const count = wsChecked.size;
+  document.getElementById('ws-checked-count').textContent = count + ' 件選択中';
+
+  const bar  = document.getElementById('ws-dl-bar');
+  const list = document.getElementById('ws-dl-list');
+  list.innerHTML = '';
+
+  if(count === 0){
+    bar.classList.remove('visible');
+    return;
+  }
+  bar.classList.add('visible');
+
+  // 選択順でなくUNITS順に表示
+  UNITS.filter(u => wsChecked.has(u.id)).forEach(u => {
+    const a = document.createElement('a');
+    a.className = 'ws-dl-chip';
+    a.href = u.id + '_worksheet.pdf';
+    a.target = '_blank';
+    a.title = u.title + ' ワークシートを開く';
+    a.textContent = '🖨️ ' + u.id;
+    list.appendChild(a);
+  });
+}
+
+function wsSelectAll(){
+  UNITS.forEach(u => { if(u.hasPdf) wsChecked.add(u.id); });
+  UNITS.forEach(u => refreshCard(u.id));
+  updateWsDlBar();
+}
+function wsSelectNone(){
+  wsChecked.clear();
+  UNITS.forEach(u => refreshCard(u.id));
+  updateWsDlBar();
+}
+
+function toggleWsMode(){
+  wsModeActive = !wsModeActive;
+  document.getElementById('ws-mode-bar').style.display = wsModeActive ? 'flex' : 'none';
+  if(!wsModeActive){ wsSelectNone(); }
+  // カード再描画（チェックボックス表示切替）
+  UNITS.forEach(u => refreshCard(u.id));
+}
+
+/* ── カード描画 ── */
 function refreshCard(id){
   const card = document.getElementById('card-' + id);
   if(!card) return;
-  const prog = getProg(id);
-  const abc  = getABC(id);
+  const prog    = getProg(id);
+  const abc     = getABC(id);
+  const checked = wsChecked.has(id);
 
-  // 進捗クラス
-  card.className = 'unit-card' +
-    (prog === 'pass' ? ' prog-pass' : ' prog-none') +
-    (abc === 'A' ? ' review-a' : abc === 'B' ? ' review-b' : abc === 'C' ? ' review-c' : '');
+  card.className = 'unit-card'
+    + (prog === 'pass' ? ' prog-pass' : ' prog-none')
+    + (checked ? ' ws-checked' : (abc === 'A' ? ' review-a' : abc === 'B' ? ' review-b' : abc === 'C' ? ' review-c' : ''));
 
-  // pass icon
   const icon = card.querySelector('.unit-pass-icon');
   if(icon) icon.textContent = prog === 'pass' ? '✅' : '　';
 
-  // ABCボタン
   ['A','B','C'].forEach(l => {
     const btn = card.querySelector('.abc-btn-' + l);
     if(!btn) return;
     btn.className = 'abc-btn abc-btn-' + l + (abc === l ? ' active-' + l.toLowerCase() : '');
   });
+
+  // チェックボックス更新
+  const chk = card.querySelector('.ws-check');
+  if(chk){
+    chk.style.display = wsModeActive ? 'flex' : 'none';
+    chk.className = 'ws-check' + (checked ? ' checked' : '');
+    chk.textContent = checked ? '✓' : '';
+  }
 }
 
 function buildCards(){
-  const grids = {1:document.getElementById('grid-1'), 2:document.getElementById('grid-2'), 3:document.getElementById('grid-3'), 4:document.getElementById('grid-4'), 5:document.getElementById('grid-5')};
+  const grids = {
+    1:document.getElementById('grid-1'),
+    2:document.getElementById('grid-2'),
+    3:document.getElementById('grid-3'),
+    4:document.getElementById('grid-4'),
+    5:document.getElementById('grid-5')
+  };
 
   UNITS.forEach(u => {
     const prog = getProg(u.id);
@@ -268,11 +403,17 @@ function buildCards(){
 
     const card = document.createElement('div');
     card.id = 'card-' + u.id;
-    card.className = 'unit-card' +
-      (prog === 'pass' ? ' prog-pass' : ' prog-none') +
-      (abc === 'A' ? ' review-a' : abc === 'B' ? ' review-b' : abc === 'C' ? ' review-c' : '');
+    card.className = 'unit-card'
+      + (prog === 'pass' ? ' prog-pass' : ' prog-none')
+      + (abc === 'A' ? ' review-a' : abc === 'B' ? ' review-b' : abc === 'C' ? ' review-c' : '');
+
+    // 🖨️ ボタン
+    const pdfBtnHtml = u.hasPdf
+      ? `<button class="btn-ws" onclick="event.stopPropagation();window.open('${u.id}_worksheet.pdf','_blank')" title="ワークシートを開く（PDF）">🖨️</button>`
+      : `<button class="btn-ws no-pdf" title="ワークシート準備中" disabled>🖨️</button>`;
 
     card.innerHTML = `
+      <div class="ws-check" style="display:none;" onclick="toggleWsCheck('${u.id}',event)"></div>
       <a class="unit-link" href="${u.id}.html">
         <div class="unit-badge">${u.id}</div>
         <div class="unit-info">
@@ -281,6 +422,7 @@ function buildCards(){
         </div>
         <div class="unit-pass-icon">${prog === 'pass' ? '✅' : '　'}</div>
       </a>
+      ${pdfBtnHtml}
       <div class="abc-group">
         <button class="abc-btn abc-btn-A${abc==='A'?' active-a':''}" onclick="event.stopPropagation();setABC('${u.id}','A')" title="A：完了">A</button>
         <button class="abc-btn abc-btn-B${abc==='B'?' active-b':''}" onclick="event.stopPropagation();setABC('${u.id}','B')" title="B：要復習">B</button>
@@ -298,9 +440,7 @@ function updateStats(){
   UNITS.forEach(u => {
     if(getProg(u.id)==='pass') pass++;
     const abc = getABC(u.id);
-    if(abc==='A') a++;
-    else if(abc==='B') b++;
-    else if(abc==='C') c++;
+    if(abc==='A') a++; else if(abc==='B') b++; else if(abc==='C') c++;
   });
   const pct = Math.round(pass / UNITS.length * 100);
   document.getElementById('progressBar').style.width = pct + '%';
@@ -335,10 +475,8 @@ function resetABC(){
   if(!confirm('A/B/Cの記録をすべてリセットしますか？')) return;
   UNITS.forEach(u => localStorage.removeItem('gamba_review_' + u.id));
   UNITS.forEach(u => refreshCard(u.id));
-  updateStats();
-  applyFilter();
+  updateStats(); applyFilter();
 }
-
 function resetAll(){
   if(!confirm('全単元の進捗・A/B/C記録をすべてリセットしますか？')) return;
   UNITS.forEach(u => {
@@ -346,8 +484,7 @@ function resetAll(){
     localStorage.removeItem('gamba_review_' + u.id);
   });
   UNITS.forEach(u => refreshCard(u.id));
-  updateStats();
-  applyFilter();
+  updateStats(); applyFilter();
 }
 
 buildCards();
