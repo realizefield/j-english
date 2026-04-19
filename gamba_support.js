@@ -13,7 +13,7 @@
   /* ══════════════════════════════════
      ★ 設定（ここだけ変更）
      ══════════════════════════════════ */
-  const LINE_URL = 'https://line.me/R/ti/p/ここに先生のLINE_IDを入れる';
+  const LINE_URL = 'https://line.me/R/ti/p/@735itfta';
 
   /* ── 科目判定 ── */
   function detectSubject() {
