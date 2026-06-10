@@ -361,13 +361,14 @@ function renderPool() {
 }
 
 function handleTargetClick(el) {
-    if (!isChallenging || !selectedWord || el.textContent !== "") return;
+    if (!isChallenging || !selectedWord || el.classList.contains("filled")) return;
     if (selectedWord === el.dataset.ans) {
         el.textContent = selectedWord;
+        el.classList.add("filled");
         el.classList.remove("is-active");
         document.getElementById(selectedId).classList.add("hidden");
         selectedWord = null;
-        if([...document.querySelectorAll(".blank, .square")].every(s => s.textContent !== "")) finishStep();
+        if([...document.querySelectorAll(".blank, .square")].every(s => s.classList.contains("filled"))) finishStep();
     } else { alert("もうチョイ！"); }
 }
 
