@@ -231,23 +231,22 @@ let ppWord=null;
 
 // ===== ユーティリティ =====
 function speak(text){
-  if(!window.speechSynthesis)return;
-  const s=window.speechSynthesis; s.cancel();
+  if(!window.speechSynthesis) return;
+  const synth=window.speechSynthesis;
+  synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.15;
-  function go(){
-    const vs=s.getVoices();
-    if(vs.length){
-      // 女性音声を優先して選ぶ
-      const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','Susan','Nicky'];
-      const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-      const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k.toLowerCase())));
-      const chosen=female||enVoices[0];
-      if(chosen)u.voice=chosen;
-    }
-    setTimeout(()=>{try{s.speak(u);}catch(e){}},50);
+  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  const vs=synth.getVoices();
+  if(vs.length){
+    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
+    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
+    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||enVoices[0];
+    if(chosen)u.voice=chosen;
+  } else {
+    synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
   }
-  s.getVoices().length?go():(s.onvoiceschanged=()=>{s.onvoiceschanged=null;go();},setTimeout(go,1500));
+  try{synth.speak(u);}catch(e){}
 }
 
 function fmt(sec){return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');}
@@ -255,7 +254,7 @@ function fmt(sec){return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(s
 function wrapW(word){
   const k=Object.keys(DICT).find(k=>k.toLowerCase()===word.toLowerCase().replace(/[.,?"]/g,''));
   if(k){
-    const esc=JSON.stringify(k);
+    const esc=JSON.stringify(k).replace(/\"/g,'&quot;');
     return '<span class="imp"'
       +' onmouseenter="openPopup('+esc+')"'
       +' onmouseleave="scheduleClose()"'
@@ -571,7 +570,7 @@ function applyImp(html){
   Object.keys(DICT).sort((a,b)=>b.length-a.length).forEach(function(k){
     // >テキスト< の形でタグ外のテキストのみ置換
     html=html.replace(/>([^<]+)</g,function(m,txt){
-      var esc=JSON.stringify(k);
+      var esc=JSON.stringify(k).replace(/\"/g,'&quot;');
       var span='<span class="imp" onmouseenter="openPopup('+esc+')" onmouseleave="scheduleClose()" ontouchstart="event.preventDefault();openPopup('+esc+')">$1</span>';
       // 単語として出現する場合のみ置換（前後が英字・アポストロフィ以外）
       var safeK=k.replace(/[.*+?\^${}()|]/g,'\\$&').replace('[','\\[').replace(']','\\]');
