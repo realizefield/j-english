@@ -205,10 +205,57 @@ const MASTER_DATA={
 };
 let currentMode='info',isChallenging=false,selectedWord=null,selectedId=null,startTime,timerInterval;
 let records=[null,null,null,null,null];
-function speak(text){if(!window.speechSynthesis)return;const s=window.speechSynthesis;s.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=0.82;function d(){const vs=s.getVoices();if(vs.length>0){const v=vs.find(v=>v.lang==='en-US')||vs.find(v=>v.lang.startsWith('en'));if(v)u.voice=v;}setTimeout(()=>{try{s.speak(u);}catch(e){}},50);}if(s.getVoices().length===0){s.onvoiceschanged=()=>{s.onvoiceschanged=null;d();};setTimeout(()=>{s.onvoiceschanged=null;d();},1500);}else d();}
+function speak(text){
+  if(!window.speechSynthesis) return;
+  const synth=window.speechSynthesis;
+  synth.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  const vs=synth.getVoices();
+  if(vs.length){
+    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
+    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
+    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||enVoices[0];
+    if(chosen)u.voice=chosen;
+  } else {
+    synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
+  }
+  try{synth.speak(u);}catch(e){}
+}
 function speakData(btn){speak(btn.getAttribute('data-sp'));}
-function wrapWord(word){const key=Object.keys(DICT).find(k=>k.toLowerCase()===word.toLowerCase().replace(/[.,?!']/g,''));if(key)return`<span class="imp-word">${word}<span class="tooltip">${DICT[key]}<br><button class="add-btn" onclick="event.stopPropagation();speak('${word}')">🔊</button><button class="add-btn" onclick="event.stopPropagation();addToVocab('${key}')">📗</button></span></span>`;return word;}
-function addToVocab(word){const list=document.getElementById('my-vocab');if([...list.querySelectorAll('strong')].some(s=>s.textContent===word))return;const li=document.createElement('li');li.innerHTML=`<strong>${word}</strong> <button onclick="speak('${word}')" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button><br><small style="color:var(--text-sub)">${DICT[word]||''}</small>`;list.appendChild(li);}
+function wrapWord(word){
+  const key=Object.keys(DICT).find(k=>k.toLowerCase()===word.toLowerCase().replace(/[.,?!]/g,''));
+  if(key){
+    const esc=s=>String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<span class="imp-word">${word}<span class="tooltip">${DICT[key]}<br>`
+      +`<button class="add-btn" onclick="event.stopPropagation();speak('${esc(word)}')">🔊</button>`
+      +`<button class="add-btn" onclick="event.stopPropagation();addToVocab('${esc(key)}')">📗</button></span></span>`;
+  }
+  return word;
+}
+const VOCAB_KEY_EA35='vocab_EA35';
+function getVocab(){try{return JSON.parse(localStorage.getItem(VOCAB_KEY_EA35))||[];}catch(e){return[];}}
+function setVocab(a){try{localStorage.setItem(VOCAB_KEY_EA35,JSON.stringify(a));}catch(e){}}
+function addToVocab(word){
+  const sv=getVocab();
+  if(sv.some(v=>v.word===word))return;
+  sv.push({word:word,meaning:DICT[word]||''});
+  setVocab(sv);
+  renderMyVocab();
+}
+function delVocabWord(word){
+  const sv=getVocab().filter(v=>v.word!==word);
+  setVocab(sv);
+  renderMyVocab();
+}
+function renderMyVocab(){
+  const list=document.getElementById('my-vocab');
+  if(!list)return;
+  const sv=getVocab();
+  if(!sv.length){list.innerHTML='<li style="background:none;border:none;color:var(--text-sub);padding:4px 0;">まだ単語が保存されていません。緑の単語をタップして追加しよう！</li>';return;}
+  list.innerHTML=sv.map(v=>`<li><strong>${v.word}</strong> <button onclick="speak('${v.word}')" style="background:var(--orange);color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">🔊</button><button onclick="delVocabWord('${v.word}')" style="background:#94a3b8;color:#fff;border:none;padding:2px 7px;border-radius:50px;font-size:.72em;cursor:pointer;margin-left:4px;">✕</button><br><small style="color:var(--text-sub)">${v.meaning}</small></li>`).join('');
+}
 function changeStep(mode){currentMode=mode;isChallenging=false;clearInterval(timerInterval);document.getElementById('timer').textContent='00:00';document.getElementById('pool-fixed').style.display='none';document.getElementById('start-btn').style.display='block';const cc=document.getElementById('challenge-controls');if(cc)cc.classList.remove('visible');document.querySelectorAll('.step-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+mode).classList.add('active');render();}
 function renderInfo(){
   return`
@@ -289,11 +336,19 @@ function showAnswers(){clearInterval(timerInterval);isChallenging=false;document
 function resetRecords(){if(!confirm('リセットしますか？'))return;records=[null,null,null,null,null];for(let i=0;i<5;i++)document.getElementById('rec-'+i).textContent='--:--';document.querySelectorAll('.step-btn').forEach(b=>b.classList.remove('completed'));changeStep('info');}
 function getMean(raw){const p=raw.split(')');return p.length>=2?p[p.length-1].trim():raw.trim();}
 let vtQ=[],vtIdx=0,vtOk=0;
-function startVocabTest(){const items=[...document.getElementById('my-vocab').children];const area=document.getElementById('vocab-test-area');if(items.length===0){alert('単語帳にまだ単語がありません！');return;}vtQ=items.map(li=>(({word:li.querySelector('strong')?.textContent.trim()||''  ,mean:getMean(li.querySelector('small')?.textContent.trim()||'')}))).filter(v=>v.word&&v.mean);vtQ.sort(()=>Math.random()-.5);vtIdx=0;vtOk=0;area.style.display='block';renderVtQ();area.scrollIntoView({behavior:'smooth',block:'start'});}
+function startVocabTest(){
+  const sv=getVocab();
+  const area=document.getElementById('vocab-test-area');
+  if(sv.length===0){alert('単語帳にまだ単語がありません！');return;}
+  vtQ=sv.map(v=>({word:v.word,mean:getMean(v.meaning||'')})).filter(v=>v.word&&v.mean);
+  vtQ.sort(()=>Math.random()-.5);vtIdx=0;vtOk=0;area.style.display='block';renderVtQ();
+  area.scrollIntoView({behavior:'smooth',block:'start'});
+}
 function renderVtQ(){const area=document.getElementById('vocab-test-area'),total=vtQ.length;if(vtIdx>=total){renderVtEnd();return;}const q=vtQ[vtIdx];const pool=Object.values(DICT).map(getMean).filter(m=>m&&m!==q.mean).sort(()=>Math.random()-.5);const choices=[q.mean,...pool.slice(0,3)].sort(()=>Math.random()-.5);const pct=Math.round(vtIdx/total*100);const btns=choices.map(ch=>`<button class="vocab-choice" onclick="checkVtA(this,${JSON.stringify(ch)},${JSON.stringify(q.mean)},${JSON.stringify(q.word)})">${ch}</button>`).join('');area.innerHTML=`<div class="vocab-test-card"><div style="font-size:.82em;color:var(--text-sub);font-weight:700;margin-bottom:10px;">📝 単語テスト ${vtIdx+1}/${total}問<div style="background:var(--border);border-radius:4px;height:5px;margin-top:6px;"><div style="background:var(--primary);height:5px;border-radius:4px;width:${pct}%;"></div></div></div><div class="vocab-q">${q.word} <button onclick="speak('${q.word}')" style="background:var(--orange);color:#fff;border:none;padding:3px 10px;border-radius:50px;font-size:.72em;cursor:pointer;vertical-align:middle;">🔊</button></div><div class="vocab-choices">${btns}</div></div>`;}
 function checkVtA(btn,chosen,correct,word){[...btn.parentElement.querySelectorAll('.vocab-choice')].forEach(b=>{b.disabled=true;if(b.textContent.trim()===correct)b.classList.add('correct');});const ok=chosen.trim()===correct.trim();if(ok){btn.classList.add('correct');vtOk++;}else btn.classList.add('wrong');setTimeout(()=>{vtIdx++;renderVtQ();},ok?700:1400);}
 function renderVtEnd(){const total=vtQ.length,area=document.getElementById('vocab-test-area');const msg=vtOk===total?'🎉 全問正解！':vtOk>=total*.75?'👍 あと少し！':'📖 もう一度復習しよう！';area.innerHTML=`<div class="vocab-test-card" style="text-align:center;"><div class="vocab-score" style="color:${vtOk===total?'var(--success)':'var(--accent)'};">${msg}<br>${vtOk}/${total} 正解</div><button class="btn-vocab-retry" onclick="startVocabTest()">🔁 もう一度</button> <button class="btn-vocab-retry" style="background:var(--text-sub);" onclick="document.getElementById('vocab-test-area').style.display='none'">✕ 閉じる</button></div>`;}
 window.addEventListener('pagehide',()=>{if(window.speechSynthesis)speechSynthesis.cancel();});
+renderMyVocab();
 changeStep('info');
 </script>
 <script src="gamba_support.js"></script>
