@@ -340,5 +340,6 @@ document.getElementById('btnAgain').addEventListener('click',()=>{document.getEl
 function goNext(){stopAuto();const n=currentStep+1;if(n>4)return;showStep(n);if(n===1){initFlash();startTimer();}else if(n===2)initTap();else if(n===3)initQuiz();else if(n===4)initSpell();}
 initWordList();showStep(0);
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>
