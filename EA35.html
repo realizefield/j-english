@@ -210,13 +210,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -261,6 +263,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">現在分詞の形容詞的用法「〜している」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">動詞に<strong>-ing</strong>をつけた形（これを<strong>現在分詞</strong>といいます）を名詞の前や後ろに置くと、「〜している（名詞）」のように、その名詞が<strong>自分から何かをしている最中</strong>であることを表せます。たとえば a sleeping baby は「眠っている赤ちゃん」で、赤ちゃんが自分で「眠る」という動作をしています。分詞が<strong>1語だけ</strong>のときは sleeping baby のように<strong>名詞の前</strong>に置きますが、running over there（あそこで走っている）のように<strong>分詞のあとに語句が続いて2語以上のかたまり</strong>になるときは、the boy running over there のように<strong>名詞の後ろ</strong>に置きます。「前に置くか後ろに置くか」は、分詞がひとりぼっちか、仲間（語句）を連れているかで決まる、と覚えるとわかりやすいです。</p>
     <div class="proc-box">
       <div class="proc-label">📌 現在分詞（動詞ing）のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>動詞 ＋ ing</strong>「〜している」で名詞を修飾（形容詞の働き）</div></div>
@@ -278,6 +281,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">過去分詞の形容詞的用法「〜された」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">動詞の<strong>過去分詞</strong>（have/hasとセットで使うときと同じ形で、visited や broken、written のような形です）を名詞の前や後ろに置くと、「〜された（名詞）」のように、その名詞が<strong>他から動作をされた側</strong>であることを表せます。たとえば a broken window は「壊れた窓」で、窓が自分で壊れたのではなく、<strong>誰かに壊された</strong>という意味です。ここが現在分詞との大きな違いで、a sleeping baby（自分で眠っている＝する側）に対して、a broken window（誰かに壊された＝される側）というように、<strong>-ing は「する側」、過去分詞は「される側」</strong>と対にして覚えると区別しやすくなります。分詞が1語だけなら broken window のように<strong>名詞の前</strong>、written in English（英語で書かれた）のように語句が続くときは a letter written in English のように<strong>名詞の後ろ</strong>に置くのは、現在分詞のときと同じルールです。</p>
     <div class="proc-box">
       <div class="proc-label">📌 過去分詞のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>過去分詞</strong>「〜された・〜している（状態）」で名詞を修飾</div></div>

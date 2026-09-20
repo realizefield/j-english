@@ -237,13 +237,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -295,9 +297,11 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">現在進行形「〜している」とは？</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼は今、本を読んでいます」のように、<strong>ちょうど今している最中の動作</strong>を表すときに使うのが<strong>現在進行形</strong>です。ふつうの現在形「彼は本を読みます」が習慣や事実を表すのに対し、現在進行形は「まさに今」という一時的な動作を表します。作り方は、<strong>be動詞</strong>（is・am・are）と、動詞を<strong>-ing 形</strong>（今まさにその動作をしている、という形）にしたものをセットで使うだけです。</p>
     <div class="proc-box">
-      <div class="proc-label">📌 現在進行形の公式</div>
-      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">be動詞（is / am / are）＋ 動詞の <strong>-ing 形</strong>（現在分詞）</div></div>
+      <div class="proc-label">📌 現在進行形の作り方</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">主語に合わせて<strong>be動詞</strong>（is / am / are）を選びます。</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">動詞を<strong>-ing 形</strong>（現在分詞）にして、be動詞のすぐあとに置きます。</div></div>
     </div>
     <div class="origin-box">
       <div class="origin-en">He reads a book. → <strong>He is reading a book.</strong> <button class="voice-btn" onclick="speak('He is reading a book.')">🔊</button></div>
@@ -307,6 +311,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">-ing のつけ方（3パターン）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">動詞を -ing 形にするときは、単語の終わり方によって<strong>3つのパターン</strong>があります。すべて ing をつけるだけではなく、スペルが少し変わるものがあるので、下の表でルールを確認してから練習問題に進みましょう。</p>
     <table class="ing-table">
       <tr><th>パターン</th><th>例</th><th>-ing 形</th></tr>
       <tr><td>①そのまま ing をつける</td><td>play / go / study</td><td class="em">playing / going / studying</td></tr>
@@ -316,13 +321,21 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">3</span><span class="section-title-text">否定文「〜していない」</span></div>
-    <div class="proc-box"><div class="proc-label">📌 be動詞のすぐ後に not を置く</div><div class="proc-step"><div class="proc-arrow">→</div><div class="proc-txt">is not → <strong>isn't</strong>　/ are not → <strong>aren't</strong></div></div></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼は今、勉強をしていません」のように、進行形を<strong>否定</strong>にしたいときは、be動詞（is / am / are）のすぐあとに<strong>not</strong>を置くだけです。ふつうの一般動詞の否定文とちがい、do / does は使いません。</p>
+    <div class="proc-box"><div class="proc-label">📌 否定文の作り方</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">be動詞（is / am / are）のすぐあとに <strong>not</strong> を置きます。</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">短縮形もよく使います。is not → <strong>isn't</strong>　/ are not → <strong>aren't</strong></div></div>
+    </div>
     <div class="origin-box"><div class="origin-en">He <strong>isn't</strong> studying now. <button class="voice-btn" onclick="speak('He isn\'t studying now.')">🔊</button></div><div class="origin-jp">彼は今勉強をしていません。</div></div>
     <div class="point-box"><div class="point-title">📌 否定文の公式</div><div class="point-formula"><span class="wh">be動詞 + not</span>（isn't / aren't / am not） ＋ -ing 形 〜</div></div>
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">4</span><span class="section-title-text">疑問文「〜していますか？」</span></div>
-    <div class="proc-box"><div class="proc-label">📌 be動詞を文頭に出す</div></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼女は台所で料理をしていますか」のようにたずねたいときは、be動詞を主語の<strong>前</strong>に出して文の一番先頭に置きます。「今何をしていますか」のように具体的な内容をたずねたいときは、What などの<strong>疑問詞</strong>をさらにその前に置きます。</p>
+    <div class="proc-box"><div class="proc-label">📌 疑問文の作り方</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">be動詞（is / am / are）を主語の前に出し、文の一番先頭に置きます。</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">「何を」などをたずねたいときは、疑問詞をさらにその前に置きます。</div></div>
+    </div>
     <div class="origin-box">
       <div class="origin-en">She is cooking in the kitchen. → <strong>Is she cooking in the kitchen?</strong> <button class="voice-btn" onclick="speak('Is she cooking in the kitchen?')">🔊</button></div>
       <div class="origin-jp">彼女は台所で料理をしていますか？</div>

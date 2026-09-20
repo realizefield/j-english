@@ -229,13 +229,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -280,6 +282,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">as 原級 as 〜「〜と同じくらい…」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼はあなたと同じくらい背が高い」のように、<strong>2つのものや人を比べて、程度が同じくらいだ</strong>と言いたいときに使うのが as 〜 as … という形です。ここでいう「原級」とは、tall（背が高い）や fast（速い）のように、<strong>比較のために形を変える前の、もとのままの形容詞・副詞</strong>のことです（more や -er をつけません）。as と as の間にこの原級をはさみ、2つ目の as のうしろに比べる相手を置きます。日本語では「〜と」の部分が先に来ますが、英語では先に「主語＋動詞」を言ってから「as 原級 as 相手」を後ろにつけ加える、という語順の違いに注意しましょう。</p>
     <div class="proc-box">
       <div class="proc-label">📌 as 〜 as の作り方</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">形容詞・副詞の<strong>原級</strong>（変化しない元の形）をそのまま使う</div></div>
@@ -300,6 +303,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">not as 原級 as 〜「…ほど〜ではない」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼はあなたほど背が高くない」のように、<strong>2つを比べて、一方のほうが程度が低い（劣っている）</strong>と言いたいときは、as 〜 as の文に <strong>not</strong> を加えます。作り方はとても簡単で、be動詞や助動詞のうしろに not を入れるだけです。He is as tall as you.（彼はあなたと同じくらい背が高い）を否定にすると、He is not as tall as you.（彼はあなたほど背が高くない）となり、「同じくらい」ではなく「あなたのレベルまでは届いていない」という意味になります。can のような助動詞を使う文では、can't（＝can not）を使って同じように否定します。</p>
     <div class="proc-box">
       <div class="proc-label">📌 否定形：not as 〜 as</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">be動詞の後に <strong>not</strong> を入れる → is not / are not / isn't / aren't</div></div>

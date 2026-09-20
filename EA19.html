@@ -235,13 +235,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -286,6 +288,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">a piece of / a cup of / a glass of</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">paper（紙）や coffee（コーヒー）、water（水）のような<strong>数えられない名詞（不可算名詞）</strong>は、そのままでは「1枚」「1杯」というように数を表すことができません。そこで、数えられる「入れ物」や「単位」を表す語を借りて、<strong>a 〜 of + 不可算名詞</strong>という形で数を表します。紙のような薄いものには <strong>a piece of</strong>（1枚の）、コーヒーや紅茶のような<strong>熱い飲み物</strong>には <strong>a cup of</strong>（1杯の）、水や牛乳のような<strong>冷たい飲み物</strong>には <strong>a glass of</strong>（1杯の）を使います。2つ以上に増えるときは、a を two などの数に変えて、piece → pieces、cup → cups、glass → glasses のように<strong>単位のほうを複数形</strong>にします（うしろの coffee や water 自体は形が変わりません）。</p>
     <div class="proc-box">
       <div class="proc-label">📌 不可算名詞を「数える」ときの表現</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>a piece of 〜</strong>「1枚の〜・1切れの〜」（paper・bread など）</div></div>
@@ -317,6 +320,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">There is / are ↔ has / have 書きかえ</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「この家には5つの部屋があります」という同じ内容の日本語でも、英語では複数の言い方ができます。There are five rooms in this house.（この家に5つの部屋がある）は、主語を「家」に変えて This house has five rooms.（この家は5つの部屋を持っている）と書きかえることができます。どちらも文の形は違いますが、伝えている内容（＝家に部屋が5つある）はまったく同じです。同じように、雨や雪などの天候を表す文も、There is（存在を表す言い方）・It rains（天候の動詞を使う言い方）・have（持っているという言い方）の<strong>3通り</strong>で表すことができます。</p>
     <div class="proc-box">
       <div class="proc-label">📌 同じ意味の文に書きかえられる！</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>There are 〜 in …</strong> ＝ <strong>… has 〜</strong></div></div>

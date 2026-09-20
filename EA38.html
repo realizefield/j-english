@@ -211,13 +211,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -262,6 +264,14 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">付加疑問文「〜ですよね？」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">付加疑問文というのは、文の最後に短い確認の質問をつけ加えて、「〜ですよね？」「〜じゃない？」と相手に念を押す言い方です。日本語で「今日は寒いね？」と言うときの「〜ね？」に近い感覚です。ポイントは、<strong>もとの文と反対の形</strong>を後ろにつけることです。もとの文が<strong>肯定文</strong>（notが付かない、ふつうの文）なら後ろは<strong>否定形</strong>に、もとの文が<strong>否定文</strong>（notが付く文）なら後ろは<strong>肯定形</strong>にします。反対の形にする理由は、新しい質問をしているのではなく「あなたもそう思うよね？」と確認しているだけだから、とイメージするとわかりやすいです。さらに、後ろにつける部分の主語は、もとの文の主語を it・he・she などの<strong>代名詞</strong>に置きかえます。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 付加疑問文を作る手順</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">元の文：<strong>This is your bag.</strong>（これはあなたのかばんです）→ notが無いので肯定文</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">文の動詞を確認する → <strong>is</strong>（be動詞）</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">肯定文なので、反対の<strong>否定形</strong>にする → is → <strong>isn't</strong></div></div>
+      <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">主語 This を代名詞 <strong>it</strong> に置きかえ、コンマの後ろにつける → <strong>This is your bag, isn't it?</strong> <button class="voice-btn" onclick="speakData(this)" data-sp="This is your bag, isn't it?">🔊</button></div></div>
+    </div>
     <div class="proc-box">
       <div class="proc-label">📌 付加疑問文のルール</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">文の後ろに <strong>「〜, 否定形＋主語?」</strong> をつける</div></div>
@@ -288,6 +298,14 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">間接疑問文「〜かを知っている」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">間接疑問文というのは、疑問文（〜ですか？とたずねる文）を、I know 〜.（私は〜を知っている）のような<strong>別の文の中に組みこんだ</strong>形のことです。ふつうの疑問文 Where does he live?（彼はどこに住んでいますか？）は、動詞の前に do/does/did が出てきたり、主語と動詞の順番が入れかわったりする特別な語順です。ところが、他の文の中に入って「〜かということ」という<strong>意味のかたまり</strong>になると、この特別な語順は消えて、<strong>疑問詞＋主語＋動詞</strong>というふつうの文と同じ語順にもどります。ここが最大のポイントです。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 間接疑問文を作る手順</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">元の疑問文：<strong>Where does he live?</strong>（彼はどこに住んでいますか？）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">do/does は疑問文を作るためだけの語なので消し、動詞をふつうの形にもどす → does...live → <strong>he lives</strong></div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">語順を<strong>疑問詞＋主語＋動詞</strong>の順に整える → <strong>where he lives</strong></div></div>
+      <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">I know の後ろにつなげる → <strong>I know where he lives.</strong></div></div>
+    </div>
     <div class="proc-box">
       <div class="proc-label">📌 間接疑問文のルール</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">疑問詞（where/when/what/who/why/how）を文の中に埋め込む</div></div>

@@ -200,13 +200,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -251,6 +253,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">動名詞「〜すること」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">動詞の語尾に<strong>ing</strong>をつけて、「〜すること」という名詞と同じ働きをする形にしたものを<strong>動名詞</strong>と呼びます。作り方は現在進行形（be動詞＋ing）のときのingのつけ方とまったく同じで、swim→swimming、run→running、make→makingのように変化します。to不定詞の名詞的用法（to＋原形）も「〜すること」という同じ意味を表せますが、動名詞は<strong>ingという形そのもの</strong>が「動作のイメージ」を強く感じさせるため、実際にやっていること・繰り返していることを表す場面でよく使われます。動名詞は、文の主語になったり（Swimming is fun.＝泳ぐことは楽しい）、動詞の目的語になったり、前置詞（in, atなど）のすぐ後ろに置かれたりします。</p>
     <div class="proc-box">
       <div class="proc-label">📌 動名詞の作り方</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>動詞＋ing</strong> で名詞のように使う「〜すること」</div></div>
@@ -266,6 +269,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">動名詞だけとる動詞（要注意！）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">英語の動詞の中には、目的語としてto不定詞しかとれないもの（want, hopeなど）、動名詞しかとれないもの、そしてどちらもとれるものの3種類があります。ここで学ぶenjoy（楽しむ）、stop（やめる）、finish（終える）、keep（し続ける）、give up（あきらめる）は、うしろに<strong>動名詞（〜ing）</strong>しか置けない動詞です。これらの動詞に共通しているのは、<strong>「すでに始まっている動作」や「今まさに行っている動作」</strong>を扱う点です。「楽しむ」「やめる」「終える」はどれも、これからやることではなく、すでに行っている・行っていた動作について話していますね。ですから、これから先のことを表すto不定詞ではなく、今の動作そのものをイメージさせる動名詞と相性がよいのです。<strong>enjoy to swim</strong>とは言えず、<strong>enjoy swimming</strong>としなければならない点に注意しましょう。</p>
     <div class="proc-box">
       <div class="proc-label">📌 動名詞のみOK（to不定詞はNG！）</div>
       <div class="proc-step"><div class="proc-arrow">●</div><div class="proc-txt"><strong>enjoy ＋ 動名詞</strong>「〜することを楽しむ」</div></div>

@@ -230,13 +230,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -281,6 +283,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">can「〜できる」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「泳ぐことができる」「日本語を話すことができる」のように、<strong>「〜することができる」</strong>という意味をつけ加えたいときに使うのが <strong>can</strong>（キャン）です。can のように、動詞に意味をプラスして助ける働きをする語を<strong>助動詞</strong>といいます。助動詞は主語がだれであっても形が変わらず、そのすぐ後ろの動詞はいつも<strong>原形（変化する前のもとの形）</strong>のままにするというルールがあります。例えば、He plays the guitar.（彼はギターを弾く）という文に「〜できる」を加えたいときは、plays をそのまま使わず、He can play the guitar.（彼はギターを弾くことができる）のように、can のうしろの動詞を原形 play に戻します。</p>
     <div class="proc-box">
       <div class="proc-label">📌 can の使い方</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">can は動詞の<strong>直前</strong>に置く</div></div>
@@ -298,7 +301,13 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">can't「〜できない」（否定）</span></div>
-    <div class="proc-box"><div class="proc-label">📌 can't = can not の短縮形</div></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「〜することができない」と言いたいときは、can のうしろに <strong>not</strong>（〜ない）をつけて <strong>can not</strong> にします。ただし実際の英語では、can not をそのまま使うことはほとんどなく、短く縮めた <strong>can't</strong>（キャント）の形がふつうに使われます。can't も助動詞であることに変わりはないので、そのうしろの動詞は can のときと同じようにいつも<strong>原形</strong>のままです。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 can't = can not の短縮形</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>can't</strong> ＝ can + not を短くした形。「〜することができない」という否定の意味になる</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">can't のうしろの動詞も、can のときと同じく必ず<strong>原形</strong></div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">文の形は肯定文の can を can't に置きかえるだけ。語順は変わらない</div></div>
+    </div>
     <div class="origin-box">
       <div class="origin-en">He <strong>can't</strong> swim in the sea. <button class="voice-btn" onclick="speak('He can\'t swim in the sea.')">🔊</button></div>
       <div class="origin-jp">彼は海で泳ぐことができない。</div>
@@ -311,7 +320,14 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">3</span><span class="section-title-text">Can 〜?「〜できますか？」（疑問）</span></div>
-    <div class="proc-box"><div class="proc-label">📌 Can を文頭に出す</div></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「〜することができますか？」と相手にたずねたいときは、can を主語より前、つまり<strong>文の一番先頭</strong>に移動させます。You can speak Japanese.（あなたは日本語を話せる）という文なら、can を先頭に出して Can you speak Japanese?（あなたは日本語を話せますか？）にするだけです。主語と動詞の原形の順番はそのままで、文の最後に「？」をつければ完成です。答えるときは、can をそのまま使って Yes, I can. / No, I can't. のように短く答えます。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 Can を文頭に出す</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">ふつうの文の <strong>can を主語の前</strong>（文の先頭）に移動する</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">主語 ＋ 動詞の原形の順番はそのまま変えない</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">文の最後に <strong>?</strong>（クエスチョンマーク）をつける</div></div>
+      <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">答えるときも <strong>can / can't</strong> を使って短く答える</div></div>
+    </div>
     <div class="origin-box">
       <div class="origin-en"><strong>Can</strong> you speak Japanese? <button class="voice-btn" onclick="speak('Can you speak Japanese?')">🔊</button></div>
       <div class="origin-jp">あなたは日本語を話せますか？</div>
@@ -325,7 +341,13 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">4</span><span class="section-title-text">can 〜 well の書き換え</span></div>
-    <div style="font-size:.9em;color:var(--text-sub);margin-bottom:10px;">「〜を上手にできる」は「良い〜選手・話し手」と書き換えられます。</div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼は上手に野球ができる」という文は、「彼は良い野球選手だ」という文とほとんど同じ意味になります。このように、<strong>can + 動詞 + well</strong>（〜を上手にできる）という文は、<strong>be動詞 + a good + 〜する人を表す名詞</strong>という形に書きかえることができます。例えば play（する・弾く）という動詞なら player（選手・演奏者）、speak（話す）なら speaker（話す人）というように、動詞のうしろに -er や -or をつけると「〜する人」を表す名詞になることが多いです。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 書きかえの手順</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">can + 動詞 + well の文を見つける（例：He can play baseball well.）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">動詞に対応する「〜する人」を表す名詞を考える（play→player、speak→speaker、swim→swimmer など）</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">「主語 ＋ is/am/are ＋ a good ＋ その名詞」の形に置きかえる（例：He is a good baseball player.）</div></div>
+    </div>
     <table class="rewrite-table">
       <tr><th>can 〜 well</th><th>書き換え</th></tr>
       <tr><td>He can play baseball well.</td><td>He is <span class="em">a good baseball player</span>.</td></tr>

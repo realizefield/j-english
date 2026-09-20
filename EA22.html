@@ -262,13 +262,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -313,6 +315,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">the ＋ 最上級「もっとも〜」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">三つ以上のものを比べて、その中で「いちばん〜だ」と言うときに使うのが<strong>最上級</strong>です。たとえばクラスに30人いるとして、その中で「いちばん背が高い人」を表すには、tall（背が高い）を<strong>tallest</strong>という形にかえ、その前に必ず<strong>the</strong>（その、例の）をつけます。theをつけるのは、「いちばん〜な人・もの」はふつう1人・1つしかない、特定できる存在だからです。比較級のときと同じで、短い単語は語尾に<strong>-est</strong>をつけ、popularのように長い単語は<strong>most</strong>を前に置きます。また、「〜の中で」を表すときは、<strong>in</strong>（〜の中で／単数の場所やグループ）と<strong>of</strong>（〜のうちで／複数のものやall）を使い分けます。たとえば「クラスの中で」はin his class、「3人のうちで」はof the threeのように使います。</p>
     <div class="proc-box">
       <div class="proc-label">📌 最上級の作り方と使い方</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">一般：語尾に <strong>-est</strong>（tall→tallest, old→oldest）</div></div>
@@ -344,6 +347,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">like 〜 the best / Who・Which ＋ 最上級 / one of the 最上級</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">最上級には、覚えておくと便利な応用パターンが3つあります。1つ目は<strong>like 〜 the best of …</strong>「…の中で〜がいちばん好き」で、比較級のbetterが最上級ではthe bestにかわった形です。2つ目は<strong>Who・Which</strong>で文を始めて最上級をたずねる疑問文で、「だれが／どれがいちばん〜ですか」という意味になります。3つ目は<strong>one of the 最上級 ＋ 複数名詞</strong>「もっとも〜な…のうちの1つ」で、「1つ」のことなのに、あとの名詞は必ず<strong>複数形</strong>になる点に注意が必要です。これは「いちばん〜なものはたくさんある中の1つ」という考え方だからです。たとえば東京だけが日本でいちばん大きいと決めつけるのではなく、大きな都市はいくつもあり、その中の1つが東京だ、というイメージでone of the biggest citiesと表現するのです。</p>
     <div class="proc-box">
       <div class="proc-label">📌 応用パターン3つ</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>like 〜 the best of …</strong>「…の中で〜がもっとも好き」</div></div>

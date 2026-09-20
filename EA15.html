@@ -221,13 +221,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -272,6 +274,13 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">今日は何曜日？ / 何月何日？</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「今日は何曜日ですか」「今日は何月何日ですか」のように、<strong>日付や曜日</strong>をたずねる言い方は、日本語とちがって少し特別です。英語では、日付や曜日を主語にするとき<strong>it</strong>（それ、とは訳さない特別な it）を使います。たずねるときも、下のような決まった形をそのまま覚えてしまいましょう。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 「曜日」と「何日」をたずねる2つの形</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>What day</strong> is today?（今日は何曜日ですか。）<br><small style="color:var(--text-sub);">day＝「日・曜日」。What day で「何曜日」という意味になります。</small></div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt"><strong>What's the date</strong> today?（今日は何月何日ですか。）<br><small style="color:var(--text-sub);">date＝「日付」。What's は What is を短くした形です。</small></div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">答えるときは、どちらも<strong>It's</strong> 〜.（それは〜です。）の形を使います。<br><small style="color:var(--text-sub);">It's Sunday.（日曜日です）／ It's February 2.（2月2日です）のように、そのまま曜日や日付を続けます。</small></div></div>
+    </div>
     <div class="qa-card">
       <div class="qa-q"><span class="qa-label">Q</span><strong>What day</strong> is today? <button class="voice-btn" onclick="speak('What day is today?')">🔊</button></div>
       <div class="qa-a">今日は何曜日ですか？　→ It's Sunday.（日曜日です。）</div>
@@ -292,6 +301,12 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">天気はどう？</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「ニューヨークの天気はどうですか」のように、<strong>状態や様子</strong>をたずねるときに使う疑問詞が<strong>How</strong>（ハウ）です。天気も「晴れ・曇り・雨」のような<strong>状態</strong>の一つなので、天気をたずねるときにも How を使います。天気を答えるときも、日付や曜日と同じように主語に<strong>It</strong>を使います。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 天気をたずねる形</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>How</strong> is the weather in 〜?（〜の天気はどうですか。）<br><small style="color:var(--text-sub);">weather＝「天気」。場所は in のあとに続けます。</small></div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">答えるときは<strong>It's</strong> ＋ 天気を表す形容詞 .（それは〜です。）<br><small style="color:var(--text-sub);">It's sunny.（晴れです）／ It's rainy.（雨です）など。</small></div></div>
+    </div>
     <div class="qa-card">
       <div class="qa-q"><span class="qa-label">Q</span><strong>How</strong> is the <strong>weather</strong> in New York? <button class="voice-btn" onclick="speak('How is the weather in New York?')">🔊</button></div>
       <div class="qa-a">ニューヨークの天気はどうですか？<br>→ It's cloudy.（曇りです。）/ It's fine.（晴れです。）/ It's rainy.（雨です。）/ It's snowy.（雪です。）</div>
@@ -302,6 +317,12 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">3</span><span class="section-title-text">誕生日はいつ？</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「あなたの誕生日はいつですか」のように、<strong>時（いつ）</strong>をたずねるときに使う疑問詞が<strong>When</strong>（ウェン）です。誕生日は「1月31日」のように月と日で答えるので、下の月の名前もあわせて覚えましょう。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 誕生日をたずねる形</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>When</strong> is your birthday?（あなたの誕生日はいつですか。）<br><small style="color:var(--text-sub);">birthday＝「誕生日」。your を her / his にかえれば「彼女／彼の誕生日」になります。</small></div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">答えるときは<strong>It's</strong> ＋ 月 ＋ 日 .（それは〜月〜日です。）<br><small style="color:var(--text-sub);">It's January 31.（1月31日です）のように、月の名前は必ず大文字で書き始めます。</small></div></div>
+    </div>
     <div class="qa-card">
       <div class="qa-q"><span class="qa-label">Q</span><strong>When</strong> is your <strong>birthday</strong>? <button class="voice-btn" onclick="speak('When is your birthday?')">🔊</button></div>
       <div class="qa-a">あなたの誕生日はいつですか？　→ It's January 31.（1月31日です。）</div>

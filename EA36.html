@@ -211,13 +211,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -262,6 +264,21 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">関係代名詞 who（先行詞が人）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">関係代名詞というのは、<strong>2つの文をつなげて1つの文にする</strong>ときに使う言葉です。日本語には無い考え方なので、最初は難しく感じて当然です。あせらず順番に見ていきましょう。例えば「これは女性です。」と「彼女は東京に住んでいます。」という2つの文は、同じ人物について話しています。この2つを英語ではつなげて、「これは東京に住んでいる女性です。」と1つの文で言うことができます。つなげるときは、2つ目の文の主語（she）を関係代名詞に置きかえて、1つ目の文の名詞（a woman）の<strong>すぐ後ろ</strong>にくっつけます。この「説明される名詞」のことを<strong>先行詞</strong>（せんこうし）と呼びます。先行詞が<span style="color:var(--accent);font-weight:700;">人</span>のときは <strong>who</strong> を使います。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 2つの文を1つにする手順（主格＝whoの後ろに動詞）</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">元の2つの文：<strong>This is a woman.</strong>（これは女性です）＋ <strong>She lives in Tokyo.</strong>（彼女は東京に住んでいます）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">2つの文で<strong>同じ人</strong>を指している語を探す → a woman ＝ She</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">後ろの文の主語 She を、人を表す関係代名詞 <strong>who</strong> に置きかえる → who lives in Tokyo</div></div>
+      <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">who 以下のかたまりを、先行詞 a woman の<strong>すぐ後ろ</strong>に置いて1文にする → <strong>This is a woman who lives in Tokyo.</strong> <button class="voice-btn" onclick="speak('This is a woman who lives in Tokyo.')">🔊</button></div></div>
+    </div>
+    <div class="proc-box">
+      <div class="proc-label">📌 2つの文を1つにする手順（目的格＝whoの後ろに主語＋動詞）</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">元の2つの文：<strong>This is the man.</strong>（これはその男性です）＋ <strong>I met him yesterday.</strong>（私は昨日彼に会いました）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">同じ人を指している語を探す → the man ＝ him（met の目的語＝「〜に」にあたる語）</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">目的語 him を <strong>who</strong> に置きかえて、文の<strong>先頭</strong>に移動する → who I met yesterday</div></div>
+      <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">先行詞 the man の後ろにくっつける → <strong>This is the man who I met yesterday.</strong> <button class="voice-btn" onclick="speak('This is the man who I met yesterday.')">🔊</button></div></div>
+    </div>
     <div class="proc-box">
       <div class="proc-label">📌 who のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">先行詞（修飾される名詞）が<strong>人</strong>のとき → <strong>who</strong> を使う</div></div>
@@ -279,6 +296,21 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">関係代名詞 which（先行詞が物・動物）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">which は who と同じ働きをする関係代名詞ですが、先行詞が<span style="color:var(--accent);font-weight:700;">物・動物</span>のときに使います。作り方は who のときとまったく同じで、2つの文の中で<strong>同じ物</strong>を指している語（it など）を which に置きかえて、先行詞のすぐ後ろにつなげるだけです。「人 → who」「物・動物 → which」と、先行詞の種類によって使う関係代名詞を変える、というルールを覚えておきましょう。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 2つの文を1つにする手順（主格）</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">元の2つの文：<strong>This is a book.</strong>（これは本です）＋ <strong>It is interesting.</strong>（それは面白いです）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">同じ物を指している語を探す → a book ＝ It</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">主語 It を、物を表す関係代名詞 <strong>which</strong> に置きかえる → which is interesting</div></div>
+      <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">先行詞 a book の後ろに置く → <strong>This is a book which is interesting.</strong> <button class="voice-btn" onclick="speak('This is a book which is interesting.')">🔊</button></div></div>
+    </div>
+    <div class="proc-box">
+      <div class="proc-label">📌 2つの文を1つにする手順（目的格）</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">元の2つの文：<strong>This is a book.</strong>（これは本です）＋ <strong>He wrote it.</strong>（彼はそれを書きました）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">同じ物を指している語を探す → a book ＝ it（wrote の目的語）</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">目的語 it を <strong>which</strong> に置きかえて、文の先頭に移動する → which he wrote</div></div>
+      <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">先行詞 a book の後ろにくっつける → <strong>This is a book which he wrote.</strong></div></div>
+    </div>
     <div class="proc-box">
       <div class="proc-label">📌 which のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">先行詞が<strong>物・動物</strong>のとき → <strong>which</strong> を使う</div></div>

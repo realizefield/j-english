@@ -210,13 +210,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -261,6 +263,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">It is…to〜「〜することは…だ」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">日本語で「英語を勉強することは大切です」と言うとき、文の主語は「英語を勉強すること」ですね。これを英語でそのまま<strong>To study English is important.</strong>と言うこともできますが、主語の部分が長くなって文の頭が重たくなってしまいます。そこで英語では、<strong>It</strong>という中身のない仮の主語をまず文の頭に置き、本当の主語である<strong>to＋動詞の原形〜</strong>の部分をうしろに回す、という形がよく使われます。これが<strong>It is＋形容詞＋to＋動詞の原形</strong>「〜することは…だ」の形です。この It は「それ」という意味ではなく、あとに出てくる to〜の内容を指す<strong>形式的な（形だけの）主語</strong>なので、日本語には訳しません。「（人）にとって」を付け加えたいときは、形容詞のあとに<strong>for＋人</strong>を入れます。</p>
     <div class="proc-box">
       <div class="proc-label">📌 形式主語 It のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>It is ＋ 形容詞 ＋ to ＋ 動詞原形</strong>「〜することは…だ」</div></div>

@@ -247,13 +247,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -307,10 +309,11 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">命令文①「〜しなさい」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">日本語の「〜しなさい」「〜して」のように、<strong>相手に指示する文</strong>を<strong>命令文</strong>といいます。ふつうの英文は You などの主語から始まりますが、命令文では<strong>主語の You を省略</strong>し、いきなり<strong>動詞の原形</strong>（三単現の s や -ing がつかない、辞書に載っているそのままの形）から文を始めます。</p>
     <div class="proc-box">
-      <div class="proc-label">📌 命令文の作り方</div>
-      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">「You」を取り除く（省略する）</div></div>
-      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">動詞を文の先頭に置く（<strong>原形</strong>のまま）</div></div>
+      <div class="proc-label">📌 命令文の作り方（2ステップ）</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">もとの文から主語の<strong>You</strong>を取りのぞきます。</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">残った動詞を必ず<strong>原形</strong>にして、そのまま文の一番先頭に置きます。</div></div>
     </div>
     <div class="origin-box"><div class="origin-en">You <span class="ul">read</span> the book. → <strong>Read</strong> the book. <button class="voice-btn" onclick="speak('Read the book.')">🔊</button></div><div class="origin-jp">その本を読みなさい。</div></div>
     <div class="origin-box"><div class="origin-en">You <span class="ul">have</span> lunch. → <strong>Have</strong> lunch. <button class="voice-btn" onclick="speak('Have lunch.')">🔊</button></div><div class="origin-jp">昼食を食べなさい。</div></div>
@@ -322,19 +325,28 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">命令文②「〜するな」（禁止）</span></div>
-    <div class="proc-box"><div class="proc-label">📌 禁止の命令文</div><div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">文の先頭に <strong>Don't</strong> を置く</div></div></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「〜してはいけない」「〜するな」のように、<strong>あることを禁止する</strong>ときに使うのが否定の命令文です。①でならった「動詞の原形から始まる命令文」の一番先頭に、<strong>Don't</strong>（ドウント、do not の短縮形）を置くだけで、「〜するな」という意味になります。</p>
+    <div class="proc-box"><div class="proc-label">📌 禁止の命令文の作り方</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">文の一番先頭に <strong>Don't</strong> を置きます。</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">Don't のあとには、動詞の<strong>原形</strong>をそのまま続けます。（be動詞の文でも <strong>Don't be</strong> 〜. の形になります。）</div></div>
+    </div>
     <div class="origin-box"><div class="origin-en"><strong>Don't</strong> run in the classroom. <button class="voice-btn" onclick="speak('Don\'t run in the classroom.')">🔊</button></div><div class="origin-jp">教室では走るな。</div></div>
     <div class="point-box"><div class="point-title">📌 命令文②の公式</div><div class="point-formula"><span class="wh">Don't</span> ＋ 動詞の原形 ＋ 〜 .</div></div>
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">3</span><span class="section-title-text">命令文③「どうか〜してください」（Please）</span></div>
-    <div class="proc-box"><div class="proc-label">📌 お願いの命令文</div><div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">文の先頭に <strong>Please</strong> を置く（やわらかい命令）</div></div></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「どうか〜してください」のように、命令の言い方を<strong>やわらかく、ていねいに</strong>したいときに使うのが Please です。①の「動詞の原形から始まる命令文」の前（または後ろ）に <strong>Please</strong> をつけ加えるだけで、命令文がお願いの表現になります。</p>
+    <div class="proc-box"><div class="proc-label">📌 お願いの命令文の作り方</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">文の一番先頭に <strong>Please</strong> を置く（やわらかい命令になる）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">Please のあとの語順は変わらず、動詞の原形からの命令文がそのまま続きます。文の最後に「, please」と置くこともできます。</div></div>
+    </div>
     <div class="origin-box"><div class="origin-en"><strong>Please</strong> open the window. <button class="voice-btn" onclick="speak('Please open the window.')">🔊</button></div><div class="origin-jp">どうか窓を開けてください。</div></div>
     <div class="origin-box"><div class="origin-en"><strong>Please</strong> be quiet. <button class="voice-btn" onclick="speak('Please be quiet.')">🔊</button></div><div class="origin-jp">どうか静かにしてください。</div></div>
     <div class="point-box"><div class="point-title">📌 命令文③の公式</div><div class="point-formula"><span class="wh">Please</span> ＋ 動詞の原形 ＋ 〜 .</div></div>
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">4</span><span class="section-title-text">命令文④「〜しましょう」（Let's）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「〜しましょう」のように、<strong>相手を誘う</strong>ときに使うのが Let's です。Let's は <strong>let us</strong>（私たちに〜させて）を短くした形で、話している自分も含めて「一緒に〜しよう」と誘う言い方になります。</p>
     <div class="proc-box"><div class="proc-label">📌 誘いかけの命令文</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">文の先頭に <strong>Let's</strong> を置く（<strong>let us</strong> の短縮形）</div></div>
       <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">答え方：<strong>Yes, let's.</strong>（はい，そうしましょう）／ <strong>No, let's not.</strong>（いいえ，よしましょう）</div></div>

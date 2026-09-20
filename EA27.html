@@ -201,13 +201,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -252,6 +254,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">受動態「〜される・〜された」の作り方</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">今まで勉強してきた文は、He writes this letter.（彼はこの手紙を書く）のように、<strong>「する側」を主語にする文</strong>でした。これを能動態（のうどうたい）と言います。ところが英語には、逆に<strong>「される側」を主語にして言う言い方</strong>もあります。これが<strong>受動態</strong>（じゅどうたい）です。日本語で言うと「この手紙は（彼によって）書かれる」のように、「〜される」という言い方になります。作り方はシンプルで、<strong>be動詞＋過去分詞</strong>（かこぶんし＝動詞が変化した形。writeならwritten、buildならbuilt）という形に当てはめるだけです。上の文を受動態にすると、This letter is written by him.（この手紙は彼によって書かれる）となり、もともとの目的語（this letter）が主語になり、動詞がbe＋過去分詞に変わり、もともとの主語（he）はbyの後ろに移動する、という「入れかえ」が起きています。</p>
     <div class="proc-box">
       <div class="proc-label">📌 受動態の作り方</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>be動詞 ＋ 過去分詞</strong>「〜される・〜された」</div></div>
@@ -279,6 +282,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">受動態の否定文・疑問文</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">受動態の否定文・疑問文の作り方は、is/amやareを使ったふつうの文とまったく同じ考え方です。否定文はbe動詞のすぐ後ろに<strong>not</strong>を置くだけ、疑問文は<strong>be動詞（Is/Was）を主語の前に出す</strong>だけで作れます。過去分詞の位置はどちらも変わらないので、「be動詞の部分だけをどう動かすか」に注目すれば大丈夫です。</p>
     <div class="proc-box">
       <div class="proc-label">📌 否定文と疑問文</div>
       <div class="proc-step"><div class="proc-arrow">否定</div><div class="proc-txt"><strong>be動詞 ＋ not ＋ 過去分詞</strong>「〜されない・〜されなかった」</div></div>

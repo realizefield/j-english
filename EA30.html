@@ -208,13 +208,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -259,6 +261,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">現在完了（継続用法）とは？</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">現在完了には、前のEA29で習った「完了用法」のほかに、もうひとつの使い方があります。それが<strong>継続用法</strong>です。「ずっと〜している」のように、<strong>過去に始まったことが、今もまだ続いている</strong>ことを表すときに使います。たとえば「3年前からここに住み始めて、今も住んでいる」という場合、<strong>have／has＋過去分詞</strong>のあとに<strong>for（〜の間）</strong>や<strong>since（〜から）</strong>を続けることで、「どのくらいの長さ」「いつから」続いているのかを説明できます。</p>
     <div class="proc-box">
       <div class="proc-label">📌 継続用法のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>have / has ＋ 過去分詞</strong>「ずっと〜している・〜し続けている」</div></div>
@@ -279,6 +282,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">How long〜? で期間を尋ねる</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「どのくらいの間〜していますか」と<strong>続いている期間の長さをたずねたい</strong>ときは、疑問文の先頭に<strong>How long</strong>（どのくらい長く）を置き、そのあとに現在完了の疑問文の形（Have／Has＋主語＋過去分詞）をそのまま続けます。答えるときは、<strong>for＋期間</strong>（for three years）か<strong>since＋起点</strong>（since 2020）を使って、たずねられた長さや始まった時点を伝えます。</p>
     <div class="proc-box">
       <div class="proc-label">📌 How long have you〜?</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>How long have / has ＋ 主語 ＋ 過去分詞〜?</strong>「どのくらいの間〜していますか？」</div></div>

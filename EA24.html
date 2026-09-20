@@ -198,13 +198,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -249,6 +251,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">副詞的用法①「〜するために」（目的）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">to不定詞には、名詞的用法のほかに、動詞や文全体を後ろから説明する<strong>副詞的用法</strong>があります。ここでは「目的」を表す使い方を学びます。「〜するために」という意味で、なぜその行動をしたのかという理由を付け加えるときに使います。たとえば「私は図書館に行きました」だけでは、なぜ図書館に行ったのかがわかりませんが、文の最後に<strong>to study English</strong>（英語を勉強するために）を付け加えると、行動の目的がはっきりします。「副詞的」と呼ばれるのは、to study Englishの部分が、名詞ではなく、動詞（went）を後ろから説明するはたらき（副詞のはたらき）をしているからです。より意味をはっきりさせたいときは、<strong>in order to〜</strong>という形に書きかえることもできます。</p>
     <div class="proc-box">
       <div class="proc-label">📌 目的を表す to不定詞</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>動詞 ＋ to ＋ 原形</strong>「〜するために」（動作の目的）</div></div>
@@ -268,6 +271,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">副詞的用法②「〜して」（感情の原因）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">to不定詞は、glad（うれしい）やhappy（幸せ）、sad（悲しい）のような<strong>感情を表す形容詞</strong>のうしろに置いて、「〜して（その感情になった）」という<strong>原因</strong>を説明することもできます。たとえば「私はうれしいです」だけでは何がうれしいのかがわかりませんが、I am glad to see you.のようにto see you（あなたに会えて）を付け加えると、うれしいと感じた理由がわかります。日本語で「〜して嬉しい」「〜して悲しい」と言うときの「〜して」の部分がto不定詞にあたる、と考えるとイメージしやすいでしょう。</p>
     <div class="proc-box">
       <div class="proc-label">📌 感情の原因を表す to不定詞</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>感情形容詞 ＋ to ＋ 原形</strong>「〜して（感情）だ」</div></div>
@@ -286,6 +290,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">3</span><span class="section-title-text">形容詞的用法「〜するための・〜すべき」（名詞修飾）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">to不定詞は、名詞のすぐ後ろに置いて、その名詞を<strong>後ろから説明する</strong>使い方もあります。これを<strong>形容詞的用法</strong>と呼びます。日本語では「飲み物」「宿題をする時間」のように、説明する言葉（飲む・宿題をする）が名詞の前に来ますが、英語では反対に、<strong>名詞を先に言ってから</strong>、to不定詞で後ろから詳しく説明します。たとえばsomething to drink（何か飲むための物→飲み物）やtime to do my homework（宿題をするための時間）のように、名詞のあとにto＋原形を続けます。英語は「まず何の話か（名詞）を言ってから、あとで詳しく説明を加える」という順番になることが多く、この形容詞的用法もその代表例です。</p>
     <div class="proc-box">
       <div class="proc-label">📌 名詞を後ろから修飾する to不定詞</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>名詞 ＋ to ＋ 原形</strong>「〜するための名詞」（名詞を後ろから説明）</div></div>

@@ -212,13 +212,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -263,6 +265,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">byを省略できる受動態</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">受動態の文では「〜によって」を表す<strong>by＋行為者（〜する人）</strong>を後ろに置きますが、実際の英文ではこの<strong>by〜の部分がよく省略されます</strong>。「だれがやったか」が世の中の人々一般であってわざわざ言う必要がないときや、話の流れから行為者が明らかなときは、by〜をつけない方がむしろ自然な英語になります。</p>
     <div class="proc-box">
       <div class="proc-label">📌 行為者（by〜）を省略する場合</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">行為者が<strong>不特定多数・不明</strong>のとき省略できる</div></div>
@@ -282,6 +285,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">注意すべき受動態（by以外の前置詞）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">受動態はいつも「by＋人」を使うとは限りません。<strong>be surprised at〜</strong>「〜に驚く」のように、決まった言い方として<strong>byではない前置詞</strong>を使う受動態がいくつかあります。これらは理屈で考えるよりも、<strong>be動詞＋過去分詞＋前置詞</strong>のセットをそのまま丸ごとひとつの表現として覚えてしまうのが一番の近道です。</p>
     <div class="proc-box">
       <div class="proc-label">📌 by以外の前置詞を使う受動態（丸ごと覚える！）</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>be surprised at〜</strong>「〜に驚く」</div></div>
@@ -317,6 +321,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">3</span><span class="section-title-text">be made of と be made from の違い</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「〜で作られている」を表すbe made of〜とbe made from〜のちがいは、<strong>材料が姿を変えるかどうか</strong>です。木を切って机を作っても見た目はやっぱり木のままなので<strong>be made of</strong>（材料の形が残る場合）を使い、ぶどうをつぶして発酵させるとまったく別の見た目のワインになるので<strong>be made from</strong>（材料が変化してしまう場合）を使います。迷ったときは「これ、見ただけで元の材料がわかるかな？」と考えると判断しやすくなります。</p>
     <div class="proc-box">
       <div class="proc-label">📌 made of vs made from — 原料の「変化」で使い分ける</div>
       <div class="proc-step"><div class="proc-arrow">of</div><div class="proc-txt"><strong>be made of〜</strong>「〜で作られている」→ 原料の形・性質が<strong>残る</strong>（木→木製品、ガラス→窓）</div></div>

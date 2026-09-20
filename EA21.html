@@ -251,13 +251,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -302,6 +304,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">比較級 + than「…より〜」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">二つのものや人を比べて「AはBより〜です」と言いたいとき、形容詞や副詞を<strong>比較級</strong>という特別な形に変化させます。たとえば「兄は弟より背が高い」と言うには、tall（背が高い）を比べる形にかえて<strong>taller</strong>にし、<strong>than</strong>（〜より）という単語で比べる相手をつなぎます。単語が短い（1〜2音節）ときは語尾に<strong>-er</strong>をつけるだけで比較級になりますが、popularやinterestingのように長い単語（3音節以上）は、語尾を変えるかわりに前に<strong>more</strong>を置きます。これは、長い単語の語尾に-erをつけると発音しにくく聞き取りにくくなるためです。good（良い）やmany（多い）のように、形がまったく変わってしまう不規則な変化をする単語もあるので、下の表で確認しましょう。</p>
     <div class="proc-box">
       <div class="proc-label">📌 比較級の作り方</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">一般：語尾に <strong>-er</strong> をつける（old→older, tall→taller）</div></div>
@@ -333,6 +336,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">like A better than B / Which do you like better?</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「AとBならAのほうが好き」と言うときに使うのが<strong>like A better than B</strong>という表現です。likeは「好き」という意味の動詞で、そのうしろに<strong>better than B</strong>を置くことで「Bより（比べて）Aが好き」という意味になります。betterはgoodの比較級で「より良く」という意味です。また、相手に「AとBのどちらが好きですか」とたずねるときは<strong>Which do you like better, A or B?</strong>を使います。文の最初にWhich（どちら）を置き、Aとorのあいだを<strong>コンマ</strong>で区切るのがポイントです。身近な例で言うと、「野球とサッカーのどちらが好き？」と友達にたずねる場面をイメージするとわかりやすいでしょう。</p>
     <div class="proc-box">
       <div class="proc-label">📌 「好き」の比較</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>like A better than B</strong>「B より A が好き」</div></div>

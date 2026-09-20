@@ -209,13 +209,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -260,6 +262,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">現在完了（経験用法）とは？</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「〜したことがあります」のように、<strong>今までに経験したことがあるかどうか</strong>を伝えたいときに使うのが現在完了の<strong>経験用法</strong>です。作り方は<strong>have（またはhas）＋過去分詞</strong>で、この「過去分詞」とは have/has とセットで使うときだけの動詞の特別な形のことです（visited のように -ed で終わる形が多いですが、been・seen のように不規則に変化するものもあります）。ただの過去形（I went to Australia.＝オーストラリアに行った）は「いつ行ったか」という一回の出来事を表すのに対し、経験用法（I have been to Australia.＝オーストラリアに行ったことがある）は「今までの人生の中で、その経験をしたことがあるかどうか」を表します。疑問文では have／has を主語の前に出し、「今までに」とたずねる<strong>ever</strong>を過去分詞の直前に置いて<strong>Have you ever＋過去分詞〜?</strong>の形にします。</p>
     <div class="proc-box">
       <div class="proc-label">📌 経験用法のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>have / has ＋ 過去分詞</strong>「〜したことがある」（経験）</div></div>
@@ -282,6 +285,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">How many times〜? で回数を尋ねる</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">相手に経験があると分かったら、次に気になるのは「何回やったことがあるの？」ということですよね。それをたずねるのが<strong>How many times〜?</strong>（何回〜したことがありますか）です。How many times は「回数」をたずねる疑問詞のかたまりなので、ほかの疑問詞と同じように<strong>文の一番先頭</strong>に置き、そのあとに普通の経験用法の疑問文（have／has＋主語＋過去分詞〜?）をそのまま続けます。答えるときは、文の最後に<strong>once（1回）・twice（2回）・three times（3回）</strong>のように回数を表す語をつけ足すだけでOKです。</p>
     <div class="proc-box">
       <div class="proc-label">📌 何回経験したかを尋ねる</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>How many times have / has ＋ 主語 ＋ 過去分詞〜?</strong></div></div>

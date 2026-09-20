@@ -210,13 +210,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -261,6 +263,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">too〜to… 「〜すぎて…できない」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「〜すぎて…できない」のように、<strong>程度が行きすぎていて、あることができない</strong>と伝えたいときに使うのが<strong>too〜to…</strong>の形です。組み立て方は<strong>too＋形容詞＋to＋動詞の原形</strong>で、too（〜すぎる）が先に程度の高さを表し、そのあとに to＋動詞の原形で「…すること」ができない内容をつなげます。たとえば This soup is too hot to drink.（このスープは熱すぎて飲めません）は、This soup is too hot.（このスープは熱すぎる）と to drink（飲むこと）を合体させた形だとイメージするとわかりやすいです。「（誰）にとって」できないのかをはっきりさせたいときは、形容詞のあとに<strong>for＋人</strong>を入れて<strong>too＋形容詞＋for＋人＋to＋動詞の原形</strong>とします。to のあとの動詞は必ず<strong>原形</strong>（ingや過去形にしない）というのも忘れずに覚えておきましょう。</p>
     <div class="proc-box">
       <div class="proc-label">📌 too〜to… のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>too ＋ 形容詞 ＋ to ＋ 動詞の原形</strong>「〜すぎて…できない」</div></div>

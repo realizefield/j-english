@@ -239,13 +239,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -291,6 +293,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">There is / There are「〜がある・いる」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「机の上にペンがある」「公園に人がいる」のように、<strong>「〜がある・〜がいる」という、ものや人の存在を伝えたいとき</strong>に使うのが There is 〜. / There are 〜. という表現です。この There は「そこに」という意味ではなく、文を始めるための合図のような語で、日本語には訳しません。ポイントは、There のうしろに続く名詞が<strong>1つ（単数）</strong>なら is を、<strong>2つ以上（複数）</strong>なら are を選ぶという点です。文の最後には、on the desk（机の上に）のように「どこにあるか」を表す場所の情報をつけ加えます。</p>
     <div class="proc-box">
       <div class="proc-label">📌 is と are の使い分け</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">ものが<strong>1つ（単数）</strong>のとき → <strong>There is</strong></div></div>
@@ -311,6 +314,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">some と any</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「何冊か本がある」のように、数がはっきりしない「いくつかの」を表したいとき、英語では <strong>some</strong> か <strong>any</strong> のどちらかを使います。この2つは同じ「いくつかの」という意味ですが、<strong>使える文の種類が違う</strong>という点に注意が必要です。some は「〜がある」と言い切る<strong>肯定文</strong>で使い、any は「〜はない」「〜はある？」という<strong>否定文・疑問文</strong>で使います。また、not と any を組み合わせた not 〜 any は、no（まったく〜ない）1語に書きかえることもできます。</p>
     <div class="proc-box">
       <div class="proc-label">📌 some と any の使い分け</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>some</strong>「いくつかの」→ <strong>肯定文</strong>で使う</div></div>
@@ -340,6 +344,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">3</span><span class="section-title-text">可算名詞と不可算名詞</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">英語の名詞には、pen（ペン）や cat（猫）のように<strong>1個、2個と数えられる名詞（可算名詞）</strong>と、water（水）や money（お金）のように<strong>決まった形がなく数えられない名詞（不可算名詞）</strong>の2種類があります。不可算名詞は、実際にはどれだけたくさんあっても文法の上ではいつも「1つの塊」として扱う、というルールがあります。そのため、There is / There are を使うときは、不可算名詞は必ず<strong>単数扱い＝There is</strong>を使い、There are は使いません。</p>
     <div class="proc-box">
       <div class="proc-label">📌 数えられない名詞（不可算名詞）は単数扱い！</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>water（水）・money（お金）・milk（牛乳）</strong>は数えられない</div></div>

@@ -209,13 +209,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -260,6 +262,13 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">接続詞まとめ（when / if / because / that）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">接続詞というのは、それぞれ<strong>主語と動詞を持つ2つの文</strong>を1つにつなげて、その2つの関係（時・条件・理由・内容）を表す言葉です。例えば「私は家に帰った」と「母は料理をしていた」という2つの文を、when（〜するとき）でつなぐと「私が家に帰ったとき、母は料理をしていた」という1つの文になります。ここで大事なのは、<strong>接続詞＋主語＋動詞</strong>のかたまりは、文の<strong>前半に置いても後半に置いてもよい</strong>ということです。前半に置くときは、かたまりの後ろに<strong>コンマ（,）</strong>を入れます。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 接続詞のかたまりは前でも後ろでもOK</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">when節を<strong>後ろ</strong>に置く：<strong>I was cooking when he got home.</strong>（コンマなし）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">when節を<strong>前</strong>に置く：<strong>When he got home, I was cooking.</strong>（コンマあり・意味は①と同じ）</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">if / because / that も同じルールで、前後どちらに置いても文の意味は変わらない</div></div>
+    </div>
     <div class="proc-box">
       <div class="proc-label">📌 主な接続詞の使い方</div>
       <div class="proc-step"><div class="proc-arrow">when</div><div class="proc-txt"><strong>when ＋ 文</strong>「〜するとき」（時を表す）</div></div>
@@ -282,6 +291,13 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">前置詞まとめ（at / in / on）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">前置詞というのは、at・in・on のように<strong>名詞の前</strong>に置いて、時間や場所の関係を表す言葉です。at・in・on の使い分けは、頭の中で<strong>大きさのイメージ</strong>を持つとわかりやすくなります。at は時計の針が指す1点や地図上の1つの地点のように<strong>点（ピンポイント）</strong>をイメージします。in は箱や部屋のように、ある範囲の<strong>中に入っている</strong>イメージです。on はテーブルや壁のように、面に<strong>くっついている（接触している）</strong>イメージです。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 イメージでつかむ at / in / on</div>
+      <div class="proc-step"><div class="proc-arrow">at</div><div class="proc-txt"><strong>点</strong>のイメージ → at 7:00（7時ちょうどという1点）／at the station（駅という1つの地点）</div></div>
+      <div class="proc-step"><div class="proc-arrow">in</div><div class="proc-txt"><strong>中に入っている</strong>広い範囲のイメージ → in April（4月という期間の中）／in Tokyo（東京という広い場所の中）</div></div>
+      <div class="proc-step"><div class="proc-arrow">on</div><div class="proc-txt"><strong>接触している面</strong>のイメージ → on Monday（月曜日という日の上）／on the wall（壁の面の上）</div></div>
+    </div>
     <div class="proc-box">
       <div class="proc-label">📌 at / in / on の使い分け</div>
       <div class="proc-step"><div class="proc-arrow">at</div><div class="proc-txt"><strong>at</strong>：時刻・特定の地点（at 7:00 / at the station）</div></div>

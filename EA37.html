@@ -209,13 +209,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -260,6 +262,13 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">関係代名詞 that（人・物どちらでも）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">前の単元（EA36）で、先行詞が<strong>人</strong>なら who、<strong>物・動物</strong>なら which を使うと習いました。that は、その<strong>who と which の両方の代わり</strong>に使うことができる、とても便利な関係代名詞です。先行詞が人でも物でも、迷ったら that を使えば基本的に大丈夫です。特に話し言葉（ふだんの会話）では、who や which よりも that の方がよく使われます。文をつなげる作り方は、これまでとまったく同じです。2つの文の中で同じ人・物を指している語を that に置きかえて、先行詞のすぐ後ろにつなげるだけです。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 that に置きかえる考え方</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">先行詞が<strong>人</strong>の場合：<strong>That is a woman.</strong>（あれは女性です）＋<strong>She lives in Tokyo.</strong>（彼女は東京に住んでいます）→ She を who の代わりに <strong>that</strong> にする → <strong>That is a woman that lives in Tokyo.</strong> <button class="voice-btn" onclick="speak('That is a woman that lives in Tokyo.')">🔊</button></div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">先行詞が<strong>物</strong>の場合：<strong>This is a book.</strong>（これは本です）＋<strong>He wrote it.</strong>（彼はそれを書きました）→ it を which の代わりに <strong>that</strong> にして文の先頭へ移動 → <strong>This is a book that he wrote.</strong> <button class="voice-btn" onclick="speak('This is a book that he wrote.')">🔊</button></div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">このように that は、先行詞が人でも物でも<strong>同じ1語</strong>で対応できるので、使い分けに迷ったときにとても便利</div></div>
+    </div>
     <div class="proc-box">
       <div class="proc-label">📌 that のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>that</strong> は <strong>who</strong> と <strong>which</strong> の両方の代わりに使える</div></div>
@@ -277,6 +286,14 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">関係代名詞 whose（所有格「〜の」）</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">whose は「〜の」という意味を表す<strong>所有格</strong>の関係代名詞です。所有格というのは、his（彼の）・her（彼女の）・its（それの）のように「誰の・何の」を表す形のことです。これまでの who・which・that は、2つ目の文の<strong>主語や目的語</strong>（〜が・〜を）を置きかえるものでした。それに対して whose は、2つ目の文の<strong>所有格（〜の）の部分</strong>を置きかえる点が大きく違います。そのため、whose の後ろには必ず「whose car」「whose hair」のように<strong>名詞</strong>が続きます。</p>
+    <div class="proc-box">
+      <div class="proc-label">📌 2つの文を1つにする手順（所有格）</div>
+      <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">元の2つの文：<strong>I know a man.</strong>（私はある男性を知っています）＋ <strong>His car is red.</strong>（彼の車は赤いです）</div></div>
+      <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">同じ人を指している語を探す → a man ＝ His（＝その男性の）</div></div>
+      <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">所有格 His を <strong>whose</strong> に置きかえる。このとき後ろの名詞 car はそのまま残す → whose car is red</div></div>
+      <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">先行詞 a man の後ろにつなげる → <strong>I know a man whose car is red.</strong> <button class="voice-btn" onclick="speak('I know a man whose car is red.')">🔊</button></div></div>
+    </div>
     <div class="proc-box">
       <div class="proc-label">📌 whose のポイント</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>whose</strong> は「〜の」という<strong>所有格</strong>の関係代名詞</div></div>

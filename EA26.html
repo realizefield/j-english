@@ -194,13 +194,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -245,6 +247,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">when「〜するとき」/ if「もし〜なら」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">今までは「私は音楽を聴きます。」のように、1つの内容だけの文を勉強してきました。でも実際には「疲れているとき、音楽を聴きます。」のように、<strong>2つの内容を1つの文につなげたい</strong>ときがよくあります。そのときに使うのが<strong>接続詞</strong>（せつぞくし＝文と文をつなぐことば）です。<strong>when</strong>は「〜するとき」、<strong>if</strong>は「もし〜なら」という意味で、どちらも後ろに<strong>主語＋動詞</strong>を続けて、「いつのことか」「どんな条件のときか」を説明する部分を作ります。</p>
     <div class="proc-box">
       <div class="proc-label">📌 when と if の使い方</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>when＋主語＋動詞</strong>「〜するとき」（過去・現在・仮定に使う）</div></div>
@@ -265,6 +268,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">because「〜だから」/ that「〜ということ」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;"><strong>because</strong>「〜だから」は理由を説明したいときに使う接続詞（文と文をつなぐことば）です。一方<strong>that</strong>「〜ということ」は、think（思う）・know（知っている）のような動詞の後ろに置いて、「思っている内容」「知っている内容」をそのまま伝えるときに使います。どちらも使い方はとてもシンプルで、<strong>because／that のすぐ後ろに主語＋動詞を続けるだけ</strong>で、理由や考えの内容を英語にすることができます。</p>
     <div class="proc-box">
       <div class="proc-label">📌 because と that の使い方</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>because＋主語＋動詞</strong>「〜だから」（理由を説明する）</div></div>

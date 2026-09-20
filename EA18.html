@@ -236,13 +236,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -288,6 +290,7 @@ function renderInfo(){
   return`
   <div class="section">
     <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">many / much「たくさんの」</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「たくさんの〜」と言いたいとき、うしろに続く名詞が<strong>数えられる名詞（可算名詞）</strong>か<strong>数えられない名詞（不可算名詞）</strong>かによって、使う語が変わります。books（本）や people（人々）のように1個2個と数えられる名詞には <strong>many</strong> を、water（水）や money（お金）のように数えられない名詞には <strong>much</strong> を使います。「本がたくさんある」なら many books、「水がたくさんある」なら much water というように、名詞の種類を見極めることが最初のステップです。もしどちらか迷ったときは、可算・不可算どちらにも使える便利な <strong>a lot of</strong> を使えば失敗しません。</p>
     <div class="proc-box">
       <div class="proc-label">📌 many と much の使い分け</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>many</strong> ＋ 可算名詞の複数形（数えられる名詞）</div></div>
@@ -318,6 +321,7 @@ function renderInfo(){
   </div>
   <div class="section">
     <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">a few / a little と few / little</span></div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「少し」を表す語にも、many / much と同じように<strong>可算名詞用</strong>と<strong>不可算名詞用</strong>があります。可算名詞（books など）には few、不可算名詞（water など）には little を使いますが、ここで注意したいのが<strong>冠詞の a があるかどうか</strong>です。a few・a little は「2、3はある・少しはある」という<strong>肯定的（プラス）</strong>な気持ちを表しますが、a のつかない few・little は「ほとんどない」という<strong>否定的（マイナス）</strong>な気持ちを表します。同じ「少し」でも、a が1つあるかないかで話し手の気持ちが正反対になるので、文章を読むときはこの a を見落とさないことが大切です。</p>
     <div class="proc-box">
       <div class="proc-label">📌 a のあり・なしで意味が変わる！</div>
       <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>a few</strong>（可算）→「2、3の〜・少しある」✅ 肯定的</div></div>
