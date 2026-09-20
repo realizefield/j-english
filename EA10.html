@@ -195,24 +195,27 @@ const INFO_DRILLS = [{"num": "(1)", "src": "私は今走っています。", "an
 const MASTER_DATA = {"ex": [{"jp": "私は今走っています。", "en": ["I", "am", "running", "now"], "mark": "."}, {"jp": "彼女は今泳いでいます。", "en": ["She", "is", "swimming", "now"], "mark": "."}, {"jp": "彼らはサッカーをしています。", "en": ["They", "are", "playing", "soccer"], "mark": "."}, {"jp": "トムは今勉強しています。", "en": ["Tom", "is", "studying", "now"], "mark": "."}], "prac": [{"jp": "私は今料理しています。", "en": ["I", "am", "cooking", "now"], "mark": "."}, {"jp": "彼女は本を読んでいます。", "en": ["She", "is", "reading", "a", "book"], "mark": "."}, {"jp": "あなたは今テレビを見ています。", "en": ["You", "are", "watching", "TV", "now"], "mark": "."}, {"jp": "彼らは今泳いでいます。", "en": ["They", "are", "swimming", "now"], "mark": "."}], "test": [{"jp": "彼は今走っています。", "en": ["He", "is", "running", "now"], "mark": "."}, {"jp": "私たちは今サッカーをしています。", "en": ["We", "are", "playing", "soccer", "now"], "mark": "."}, {"jp": "彼女は今料理しています。", "en": ["She", "is", "cooking", "now"], "mark": "."}, {"jp": "あなたは今本を読んでいます。", "en": ["You", "are", "reading", "a", "book", "now"], "mark": "."}]};
 const INFO_HTML = `<div class="section">
   <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">現在進行形って何？</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「今まさに〜しています」という今この瞬間の動作を表すのが<strong>現在進行形</strong>です。<span style="color:var(--accent);font-weight:700;">be動詞 ＋ 動詞ing形</span> で作ります。</p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">日本語で「今、走っています。」「彼女は今、勉強しています。」のように、<strong>今この瞬間に起きている動作</strong>を表す言い方を<strong>現在進行形</strong>といいます。ふつうの現在形（I run.＝私は走る、のように習慣や事実を表す形）とはちがい、「今まさに進行中である」という意味を出すために、英語では<span style="color:var(--accent);font-weight:700;">be動詞（am / is / are）＋ 動詞のing形</span>という2つの部品を組み合わせて作ります。順番に組み立て方を見ていきましょう。</p>
   <div class="proc-box">
-    <div class="proc-label">📌 現在進行形の作り方</div>
-    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">主語に合う be動詞（am / is / are）を選ぶ</div></div>
-    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">動詞を <strong>ing 形</strong>（現在分詞）にする</div></div>
-    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">be動詞 ＋ 動詞ing の順に並べる</div></div>
+    <div class="proc-label">📌 現在進行形の作り方（3ステップ）</div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">主語に合う<strong>be動詞</strong>を選びます。<br><small style="color:var(--text-sub);">I → am／He・She・It や人の名前1つ → is／You・We・They や2人以上 → are</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">動詞を<strong>ing形</strong>（動詞の後ろにingをつけた形）にします。<br><small style="color:var(--text-sub);">run（走る）→ running／study（勉強する）→ studying</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">「①のbe動詞 ＋ ②のing形」の順に並べれば完成です。<br><small style="color:var(--text-sub);">I am running now.（私は今走っています。）</small></div></div>
   </div>
   <div class="origin-box"><div class="origin-en">I <strong>am running</strong> now. <button class="voice-btn" data-sp="I am running now." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">私は今走っています。</div></div>
   <div class="origin-box"><div class="origin-en">She <strong>is studying</strong> now. <button class="voice-btn" data-sp="She is studying now." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼女は今勉強しています。</div></div>
+  <div class="origin-box"><div class="origin-en">They <strong>are playing</strong> soccer. <button class="voice-btn" data-sp="They are playing soccer." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼らはサッカーをしています。（主語がThey＝2人以上なのでareを使います）</div></div>
 </div>
 <div class="section">
   <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">ing のつけ方（3パターン）</span></div>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">動詞をing形にするとき、実はすべての動詞に「そのままingをつける」だけでよいわけではありません。動詞の最後の文字によって3つのパターンに分かれます。ここでいう<strong>母音</strong>とは「ア・イ・ウ・エ・オ」に近い音（英語ではおもに a, i, u, e, o の文字が表す音）のことで、<strong>子音</strong>とはそれ以外の音のことです。順番にルールを確認しましょう。</p>
   <div class="proc-box">
     <div class="proc-label">📌 ing のつけ方</div>
-    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">ほとんどの動詞 → そのまま <strong>ing</strong><br><small style="color:var(--text-sub);">study（勉強する）→ studying / watch（見る）→ watching</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">語尾が <strong>e</strong> で終わる → <strong>e を取って ing</strong><br><small style="color:var(--text-sub);">make（作る）→ making / write（書く）→ writing</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">〈短い母音＋子音〉で終わる → <strong>子音を重ねて ing</strong><br><small style="color:var(--text-sub);">run（走る）→ running / swim（泳ぐ）→ swimming</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">ほとんどの動詞 → そのまま <strong>ing</strong>をつけるだけ<br><small style="color:var(--text-sub);">study（勉強する）→ studying / watch（見る）→ watching</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">語尾が <strong>e</strong> で終わる動詞 → <strong>eを取ってからing</strong><br><small style="color:var(--text-sub);">make（作る）→ making / write（書く）→ writing</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">〈短い母音＋子音〉で終わる短い動詞 → <strong>最後の文字を重ねてからing</strong><br><small style="color:var(--text-sub);">run（走る）→ running / swim（泳ぐ）→ swimming</small><br><small style="color:var(--text-sub);">なぜ重ねるの？→ 文字を重ねずに runing と書くと発音が変わってしまうため、もとの発音を保つために子音を重ねます。</small></div></div>
   </div>
+  <div class="origin-box"><div class="origin-en">She <strong>is running</strong> fast now. <button class="voice-btn" data-sp="She is running fast now." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼女は今、速く走っています。（run → running のように子音を重ねる例です）</div></div>
 </div>`;
 const VOCAB_KEY = 'vocab_EA10';
 const REC_KEY   = 'rec_EA10';
@@ -228,13 +231,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};

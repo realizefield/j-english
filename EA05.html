@@ -195,21 +195,24 @@ const INFO_DRILLS = [{"num": "(1)", "src": "私はサッカーが好きです。
 const MASTER_DATA = {"ex": [{"jp": "私はテニスをします。", "en": ["I", "play", "tennis"], "mark": "."}, {"jp": "あなたは英語を勉強します。", "en": ["You", "study", "English"], "mark": "."}, {"jp": "私はピアノを弾きます。", "en": ["I", "play", "the", "piano"], "mark": "."}, {"jp": "彼女は昼食を食べます。", "en": ["She", "eats", "lunch"], "mark": "."}], "prac": [{"jp": "私はサッカーが好きです。", "en": ["I", "like", "soccer"], "mark": "."}, {"jp": "あなたはテレビを見ます。", "en": ["You", "watch", "TV"], "mark": "."}, {"jp": "私たちは英語を勉強します。", "en": ["We", "study", "English"], "mark": "."}, {"jp": "彼は昼食を食べます。", "en": ["He", "eats", "lunch"], "mark": "."}], "test": [{"jp": "私はテニスが好きです。", "en": ["I", "like", "tennis"], "mark": "."}, {"jp": "彼女はピアノを弾きます。", "en": ["She", "plays", "the", "piano"], "mark": "."}, {"jp": "あなたは英語を勉強します。", "en": ["You", "study", "English"], "mark": "."}, {"jp": "私たちはテレビを見ます。", "en": ["We", "watch", "TV"], "mark": "."}]};
 const INFO_HTML = `<div class="section">
   <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">一般動詞って何？</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">be動詞（am/is/are）以外の動詞を<strong>一般動詞</strong>といいます。走る・食べる・好きだ・持っているなど、<span style="color:var(--accent);font-weight:700;">具体的な動作や状態</span>を表します。</p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">英語の動詞は大きく分けて2種類あります。1つはこれまで学んできた<strong>be動詞</strong>（am・is・are。「〜です」を表す言葉）、もう1つがこのページで学ぶ<strong>一般動詞</strong>です。一般動詞とは、be動詞以外のすべての動詞のことで、「食べる」「遊ぶ」「好きだ」のように<span style="color:var(--accent);font-weight:700;">具体的な動作や状態</span>を表します。英語の文はふつう「主語（誰が）→動詞（どうする）→残りの情報」の順に単語を並べるので、一般動詞を使うときも、主語のすぐ後にその動詞を置きます。</p>
   <div class="proc-box">
     <div class="proc-label">📌 よく使う一般動詞</div>
-    <div class="proc-step"><div class="proc-arrow">動作</div><div class="proc-txt">play（する・弾く）/ study（勉強する）/ eat（食べる）/ watch（見る）/ swim（泳ぐ）</div></div>
-    <div class="proc-step"><div class="proc-arrow">状態</div><div class="proc-txt">like（好きだ）/ have（持っている）/ know（知っている）</div></div>
+    <div class="proc-step"><div class="proc-arrow">動作</div><div class="proc-txt">play（する・弾く）/ study（勉強する）/ eat（食べる）/ watch（見る）/ swim（泳ぐ）<br><small style="color:var(--text-sub);">I play soccer.（私はサッカーをします。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">状態</div><div class="proc-txt">like（好きだ）/ have（持っている）/ know（知っている）<br><small style="color:var(--text-sub);">I like soccer.（私はサッカーが好きです。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">💡</div><div class="proc-txt">一般動詞の文には am・is・are は使いません。「主語＋一般動詞〜.」という形だけで、そのまま1つの文になります。</div></div>
   </div>
+  <div class="origin-box"><div class="origin-en">I <strong>like</strong> soccer. <button class="voice-btn" data-sp="I like soccer." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">私はサッカーが好きです。</div></div>
 </div>
 <div class="section">
   <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">三人称単数現在（三単現）のs</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">主語が <strong>He / She / It / 人の名前</strong> のとき、動詞の語尾に <span style="color:var(--accent);font-weight:700;">s または es</span> をつけます（三単現のs）。</p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">主語が<strong>He（彼は）・She（彼女は）・It（それは）</strong>、または人の名前など、「I」でも「You」でもない<strong>1人・1つ</strong>を表す言葉のとき、これを文法用語で<strong>三人称単数</strong>（さんにんしょうたんすう）と呼びます。主語が三人称単数で、しかも「今のこと・いつものこと」を話しているとき（これを現在形といいます）、一般動詞の語尾に<span style="color:var(--accent);font-weight:700;">s または es</span>をつけます。これを<strong>三単現のs</strong>と呼びます。難しそうな名前ですが、やることは「動詞の後ろにsをつける」だけです。</p>
   <div class="proc-box">
-    <div class="proc-label">📌 s / es のつけ方</div>
-    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">ほとんどの動詞 → <strong>s</strong><br><small style="color:var(--text-sub);">play（する）→ plays / like（好き）→ likes / eat（食べる）→ eats</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">語尾が o/s/x/ch/sh → <strong>es</strong><br><small style="color:var(--text-sub);">watch（見る）→ watches / teach（教える）→ teaches</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">語尾が〈子音+y〉→ y を i に変えて <strong>es</strong><br><small style="color:var(--text-sub);">study（勉強する）→ studies / try（試みる）→ tries</small></div></div>
+    <div class="proc-label">📌 s / es のつけ方（形で見分ける3パターン）</div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">ほとんどの動詞 → そのまま<strong>s</strong>をつける<br><small style="color:var(--text-sub);">play（する）→ plays / like（好き）→ likes / eat（食べる）→ eats</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">語尾が o/s/x/ch/sh の音で終わる動詞 → <strong>es</strong>をつける（sだけだと発音しにくいため）<br><small style="color:var(--text-sub);">watch（見る）→ watches / teach（教える）→ teaches</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">語尾が〈子音字＋y〉で終わる動詞 → yをiに変えてから<strong>es</strong>をつける<br><small style="color:var(--text-sub);">study（勉強する）→ studies / try（試みる）→ tries</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">💡</div><div class="proc-txt">覚え方のコツ：主語がHe/She/It/人名を見たら、まず「動詞の最後に何かs（またはes）がつくはずだ」と思い出しましょう。</div></div>
   </div>
   <div class="origin-box"><div class="origin-en">I <strong>play</strong> tennis. <button class="voice-btn" data-sp="I play tennis." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">私はテニスをします。（I なので play のまま）</div></div>
   <div class="origin-box"><div class="origin-en">She <strong>eats</strong> lunch. <button class="voice-btn" data-sp="She eats lunch." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼女は昼食を食べます。（She なので eats に変わる）</div></div>
@@ -228,13 +231,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};

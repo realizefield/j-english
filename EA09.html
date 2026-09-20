@@ -195,15 +195,23 @@ const INFO_DRILLS = [{"num": "(1)", "src": "あなたはどこに住んでいま
 const MASTER_DATA = {"ex": [{"jp": "あなたはどこに住んでいますか。", "en": ["Where", "do", "you", "live"], "mark": "?"}, {"jp": "あなたの学校はいつ始まりますか。", "en": ["When", "does", "your", "school", "start"], "mark": "?"}, {"jp": "彼は何歳ですか。", "en": ["How", "old", "is", "he"], "mark": "?"}, {"jp": "彼女の身長はどれくらいですか。", "en": ["How", "tall", "is", "she"], "mark": "?"}], "prac": [{"jp": "あなたはどこ出身ですか。", "en": ["Where", "are", "you", "from"], "mark": "?"}, {"jp": "あなたの誕生日はいつですか。", "en": ["When", "is", "your", "birthday"], "mark": "?"}, {"jp": "彼女は何歳ですか。", "en": ["How", "old", "is", "she"], "mark": "?"}, {"jp": "彼はどこに住んでいますか。", "en": ["Where", "does", "he", "live"], "mark": "?"}], "test": [{"jp": "あなたはどこ出身ですか。", "en": ["Where", "are", "you", "from"], "mark": "?"}, {"jp": "彼は何歳ですか。", "en": ["How", "old", "is", "he"], "mark": "?"}, {"jp": "学校はいつ始まりますか。", "en": ["When", "does", "school", "start"], "mark": "?"}, {"jp": "あなたはどこに住んでいますか。", "en": ["Where", "do", "you", "live"], "mark": "?"}]};
 const INFO_HTML = `<div class="section">
   <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">場所・時・様子を尋ねる疑問詞</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">疑問詞は<span style="color:var(--accent);font-weight:700;">文の先頭</span>に置き、その後は疑問文の語順にします。</p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「あなたはどこに住んでいますか。」「誕生日はいつですか。」のように、<strong>場所（どこ）・時（いつ）・様子や程度（どのように・どれくらい）</strong>をたずねたいときに使う疑問詞が、<strong>Where（どこ）・When（いつ）・How（どのように）</strong>です。EA08で学んだWhat・Whoと同じように、これらの疑問詞も<span style="color:var(--accent);font-weight:700;">必ず文の一番先頭</span>に置きます。ただし、そのあとの語順は「一般動詞の疑問文（Do/Does〜?）」なのか「be動詞の疑問文（Is/Are〜?）」なのかによって少し変わるので、順番に見ていきましょう。</p>
   <div class="proc-box">
     <div class="proc-label">📌 疑問詞の意味と使い方</div>
-    <div class="proc-step"><div class="proc-arrow">Where</div><div class="proc-txt"><strong>Where</strong>（ウェア）＝「どこで・どこに」<br><small style="color:var(--text-sub);">Where do you live?（あなたはどこに住んでいますか。）</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">When</div><div class="proc-txt"><strong>When</strong>（ウェン）＝「いつ」<br><small style="color:var(--text-sub);">When is your birthday?（あなたの誕生日はいつですか。）</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">How</div><div class="proc-txt"><strong>How</strong>（ハウ）＝「どのように・どれほど」<br><small style="color:var(--text-sub);">How are you?（お元気ですか。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">Where</div><div class="proc-txt"><strong>Where</strong>（ウェア）＝「どこで・どこに」。場所をたずねます。<br><small style="color:var(--text-sub);">Where do you live?（あなたはどこに住んでいますか。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">When</div><div class="proc-txt"><strong>When</strong>（ウェン）＝「いつ」。時をたずねます。<br><small style="color:var(--text-sub);">When is your birthday?（あなたの誕生日はいつですか。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">How</div><div class="proc-txt"><strong>How</strong>（ハウ）＝「どのように・どれほど」。様子や程度をたずねます。<br><small style="color:var(--text-sub);">How are you?（お元気ですか。）</small></div></div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-label">📌 疑問詞のあとの語順に注意</div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">もとの文が一般動詞（live, playなど「〜する」を表す動詞）の疑問文のとき → 疑問詞 ＋ <strong>do/does</strong> ＋ 主語 ＋ 動詞の原形〜?<br><small style="color:var(--text-sub);">Where do you live?（あなたはどこに住んでいますか。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">もとの文がbe動詞（am/is/are）の疑問文のとき → 疑問詞 ＋ <strong>is/are</strong> ＋ 主語〜?<br><small style="color:var(--text-sub);">When is your birthday?（あなたの誕生日はいつですか。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">How は後ろに形容詞をくっつけて「どれくらい〜？」という意味を作れます。<br><small style="color:var(--text-sub);">How old（何歳）／ How tall（身長がどれくらい）</small></div></div>
   </div>
   <div class="origin-box"><div class="origin-en"><strong>Where</strong> do you live? <button class="voice-btn" data-sp="Where do you live?" onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">あなたはどこに住んでいますか。</div></div>
   <div class="origin-box"><div class="origin-en"><strong>How old</strong> is he? <button class="voice-btn" data-sp="How old is he?" onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼は何歳ですか。（How old = 何歳・どれくらい古い）</div></div>
+  <div class="origin-box"><div class="origin-en"><strong>How</strong> are you? <button class="voice-btn" data-sp="How are you?" onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">お元気ですか。（Howは「どのように」の意味）</div></div>
+  <div class="point-box"><div class="point-title">📌 まとめ：疑問詞 ＋ 疑問文の語順</div><div class="point-formula">Where / When ＋ do/does ＋ 主語 ＋ 動詞の原形〜?（一般動詞のとき）</div><div class="point-formula">Where / When ＋ is/are ＋ 主語〜?（be動詞のとき）</div></div>
 </div>`;
 const VOCAB_KEY = 'vocab_EA09';
 const REC_KEY   = 'rec_EA09';
@@ -219,13 +227,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};

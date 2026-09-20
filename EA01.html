@@ -195,24 +195,27 @@ const INFO_DRILLS = [{"num": "(1)", "src": "私はサッカー選手です。", 
 const MASTER_DATA = {"ex": [{"jp": "私は日本の学生です。", "en": ["I", "am", "a", "Japanese", "student"], "mark": "."}, {"jp": "あなたはサッカー選手です。", "en": ["You", "are", "a", "soccer", "player"], "mark": "."}, {"jp": "彼は歯医者です。", "en": ["He", "is", "a", "dentist"], "mark": "."}, {"jp": "彼女は芸術家です。", "en": ["She", "is", "an", "artist"], "mark": "."}], "prac": [{"jp": "トムは親切な先生です。", "en": ["Tom", "is", "a", "kind", "teacher"], "mark": "."}, {"jp": "私は正直な料理人です。", "en": ["I", "am", "an", "honest", "cook"], "mark": "."}, {"jp": "あなたは日本の学生です。", "en": ["You", "are", "a", "Japanese", "student"], "mark": "."}, {"jp": "彼は芸術家です。", "en": ["He", "is", "an", "artist"], "mark": "."}], "test": [{"jp": "Lucyは正直な先生です。", "en": ["Lucy", "is", "an", "honest", "teacher"], "mark": "."}, {"jp": "彼女は忙しい看護師です。", "en": ["She", "is", "a", "busy", "nurse"], "mark": "."}, {"jp": "それは歯医者です。", "en": ["It", "is", "a", "dentist"], "mark": "."}, {"jp": "私の姉は芸術家です。", "en": ["My", "sister", "is", "an", "artist"], "mark": "."}]};
 const INFO_HTML = `<div class="section">
   <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">be動詞って何？</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">英語には「〜です」「〜にいる・ある」を表す特別な動詞があります。それが <strong>be動詞</strong>（ビー動詞）です。be動詞には <strong>am</strong>・<strong>is</strong>・<strong>are</strong> の3種類があり、<span style="color:var(--accent);font-weight:700;">主語によって使い分けます。</span></p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「私は学生です。」「彼女は先生です。」のように、日本語の文の最後によく出てくる「です」にあたる言葉が、英語では <strong>am・is・are</strong> のどれかになります。この3つをまとめて<strong>be動詞</strong>（ビーどうし）と呼びます。英語の文はふつう、<span style="color:var(--accent);font-weight:700;">「誰が（主語）」→「be動詞」→「どんな様子・何であるか」</span>という順番で単語を並べます。つまり「私は」「彼女は」にあたる主語をまず置いて、そのすぐ後にam・is・areのどれかを続ける、というのが基本の形です。どれを使うかは、主語が何かによって決まります。</p>
   <div class="proc-box">
-    <div class="proc-label">📌 主語とbe動詞の組み合わせ（必ず覚える！）</div>
-    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>I（私は）</strong> → <strong style="color:var(--accent);">am</strong><br><small style="color:var(--text-sub);">例：I am a student.（私は学生です。）</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt"><strong>You（あなたは）/ We（私たちは）/ They（彼らは）</strong> → <strong style="color:var(--accent);">are</strong><br><small style="color:var(--text-sub);">例：You are a student.（あなたは学生です。）</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt"><strong>He（彼は）/ She（彼女は）/ It（それは）/ 人名</strong> → <strong style="color:var(--accent);">is</strong><br><small style="color:var(--text-sub);">例：She is an artist.（彼女は芸術家です。）</small></div></div>
+    <div class="proc-label">📌 主語によってbe動詞が変わる（まずはここを丸暗記！）</div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">主語が <strong>I（私は）</strong>のときだけ → <strong style="color:var(--accent);">am</strong><br><small style="color:var(--text-sub);">I am a student.（私は学生です。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">主語が <strong>You（あなたは）/ We（私たちは）/ They（彼らは）</strong>のように「あなた」または「2人以上」のとき → <strong style="color:var(--accent);">are</strong><br><small style="color:var(--text-sub);">You are a student.（あなたは学生です。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">主語が <strong>He（彼は）/ She（彼女は）/ It（それは）</strong>、または人の名前など、I・You・We・They以外の「1人・1つ」を表す言葉のとき → <strong style="color:var(--accent);">is</strong><br><small style="color:var(--text-sub);">She is an artist.（彼女は芸術家です。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">💡</div><div class="proc-txt">迷ったときのコツ：主語を見て「Iだけならam」「それ以外の1人・1つならis」「youや2人以上ならare」の3択で考えれば大丈夫です。</div></div>
   </div>
   <div class="origin-box"><div class="origin-en">I <strong>am</strong> a Japanese student. <button class="voice-btn" data-sp="I am a Japanese student." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">私は日本の学生です。</div></div>
   <div class="origin-box"><div class="origin-en">She <strong>is</strong> an artist. <button class="voice-btn" data-sp="She is an artist." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼女は芸術家です。</div></div>
 </div>
 <div class="section">
   <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">a と an の使い分け</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">名詞の前には <strong>a</strong> または <strong>an</strong> をつけます。次にくる単語の<span style="color:var(--accent);font-weight:700;">最初の「音」</span>が母音（ア・イ・ウ・エ・オ）かどうかで決まります。</p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">英語では「学生」「医者」のように<strong>数えられる名詞</strong>が1人・1つのとき、その単語の前に <strong>a</strong> または <strong>an</strong> という小さな単語を置きます。a も an も意味は同じで、どちらも「1つの・1人の」という意味です。では何で使い分けるのかというと、<span style="color:var(--accent);font-weight:700;">すぐ後にくる単語の最初の「音」</span>で決まります。発音しやすいように使い分けている、と考えてください。</p>
   <div class="proc-box">
-    <div class="proc-label">📌 a と an の決め方</div>
-    <div class="proc-step"><div class="proc-arrow">a</div><div class="proc-txt">子音で始まる単語の前<br><small style="color:var(--text-sub);">a student（学生）/ a doctor（医者）/ a kind teacher（親切な先生）</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">an</div><div class="proc-txt">母音（ア・イ・ウ・エ・オの音）で始まる単語の前<br><small style="color:var(--text-sub);">an artist（芸術家：アの音）/ an honest cook（正直な料理人：オの音）/ an egg（卵：エの音）</small></div></div>
+    <div class="proc-label">📌 a と an の決め方（2ステップ）</div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">名詞の<strong>最初の音</strong>を確認します。「母音」とは<strong>ア・イ・ウ・エ・オに近い音</strong>のことです（つづりの文字ではなく、実際に発音したときの音で判断します）。</div></div>
+    <div class="proc-step"><div class="proc-arrow">a</div><div class="proc-txt">最初の音が子音（母音以外の音）のとき → <strong>a</strong><br><small style="color:var(--text-sub);">a student（学生）/ a doctor（医者）/ a kind teacher（親切な先生）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">an</div><div class="proc-txt">最初の音が母音（ア・イ・ウ・エ・オに近い音）のとき → <strong>an</strong><br><small style="color:var(--text-sub);">an artist（芸術家：アの音）/ an honest cook（正直な料理人：オの音、hは発音しない）/ an egg（卵：エの音）</small></div></div>
   </div>
+  <div class="origin-box"><div class="origin-en">He is <strong>an</strong> honest cook. <button class="voice-btn" data-sp="He is an honest cook." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼は正直な料理人です。（honestの h は発音しないので、母音の音として扱います）</div></div>
 </div>`;
 const VOCAB_KEY = 'vocab_EA01';
 const REC_KEY   = 'rec_EA01';
@@ -228,13 +231,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};

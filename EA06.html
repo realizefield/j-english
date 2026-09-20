@@ -195,11 +195,13 @@ const INFO_DRILLS = [{"num": "(1)", "src": "私はテニスをしません。", 
 const MASTER_DATA = {"ex": [{"jp": "私はテニスをしません。", "en": ["I", "don't", "play", "tennis"], "mark": "."}, {"jp": "あなたは日本語を話しません。", "en": ["You", "don't", "speak", "Japanese"], "mark": "."}, {"jp": "彼は料理をしません。", "en": ["He", "doesn't", "cook"], "mark": "."}, {"jp": "彼女は泳ぎません。", "en": ["She", "doesn't", "swim"], "mark": "."}], "prac": [{"jp": "私は肉を食べません。", "en": ["I", "don't", "eat", "meat"], "mark": "."}, {"jp": "彼は英語を勉強しません。", "en": ["He", "doesn't", "study", "English"], "mark": "."}, {"jp": "彼女はテニスをしません。", "en": ["She", "doesn't", "play", "tennis"], "mark": "."}, {"jp": "私たちは料理をしません。", "en": ["We", "don't", "cook"], "mark": "."}], "test": [{"jp": "トムは泳ぎません。", "en": ["Tom", "doesn't", "swim"], "mark": "."}, {"jp": "私は日本語を話しません。", "en": ["I", "don't", "speak", "Japanese"], "mark": "."}, {"jp": "彼女は肉を食べません。", "en": ["She", "doesn't", "eat", "meat"], "mark": "."}, {"jp": "あなたたちは英語を勉強しません。", "en": ["You", "don't", "study", "English"], "mark": "."}]};
 const INFO_HTML = `<div class="section">
   <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">一般動詞の否定文の作り方</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;"><span style="color:var(--accent);font-weight:700;">don't または doesn't</span> を動詞の前に置きます。</p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「私はテニスをしません。」のように、<strong>一般動詞</strong>（play・swim・cook・studyのような「〜する」を表す動詞のことです）を使った文を「〜しません」という<strong>否定文</strong>に変える作り方を学びます。日本語では動詞の最後に「〜ない」をつけるだけですが、英語では動詞の前に<span style="color:var(--accent);font-weight:700;">don't</span> か <span style="color:var(--accent);font-weight:700;">doesn't</span> という語を追加します。どちらを使うかは主語（文の最初にくる「〜は」にあたる語）によって決まるので、順番に確認していきましょう。</p>
   <div class="proc-box">
-    <div class="proc-label">📌 否定文の作り方</div>
-    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">I / You / We / They → <strong>don't</strong>（do not）＋ 動詞の原形<br><small style="color:var(--text-sub);">I don't play tennis.（私はテニスをしません。）</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">He / She / It / 人名 → <strong>doesn't</strong>（does not）＋ 動詞の原形（sは不要！）<br><small style="color:var(--text-sub);">She doesn't swim.（彼女は泳ぎません。）</small></div></div>
+    <div class="proc-label">📌 否定文を作る3つのステップ</div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">まず<strong>主語</strong>を確認します。I / You / We / They、または人や物が2人・2つ以上のときはこのグループです。</div></div>
+    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">①のグループの主語なら、動詞の前に <strong>don't</strong>（do not を短くした形）を置きます。<br><small style="color:var(--text-sub);">I don't play tennis.（私はテニスをしません。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">主語が He / She / It、またはTomのような1人・1つの名前のときは、代わりに <strong>doesn't</strong>（does not を短くした形）を使います。<br><small style="color:var(--text-sub);">She doesn't swim.（彼女は泳ぎません。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">don't・doesn't のどちらを使っても、後ろの動詞の形は変えず<strong>そのまま（原形）</strong>にします。<br><small style="color:var(--text-sub);">なぜ？→ doesn't の中にはすでに「主語が1人・1つ（3人称単数）」であることを表す s の意味が含まれているので、動詞にもう一度 s をつける必要がないのです。</small></div></div>
   </div>
   <div class="origin-box"><div class="origin-en">I <strong>don't</strong> play tennis. <button class="voice-btn" data-sp="I don't play tennis." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">私はテニスをしません。</div></div>
   <div class="origin-box"><div class="origin-en">She <strong>doesn't</strong> swim. <button class="voice-btn" data-sp="She doesn't swim." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼女は泳ぎません。（doesn't の後は原形 swim）</div></div>
@@ -207,6 +209,7 @@ const INFO_HTML = `<div class="section">
     <div class="proc-label" style="color:var(--accent);">⚠️ ここに注意！</div>
     <div class="proc-step"><div class="proc-arrow" style="background:var(--accent);">×</div><div class="proc-txt">She doesn't <span style="color:var(--accent);text-decoration:line-through;">swims</span>. ← doesn't の後に s をつけない！</div></div>
     <div class="proc-step"><div class="proc-arrow">〇</div><div class="proc-txt">She doesn't <strong>swim</strong>. ← 動詞は必ず原形（もとの形）</div></div>
+    <div class="proc-step"><div class="proc-arrow" style="background:var(--warn);">💡</div><div class="proc-txt">迷ったときは、主語が「1人・1つ」か「それ以外（自分・相手・複数）」かで見分けましょう。He / She / It や人の名前1つなら doesn't、それ以外はすべて don't です。</div></div>
   </div>
 </div>`;
 const VOCAB_KEY = 'vocab_EA06';
@@ -223,13 +226,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};

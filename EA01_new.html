@@ -203,8 +203,24 @@ function wrapWord(word){
 }
 
 function speak(text){
+  if(!window.speechSynthesis) return;
+  const synth=window.speechSynthesis;
+  synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US';u.rate=0.8;speechSynthesis.speak(u);
+  u.lang='en-GB'; u.rate=0.8; u.pitch=1.15;
+  const vs=synth.getVoices();
+  if(vs.length){
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
+    if(chosen)u.voice=chosen;
+  } else {
+    synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
+  }
+  try{synth.speak(u);}catch(e){}
 }
 
 function addToVocab(word){

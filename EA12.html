@@ -394,13 +394,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -467,6 +469,7 @@ function renderInfo(){
       <span class="section-num">1</span>
       <span class="section-title-text">いつ「When 〜?」</span>
     </div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「いつ彼はジェーンとテニスをしますか」のように、<strong>時（いつ）</strong>をたずねたいときに使う疑問詞が<strong>When</strong>（ウェン）です。時を表す下線部の代わりに When を文の一番先頭に置き、そのあとに残りの部分を疑問文の形（does / do ＋ 主語 ＋ 動詞の原形）にして続けます。</p>
     <div class="origin-box">
       <div class="origin-en">He plays tennis with Jane <span class="ul">on Sunday</span>.
         <button class="voice-btn" onclick="speak('He plays tennis with Jane on Sunday.')">🔊</button>
@@ -503,6 +506,7 @@ function renderInfo(){
       <span class="section-num">2</span>
       <span class="section-title-text">どこで「Where 〜?」</span>
     </div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼らはどこでサッカーをしますか」のように、<strong>場所（どこで）</strong>をたずねたいときに使う疑問詞が<strong>Where</strong>（ウェア）です。場所を表す下線部の代わりに Where を文の一番先頭に置き、そのあとに残りの部分を疑問文の形にして続けます。</p>
     <div class="origin-box">
       <div class="origin-en">They play soccer <span class="ul">at school</span> on Sunday.
         <button class="voice-btn" onclick="speak('They play soccer at school on Sunday.')">🔊</button>
@@ -539,6 +543,7 @@ function renderInfo(){
       <span class="section-num">3</span>
       <span class="section-title-text">いくつ「How many 〜?」</span>
     </div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼は何人兄弟ですか」のように、<strong>数（いくつ・何人）</strong>をたずねたいときに使うのが<strong>How many ＋ 複数名詞</strong>です。How many の直後には必ず名詞の<strong>複数形</strong>（brothers / cats など、語尾に s がついた形）を置きます。この「How many ＋ 複数名詞」のかたまりごと文の一番先頭に置き、そのあとに残りの部分を疑問文の形にして続けます。</p>
     <div class="origin-box">
       <div class="origin-en">He has <span class="ul">three brothers</span>.
         <button class="voice-btn" onclick="speak('He has three brothers.')">🔊</button>
@@ -575,6 +580,7 @@ function renderInfo(){
       <span class="section-num">4</span>
       <span class="section-title-text">誰が「Who 〜?」</span>
     </div>
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「誰がその車を運転しますか」のように、<strong>人（誰が）</strong>を主語としてたずねるときに使うのが疑問詞の<strong>Who</strong>（フー）です。ほかの疑問詞とちがい、Who 自身が文の<strong>主語</strong>になるので、do / does は使いません。動詞は He / She のときと同じように、<strong>三人称単数の形</strong>（-s をつけた形）のままにします。</p>
     <div class="origin-box">
       <div class="origin-en"><span class="ul">His father</span> drives the car.
         <button class="voice-btn" onclick="speak('His father drives the car.')">🔊</button>

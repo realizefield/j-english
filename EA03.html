@@ -195,27 +195,28 @@ const INFO_DRILLS = [{"num": "(1)", "src": "私は疲れていません。", "an
 const MASTER_DATA = {"ex": [{"jp": "私は疲れていません。", "en": ["I", "am", "not", "tired"], "mark": "."}, {"jp": "彼は医者ではありません。", "en": ["He", "is", "not", "a", "doctor"], "mark": "."}, {"jp": "彼女は忙しくありません。", "en": ["She", "isn't", "busy"], "mark": "."}, {"jp": "あなたは空腹ではありません。", "en": ["You", "are", "not", "hungry"], "mark": "."}], "prac": [{"jp": "トムは歌手ではありません。", "en": ["Tom", "is", "not", "a", "singer"], "mark": "."}, {"jp": "私たちは忙しくありません。", "en": ["We", "aren't", "busy"], "mark": "."}, {"jp": "彼はパイロットではありません。", "en": ["He", "isn't", "a", "pilot"], "mark": "."}, {"jp": "彼女は疲れていません。", "en": ["She", "is", "not", "tired"], "mark": "."}], "test": [{"jp": "私は空腹ではありません。", "en": ["I", "am", "not", "hungry"], "mark": "."}, {"jp": "あなたは親切ではありません。", "en": ["You", "are", "not", "kind"], "mark": "."}, {"jp": "彼女は医者ではありません。", "en": ["She", "isn't", "a", "doctor"], "mark": "."}, {"jp": "彼らは疲れていません。", "en": ["They", "aren't", "tired"], "mark": "."}]};
 const INFO_HTML = `<div class="section">
   <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">「〜ではありません」の作り方</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;"><span style="color:var(--accent);font-weight:700;">be動詞のすぐ後に not を置くだけ</span>で否定文になります。</p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「私は疲れています」を「私は疲れていません」に変えるように、英語にも文を打ち消す言い方があります。これを<strong>否定文</strong>といいます。be動詞（am・is・are）を使った文を否定文にする方法はとてもシンプルで、<span style="color:var(--accent);font-weight:700;">be動詞のすぐ後ろに not（〜ではない）という単語を置くだけ</span>です。語順を入れ替えたり、他の単語を付け加えたりする必要はありません。</p>
   <div class="proc-box">
-    <div class="proc-label">📌 否定文の作り方</div>
-    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>am not</strong>（短縮形なし）<br><small style="color:var(--text-sub);">I am not tired.（私は疲れていません。）</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt"><strong>is not → isn't</strong>（短縮できる）<br><small style="color:var(--text-sub);">He is not a doctor. = He isn't a doctor.（彼は医者ではありません。）</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt"><strong>are not → aren't</strong>（短縮できる）<br><small style="color:var(--text-sub);">They are not tired. = They aren't tired.（彼らは疲れていません。）</small></div></div>
+    <div class="proc-label">📌 否定文の作り方（3ステップ）</div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">まず、元の文（肯定文）の中からbe動詞（am・is・are）を見つけます。<br><small style="color:var(--text-sub);">He is a pilot.（彼はパイロットです。）→ be動詞は is</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">見つけたbe動詞のすぐ後ろに <strong>not</strong> を置きます。それだけで否定文の完成です。<br><small style="color:var(--text-sub);">He is <strong>not</strong> a pilot.（彼はパイロットではありません。）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">is not と are not は、それぞれ <strong>isn't</strong>・<strong>aren't</strong>と1語に短くする（短縮する）こともできます。am not だけは短縮形がないので、そのままの形で使います。<br><small style="color:var(--text-sub);">He isn't a pilot. = He is not a pilot.（彼はパイロットではありません。）</small></div></div>
   </div>
   <div class="origin-box"><div class="origin-en">I <strong>am not</strong> tired. <button class="voice-btn" data-sp="I am not tired." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">私は疲れていません。</div></div>
   <div class="origin-box"><div class="origin-en">She <strong>isn't</strong> busy. <button class="voice-btn" data-sp="She isn't busy." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼女は忙しくありません。（isn't = is not の短縮形）</div></div>
 </div>
 <div class="section">
   <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">a / an をつけるとき・つけないとき</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">名詞（もの・人の名前）の前には <strong>a / an</strong> をつけますが、<span style="color:var(--accent);font-weight:700;">形容詞だけのときは a / an をつけません。</span></p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">be動詞の後にくる言葉には大きく2種類あります。1つは<strong>名詞</strong>（もの・人・場所の名前。例：doctor医者、student学生）、もう1つは<strong>形容詞</strong>（様子や状態を表す言葉。例：tired疲れた、busy忙しい）です。EA01で学んだように、<strong>a / an は「1つの」という意味の言葉</strong>なので、名詞の前にはつけますが、<span style="color:var(--accent);font-weight:700;">形容詞だけの前にはつけません。</span>ここでつまずく人がとても多いので、しっかり区別できるようにしましょう。</p>
   <div class="proc-box">
     <div class="proc-label">📌 a / an をつける・つけない</div>
+    <div class="proc-step"><div class="proc-arrow">💡</div><div class="proc-txt">見分け方のコツ：日本語に訳したときに「〜医者だ」のように<strong>名前で終わるもの</strong>は名詞、「疲れている」「忙しい」のように<strong>様子を表すもの</strong>は形容詞です。</div></div>
     <div class="proc-step"><div class="proc-arrow">〇</div><div class="proc-txt">名詞の前 → <strong>a / an</strong> をつける<br><small style="color:var(--text-sub);">He is <strong>a</strong> doctor.（彼は医者です。）←「医者」は名詞</small></div></div>
     <div class="proc-step"><div class="proc-arrow">×</div><div class="proc-txt">形容詞だけのとき → <strong>a / an をつけない</strong><br><small style="color:var(--text-sub);">I am not <strong>tired</strong>.（私は疲れていません。）←「tired（疲れた）」は形容詞</small></div></div>
     <div class="proc-step"><div class="proc-arrow">×</div><div class="proc-txt">形容詞だけのとき → <strong>a / an をつけない</strong><br><small style="color:var(--text-sub);">She isn't <strong>busy</strong>.（彼女は忙しくありません。）←「busy（忙しい）」は形容詞</small></div></div>
   </div>
   <div class="point-box">
-    <div class="point-title">📌 名詞と形容詞の見分け方</div>
+    <div class="point-title">📌 名詞と形容詞の見分け方（まとめ）</div>
     <div class="point-formula">名詞 → もの・人・場所の名前（doctor 医者 / student 学生 / teacher 先生）</div>
     <div class="point-formula">形容詞 → 様子・状態を表す（tired 疲れた / busy 忙しい / kind 親切な / hungry 空腹な）</div>
     <div class="point-formula" style="margin-top:6px;color:var(--accent);font-weight:700;">→ 形容詞の前には a / an はつかない！</div>
@@ -235,13 +236,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};

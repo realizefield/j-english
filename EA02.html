@@ -195,23 +195,26 @@ const INFO_DRILLS = [{"num": "(1)", "src": "これは古い箱です。", "ans":
 const MASTER_DATA = {"ex": [{"jp": "これはリンゴです。", "en": ["This", "is", "an", "apple"], "mark": "."}, {"jp": "あれは新しいペンです。", "en": ["That", "is", "a", "new", "pen"], "mark": "."}, {"jp": "それは大きな箱です。", "en": ["It", "is", "a", "big", "box"], "mark": "."}, {"jp": "あれは古い机です。", "en": ["That", "is", "an", "old", "desk"], "mark": "."}], "prac": [{"jp": "これは卵です。", "en": ["This", "is", "an", "egg"], "mark": "."}, {"jp": "あれは古いリンゴです。", "en": ["That", "is", "an", "old", "apple"], "mark": "."}, {"jp": "それは新しい箱です。", "en": ["It", "is", "a", "new", "box"], "mark": "."}, {"jp": "あれは大きなオレンジです。", "en": ["That", "is", "a", "big", "orange"], "mark": "."}], "test": [{"jp": "あれはオレンジです。", "en": ["That", "is", "an", "orange"], "mark": "."}, {"jp": "これは古い箱です。", "en": ["This", "is", "an", "old", "box"], "mark": "."}, {"jp": "それは新しい机です。", "en": ["It", "is", "a", "new", "desk"], "mark": "."}, {"jp": "あれは大きな卵です。", "en": ["That", "is", "a", "big", "egg"], "mark": "."}]};
 const INFO_HTML = `<div class="section">
   <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">This・That・It ってどう違う？</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">日本語では「これ・あれ・それ」と使い分けますね。英語も同じように<span style="color:var(--accent);font-weight:700;">自分からの距離</span>で選びます。</p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">日本語では、近くのものを「これ」、遠くのものを「あれ」、すでに話に出てきたものを「それ」と呼び分けますね。英語にもよく似た使い分けがあり、<strong>This・That・It</strong>という3つの単語を使います。これらは文の一番はじめ（主語の位置）に置いて、そのすぐ後にbe動詞の<strong>is</strong>を続け、「〜は…です」という文を作ります。<span style="color:var(--accent);font-weight:700;">どれを使うかは、指すものが自分からどれくらい離れているか</span>で決まります。</p>
   <div class="proc-box">
     <div class="proc-label">📌 This / That / It の使い分け</div>
-    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>This</strong>（ディス） →「これは」<br><small style="color:var(--text-sub);">自分の近くにあるものを指すとき</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt"><strong>This</strong>（ディス） →「これは」<br><small style="color:var(--text-sub);">自分の手元・すぐ近くにあるものを指すとき</small></div></div>
     <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt"><strong>That</strong>（ザット） →「あれは」<br><small style="color:var(--text-sub);">自分から離れたところにあるものを指すとき</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt"><strong>It</strong>（イット） →「それは」<br><small style="color:var(--text-sub);">すでに話に出てきたものを指すとき</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt"><strong>It</strong>（イット） →「それは」<br><small style="color:var(--text-sub);">前の会話ですでに話題に出たものを、もう一度指すとき</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">💡</div><div class="proc-txt">This・That・Itはどれも「1人・1つ」の代わりに使う言葉なので、be動詞は必ず<strong>is</strong>になります。「This is 〜.」「That is 〜.」「It is 〜.」の形をセットで覚えましょう。</div></div>
   </div>
   <div class="origin-box"><div class="origin-en"><strong>This</strong> is an apple. <button class="voice-btn" data-sp="This is an apple." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">これはリンゴです。（手元にあるリンゴを見せながら）</div></div>
   <div class="origin-box"><div class="origin-en"><strong>That</strong> is a new pen. <button class="voice-btn" data-sp="That is a new pen." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">あれは新しいペンです。（離れた場所のペンを指して）</div></div>
 </div>
 <div class="section">
   <div class="section-title-row"><span class="section-num">2</span><span class="section-title-text">a と an の復習</span></div>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">EA01で学んだ通り、名詞（もの・人の名前）が1つのときは、その前に<strong>a</strong>か<strong>an</strong>をつけます。決め方は「すぐ後にくる単語の最初の音」でしたね。最初の音が母音（ア・イ・ウ・エ・オに近い音）なら<strong>an</strong>、それ以外の音（子音）なら<strong>a</strong>です。This・That・Itの文でもう一度確認しておきましょう。</p>
   <div class="proc-box">
     <div class="proc-label">📌 例で確認しよう</div>
-    <div class="proc-step"><div class="proc-arrow">a</div><div class="proc-txt">a box（箱）/ a new pen（新しいペン）/ a big box（大きな箱）</div></div>
-    <div class="proc-step"><div class="proc-arrow">an</div><div class="proc-txt">an apple（リンゴ：a の音）/ an egg（卵：e の音）/ an old desk（古い机：o の音）</div></div>
+    <div class="proc-step"><div class="proc-arrow">a</div><div class="proc-txt">最初の音が子音のとき → <strong>a</strong><br><small style="color:var(--text-sub);">a box（箱）/ a new pen（新しいペン）/ a big box（大きな箱）</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">an</div><div class="proc-txt">最初の音が母音のとき → <strong>an</strong><br><small style="color:var(--text-sub);">an apple（リンゴ：アの音）/ an egg（卵：エの音）/ an old desk（古い机：オの音）</small></div></div>
   </div>
+  <div class="origin-box"><div class="origin-en">It is <strong>an</strong> old desk. <button class="voice-btn" data-sp="It is an old desk." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">それは古い机です。</div></div>
 </div>`;
 const VOCAB_KEY = 'vocab_EA02';
 const REC_KEY   = 'rec_EA02';
@@ -227,13 +230,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};

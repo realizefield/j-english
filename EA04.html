@@ -195,16 +195,17 @@ const INFO_DRILLS = [{"num": "(1)", "src": "あなたは学生ですか。", "an
 const MASTER_DATA = {"ex": [{"jp": "あなたは学生ですか。", "en": ["Are", "you", "a", "student"], "mark": "?"}, {"jp": "彼は日本出身ですか。", "en": ["Is", "he", "from", "Japan"], "mark": "?"}, {"jp": "はい、そうです。", "en": ["Yes", "he", "is"], "mark": "."}, {"jp": "いいえ、違います。", "en": ["No", "he", "isn't"], "mark": "."}], "prac": [{"jp": "彼女はアメリカ出身ですか。", "en": ["Is", "she", "from", "America"], "mark": "?"}, {"jp": "はい、そうです。", "en": ["Yes", "she", "is"], "mark": "."}, {"jp": "あなたたちは学生ですか。", "en": ["Are", "you", "students"], "mark": "?"}, {"jp": "いいえ、違います。", "en": ["No", "we", "aren't"], "mark": "."}], "test": [{"jp": "彼らは日本の学生ですか。", "en": ["Are", "they", "Japanese", "students"], "mark": "?"}, {"jp": "はい、そうです。", "en": ["Yes", "they", "are"], "mark": "."}, {"jp": "彼女は看護師ですか。", "en": ["Is", "she", "a", "nurse"], "mark": "?"}, {"jp": "いいえ、違います。", "en": ["No", "she", "isn't"], "mark": "."}]};
 const INFO_HTML = `<div class="section">
   <div class="section-title-row"><span class="section-num">1</span><span class="section-title-text">「〜ですか？」の作り方</span></div>
-  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;"><span style="color:var(--accent);font-weight:700;">be動詞を文の先頭に移動させる</span>だけで疑問文が作れます！</p>
+  <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼は学生です。」を「彼は学生ですか。」に変えるように、英語にも文を疑問文（〜ですか、とたずねる文）に変える方法があります。be動詞（am・is・are）を使った文を疑問文にする方法はとてもシンプルで、<span style="color:var(--accent);font-weight:700;">主語の前にあるbe動詞を、文の一番先頭に移動させるだけ</span>です。単語を新しく増やす必要はありません。</p>
   <div class="proc-box">
-    <div class="proc-label">📌 疑問文の作り方</div>
-    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">be動詞を文の先頭に出す<br><small style="color:var(--text-sub);">He is a student. → <strong>Is</strong> he a student?</small></div></div>
-    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">文末に <strong>?</strong> をつける</div></div>
-    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">答え方：<strong>Yes, 主語＋be動詞.</strong> または <strong>No, 主語＋be動詞＋not.</strong></div></div>
+    <div class="proc-label">📌 疑問文の作り方（4ステップ）</div>
+    <div class="proc-step"><div class="proc-arrow">①</div><div class="proc-txt">元になる文（肯定文）からbe動詞を見つけます。<br><small style="color:var(--text-sub);">He is a student.（彼は学生です。）→ be動詞は is</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">②</div><div class="proc-txt">そのbe動詞だけを、主語より前、つまり文の一番先頭に移動させます。<br><small style="color:var(--text-sub);"><strong>Is</strong> he a student?</small></div></div>
+    <div class="proc-step"><div class="proc-arrow">③</div><div class="proc-txt">文の最後に、ピリオド「.」の代わりに「<strong>?</strong>」（クエスチョンマーク）をつけます。</div></div>
+    <div class="proc-step"><div class="proc-arrow">④</div><div class="proc-txt">答えるときは、<strong>Yes, 主語＋be動詞.</strong>（はい、そうです）または <strong>No, 主語＋be動詞＋not.</strong>（いいえ、違います）の形で答えます。質問で使われていたbe動詞を、そのまま答えの文でも使うのがポイントです。</div></div>
   </div>
   <div class="origin-box"><div class="origin-en"><strong>Is</strong> he from Japan? <button class="voice-btn" data-sp="Is he from Japan?" onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">彼は日本出身ですか。</div></div>
   <div class="origin-box"><div class="origin-en">Yes, he <strong>is</strong>. / No, he <strong>isn't</strong>. <button class="voice-btn" data-sp="Yes, he is." onclick="speak(this.dataset.sp)">🔊</button></div><div class="origin-jp">はい、そうです。 / いいえ、違います。</div></div>
-  <div class="point-box"><div class="point-title">📌 答えるときのルール</div><div class="point-formula">必ず <span class="wh">Yes</span> か <span class="wh">No</span> から始める</div><div class="point-formula">Yes の後は短縮しない（Yes, he's. とは言わない）</div></div>
+  <div class="point-box"><div class="point-title">📌 答えるときのルール</div><div class="point-formula">必ず <span class="wh">Yes</span> か <span class="wh">No</span> から始める</div><div class="point-formula">Yes の後は短縮しない（Yes, he's. とは言わない）</div><div class="point-formula" style="margin-top:6px;color:var(--text-sub);">なぜなら、Yesの後にhe'sのように短縮すると、聞き取りにくく不自然な言い方になってしまうからです。</div></div>
 </div>`;
 const VOCAB_KEY = 'vocab_EA04';
 const REC_KEY   = 'rec_EA04';
@@ -220,13 +221,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};

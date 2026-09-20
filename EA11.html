@@ -385,13 +385,15 @@ function speak(text){
   const synth=window.speechSynthesis;
   synth.cancel();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+  u.lang='en-GB'; u.rate=0.82; u.pitch=1.15;
   const vs=synth.getVoices();
   if(vs.length){
-    const femaleKeywords=['female','woman','girl','samantha','zira','victoria','karen','moira','fiona','veena','allison','ava','susan','nicky'];
-    const enVoices=vs.filter(v=>v.lang==='en-US'||v.lang.startsWith('en'));
-    const female=enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
-    const chosen=female||enVoices[0];
+    const femaleKeywords=['maisie','libby','olivia','emma','isla','female','woman','girl','kate','serena','stephanie','sonia','hazel','fiona','martha','victoria','karen','moira','samantha','zira','allison','ava','susan','nicky'];
+    const gbVoices=vs.filter(v=>v.lang.toLowerCase().startsWith('en-gb'));
+    const enVoices=vs.filter(v=>v.lang==='en-GB'||v.lang.startsWith('en'));
+    const female=gbVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)))
+      || enVoices.find(v=>femaleKeywords.some(k=>v.name.toLowerCase().includes(k)));
+    const chosen=female||gbVoices[0]||enVoices[0];
     if(chosen)u.voice=chosen;
   } else {
     synth.onvoiceschanged=()=>{synth.onvoiceschanged=null;};
@@ -461,6 +463,8 @@ function renderInfo(){
       <span class="section-title-text">何時ですか「What time 〜?」</span>
     </div>
 
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼はたいてい何時に起きますか」のように、<strong>具体的な時刻</strong>をたずねたいときに使うのが疑問詞の<strong>What time</strong>（ホワット タイム）です。英語の疑問文では、たずねたい内容を表す語（<strong>疑問詞</strong>）を<span style="color:var(--accent);font-weight:700;">文の一番先頭</span>に置き、そのあとに残りの部分を疑問文の形（does / do ＋ 主語 ＋ 動詞の原形）にして続けます。下線部の「時刻」の代わりに What time を置くイメージで考えましょう。</p>
+
     <div class="origin-box">
       <div class="origin-en">
         He usually gets up <span class="ul">at six thirty</span>.
@@ -519,6 +523,8 @@ function renderInfo(){
       <span class="section-title-text">どのようにして「How 〜?」</span>
     </div>
 
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼女はどのようにして学校に行きますか」のように、<strong>手段・方法</strong>をたずねたいときに使うのが疑問詞の<strong>How</strong>（ハウ）です。「バスで」「歩いて」のような下線部の代わりに How を文の一番先頭に置き、そのあとに残りの部分を疑問文の形にして続けます。</p>
+
     <div class="origin-box">
       <div class="origin-en">
         She goes to school <span class="ul">by bus</span> every day.
@@ -575,6 +581,8 @@ function renderInfo(){
       <span class="section-num">3</span>
       <span class="section-title-text">何を〜「What 〜?」</span>
     </div>
+
+    <p style="line-height:1.9;font-size:.93em;margin-bottom:10px;">「彼は手に何を持っていますか」のように、<strong>持ち物や動作の対象（もの）</strong>をたずねたいときに使うのが疑問詞の<strong>What</strong>（ホワット）です。「本」のように具体的なものが分からないときは、それを What に置きかえて文の一番先頭に置き、そのあとに残りの部分を疑問文の形にして続けます。</p>
 
     <div class="origin-box">
       <div class="origin-en">
