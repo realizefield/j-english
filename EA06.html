@@ -449,10 +449,12 @@ function scheduleClose(){
 }
 
 function closePopup(e){
-  if(e.target===document.getElementById('popup')){
-    if(_closeTimer){clearTimeout(_closeTimer);_closeTimer=null;}
-    document.getElementById('popup').classList.remove('show');
-  }
+  // 単語ポップアップの外側（半透明の背景）だけでなく、カード内をタップした場合も
+  // 確実に閉じるように修正。閉じられずに残ると、画面全体を覆う透明なオーバーレイが
+  // 語群パネルなど下の要素へのタップを全てブロックしてしまうため（スマホ操作時の主要因）。
+  if(e.target.closest('.popup-card')&&e.target.closest('.popup-btn'))return;
+  if(_closeTimer){clearTimeout(_closeTimer);_closeTimer=null;}
+  document.getElementById('popup').classList.remove('show');
 }
 function closePopupBtn(){
   if(_closeTimer){clearTimeout(_closeTimer);_closeTimer=null;}
