@@ -95,6 +95,20 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .word-card{display:inline-block;background:#fff;border:1.5px solid var(--border);padding:8px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.93em;box-shadow:0 1px 4px rgba(0,0,0,.08);font-family:'BIZ UDPGothic',sans-serif;}
 .word-card.selected{background:var(--warn-light);border-color:var(--warn);}
 .word-card.hidden{visibility:hidden;pointer-events:none;}
+
+.popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.popup-overlay.show{display:flex;}
+.popup-card{background:#fff;border-radius:16px;padding:20px 22px;max-width:340px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.25);position:relative;}
+.popup-word{font-size:1.4em;font-weight:700;color:var(--primary);margin-bottom:4px;}
+.popup-kana{font-size:.92em;color:var(--text-sub);margin-bottom:8px;line-height:1.7;}
+.popup-kana strong{color:var(--text);}
+.popup-meaning{font-size:1em;font-weight:700;padding:8px 12px;background:var(--primary-light);border-radius:8px;margin-bottom:14px;}
+.popup-btns{display:flex;gap:8px;}
+.popup-btn{flex:1;border:none;padding:10px;border-radius:10px;font-size:.9em;font-weight:700;cursor:pointer;font-family:inherit;touch-action:manipulation;}
+.popup-speak{background:var(--primary);color:#fff;}
+.popup-save{background:var(--success);color:#fff;}
+.popup-save.saved{background:#94a3b8;}
+.imp{color:var(--primary);font-weight:700;border-bottom:2px dashed var(--primary);cursor:pointer;white-space:nowrap;-webkit-user-select:none;user-select:none;}
 </style>
 </head>
 <body>
@@ -146,6 +160,19 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </div>
 <div class="fixed-pool" id="pool-fixed">
   <div id="word-pool" style="max-width:760px;margin:0 auto;"></div>
+</div>
+<!-- 単語ポップアップ（1.説明タブの重要単語用） -->
+<div class="popup-overlay" id="popup" onclick="closePopup(event)" onmouseleave="scheduleClose()">
+  <div class="popup-card" onmouseenter="if(_closeTimer){clearTimeout(_closeTimer);_closeTimer=null;}" onmouseleave="scheduleClose()">
+    <button onclick="closePopupBtn()" style="position:absolute;top:10px;right:14px;background:none;border:none;font-size:1.4em;color:var(--text-sub);cursor:pointer;line-height:1;touch-action:manipulation;">✕</button>
+    <div class="popup-word" id="pp-word"></div>
+    <div class="popup-kana" id="pp-kana"></div>
+    <div class="popup-meaning" id="pp-meaning"></div>
+    <div class="popup-btns">
+      <button class="popup-btn popup-speak" onclick="ppSpeak()">🔊 発音する</button>
+      <button class="popup-btn popup-save" id="pp-save" onclick="ppSave()">📗 単語帳に保存</button>
+    </div>
+  </div>
 </div>
 <script>
 const DICT={
@@ -227,6 +254,77 @@ function wrapWord(word){
   }
   return word;
 }
+
+let ppWord=null;
+// ===== 単語ポップアップ =====
+function parseKana(val){
+  const m=val.match(/^(.*?)\s*(\(.*)/);
+  if(!m)return{kana:val,meaning:''};
+  return{kana:m[1].replace(/【(.*?)】/g,'<strong>$1</strong>'),meaning:m[2]};
+}
+
+let _closeTimer=null;
+function openPopup(key){
+  if(_closeTimer){clearTimeout(_closeTimer);_closeTimer=null;}
+  ppWord=key;
+  const {kana,meaning}=parseKana(DICT[key]);
+  document.getElementById('pp-word').textContent=key;
+  document.getElementById('pp-kana').innerHTML=kana;
+  document.getElementById('pp-meaning').textContent=meaning;
+  const sv=getVocab();
+  const btn=document.getElementById('pp-save');
+  if(sv.some(v=>v.word===key)){btn.textContent='✅ 保存済み';btn.className='popup-btn popup-save saved';}
+  else{btn.textContent='📗 単語帳に保存';btn.className='popup-btn popup-save';}
+  // ポップアップの位置を単語の近くに表示（PC）
+  document.getElementById('popup').classList.add('show');
+  speak(key);
+}
+function scheduleClose(){
+  _closeTimer=setTimeout(()=>{
+    document.getElementById('popup').classList.remove('show');
+    _closeTimer=null;
+  },300);
+}
+
+function closePopup(e){
+  // 単語ポップアップの外側（半透明の背景）だけでなく、カード内をタップした場合も
+  // 確実に閉じるように修正。閉じられずに残ると、画面全体を覆う透明なオーバーレイが
+  // 語群パネルなど下の要素へのタップを全てブロックしてしまうため（スマホ操作時の主要因）。
+  if(e.target.closest('.popup-card')&&e.target.closest('.popup-btn'))return;
+  if(_closeTimer){clearTimeout(_closeTimer);_closeTimer=null;}
+  document.getElementById('popup').classList.remove('show');
+}
+function closePopupBtn(){
+  if(_closeTimer){clearTimeout(_closeTimer);_closeTimer=null;}
+  document.getElementById('popup').classList.remove('show');
+}
+function ppSpeak(){if(ppWord)speak(ppWord);}
+function ppSave(){
+  if(!ppWord)return;
+  addToVocab(ppWord);
+  const btn=document.getElementById('pp-save');
+  if(btn){btn.textContent='✅ 保存済み';btn.className='popup-btn popup-save saved';}
+}
+
+function applyImp(html){
+  Object.keys(DICT).sort((a,b)=>b.length-a.length).forEach(function(k){
+    // >テキスト< の形でタグ外のテキストのみ置換
+    html=html.replace(/>([^<]+)</g,function(m,txt){
+      var esc=JSON.stringify(k).replace(/\"/g,'&quot;');
+      var span='<span class="imp" onmouseenter="openPopup('+esc+')" onmouseleave="scheduleClose()" ontouchstart="event.preventDefault();openPopup('+esc+')">$1</span>';
+      // 単語として出現する場合のみ置換（前後が英字・アポストロフィ以外）
+      var safeK=k.replace(/[.*+?\^${}()|]/g,'\\$&').replace('[','\\[').replace(']','\\]');
+      var re=new RegExp('(^|[^A-Za-z\'\\-])('+safeK+')([^A-Za-z\'\\-]|$)','gi');
+      var replaced=txt.replace(re,function(whole,pre,word,post){
+        return pre+'<span class="imp" onmouseenter="openPopup('+esc+')" onmouseleave="scheduleClose()" ontouchstart="event.preventDefault();openPopup('+esc+')">'+word+'</span>'+post;
+      });
+      return '>'+replaced+'<';
+    });
+  });
+  return html;
+}
+
+
 const VOCAB_KEY_EA27='vocab_EA27';
 function getVocab(){try{return JSON.parse(localStorage.getItem(VOCAB_KEY_EA27))||[];}catch(e){return[];}}
 function setVocab(a){try{localStorage.setItem(VOCAB_KEY_EA27,JSON.stringify(a));}catch(e){}}
@@ -317,7 +415,7 @@ function renderInfo(){
 }
 function render(){
   const area=document.getElementById('display-area');
-  if(currentMode==='info'){area.innerHTML=renderInfo();if(!isChallenging)document.querySelectorAll('.bk-blank').forEach(el=>el.textContent=el.dataset.ans);}
+  if(currentMode==='info'){area.innerHTML=applyImp(renderInfo());if(!isChallenging)document.querySelectorAll('.bk-blank').forEach(el=>el.textContent=el.dataset.ans);}
   else{
     const titles={ex:'例題',prac:'類題',test:'修了テスト'};
     let html=`<div class="section"><h2 style="font-size:1em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px;margin-bottom:14px;">${titles[currentMode]}演習（各6問）</h2><p style="font-size:.85em;color:var(--text-sub);margin-bottom:14px;"><strong>be＋過去分詞</strong>・<strong>by〜（行為者）</strong>・<strong>否定はbe not、疑問はbeを文頭に</strong>に注意！</p>`;
